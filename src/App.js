@@ -1,8 +1,24 @@
 import './App.css';
-import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { initializeApp } from "firebase/app"
+import { getFirestore } from "firebase/firestore"
+import { ActivitiesView } from "./ActivitiesView";
+import { StatsView } from "./Stats";
 
-const Activities = [
+const firebaseConfig = {
+    apiKey: "AIzaSyAfmw8BBbYUxPwXwP8kkLqsHihNScUmz4A",
+    authDomain: "logger-fe3bd.firebaseapp.com",
+    databaseURL: "https://logger-fe3bd.firebaseio.com",
+    projectId: "logger-fe3bd",
+    storageBucket: "logger-fe3bd.appspot.com",
+    messagingSenderId: "119768735200",
+    appId: "1:119768735200:web:65700d37504d4ec03edf85"
+};
+
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+
+export const Activities = [
     { name: "Unity", icon: "", color: "red", data: [] },
     { name: "Atly", icon: "", color: "blue", data: [] },
     { name: "Gym", icon: "", color: "green", data: [] },
@@ -16,60 +32,21 @@ const Activities = [
     { name: "Games", icon: "", color: "blue", data: [] },
 ];
 
+// github client id: 9697f565df42fcd784fb
+// GITHUB_CLIENT_SECRET: f8bb097cac89439b4af3f00e373b401b56017207
+// NEXTAUTH_SECRET: 3c5465409b54b819d682c9606bd3bfb9
+
+
 function App() {
-    const [updatedActivities, setUpdatedActivities] = useState(Activities);
-    const [currentActivity, setCurrentActivity] = useState({});
-    const [counter, setCounter] = useState(0);
-
-    useEffect(() => {
-        if (currentActivity.name) {
-            setCounter(0);
-
-            const interval = setInterval(() => {
-                setCounter(prev => prev + 1);
-            }, 1000);
-
-            return () => clearInterval(interval);
-        }
-    }, [currentActivity.name]);
+    const [isActivityView, setIsActivityView] = useState(true);
 
     return (
         <section className="App">
-            <div className="h-screen flex flex-wrap gap-1">
-                {Activities.map((activity, index) => {
-                    return (
-                        <div
-                            key={activity.name}
-                            className={classNames("w-[calc(50%-4px)] text-white flex flex-col items-center justify-center border", {
-                                [`bg-${activity.color}-500`]: currentActivity.name === activity.name,
-                                [`border-${activity.color}-500`]: currentActivity.name === activity.name,
-                            })}
-                            onMouseDown={() => {
-                                if (currentActivity.name === activity.name) {
-                                    setCounter(0);
-                                    setCurrentActivity({});
-                                    Activities[index].data[Activities[index].data.length - 1].end = new Date().getTime();
-                                    return;
-                                }
-
-                                setCurrentActivity(activity);
-                                Activities[index].data.push({
-                                    start: new Date().getTime(),
-                                    end: 0
-                                });
-                            }}>
-                            <p>{activity.name}</p>
-                            <p className="h-4">{currentActivity.name === activity.name ? `${Math.floor(counter / 60)}:${counter % 60}` : ""}</p>
-                            {activity.data.length > 0 && activity.data[activity.data.length - 1].end > 0 && (
-                                <p>{Math.floor((activity.data[activity.data.length - 1].end - activity.data[activity.data.length - 1].start))}</p>
-                            )}
-                            {JSON.stringify(activity.data, null, 2)}
-                        </div>
-                    )
-                })}
-            </div>
+            {isActivityView
+                ? <ActivitiesView onChangePage={() => setIsActivityView(false)}/>
+                : <StatsView onChangePage={() => setIsActivityView(true)}/>}
         </section>
-    );
+    )
 }
 
 export default App;
