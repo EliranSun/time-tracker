@@ -1,9 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .App {
-  text-align: center;
-  background-color: #282c34;
-  min-height: 100vh;
+    text-align: center;
+    background-color: #282c34;
+    overflow: hidden;
+    position: fixed;
+}
+
+body, html {
+    background-color: #282c34;
+    overflow: hidden;
 }
