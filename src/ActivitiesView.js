@@ -223,7 +223,7 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
                         <div className="">
                             <p>{getLastSession(activity.name)}</p>
                             <div className={classNames("flex justify-center", {
-                                "gap-4 absolute bottom-14 m-auto text-center left-0 right-0": orientationState.angle === 0,
+                                "gap-0 absolute bottom-14 m-auto text-center left-0 right-0": orientationState.angle === 0,
                                 "gap-0 flex-col absolute top-0 bottom-0 m-auto right-0 h-screen": orientationState.angle === 90,
                                 "gap-0 flex-col absolute top-0 bottom-0 m-auto left-0 h-screen": orientationState.angle === 270,
                             })}>
