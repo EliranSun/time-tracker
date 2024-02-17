@@ -80,7 +80,7 @@ function App() {
                 </span>
                 <span>
                     <ChartBar
-                        color="w hite"
+                        color="white"
                         size={32}
                         className="cursor-pointer"
                         onClick={() => setIsActivityView(!isActivityView)}/>

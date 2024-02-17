@@ -6,6 +6,7 @@ import classNames from "classnames";
 import { useOrientation } from 'react-use';
 import { useActivityData } from "./hooks/useActivityData";
 import { addDays, intervalToDuration, isSameDay, startOfWeek } from "date-fns";
+import { useCounter } from "./hooks/useCounter";
 
 const addActivityData = async (activity) => {
     return await addDoc(collection(db, `activities/${activity.name}/data`), activity);
@@ -78,24 +79,8 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
     const [isLocked, setIsLocked] = useState(false);
     const [lastDocumentRef, setLastDocumentRef] = useState(null);
     const [currentActivity, setCurrentActivity] = useState({});
-    const [counter, setCounter] = useState(0);
+    const [counter, setCounter] = useCounter(currentActivity.name);
     const activitiesData = useActivityData(activities.map(activity => activity.name));
-    console.log({ activitiesData });
-
-    useEffect(() => {
-        if (currentActivity.name) {
-            // setCounter(0);
-
-            const interval = setInterval(() => {
-                setCounter(prev => {
-                    console.log({ prevCounter: prev });
-                    return prev + 1;
-                });
-            }, 1000);
-
-            return () => clearInterval(interval);
-        }
-    }, [currentActivity.name]);
 
     useEffect(() => {
         document.addEventListener('visibilitychange', function () {
@@ -218,7 +203,7 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
                                 <span>{activity.name}</span>
                             </div>
                         );
-                    })}
+                    }).reverse()}
                 </div>
                 <Block
                     key={orientationActivity.name}
