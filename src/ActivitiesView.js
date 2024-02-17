@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { ArrowCounterClockwise, ChartBar, Lock, LockOpen } from "@phosphor-icons/react";
-import { addDoc, collection, updateDoc, setDoc, doc, getDoc } from "firebase/firestore";
+import { Lock, LockOpen } from "@phosphor-icons/react";
+import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./App";
 import classNames from "classnames";
 import { useOrientation } from 'react-use';
 import { useActivityData } from "./hooks/useActivityData";
-import { addDays, intervalToDuration, isSameDay, startOfWeek } from "date-fns";
 import { useCounter } from "./hooks/useCounter";
+import { getLastWeekData } from "./utils/activities";
+import { LastWeekDataStrip } from "./components/LastWeekDataStrip";
+import { LastSessionData } from "./components/LastSessionData";
 
 const addActivityData = async (activity) => {
     return await addDoc(collection(db, `activities/${activity.name}/data`), activity);
@@ -32,46 +34,6 @@ const Block = ({ children, className, ...rest }) => {
             {children}
         </div>
     )
-}
-
-const getLastWeekData = (name, data) => {
-    const activityData = data[name];
-    const week = [{
-        name: "Sunday",
-    }, {
-        name: "Monday",
-    }, {
-        name: "Tuesday",
-    }, {
-        name: "Wednesday",
-    }, {
-        name: "Thursday",
-    }, {
-        name: "Friday",
-    }, {
-        name: "Saturday",
-    }];
-
-    if (!name || !data || !activityData) {
-        return week;
-    }
-
-
-    return week.map((day, index) => {
-        const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
-        const targetDay = addDays(weekStart, index);
-        const dayData = activityData.filter(item => isSameDay(new Date(item.start), targetDay));
-
-        const duration = intervalToDuration({
-            start: dayData[0]?.start,
-            end: dayData[dayData.length - 1]?.end
-        });
-
-        return {
-            ...day,
-            duration: [duration.hours && `${duration.hours}h`, `${duration.minutes || 0}m`].filter(Boolean).join(" "),
-        }
-    });
 }
 
 export const ActivitiesView = ({ onChangePage, activities = [] }) => {
@@ -149,25 +111,6 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
         setCurrentActivity({});
         setCounter(0);
     }, [orientationState]);
-
-    const getLastSession = (name) => {
-        if (!name || !activitiesData[name]) {
-            return "";
-        }
-
-        const start = activitiesData[name].at(-1)?.start;
-        const end = activitiesData[name].at(-1)?.end;
-
-        if (!start || !end) {
-            return "No entries";
-        }
-
-        const duration = end - start;
-        const minutes = Math.floor(duration / 60000);
-        const seconds = ((duration % 60000) / 1000).toFixed(0);
-
-        return `Last session: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-    };
 
     const LockIcon = isLocked ? Lock : LockOpen;
     const orientationActivity = activities.find(activity => activity.orientationAngle === orientationState.angle) || {};
@@ -253,23 +196,9 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
                     <p className="text-8xl font-mono">{currentActivity.name === orientationActivity.name
                         ? `${Math.floor(counter / 60) < 10 ? "0" : ""}${Math.floor(counter / 60)}:${counter % 60 < 10 ? "0" : ""}${counter % 60}`
                         : ""}</p>
-                    <div className="">
-                        <p>{getLastSession(orientationActivity.name)}</p>
-                        <div className={classNames("absolute flex justify-center w-fit", {
-                            "bottom-28 m-auto text-center left-0 right-0": orientationState.angle === 0,
-                            "top-0 m-auto right-0": orientationState.angle === 90 || orientationState.angle === 270,
-                        })}>
-                            {getLastWeekData(orientationActivity.name, activitiesData).map((item, index) => {
-                                return (
-                                    <div
-                                        key={item.name}
-                                        className={classNames("py-1 px-4")}>
-                                        <p>{item.duration}</p>
-                                        <p>{item.name.slice(0, 1)}</p>
-                                    </div>
-                                )
-                            })}
-                        </div>
+                    <div>
+                        <LastSessionData activity={orientationActivity}/>
+                        <LastWeekDataStrip activity={orientationActivity}/>
                     </div>
                 </Block>
             </div>

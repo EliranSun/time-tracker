@@ -23,7 +23,7 @@ export const useActivityData = (activityNames = []) => {
         };
 
         fetchData();
-    }, []);
+    }, [activityNames]);
 
     return activitiesData;
 };
