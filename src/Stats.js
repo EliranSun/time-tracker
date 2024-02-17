@@ -1,16 +1,6 @@
-import { getDocs, collection } from "firebase/firestore";
-import { Activities, db } from "./App";
+import { Activities } from "./App";
 import { useEffect, useState } from "react";
-
-const getAllDocsInActivity = async (activity) => {
-    const querySnapshot = await getDocs(collection(db, `activities/${activity.name}/data`));
-    const data = [];
-    querySnapshot.forEach((doc) => {
-        data.push(doc.data());
-    });
-
-    return data;
-};
+import { getAllDocsInActivity } from "./utils/activities";
 
 export const StatsView = ({ onChangePage }) => {
     const [activities, setActivities] = useState([]);
