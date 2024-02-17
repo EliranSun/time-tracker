@@ -186,6 +186,7 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
 
     const LockIcon = isLocked ? Lock : LockOpen;
     const orientationActivity = activities.find(activity => activity.orientationAngle === orientationState.angle) || {};
+    const restOfActivities = activities.filter(activity => activity.orientationAngle !== orientationState.angle);
     const Icon = orientationActivity?.icon || (() => null);
     const hasBackgroundActivity = orientationState.angle !== currentActivity.orientationAngle && isLocked;
 
@@ -208,6 +209,17 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
                 {hasBackgroundActivity ? `${currentActivity.name}` : ""}
             </div>
             <div className="h-screen w-screen flex flex-wrap gap-1">
+                <div className="flex justify-between text-white absolute w-full px-8 top-32">
+                    {restOfActivities.map(activity => {
+                        const Icon = activity.icon || (() => null);
+                        return (
+                            <div className="flex flex-col items-center">
+                                <Icon/>
+                                <span>{activity.name}</span>
+                            </div>
+                        );
+                    })}
+                </div>
                 <Block
                     key={orientationActivity.name}
                     style={{
