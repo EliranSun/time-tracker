@@ -193,18 +193,18 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
                     onClick={() => setIsLocked(!isLocked)}/>
                 {hasBackgroundActivity ? `${currentActivity.name}` : ""}
             </div>
+            <div className="flex justify-between text-white fixed w-screen h-screen items-center px-4 -z-10">
+                {restOfActivities.map(activity => {
+                    const Icon = activity.icon || (() => null);
+                    return (
+                        <div className="flex flex-col items-center">
+                            <Icon size={20}/>
+                            {/*<span>{activity.name}</span>*/}
+                        </div>
+                    );
+                }).reverse()}
+            </div>
             <div className="h-screen w-screen flex flex-wrap gap-1">
-                <div className="flex justify-between text-white absolute w-full px-8 top-32">
-                    {restOfActivities.map(activity => {
-                        const Icon = activity.icon || (() => null);
-                        return (
-                            <div className="flex flex-col items-center">
-                                <Icon/>
-                                <span>{activity.name}</span>
-                            </div>
-                        );
-                    }).reverse()}
-                </div>
                 <Block
                     key={orientationActivity.name}
                     style={{
@@ -249,15 +249,15 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
                         }
                     }}>
                     <Icon size={80}/>
-                    <p className="text-9xl font-extralight tracking-wide">{orientationActivity.name}</p>
+                    <p className="text-8xl font-extralight tracking-wide">{orientationActivity.name}</p>
                     <p className="text-8xl font-mono">{currentActivity.name === orientationActivity.name
                         ? `${Math.floor(counter / 60) < 10 ? "0" : ""}${Math.floor(counter / 60)}:${counter % 60 < 10 ? "0" : ""}${counter % 60}`
                         : ""}</p>
                     <div className="">
                         <p>{getLastSession(orientationActivity.name)}</p>
-                        <div className={classNames("flex justify-center", {
-                            "gap-0 absolute bottom-28 m-auto text-center left-0 right-0": orientationState.angle === 0,
-                            "gap-0 flex-col absolute top-0 bottom-0 m-auto right-0 h-screen": orientationState.angle === 90 || orientationState.angle === 270,
+                        <div className={classNames("absolute flex justify-center w-fit", {
+                            "bottom-28 m-auto text-center left-0 right-0": orientationState.angle === 0,
+                            "top-0 m-auto right-0": orientationState.angle === 90 || orientationState.angle === 270,
                         })}>
                             {getLastWeekData(orientationActivity.name, activitiesData).map((item, index) => {
                                 return (
