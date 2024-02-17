@@ -26,7 +26,7 @@ const getCurrentActivityDoc = () => {
 const Block = ({ children, className, ...rest }) => {
     return (
         <div
-            className={classNames("w-full text-white flex flex-col items-center justify-center", className)}
+            className={classNames("w-full text-white flex flex-col items-center justify-center p-4", className)}
             {...rest}>
             {children}
         </div>
@@ -174,7 +174,7 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
         const end = activitiesData[name].at(-1)?.end;
 
         if (!start || !end) {
-            return "";
+            return "No entries";
         }
 
         const duration = end - start;

@@ -4,7 +4,23 @@ import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
 import { ActivitiesView } from "./ActivitiesView";
 import { StatsView } from "./Stats";
-import { ArrowCounterClockwise, Briefcase, ChartBar, Circle, PaintBrush, PuzzlePiece } from "@phosphor-icons/react";
+import {
+    ArrowCounterClockwise,
+    Barbell,
+    BookOpen,
+    Briefcase,
+    ChartBar,
+    Circle,
+    GameController,
+    Heart,
+    MoonStars,
+    PaintBrush,
+    PawPrint,
+    PuzzlePiece,
+    Skull,
+    Television,
+    Users
+} from "@phosphor-icons/react";
 import { useSwipeable } from "react-swipeable";
 
 const firebaseConfig = {
@@ -25,17 +41,17 @@ export const Activities = [
     { name: "Creative", icon: PaintBrush, color: "#f3722c", page: 1, orientationAngle: 90, data: [] },
     { name: "Atly", icon: Briefcase, color: "#f8961e", page: 1, orientationAngle: 270, data: [] },
 
-    { name: "Gym", icon: "", color: "#f9844a", page: 2, orientationAngle: 0, data: [] },
-    { name: "Pets", icon: "", color: "#f9c74f", page: 3, orientationAngle: 90, data: [] },
-    { name: "People", icon: "", color: "#90be6d", page: 3, orientationAngle: 270, data: [] },
+    { name: "Dates", icon: Heart, color: "#f9844a", page: 2, orientationAngle: 0, data: [] },
+    { name: "Pets", icon: PawPrint, color: "#f9c74f", page: 2, orientationAngle: 90, data: [] },
+    { name: "People", icon: Users, color: "#90be6d", page: 2, orientationAngle: 270, data: [] },
 
-    { name: "Reading", icon: "", color: "#43aa8b", page: 3, orientationAngle: 0, data: [] },
-    { name: "One Piece", icon: "", color: "#4d908e", page: 3, orientationAngle: 90, data: [] },
-    { name: "Media", icon: "", color: "#577590", page: 3, orientationAngle: 270, data: [] },
+    { name: "Read", icon: BookOpen, color: "#43aa8b", page: 3, orientationAngle: 0, data: [] },
+    { name: "OP", icon: Skull, color: "#4d908e", page: 3, orientationAngle: 90, data: [] },
+    { name: "Media", icon: Television, color: "#577590", page: 3, orientationAngle: 270, data: [] },
 
-    { name: "Sleep", icon: "", color: "#277da1", page: 4, orientationAngle: 0, data: [] },
-    { name: "Games", icon: "", color: "#9400D3", page: 4, orientationAngle: 90, data: [] },
-    { name: "Dates", icon: "", color: "#C71585", page: 4, orientationAngle: 270, data: [] },
+    { name: "Sleep", icon: MoonStars, color: "#277da1", page: 4, orientationAngle: 0, data: [] },
+    { name: "Games", icon: GameController, color: "#9400D3", page: 4, orientationAngle: 90, data: [] },
+    { name: "Gym", icon: Barbell, color: "#C71585", page: 4, orientationAngle: 270, data: [] },
 ];
 
 // github client id: 9697f565df42fcd784fb
@@ -64,7 +80,7 @@ function App() {
                 </span>
                 <span>
                     <ChartBar
-                        color="white"
+                        color="w hite"
                         size={32}
                         className="cursor-pointer"
                         onClick={() => setIsActivityView(!isActivityView)}/>
