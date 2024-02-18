@@ -45,20 +45,20 @@ export const db = getFirestore(app);
 *  | Creative | = | Pets | = | Media | = | Games |
 * */
 export const Activities = [
-    { name: "Atly", icon: Briefcase, color: "#f8961e", page: 1, orientationAngle: 270, data: [] },
-    { name: "People", icon: Users, color: "#90be6d", page: 2, orientationAngle: 270, data: [] },
-    { name: "OP", icon: Skull, color: "#4d908e", page: 3, orientationAngle: 90, data: [] },
-    { name: "Gym", icon: Barbell, color: "#C71585", page: 4, orientationAngle: 270, data: [] },
+    { order: 3, name: "Atly", icon: Briefcase, color: "#f8961e", page: 1, orientationAngle: 270, data: [] },
+    { order: 6, name: "People", icon: Users, color: "#90be6d", page: 2, orientationAngle: 270, data: [] },
+    { order: 8, name: "OP", icon: Skull, color: "#4d908e", page: 3, orientationAngle: 90, data: [] },
+    { order: 11, name: "Gym", icon: Barbell, color: "#C71585", page: 4, orientationAngle: 270, data: [] },
 
-    { name: "Unity", icon: PuzzlePiece, color: "#f94144", page: 1, orientationAngle: 0, data: [] },
-    { name: "Dates", icon: Heart, color: "#f9844a", page: 2, orientationAngle: 0, data: [] },
-    { name: "Read", icon: BookOpen, color: "#43aa8b", page: 3, orientationAngle: 0, data: [] },
-    { name: "Sleep", icon: MoonStars, color: "#277da1", page: 4, orientationAngle: 0, data: [] },
+    { order: 1, name: "Unity", icon: PuzzlePiece, color: "#f94144", page: 1, orientationAngle: 0, data: [] },
+    { order: 4, name: "Dates", icon: Heart, color: "#f9844a", page: 2, orientationAngle: 0, data: [] },
+    { order: 7, name: "Read", icon: BookOpen, color: "#43aa8b", page: 3, orientationAngle: 0, data: [] },
+    { order: 10, name: "Sleep", icon: MoonStars, color: "#277da1", page: 4, orientationAngle: 0, data: [] },
 
-    { name: "Creative", icon: PaintBrush, color: "#f3722c", page: 1, orientationAngle: 90, data: [] },
-    { name: "Pets", icon: PawPrint, color: "#f9c74f", page: 2, orientationAngle: 90, data: [] },
-    { name: "Media", icon: Television, color: "#577590", page: 3, orientationAngle: 270, data: [] },
-    { name: "Games", icon: GameController, color: "#9400D3", page: 4, orientationAngle: 90, data: [] },
+    { order: 2, name: "Creative", icon: PaintBrush, color: "#f3722c", page: 1, orientationAngle: 90, data: [] },
+    { order: 5, name: "Pets", icon: PawPrint, color: "#f9c74f", page: 2, orientationAngle: 90, data: [] },
+    { order: 9, name: "Media", icon: Television, color: "#577590", page: 3, orientationAngle: 270, data: [] },
+    { order: 12, name: "Games", icon: GameController, color: "#9400D3", page: 4, orientationAngle: 90, data: [] },
 ];
 
 const ActivitiesEnum = {

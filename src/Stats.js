@@ -65,13 +65,18 @@ export const StatsView = ({ onChangePage, activities }) => {
 
     return (
         <>
-            <button className="fixed top-4 right-4 bg-white px-4 py-1 w-32" onClick={() => {
+            <button className="fixed top-0 right-0 bg-white px-4 py-1 w-32 text-black" onClick={() => {
                 setTimespanIndex((timespanIndex + 1) % Timespans.length);
             }}>
                 {Timespans[timespanIndex]}
             </button>
-            <div className="flex flex-col w-screen justify-evenly h-[calc(100vh-64px)] mt-16">
-                {fetchedActivities.map(({ activity, data, totalTime: activityTotalTime }, index) => {
+            <div className="flex flex-col w-screen justify-evenly h-screen">
+                {fetchedActivities.sort((a, b) => {
+                    const aOrder = activities.find(activity => activity.name === a.activity.name).order;
+                    const bOrder = activities.find(activity => activity.name === b.activity.name).order;
+
+                    return aOrder - bOrder;
+                }).map(({ activity, data, totalTime: activityTotalTime }, index) => {
                     const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
                     const hours = Math.floor(activityTotalTime / 1000 / 60 / 60);
                     const minutes = Math.floor(activityTotalTime / 1000 / 60 % 60);
