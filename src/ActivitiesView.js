@@ -125,7 +125,7 @@ export const ActivitiesView = ({ currentActivity, onActivityChange, activity, is
             <Block
                 key={activity.name}
                 style={{ backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : "" }}
-                onMouseDown={async () => {
+                onDoubleClick={async () => {
                     if (!currentActivity.name) {
                         onActivityChange(activity);
                         setMetaThemeColor(activity.color);

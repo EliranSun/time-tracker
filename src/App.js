@@ -1,9 +1,9 @@
 import './App.css';
-import {useEffect, useMemo, useState} from 'react';
-import {initializeApp} from "firebase/app"
-import {getFirestore} from "firebase/firestore"
-import {ActivitiesView} from "./ActivitiesView";
-import {StatsView} from "./Stats";
+import { useEffect, useMemo, useState } from 'react';
+import { initializeApp } from "firebase/app"
+import { getFirestore } from "firebase/firestore"
+import { ActivitiesView } from "./ActivitiesView";
+import { StatsView } from "./Stats";
 import {
     ArrowCounterClockwise,
     Barbell,
@@ -21,7 +21,7 @@ import {
     Television,
     Users
 } from "@phosphor-icons/react";
-import {useSwipeable} from "react-swipeable";
+import { useSwipeable } from "react-swipeable";
 import classNames from "classnames";
 
 const firebaseConfig = {
@@ -45,20 +45,20 @@ export const db = getFirestore(app);
 *  | Creative | = | Pets | = | Media | = | Games |
 * */
 export const Activities = [
-    {name: "Atly", icon: Briefcase, color: "#f8961e", page: 1, orientationAngle: 270, data: []},
-    {name: "People", icon: Users, color: "#90be6d", page: 2, orientationAngle: 270, data: []},
-    {name: "OP", icon: Skull, color: "#4d908e", page: 3, orientationAngle: 90, data: []},
-    {name: "Gym", icon: Barbell, color: "#C71585", page: 4, orientationAngle: 270, data: []},
+    { name: "Atly", icon: Briefcase, color: "#f8961e", page: 1, orientationAngle: 270, data: [] },
+    { name: "People", icon: Users, color: "#90be6d", page: 2, orientationAngle: 270, data: [] },
+    { name: "OP", icon: Skull, color: "#4d908e", page: 3, orientationAngle: 90, data: [] },
+    { name: "Gym", icon: Barbell, color: "#C71585", page: 4, orientationAngle: 270, data: [] },
 
-    {name: "Unity", icon: PuzzlePiece, color: "#f94144", page: 1, orientationAngle: 0, data: []},
-    {name: "Dates", icon: Heart, color: "#f9844a", page: 2, orientationAngle: 0, data: []},
-    {name: "Read", icon: BookOpen, color: "#43aa8b", page: 3, orientationAngle: 0, data: []},
-    {name: "Sleep", icon: MoonStars, color: "#277da1", page: 4, orientationAngle: 0, data: []},
+    { name: "Unity", icon: PuzzlePiece, color: "#f94144", page: 1, orientationAngle: 0, data: [] },
+    { name: "Dates", icon: Heart, color: "#f9844a", page: 2, orientationAngle: 0, data: [] },
+    { name: "Read", icon: BookOpen, color: "#43aa8b", page: 3, orientationAngle: 0, data: [] },
+    { name: "Sleep", icon: MoonStars, color: "#277da1", page: 4, orientationAngle: 0, data: [] },
 
-    {name: "Creative", icon: PaintBrush, color: "#f3722c", page: 1, orientationAngle: 90, data: []},
-    {name: "Pets", icon: PawPrint, color: "#f9c74f", page: 2, orientationAngle: 90, data: []},
-    {name: "Media", icon: Television, color: "#577590", page: 3, orientationAngle: 270, data: []},
-    {name: "Games", icon: GameController, color: "#9400D3", page: 4, orientationAngle: 90, data: []},
+    { name: "Creative", icon: PaintBrush, color: "#f3722c", page: 1, orientationAngle: 90, data: [] },
+    { name: "Pets", icon: PawPrint, color: "#f9c74f", page: 2, orientationAngle: 90, data: [] },
+    { name: "Media", icon: Television, color: "#577590", page: 3, orientationAngle: 270, data: [] },
+    { name: "Games", icon: GameController, color: "#9400D3", page: 4, orientationAngle: 90, data: [] },
 ];
 
 const ActivitiesEnum = {
@@ -152,7 +152,7 @@ const PageMazeMap = {
     },
 };
 
-const Icon = ({name, ...rest}) => {
+const Icon = ({ name, ...rest }) => {
     const Icon = name;
     return <Icon {...rest}/>
 }
@@ -197,9 +197,12 @@ function App() {
         return () => window.removeEventListener('keydown', listener);
     }, []);
 
-    const LockIcon = useMemo(() => isLocked ? Lock : LockOpen, [isLocked]);
+    const LockIcon = useMemo(() =>
+        isLocked ? Lock : LockOpen, [isLocked]);
     const activity = Activities.find(activity => activity.name.toLowerCase() === activePage.toLowerCase());
-    const hasBackgroundActivity = useMemo(() => currentActivity.name && activity.name !== currentActivity.name, [currentActivity, activity]);
+    const hasBackgroundActivity = useMemo(() => {
+        return currentActivity.name && activity.name !== currentActivity.name;
+    }, [currentActivity, activity]);
 
     return (
         <section className="App overflow-y-hidden h-screen" {...handlers}>
@@ -258,7 +261,7 @@ function App() {
                             isDiscrete={isDiscreteMode}
                             currentActivity={currentActivity}
                             onActivityChange={newActivity => {
-                                newActivity && setIsLocked(true);
+                                setIsLocked(Boolean(newActivity));
                                 setCurrentActivity(newActivity || {});
                             }}
                             activity={activity}
