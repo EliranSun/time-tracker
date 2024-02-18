@@ -1,29 +1,25 @@
-import { useEffect, useState } from "react";
-import { getAllDocsInActivity } from "../utils/activities";
+import {useEffect, useState} from "react";
+import {getAllDocsInActivity} from "../utils/activities";
 
-export const useActivityData = (activityNames = []) => {
-    const [activitiesData, setActivitiesData] = useState({});
+export const useActivityData = (activityName) => {
+    const [activitiesData, setActivitiesData] = useState([]);
 
     useEffect(() => {
-        if (activityNames.length === 0)
+        if (!activityName)
             return;
 
-        const fetchData = async () => {
-            let data = {};
-            for (const activityName of activityNames) {
-                const activityData = await getAllDocsInActivity(activityName);
-                data = {
-                    ...data,
-                    [activityName]: activityData.sort((a, b) => a.start - b.start).filter(item => item.end > 0)
-                }
-            }
+        getAllDocsInActivity(activityName)
+            .then(data => {
+                const relevantData = data
+                    .sort((a, b) => a.start - b.start)
+                    .filter(item => item.end > 0);
 
-            console.count("useActivityData");
-            setActivitiesData(data);
-        };
-
-        fetchData();
-    }, [activityNames]);
+                setActivitiesData(relevantData);
+            })
+            .catch(error => {
+                console.error("Error getting document:", error);
+            });
+    }, [activityName]);
 
     return activitiesData;
 };

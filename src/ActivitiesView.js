@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { Lock, LockOpen } from "@phosphor-icons/react";
-import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "./App";
+import {useEffect, useMemo, useState} from "react";
+import {Lock, LockOpen} from "@phosphor-icons/react";
+import {addDoc, collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {db} from "./App";
 import classNames from "classnames";
-import { useOrientation } from 'react-use';
-import { useActivityData } from "./hooks/useActivityData";
-import { useCounter } from "./hooks/useCounter";
-import { getLastWeekData } from "./utils/activities";
-import { LastWeekDataStrip } from "./components/LastWeekDataStrip";
-import { LastSessionData } from "./components/LastSessionData";
+import {useOrientation} from 'react-use';
+import {useActivityData} from "./hooks/useActivityData";
+import {useCounter} from "./hooks/useCounter";
+import {getLastWeekData} from "./utils/activities";
+import {LastWeekDataStrip} from "./components/LastWeekDataStrip";
+import {LastSessionData} from "./components/LastSessionData";
 
 const addActivityData = async (activity) => {
     return await addDoc(collection(db, `activities/${activity.name}/data`), activity);
@@ -26,23 +26,35 @@ const getCurrentActivityDoc = () => {
     return getDoc(doc(db, 'currentActivity', 'activity'));
 };
 
-const Block = ({ children, className, ...rest }) => {
+const Block = ({children, className, ...rest}) => {
     return (
         <div
-            className={classNames("w-full text-white flex flex-col items-center justify-center p-4", className)}
+            className={classNames("w-full flex flex-col items-center justify-center p-4", className)}
             {...rest}>
             {children}
         </div>
     )
+};
+
+const formatCounter = (counter) => {
+    const hours = Math.floor(counter / 3600);
+    const minutes = Math.floor((counter - hours * 3600) / 60);
+    const seconds = counter - hours * 3600 - minutes * 60;
+
+    return `${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 }
 
-export const ActivitiesView = ({ onChangePage, activities = [] }) => {
-    const orientationState = useOrientation();
-    const [isLocked, setIsLocked] = useState(false);
+const setMetaThemeColor = (color) => {
+    var meta = document.createElement('meta');
+    meta.name = "theme-color";
+    meta.content = color;
+    document.getElementsByTagName('head')[0].appendChild(meta);
+};
+
+export const ActivitiesView = ({currentActivity, onActivityChange, activity, isDiscrete}) => {
+    // const orientationState = useOrientation();
     const [lastDocumentRef, setLastDocumentRef] = useState(null);
-    const [currentActivity, setCurrentActivity] = useState({});
     const [counter, setCounter] = useCounter(currentActivity.name);
-    const activitiesData = useActivityData(activities.map(activity => activity.name));
 
     useEffect(() => {
         document.addEventListener('visibilitychange', function () {
@@ -59,20 +71,14 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
     }, []);
 
     useEffect(() => {
-        var meta = document.createElement('meta');
-        meta.name = "theme-color";
-        meta.content = "#282c34";
-        document.getElementsByTagName('head')[0].appendChild(meta);
-
         getCurrentActivityDoc().then((doc) => {
             if (doc.exists()) {
                 const data = doc.data();
-                console.log({ data });
                 if (!data.start) {
                     return;
                 }
 
-                setCurrentActivity(data);
+                onActivityChange(data);
                 setCounter(Math.floor((new Date().getTime() - data.start) / 1000));
             }
         }).catch(error => {
@@ -92,7 +98,7 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
             entries.forEach((entry) => {
                 if (entry.type === 'reload') {
                     localStorage.setItem('counter', counter.toString());
-                    setCurrentActivity(prev => {
+                    onActivityChange(prev => {
                         setCurrentActivityDoc(prev);
                         return prev;
                     })
@@ -100,108 +106,71 @@ export const ActivitiesView = ({ onChangePage, activities = [] }) => {
             });
         });
 
-        observer.observe({ type: "navigation", buffered: true });
+        observer.observe({type: "navigation", buffered: true});
     }, []);
 
-    useEffect(() => {
-        if (isLocked) {
-            return;
-        }
-
-        setCurrentActivity({});
-        setCounter(0);
-    }, [orientationState]);
-
-    const LockIcon = isLocked ? Lock : LockOpen;
-    const orientationActivity = activities.find(activity => activity.orientationAngle === orientationState.angle) || {};
-    const restOfActivities = activities.filter(activity => activity.orientationAngle !== orientationState.angle);
-    const Icon = orientationActivity?.icon || (() => null);
-    const hasBackgroundActivity = orientationState.angle !== currentActivity.orientationAngle && isLocked;
+    const Icon = activity?.icon || (() => null);
 
     return (
-        <>
-            <div
-                style={{
-                    backgroundColor: hasBackgroundActivity ? currentActivity.color : "transparent"
-                }}
-                className={classNames("absolute flex items-center justify-center gap-2 text-white", {
-                    "text-xl px-4 py-2 rounded-2xl": hasBackgroundActivity,
-                    "": !hasBackgroundActivity,
-                    "top-10 left-0 right-0 m-auto w-1/3": orientationState.angle === 0,
-                    "left-10 bottom-10 m-auto": orientationState.angle === 90,
-                })}>
-                <LockIcon
-                    size={32}
-                    className="cursor-pointer"
-                    onClick={() => setIsLocked(!isLocked)}/>
-                {hasBackgroundActivity ? `${currentActivity.name}` : ""}
-            </div>
-            <div className="flex justify-between text-white fixed w-screen h-screen items-center px-4 -z-10">
-                {restOfActivities.map(activity => {
-                    const Icon = activity.icon || (() => null);
-                    return (
-                        <div className="flex flex-col items-center">
-                            <Icon size={20}/>
-                            {/*<span>{activity.name}</span>*/}
-                        </div>
-                    );
-                }).reverse()}
-            </div>
-            <div className="h-screen w-screen flex flex-wrap gap-1">
-                <Block
-                    key={orientationActivity.name}
-                    style={{
-                        backgroundColor: currentActivity.name === orientationActivity.name ? `${orientationActivity.color}` : "",
-                    }}
-                    onMouseDown={async () => {
-                        if (!currentActivity.name) {
-                            setCurrentActivity(orientationActivity);
-                            setIsLocked(true);
-                            var meta = document.getElementsByTagName('meta')['theme-color'];
-                            meta.content = orientationActivity.color;
+        <div className="h-screen w-screen flex flex-wrap gap-1">
+            <Block
+                key={activity.name}
+                style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}
+                onMouseDown={async () => {
+                    if (!currentActivity.name) {
+                        onActivityChange(activity);
+                        setMetaThemeColor(activity.color);
 
-                            localStorage.setItem('currentActivity', JSON.stringify({
-                                name: orientationActivity.name,
-                                start: new Date().getTime(),
-                                end: 0
-                            }));
+                        localStorage.setItem('currentActivity', JSON.stringify({
+                            name: activity.name,
+                            start: new Date().getTime(),
+                            end: 0
+                        }));
 
+                        try {
                             const ref = await addActivityData({
-                                name: orientationActivity.name,
+                                name: activity.name,
                                 start: new Date().getTime(),
                                 end: 0
                             });
 
                             setLastDocumentRef(ref);
-                            return;
+                        } catch (error) {
+                            alert(`Error adding data: ${error.message}`);
                         }
+                        return;
+                    }
 
-                        if (currentActivity.name === orientationActivity.name) {
-                            setCounter(0);
-                            setCurrentActivity({});
-                            setIsLocked(false);
-                            var meta = document.getElementsByTagName('meta')['theme-color'];
-                            meta.content = "#282c34";
+                    if (currentActivity.name === activity.name) {
+                        setCounter(0);
+                        onActivityChange(null);
+                        setMetaThemeColor("#282c34");
 
-                            localStorage.removeItem('currentActivity');
+                        localStorage.removeItem('currentActivity');
 
-                            updateActivityData(lastDocumentRef, {
-                                name: orientationActivity.name,
-                                end: new Date().getTime()
-                            });
-                        }
-                    }}>
-                    <Icon size={80}/>
-                    <p className="text-8xl font-extralight tracking-wide">{orientationActivity.name}</p>
-                    <p className="text-8xl font-mono">{currentActivity.name === orientationActivity.name
-                        ? `${Math.floor(counter / 60) < 10 ? "0" : ""}${Math.floor(counter / 60)}:${counter % 60 < 10 ? "0" : ""}${counter % 60}`
-                        : ""}</p>
+                        updateActivityData(lastDocumentRef, {
+                            name: activity.name,
+                            end: new Date().getTime()
+                        }).catch(error => {
+                            alert(`Error updating data: ${error.message}`);
+                        })
+                    }
+                }}>
+                <Icon size={isDiscrete ? 10 : 80}/>
+                <p className={classNames("font-extralight tracking-wide", isDiscrete ? "text-sm" : "text-8xl")}>
+                    {activity.name}
+                </p>
+                <p className={classNames("font-mono", isDiscrete ? "text-xs" : "text-7xl")}>
+                    {currentActivity.name === activity.name
+                        ? formatCounter(counter)
+                        : ""}
+                </p>
+                {isDiscrete ? null :
                     <div>
-                        <LastSessionData activity={orientationActivity}/>
-                        <LastWeekDataStrip activity={orientationActivity}/>
-                    </div>
-                </Block>
-            </div>
-        </>
+                        <LastSessionData activity={activity}/>
+                        <LastWeekDataStrip activity={activity}/>
+                    </div>}
+            </Block>
+        </div>
     );
 };

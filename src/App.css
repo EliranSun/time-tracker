@@ -1,11 +1,19 @@
 .App {
     text-align: center;
-    background-color: #282c34;
     overflow: hidden;
     position: fixed;
 }
 
 body, html {
-    background-color: #282c34;
+    color: #282c34;
+    background-color: white;
     overflow: hidden;
+}
+
+/* dark mode */
+@media (prefers-color-scheme: dark) {
+    body, html {
+        color: white;
+        background-color: #282c34;
+    }
 }

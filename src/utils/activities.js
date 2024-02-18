@@ -1,6 +1,6 @@
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../App";
-import { addDays, intervalToDuration, isSameDay, startOfWeek } from "date-fns";
+import {collection, getDocs} from "firebase/firestore";
+import {db} from "../App";
+import {addDays, intervalToDuration, isSameDay, startOfWeek} from "date-fns";
 
 export const getAllDocsInActivity = async (activityName) => {
     const querySnapshot = await getDocs(collection(db, `activities/${activityName}/data`));
@@ -12,52 +12,63 @@ export const getAllDocsInActivity = async (activityName) => {
     return data;
 };
 export const getLastWeekData = (name, data) => {
-    const activityData = data[name];
+    const activityData = data;
     const week = [{
         name: "Sunday",
+        duration: "-",
     }, {
         name: "Monday",
+        duration: "-",
     }, {
         name: "Tuesday",
+        duration: "-",
     }, {
         name: "Wednesday",
+        duration: "-",
     }, {
         name: "Thursday",
+        duration: "-",
     }, {
         name: "Friday",
+        duration: "-",
     }, {
         name: "Saturday",
+        duration: "-",
     }];
 
-    if (!name || !data || !activityData) {
+    if (!name || data.length === 0 || !activityData) {
         return week;
     }
 
-
     return week.map((day, index) => {
-        const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
+        const weekStart = startOfWeek(new Date(), {weekStartsOn: 0});
         const targetDay = addDays(weekStart, index);
-        const dayData = activityData.filter(item => isSameDay(new Date(item.start), targetDay));
-
-        const duration = intervalToDuration({
-            start: dayData[0]?.start,
-            end: dayData[dayData.length - 1]?.end
+        const dayData = activityData.filter(item => {
+            return isSameDay(new Date(item.start), targetDay) && item.end > 0
         });
+
+
+        const duration = dayData.reduce((acc, item) => {
+            return acc + item.end - item.start;
+        }, 0);
+
+        const hours = Math.floor(duration / 3600000);
+        const minutes = Math.floor((duration % 3600000) / 60000);
 
         return {
             ...day,
-            duration: [duration.hours && `${duration.hours}h`, `${duration.minutes || 0}m`].filter(Boolean).join(" "),
+            duration: `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${minutes}m` : day.duration}`,
         }
     });
 };
 
-export const getLastSession = (name, data) => {
-    if (!name || !data[name]) {
+export const getLastSession = (name = "", data = []) => {
+    if (!name || data.length === 0) {
         return "";
     }
 
-    const start = data[name].at(-1)?.start;
-    const end = data[name].at(-1)?.end;
+    const start = data.at(-1)?.start;
+    const end = data.at(-1)?.end;
 
     if (!start || !end) {
         return "No entries";

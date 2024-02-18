@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { getAllDocsInActivity } from "./utils/activities";
-import { isThisMonth, isThisWeek, isThisYear, isToday } from "date-fns";
+import {useEffect, useState} from "react";
+import {getAllDocsInActivity} from "./utils/activities";
+import {isThisMonth, isThisWeek, isThisYear, isToday} from "date-fns";
 
 const Timespans = ["today", "this week", "this month", "this year", "all"];
 
-export const StatsView = ({ onChangePage, activities }) => {
+export const StatsView = ({onChangePage, activities}) => {
     const [timespanIndex, setTimespanIndex] = useState(0);
     const [totalTime, setTotalTime] = useState(0);
     const [fetchedActivities, setFetchedActivities] = useState([]);
@@ -45,7 +45,6 @@ export const StatsView = ({ onChangePage, activities }) => {
                 });
             }
 
-            console.log({ data });
             setFetchedActivities(data);
             setTotalTime(todayActivitiesTotalTime);
         };
@@ -69,14 +68,13 @@ export const StatsView = ({ onChangePage, activities }) => {
             }}>
                 {Timespans[timespanIndex]}
             </button>
-            <div className="flex flex-col w-screen justify-evenly h-[calc(100vh-64px)] text-white mt-16">
-                {fetchedActivities.map(({ activity, data, totalTime: activityTotalTime }, index) => {
+            <div className="flex flex-col w-screen justify-evenly h-[calc(100vh-64px)] mt-16">
+                {fetchedActivities.map(({activity, data, totalTime: activityTotalTime}, index) => {
                     const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
                     const hours = Math.floor(activityTotalTime / 1000 / 60 / 60);
                     const minutes = Math.floor(activityTotalTime / 1000 / 60 % 60);
                     const seconds = Math.floor(activityTotalTime / 1000 % 60);
 
-                    console.log(data);
                     return (
                         <div
                             key={index}
