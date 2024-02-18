@@ -1,10 +1,10 @@
-import {useEffect, useState} from "react";
-import {getAllDocsInActivity} from "./utils/activities";
-import {isThisMonth, isThisWeek, isThisYear, isToday} from "date-fns";
+import { useEffect, useState } from "react";
+import { getAllDocsInActivity } from "./utils/activities";
+import { isThisMonth, isThisWeek, isThisYear, isToday } from "date-fns";
 
 const Timespans = ["today", "this week", "this month", "this year", "all"];
 
-export const StatsView = ({onChangePage, activities}) => {
+export const StatsView = ({ onChangePage, activities }) => {
     const [timespanIndex, setTimespanIndex] = useState(0);
     const [totalTime, setTotalTime] = useState(0);
     const [fetchedActivities, setFetchedActivities] = useState([]);
@@ -14,11 +14,13 @@ export const StatsView = ({onChangePage, activities}) => {
             const data = [];
             let todayActivitiesTotalTime = 0;
 
-            for (let i = 0; i < activities.length; i++) {
+            const activityData = await Promise.all(activities.map(activity => getAllDocsInActivity(activity.name)));
+
+
+            for (let i = 0; i < activityData.length; i++) {
                 const activity = activities[i];
-                const activityData = await getAllDocsInActivity(activity.name);
-                const todayCompletedActivities = activityData.filter(item => {
-                    if (item.end === 0 || !item.end)
+                const todayCompletedActivities = activityData[i].filter(item => {
+                    if (item.end === 0 || !item.end || (item.end - item.start) < 60 * 1000)
                         return false;
 
                     switch (timespanIndex) {
@@ -69,7 +71,7 @@ export const StatsView = ({onChangePage, activities}) => {
                 {Timespans[timespanIndex]}
             </button>
             <div className="flex flex-col w-screen justify-evenly h-[calc(100vh-64px)] mt-16">
-                {fetchedActivities.map(({activity, data, totalTime: activityTotalTime}, index) => {
+                {fetchedActivities.map(({ activity, data, totalTime: activityTotalTime }, index) => {
                     const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
                     const hours = Math.floor(activityTotalTime / 1000 / 60 / 60);
                     const minutes = Math.floor(activityTotalTime / 1000 / 60 % 60);
