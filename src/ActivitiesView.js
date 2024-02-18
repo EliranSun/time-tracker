@@ -71,6 +71,13 @@ export const ActivitiesView = ({currentActivity, onActivityChange, activity, isD
     }, []);
 
     useEffect(() => {
+        // Set the theme color to the default. 
+        // This is necessary because there's no meta on the index.html (to enable the dynamity)
+        var meta = document.createElement('meta');
+        meta.name = "theme-color";
+        meta.content = "#282c34";
+        document.getElementsByTagName('head')[0].appendChild(meta);
+
         getCurrentActivityDoc().then((doc) => {
             if (doc.exists()) {
                 const data = doc.data();
