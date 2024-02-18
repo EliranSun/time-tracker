@@ -1,14 +1,14 @@
-import {useEffect, useMemo, useState} from "react";
-import {Lock, LockOpen} from "@phosphor-icons/react";
-import {addDoc, collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
-import {db} from "./App";
+import { useEffect, useMemo, useState } from "react";
+import { Lock, LockOpen } from "@phosphor-icons/react";
+import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "./App";
 import classNames from "classnames";
-import {useOrientation} from 'react-use';
-import {useActivityData} from "./hooks/useActivityData";
-import {useCounter} from "./hooks/useCounter";
-import {getLastWeekData} from "./utils/activities";
-import {LastWeekDataStrip} from "./components/LastWeekDataStrip";
-import {LastSessionData} from "./components/LastSessionData";
+import { useOrientation } from 'react-use';
+import { useActivityData } from "./hooks/useActivityData";
+import { useCounter } from "./hooks/useCounter";
+import { getLastWeekData } from "./utils/activities";
+import { LastWeekDataStrip } from "./components/LastWeekDataStrip";
+import { LastSessionData } from "./components/LastSessionData";
 
 const addActivityData = async (activity) => {
     return await addDoc(collection(db, `activities/${activity.name}/data`), activity);
@@ -26,7 +26,7 @@ const getCurrentActivityDoc = () => {
     return getDoc(doc(db, 'currentActivity', 'activity'));
 };
 
-const Block = ({children, className, ...rest}) => {
+const Block = ({ children, className, ...rest }) => {
     return (
         <div
             className={classNames("w-full flex flex-col items-center justify-center p-4", className)}
@@ -45,13 +45,18 @@ const formatCounter = (counter) => {
 }
 
 const setMetaThemeColor = (color) => {
+    const prevMeta = document.querySelectorAll('meta[name="theme-color"]');
+    if (prevMeta.length > 0) {
+        Array.from(prevMeta).map(item => item.remove());
+    }
+
     var meta = document.createElement('meta');
     meta.name = "theme-color";
     meta.content = color;
     document.getElementsByTagName('head')[0].appendChild(meta);
 };
 
-export const ActivitiesView = ({currentActivity, onActivityChange, activity, isDiscrete}) => {
+export const ActivitiesView = ({ currentActivity, onActivityChange, activity, isDiscrete }) => {
     // const orientationState = useOrientation();
     const [lastDocumentRef, setLastDocumentRef] = useState(null);
     const [counter, setCounter] = useCounter(currentActivity.name);
@@ -73,10 +78,7 @@ export const ActivitiesView = ({currentActivity, onActivityChange, activity, isD
     useEffect(() => {
         // Set the theme color to the default. 
         // This is necessary because there's no meta on the index.html (to enable the dynamity)
-        var meta = document.createElement('meta');
-        meta.name = "theme-color";
-        meta.content = "#282c34";
-        document.getElementsByTagName('head')[0].appendChild(meta);
+        setMetaThemeColor("#282c34");
 
         getCurrentActivityDoc().then((doc) => {
             if (doc.exists()) {
@@ -113,7 +115,7 @@ export const ActivitiesView = ({currentActivity, onActivityChange, activity, isD
             });
         });
 
-        observer.observe({type: "navigation", buffered: true});
+        observer.observe({ type: "navigation", buffered: true });
     }, []);
 
     const Icon = activity?.icon || (() => null);
@@ -122,7 +124,7 @@ export const ActivitiesView = ({currentActivity, onActivityChange, activity, isD
         <div className="h-screen w-screen flex flex-wrap gap-1">
             <Block
                 key={activity.name}
-                style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}
+                style={{ backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : "" }}
                 onMouseDown={async () => {
                     if (!currentActivity.name) {
                         onActivityChange(activity);
