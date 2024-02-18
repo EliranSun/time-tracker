@@ -165,8 +165,9 @@ function App() {
     const [isLocked, setIsLocked] = useState(false);
     const [activePage, setActivePage] = useState(Object.keys(PageMazeMap).find(page => page === "Unity"));
     const handlers = useSwipeable({
-        onSwipedLeft: () => setActivePage(prevPage => PageMazeMap[prevPage].Right),
-        onSwipedRight: () => setActivePage(prevPage => PageMazeMap[prevPage].Left),
+        // left/right swapped to mimic "natural" scrolling direction
+        onSwipedLeft: () => setActivePage(prevPage => PageMazeMap[prevPage].Left),
+        onSwipedRight: () => setActivePage(prevPage => PageMazeMap[prevPage].Right),
         onSwipedUp: () => setActivePage(prevPage => PageMazeMap[prevPage].Up),
         onSwipedDown: () => setActivePage(prevPage => PageMazeMap[prevPage].Down),
     });
