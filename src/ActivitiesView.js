@@ -1,12 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
-import { Lock, LockOpen } from "@phosphor-icons/react";
+import { useEffect, useState } from "react";
+import { Minus, MinusCircle, Plus, PlusCircle } from "@phosphor-icons/react";
 import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./App";
 import classNames from "classnames";
-import { useOrientation } from 'react-use';
-import { useActivityData } from "./hooks/useActivityData";
 import { useCounter } from "./hooks/useCounter";
-import { getLastWeekData } from "./utils/activities";
 import { LastWeekDataStrip } from "./components/LastWeekDataStrip";
 import { LastSessionData } from "./components/LastSessionData";
 
@@ -59,7 +56,7 @@ const setMetaThemeColor = (color) => {
 export const ActivitiesView = ({ currentActivity, onActivityChange, activity, isDiscrete }) => {
     // const orientationState = useOrientation();
     const [lastDocumentRef, setLastDocumentRef] = useState(null);
-    const [counter, setCounter] = useCounter(currentActivity.name);
+    const { counter, setCounter, add, subtract } = useCounter(currentActivity.name);
 
     useEffect(() => {
         document.addEventListener('visibilitychange', function () {
@@ -169,11 +166,14 @@ export const ActivitiesView = ({ currentActivity, onActivityChange, activity, is
                 <p className={classNames("font-extralight tracking-wide", isDiscrete ? "text-sm" : "text-8xl")}>
                     {activity.name}
                 </p>
-                <p className={classNames("font-mono", isDiscrete ? "text-xs" : "text-7xl")}>
-                    {currentActivity.name === activity.name
-                        ? formatCounter(counter)
-                        : ""}
-                </p>
+                {currentActivity.name !== activity.name ? null :
+                    <div className="flex items-center gap-3">
+                        <Minus size={isDiscrete ? 10 : 32} onClick={subtract}/>
+                        <p className={classNames("font-mono", isDiscrete ? "text-xs" : "text-5xl")}>
+                            {formatCounter(counter)}
+                        </p>
+                        <Plus size={isDiscrete ? 10 : 32} onClick={add}/>
+                    </div>}
                 {isDiscrete ? null :
                     <div>
                         <LastSessionData activity={activity}/>

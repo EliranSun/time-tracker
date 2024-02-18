@@ -24,14 +24,16 @@ export const useCounter = (activityName) => {
         }
     }, [activityName]);
 
-    return [
+    return {
         counter,
-        newCounterState => {
+        add: () => setCounter(prev => prev + 60),
+        subtract: () => setCounter(prev => prev - 60 <= 0 ? 0 : prev - 60),
+        setCounter: newCounterState => {
             if (!newCounterState) {
                 localStorage.removeItem('lastTickTimestamp');
             }
 
             setCounter(newCounterState);
         }
-    ];
+    };
 };
