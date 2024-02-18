@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 
-export const useCounter = (activityName) => {
-    const [counter, setCounter] = useState(0);
+const formatCounter = (lastTime) => {
+    const counter = parseInt((new Date().getTime() - lastTime) / 1000);
+    const hours = Math.floor(counter / 3600);
+    const minutes = Math.floor((counter - hours * 3600) / 60);
+    const seconds = counter - hours * 3600 - minutes * 60;
+
+    return `${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+}
+
+export const useCounter = (activityName, lastTime) => {
+    const [_counter, setCounter] = useState(0);
 
     useEffect(() => {
         if (activityName) {
+            // ticking here does not really affect the counter, just updates the state,
+            // which triggers now() - startTime in the formatCounter function
             const interval = setInterval(() => {
-                setCounter(prev => {
-                    const lastTickTimestamp = Number(localStorage.getItem('lastTickTimestamp'));
-                    const timeElapsed = Date.now() - lastTickTimestamp;
-
-                    if (lastTickTimestamp && timeElapsed > 2000) {
-                        alert('timeElapsed in seconds: ' + (timeElapsed / 1000));
-                        localStorage.setItem('lastTickTimestamp', Date.now().toString());
-                        return prev + Math.floor(timeElapsed / 1000);
-                    }
-
-                    return prev + 1;
-                });
+                setCounter(prev => prev + 1);
             }, 1000);
 
             return () => clearInterval(interval);
@@ -25,15 +25,6 @@ export const useCounter = (activityName) => {
     }, [activityName]);
 
     return {
-        counter,
-        add: () => setCounter(prev => prev + 60),
-        subtract: () => setCounter(prev => prev - 60 <= 0 ? 0 : prev - 60),
-        setCounter: newCounterState => {
-            if (!newCounterState) {
-                localStorage.removeItem('lastTickTimestamp');
-            }
-
-            setCounter(newCounterState);
-        }
+        counter: formatCounter(lastTime),
     };
 };

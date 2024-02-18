@@ -33,14 +33,6 @@ const Block = ({ children, className, ...rest }) => {
     )
 };
 
-const formatCounter = (counter) => {
-    const hours = Math.floor(counter / 3600);
-    const minutes = Math.floor((counter - hours * 3600) / 60);
-    const seconds = counter - hours * 3600 - minutes * 60;
-
-    return `${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-}
-
 const setMetaThemeColor = (color) => {
     const prevMeta = document.querySelectorAll('meta[name="theme-color"]');
     if (prevMeta.length > 0) {
@@ -54,23 +46,23 @@ const setMetaThemeColor = (color) => {
 };
 
 export const ActivitiesView = ({ currentActivity, onActivityChange, activity, isDiscrete }) => {
-    // const orientationState = useOrientation();
     const [lastDocumentRef, setLastDocumentRef] = useState(null);
-    const { counter, setCounter, add, subtract } = useCounter(currentActivity.name);
+    const [lastStartTime, setLastStartTime] = useState(null);
+    const { counter } = useCounter(currentActivity.name, lastStartTime);
 
-    useEffect(() => {
-        document.addEventListener('visibilitychange', function () {
-            if (document.visibilityState === 'hidden') {
-                localStorage.setItem('timeElapsed', new Date().getTime().toString());
-            } else if (document.visibilityState === 'visible') {
-                if (localStorage.getItem('timeElapsed')) {
-                    const timeElapsed = new Date().getTime() - parseInt(localStorage.getItem('timeElapsed'));
-                    setCounter(prev => prev + Math.floor(timeElapsed / 1000));
-                    localStorage.removeItem('timeElapsed');
-                }
-            }
-        });
-    }, []);
+    // useEffect(() => {
+    //     document.addEventListener('visibilitychange', function () {
+    //         if (document.visibilityState === 'hidden') {
+    //             localStorage.setItem('timeElapsed', new Date().getTime().toString());
+    //         } else if (document.visibilityState === 'visible') {
+    //             if (localStorage.getItem('timeElapsed')) {
+    //                 const timeElapsed = new Date().getTime() - parseInt(localStorage.getItem('timeElapsed'));
+    //                 setCounter(prev => prev + Math.floor(timeElapsed / 1000));
+    //                 localStorage.removeItem('timeElapsed');
+    //             }
+    //         }
+    //     });
+    // }, []);
 
     useEffect(() => {
         // Set the theme color to the default. 
@@ -85,17 +77,11 @@ export const ActivitiesView = ({ currentActivity, onActivityChange, activity, is
                 }
 
                 onActivityChange(data);
-                setCounter(Math.floor((new Date().getTime() - data.start) / 1000));
+                // setCounter(Math.floor((new Date().getTime() - data.start) / 1000));
             }
         }).catch(error => {
             console.error("Error getting document:", error);
         })
-
-        const counter = localStorage.getItem('counter');
-
-        if (counter && parseInt(counter) > 0) {
-            setCounter(parseInt(counter));
-        }
     }, []);
 
     useEffect(() => {
@@ -103,7 +89,6 @@ export const ActivitiesView = ({ currentActivity, onActivityChange, activity, is
             const entries = list.getEntriesByType("navigation");
             entries.forEach((entry) => {
                 if (entry.type === 'reload') {
-                    localStorage.setItem('counter', counter.toString());
                     onActivityChange(prev => {
                         setCurrentActivityDoc(prev);
                         return prev;
@@ -123,7 +108,11 @@ export const ActivitiesView = ({ currentActivity, onActivityChange, activity, is
                 key={activity.name}
                 style={{ backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : "" }}
                 onDoubleClick={async () => {
-                    if (!currentActivity.name) {
+                    const shouldStartTick = !currentActivity.name;
+                    const shouldStopTick = currentActivity.name === activity.name;
+
+                    if (shouldStartTick) {
+                        setLastStartTime(new Date().getTime());
                         onActivityChange(activity);
                         setMetaThemeColor(activity.color);
 
@@ -147,8 +136,7 @@ export const ActivitiesView = ({ currentActivity, onActivityChange, activity, is
                         return;
                     }
 
-                    if (currentActivity.name === activity.name) {
-                        setCounter(0);
+                    if (shouldStopTick) {
                         onActivityChange(null);
                         setMetaThemeColor("#282c34");
 
@@ -167,13 +155,9 @@ export const ActivitiesView = ({ currentActivity, onActivityChange, activity, is
                     {activity.name}
                 </p>
                 {currentActivity.name !== activity.name ? null :
-                    <div className="flex items-center gap-3">
-                        <Minus size={isDiscrete ? 10 : 32} onClick={subtract}/>
-                        <p className={classNames("font-mono", isDiscrete ? "text-xs" : "text-5xl")}>
-                            {formatCounter(counter)}
-                        </p>
-                        <Plus size={isDiscrete ? 10 : 32} onClick={add}/>
-                    </div>}
+                    <p className={classNames("font-mono", isDiscrete ? "text-xs" : "text-6xl")}>
+                        {counter}
+                    </p>}
                 {isDiscrete ? null :
                     <div>
                         <LastSessionData activity={activity}/>
