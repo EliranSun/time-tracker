@@ -23,6 +23,7 @@ import {
 } from "@phosphor-icons/react";
 import { useSwipeable } from "react-swipeable";
 import classNames from "classnames";
+import { useCounter } from "./hooks/useCounter";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAfmw8BBbYUxPwXwP8kkLqsHihNScUmz4A",
@@ -163,6 +164,7 @@ function App() {
     const [isActivityView, setIsActivityView] = useState(true);
     const [currentActivity, setCurrentActivity] = useState({});
     const [isLocked, setIsLocked] = useState(false);
+    const { counter } = useCounter(currentActivity.name);
     const [activePage, setActivePage] = useState(Object.keys(PageMazeMap).find(page => page === "Unity"));
     const handlers = useSwipeable({
         // left/right swapped to mimic "natural" scrolling direction
@@ -258,14 +260,15 @@ function App() {
                             </div>
                         </div>
                         <ActivitiesView
+                            activity={activity}
+                            counter={counter}
+                            onChangePage={() => setIsActivityView(false)}
                             isDiscrete={isDiscreteMode}
                             currentActivity={currentActivity}
                             onActivityChange={newActivity => {
                                 setIsLocked(Boolean(newActivity));
                                 setCurrentActivity(newActivity || {});
-                            }}
-                            activity={activity}
-                            onChangePage={() => setIsActivityView(false)}/>
+                            }}/>
                     </>
                 )
                 : <StatsView

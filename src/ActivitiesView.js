@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Minus, MinusCircle, Plus, PlusCircle } from "@phosphor-icons/react";
 import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./App";
@@ -6,6 +6,7 @@ import classNames from "classnames";
 import { useCounter } from "./hooks/useCounter";
 import { LastWeekDataStrip } from "./components/LastWeekDataStrip";
 import { LastSessionData } from "./components/LastSessionData";
+import { formatCounter } from "./utils/counter";
 
 const addActivityData = async (activity) => {
     return await addDoc(collection(db, `activities/${activity.name}/data`), activity);
@@ -45,24 +46,16 @@ const setMetaThemeColor = (color) => {
     document.getElementsByTagName('head')[0].appendChild(meta);
 };
 
-export const ActivitiesView = ({ currentActivity, onActivityChange, activity, isDiscrete }) => {
+export const ActivitiesView = ({ currentActivity, onActivityChange, activity, isDiscrete, counter }) => {
     const [lastDocumentRef, setLastDocumentRef] = useState(null);
     const [lastStartTime, setLastStartTime] = useState(null);
-    const { counter } = useCounter(currentActivity.name, lastStartTime);
 
-    // useEffect(() => {
-    //     document.addEventListener('visibilitychange', function () {
-    //         if (document.visibilityState === 'hidden') {
-    //             localStorage.setItem('timeElapsed', new Date().getTime().toString());
-    //         } else if (document.visibilityState === 'visible') {
-    //             if (localStorage.getItem('timeElapsed')) {
-    //                 const timeElapsed = new Date().getTime() - parseInt(localStorage.getItem('timeElapsed'));
-    //                 setCounter(prev => prev + Math.floor(timeElapsed / 1000));
-    //                 localStorage.removeItem('timeElapsed');
-    //             }
-    //         }
-    //     });
-    // }, []);
+    useEffect(() => {
+        const storedLastStartTime = localStorage.getItem('lastStartTime');
+        if (storedLastStartTime) {
+            onStartTick(parseInt(storedLastStartTime));
+        }
+    }, []);
 
     useEffect(() => {
         // Set the theme color to the default. 
@@ -77,77 +70,67 @@ export const ActivitiesView = ({ currentActivity, onActivityChange, activity, is
                 }
 
                 onActivityChange(data);
-                // setCounter(Math.floor((new Date().getTime() - data.start) / 1000));
             }
         }).catch(error => {
             console.error("Error getting document:", error);
         })
     }, []);
-
-    useEffect(() => {
-        const observer = new PerformanceObserver((list) => {
-            const entries = list.getEntriesByType("navigation");
-            entries.forEach((entry) => {
-                if (entry.type === 'reload') {
-                    onActivityChange(prev => {
-                        setCurrentActivityDoc(prev);
-                        return prev;
-                    })
-                }
-            });
-        });
-
-        observer.observe({ type: "navigation", buffered: true });
-    }, []);
-
     const Icon = activity?.icon || (() => null);
+
+    const onStartTick = useCallback((startTime) => {
+        localStorage.setItem('lastStartTime', startTime.toString());
+        onActivityChange(activity);
+        setMetaThemeColor(activity.color);
+        setLastStartTime(startTime);
+
+        localStorage.setItem('currentActivity', JSON.stringify({
+            name: activity.name,
+            start: startTime,
+            end: 0
+        }));
+
+        addActivityData({
+            name: activity.name,
+            start: startTime,
+            end: 0
+        }).then(ref => {
+            setLastDocumentRef(ref);
+        }).catch(error => {
+            alert(`Error adding data: ${error.message}`);
+        });
+    }, [activity]);
+
+    const onStopTick = useCallback(() => {
+        onActivityChange(null);
+        setMetaThemeColor("#282c34");
+        setLastStartTime(null);
+        localStorage.removeItem('lastStartTime');
+        localStorage.removeItem('currentActivity');
+
+        updateActivityData(lastDocumentRef, {
+            name: activity.name,
+            end: new Date().getTime()
+        }).catch(error => {
+            alert(`Error updating data: ${error.message}`);
+        })
+    }, [activity.name, lastDocumentRef]);
 
     return (
         <div className="h-screen w-screen flex flex-wrap gap-1">
             <Block
                 key={activity.name}
                 style={{ backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : "" }}
-                onDoubleClick={async () => {
+                onDoubleClick={() => {
                     const shouldStartTick = !currentActivity.name;
                     const shouldStopTick = currentActivity.name === activity.name;
 
                     if (shouldStartTick) {
-                        setLastStartTime(new Date().getTime());
-                        onActivityChange(activity);
-                        setMetaThemeColor(activity.color);
-
-                        localStorage.setItem('currentActivity', JSON.stringify({
-                            name: activity.name,
-                            start: new Date().getTime(),
-                            end: 0
-                        }));
-
-                        try {
-                            const ref = await addActivityData({
-                                name: activity.name,
-                                start: new Date().getTime(),
-                                end: 0
-                            });
-
-                            setLastDocumentRef(ref);
-                        } catch (error) {
-                            alert(`Error adding data: ${error.message}`);
-                        }
+                        onStartTick(new Date().getTime());
                         return;
                     }
 
                     if (shouldStopTick) {
-                        onActivityChange(null);
-                        setMetaThemeColor("#282c34");
-
-                        localStorage.removeItem('currentActivity');
-
-                        updateActivityData(lastDocumentRef, {
-                            name: activity.name,
-                            end: new Date().getTime()
-                        }).catch(error => {
-                            alert(`Error updating data: ${error.message}`);
-                        })
+                        onStopTick();
                     }
                 }}>
                 <Icon size={isDiscrete ? 10 : 80}/>
@@ -156,7 +139,7 @@ export const ActivitiesView = ({ currentActivity, onActivityChange, activity, is
                 </p>
                 {currentActivity.name !== activity.name ? null :
                     <p className={classNames("font-mono", isDiscrete ? "text-xs" : "text-6xl")}>
-                        {counter}
+                        {formatCounter(lastStartTime)}
                     </p>}
                 {isDiscrete ? null :
                     <div>

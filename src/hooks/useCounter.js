@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
+import { formatCounter } from "../utils/counter";
 
-const formatCounter = (lastTime) => {
-    const counter = parseInt((new Date().getTime() - lastTime) / 1000);
-    const hours = Math.floor(counter / 3600);
-    const minutes = Math.floor((counter - hours * 3600) / 60);
-    const seconds = counter - hours * 3600 - minutes * 60;
-
-    return `${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-}
-
-export const useCounter = (activityName, lastTime) => {
-    const [_counter, setCounter] = useState(0);
+export const useCounter = (activityName) => {
+    const [counter, setCounter] = useState(0);
 
     useEffect(() => {
         if (activityName) {
@@ -25,6 +17,6 @@ export const useCounter = (activityName, lastTime) => {
     }, [activityName]);
 
     return {
-        counter: formatCounter(lastTime),
+        counter,
     };
 };

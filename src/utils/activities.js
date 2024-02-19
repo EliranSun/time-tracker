@@ -1,6 +1,6 @@
-import {collection, getDocs} from "firebase/firestore";
-import {db} from "../App";
-import {addDays, intervalToDuration, isSameDay, startOfWeek} from "date-fns";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../App";
+import { addDays, intervalToDuration, isSameDay, startOfWeek } from "date-fns";
 
 export const getAllDocsInActivity = async (activityName) => {
     const querySnapshot = await getDocs(collection(db, `activities/${activityName}/data`));
@@ -41,7 +41,7 @@ export const getLastWeekData = (name, data) => {
     }
 
     return week.map((day, index) => {
-        const weekStart = startOfWeek(new Date(), {weekStartsOn: 0});
+        const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
         const targetDay = addDays(weekStart, index);
         const dayData = activityData.filter(item => {
             return isSameDay(new Date(item.start), targetDay) && item.end > 0
@@ -67,8 +67,9 @@ export const getLastSession = (name = "", data = []) => {
         return "";
     }
 
-    const start = data.at(-1)?.start;
-    const end = data.at(-1)?.end;
+    const lastSession = data.filter(item => item.end > 0 && item.end - item.start > 60 * 1000)?.at(-1);
+    const start = lastSession?.start;
+    const end = lastSession?.end;
 
     if (!start || !end) {
         return "No entries";

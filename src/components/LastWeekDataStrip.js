@@ -1,11 +1,11 @@
 import classNames from "classnames";
-import {useOrientation} from "react-use";
-import {getLastWeekData} from "../utils/activities";
-import {useActivityData} from "../hooks/useActivityData";
-import {isSameDay, roundToNearestMinutes} from "date-fns";
-import {useMemo} from "react";
+import { useOrientation } from "react-use";
+import { getLastWeekData } from "../utils/activities";
+import { useActivityData } from "../hooks/useActivityData";
+import { isSameDay, roundToNearestMinutes } from "date-fns";
+import { useMemo } from "react";
 
-export const LastWeekDataStrip = ({activity}) => {
+export const LastWeekDataStrip = ({ activity }) => {
     const orientationState = useOrientation();
     const activitiesData = useActivityData(activity.name);
     const lastWeekData = useMemo(() => getLastWeekData(activity.name, activitiesData), [activity.name, activitiesData]);
@@ -37,23 +37,26 @@ export const LastWeekDataStrip = ({activity}) => {
                         );
                     })
                     .slice(0, 10)
+                    .reverse()
                     .map(item => {
                         return (
-                            <p className="flex text-xs opacity-40 justify-center">
+                            <p
+                                key={item.start}
+                                className="flex text-xs opacity-40 justify-center">
                                 <span>
                                     {new Intl.DateTimeFormat('en-GB', {
                                         day: 'numeric',
                                         month: 'short',
                                         hour: 'numeric',
                                         minute: 'numeric',
-                                    }).format(new Date(roundToNearestMinutes(item.start, {nearestTo: 5})))}
+                                    }).format(new Date(roundToNearestMinutes(item.start, { nearestTo: 5 })))}
                                 </span>
                                 <span>-</span>
                                 <span>
                                     {new Intl.DateTimeFormat('en-GB', {
                                         hour: 'numeric',
                                         minute: 'numeric',
-                                    }).format(new Date(roundToNearestMinutes(item.end, {nearestTo: 5})))}
+                                    }).format(new Date(roundToNearestMinutes(item.end, { nearestTo: 5 })))}
                                 </span>
                                 <span>,</span>
                             </p>
