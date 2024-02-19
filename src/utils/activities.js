@@ -57,7 +57,8 @@ export const getLastWeekData = (name, data) => {
 
         return {
             ...day,
-            duration: `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${minutes}m` : day.duration}`,
+            duration: hours === 0 && minutes === 0 ? "-" :
+                `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${minutes}m` : ""}`,
         }
     });
 };
