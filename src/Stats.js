@@ -3,6 +3,7 @@ import { getAllDocsInActivity } from "./utils/activities";
 import { isThisMonth, isThisWeek, isThisYear, isToday, roundToNearestMinutes } from "date-fns";
 
 const Timespans = ["today", "this week", "this month", "this year", "all"];
+const ROUND_TO = 10;
 
 export const StatsView = ({ onChangePage, activities }) => {
     const [timespanIndex, setTimespanIndex] = useState(0);
@@ -20,7 +21,7 @@ export const StatsView = ({ onChangePage, activities }) => {
             for (let i = 0; i < activityData.length; i++) {
                 const activity = activities[i];
                 const todayCompletedActivities = activityData[i].filter(item => {
-                    if (item.end === 0 || !item.end || (item.end - item.start) < 60 * 1000)
+                    if (item.end === 0 || !item.end || (item.end - item.start) < ROUND_TO * 60 * 1000)
                         return false;
 
                     switch (timespanIndex) {
@@ -61,7 +62,7 @@ export const StatsView = ({ onChangePage, activities }) => {
             return `1m`;
 
         const date = new Date(1,1,1970,hours,minutes,seconds);
-        const roundedDate = roundToNearestMinutes(date, { nearestTo: 15 });
+        const roundedDate = roundToNearestMinutes(date, { nearestTo: ROUND_TO });
         const roundedHours = roundedDate.getHours();
         const roundedMinutes = roundedDate.getMinutes();
         return `${roundedHours > 0 ? `${roundedHours}h` : ""}${roundedMinutes > 0 ? `${roundedMinutes}m` : ""}`;
