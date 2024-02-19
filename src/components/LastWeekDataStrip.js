@@ -36,21 +36,24 @@ export const LastWeekDataStrip = ({ activity }) => {
                             (item.end - item.start) > 60 * 1000
                         );
                     })
-                    .reverse()
-                    .slice(0, 10)
+                    .sort((a, b) => b.end - b.start - (a.end - a.start))
+                    .slice(0, 4)
                     .map(item => {
                         return (
                             <p
                                 key={item.start}
-                                className="flex text-xs opacity-40 justify-center">
-                                <span>
-                                    {new Intl.DateTimeFormat('en-GB', {
-                                        day: 'numeric',
-                                        month: 'short',
-                                        hour: 'numeric',
-                                        minute: 'numeric',
-                                    }).format(new Date(roundToNearestMinutes(item.start, { nearestTo: 5 })))}
-                                </span>
+                                className="flex text-xs opacity-40 justify-between">
+                                {new Intl.DateTimeFormat('en-GB', {
+                                    day: 'numeric',
+                                    month: 'short',
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                })
+                                    .format(new Date(roundToNearestMinutes(item.start, { nearestTo: 5 })))
+                                    .split(',')
+                                    .map((item, index) => {
+                                        return <span className="first-of-type:mr-4" key={index}>{item}</span>
+                                    })}
                                 <span>-</span>
                                 <span>
                                     {new Intl.DateTimeFormat('en-GB', {
@@ -58,7 +61,6 @@ export const LastWeekDataStrip = ({ activity }) => {
                                         minute: 'numeric',
                                     }).format(new Date(roundToNearestMinutes(item.end, { nearestTo: 5 })))}
                                 </span>
-                                <span>,</span>
                             </p>
                         )
                     })}
