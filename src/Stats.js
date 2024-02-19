@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllDocsInActivity } from "./utils/activities";
-import { isThisMonth, isThisWeek, isThisYear, isToday } from "date-fns";
+import { isThisMonth, isThisWeek, isThisYear, isToday, roundToNearestMinutes } from "date-fns";
 
 const Timespans = ["today", "this week", "this month", "this year", "all"];
 
@@ -60,7 +60,11 @@ export const StatsView = ({ onChangePage, activities }) => {
         if (hours === 0 && minutes === 0)
             return `1m`;
 
-        return `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${minutes}m` : ""}${seconds > 0 ? `${seconds}s` : ""}`;
+        const date = new Date(1,1,1970,hours,minutes,seconds);
+        const roundedDate = roundToNearestMinutes(date, { nearestTo: 15 });
+        const roundedHours = roundedDate.getHours();
+        const roundedMinutes = roundedDate.getMinutes();
+        return `${roundedHours > 0 ? `${roundedHours}h` : ""}${roundedMinutes > 0 ? `${roundedMinutes}m` : ""}`;
     };
 
     return (
