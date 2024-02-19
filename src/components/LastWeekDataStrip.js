@@ -36,8 +36,8 @@ export const LastWeekDataStrip = ({ activity }) => {
                             (item.end - item.start) > 60 * 1000
                         );
                     })
-                    .slice(0, 10)
                     .reverse()
+                    .slice(0, 10)
                     .map(item => {
                         return (
                             <p

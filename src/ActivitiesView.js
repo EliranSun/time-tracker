@@ -27,6 +27,7 @@ const getCurrentActivityDoc = () => {
 const Block = ({ children, className, ...rest }) => {
     return (
         <div
+            on
             className={classNames("w-full flex flex-col items-center justify-center p-4", className)}
             {...rest}>
             {children}
@@ -46,74 +47,84 @@ const setMetaThemeColor = (color) => {
     document.getElementsByTagName('head')[0].appendChild(meta);
 };
 
-export const ActivitiesView = ({ currentActivity, onActivityChange, activity, isDiscrete, counter }) => {
-    const [lastDocumentRef, setLastDocumentRef] = useState(null);
+export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd, activity, isDiscrete }) => {
+    const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
 
     useEffect(() => {
-        const storedLastStartTime = localStorage.getItem('lastStartTime');
-        if (storedLastStartTime) {
-            onStartTick(parseInt(storedLastStartTime));
+        if (!currentActivity.name || currentActivity.name !== activity.name) {
+            return;
         }
-    }, []);
+
+        if (currentActivity.start > 0 && currentActivity.end === 0) {
+            setMetaThemeColor(activity.color);
+            setLastStartTime(currentActivity.start);
+            setRefPath(currentActivity.refPath);
+        }
+    }, [activity.name, currentActivity]);
 
     useEffect(() => {
         // Set the theme color to the default. 
         // This is necessary because there's no meta on the index.html (to enable the dynamity)
         setMetaThemeColor("#282c34");
 
-        getCurrentActivityDoc().then((doc) => {
-            if (doc.exists()) {
-                const data = doc.data();
-                if (!data.start) {
-                    return;
-                }
-
-                onActivityChange(data);
-            }
-        }).catch(error => {
-            console.error("Error getting document:", error);
-        })
+        // getCurrentActivityDoc().then((doc) => {
+        //     if (doc.exists()) {
+        //         const data = doc.data();
+        //         if (!data.start) {
+        //             return;
+        //         }
+        //
+        //         onActivityStart({});
+        //     }
+        // }).catch(error => {
+        //     console.error("Error getting document:", error);
+        // })
     }, []);
+
     const Icon = activity?.icon || (() => null);
 
     const onStartTick = useCallback((startTime) => {
-        localStorage.setItem('lastStartTime', startTime.toString());
-        onActivityChange(activity);
         setMetaThemeColor(activity.color);
         setLastStartTime(startTime);
-
-        localStorage.setItem('currentActivity', JSON.stringify({
-            name: activity.name,
-            start: startTime,
-            end: 0
-        }));
 
         addActivityData({
             name: activity.name,
             start: startTime,
             end: 0
         }).then(ref => {
-            setLastDocumentRef(ref);
+            const refPath = ref.path;
+            const data = {
+                name: activity.name,
+                color: activity.color,
+                start: startTime,
+                end: 0,
+                refPath
+            };
+            localStorage.setItem('currentActivity', JSON.stringify(data));
+            onActivityStart(data);
+            setRefPath(refPath);
         }).catch(error => {
             alert(`Error adding data: ${error.message}`);
         });
     }, [activity]);
 
     const onStopTick = useCallback(() => {
-        onActivityChange(null);
+        onActivityEnd();
         setMetaThemeColor("#282c34");
         setLastStartTime(null);
-        localStorage.removeItem('lastStartTime');
         localStorage.removeItem('currentActivity');
 
-        updateActivityData(lastDocumentRef, {
+        const ref = doc(db, refPath);
+
+        updateActivityData(ref, {
             name: activity.name,
             end: new Date().getTime()
-        }).catch(error => {
-            alert(`Error updating data: ${error.message}`);
         })
-    }, [activity.name, lastDocumentRef]);
+            .catch(error => {
+                alert(`Error updating data: ${error.message}`);
+            })
+    }, [activity.name, refPath]);
 
     return (
         <div className="h-screen w-screen flex flex-wrap gap-1">

@@ -162,7 +162,7 @@ const Icon = ({ name, ...rest }) => {
 function App() {
     const [isDiscreteMode, setIsDiscreteMode] = useState(false);
     const [isActivityView, setIsActivityView] = useState(true);
-    const [currentActivity, setCurrentActivity] = useState({});
+    const [currentActivity, setCurrentActivity] = useState(JSON.parse(localStorage.getItem('currentActivity')) || {});
     const [isLocked, setIsLocked] = useState(false);
     const { counter } = useCounter(currentActivity.name);
     const [activePage, setActivePage] = useState(Object.keys(PageMazeMap).find(page => page === "Unity"));
@@ -265,9 +265,13 @@ function App() {
                             onChangePage={() => setIsActivityView(false)}
                             isDiscrete={isDiscreteMode}
                             currentActivity={currentActivity}
-                            onActivityChange={newActivity => {
-                                setIsLocked(Boolean(newActivity));
-                                setCurrentActivity(newActivity || {});
+                            onActivityStart={newActivity => {
+                                setIsLocked(true);
+                                setCurrentActivity(newActivity);
+                            }}
+                            onActivityEnd={() => {
+                                setIsLocked(false);
+                                setCurrentActivity({});
                             }}/>
                     </>
                 )
