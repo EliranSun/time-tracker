@@ -1,5 +1,5 @@
 export const formatTimestamp = (timestamp) => {
-    const hours = Math.floor(timestamp / 3600);
+    const hours = Math.floor(timestamp / 360000);
     const minutes = Math.floor((timestamp - hours * 3600) / 60);
     const seconds = timestamp - hours * 3600 - minutes * 60;
     
