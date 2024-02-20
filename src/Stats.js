@@ -3,7 +3,7 @@ import { getAllDocsInActivity } from "./utils/activities";
 import { isThisMonth, isThisWeek, isThisYear, isToday, roundToNearestMinutes } from "date-fns";
 
 const Timespans = ["today", "this week", "this month", "this year", "all"];
-const ROUND_TO = 15;
+const ROUND_TO = 60;
 
 export const StatsView = ({ onChangePage, activities }) => {
     const [timespanIndex, setTimespanIndex] = useState(0);
