@@ -1,7 +1,7 @@
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../App";
-import { addDays, intervalToDuration, isSameDay, startOfWeek } from "date-fns";
-import { formatTimestamp } from "./time";
+import {collection, getDocs} from "firebase/firestore";
+import {addDays, intervalToDuration, isSameDay, startOfWeek} from "date-fns";
+import {formatTimestamp} from "./time";
+import {db} from "./db";
 
 export const getAllDocsInActivity = async (activityName) => {
     const querySnapshot = await getDocs(collection(db, `activities/${activityName}/data`));
@@ -42,7 +42,7 @@ export const getLastWeekData = (name, data) => {
     }
 
     return week.map((day, index) => {
-        const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
+        const weekStart = startOfWeek(new Date(), {weekStartsOn: 0});
         const targetDay = addDays(weekStart, index);
         const dayData = activityData.filter(item => {
             return isSameDay(new Date(item.start), targetDay) && item.end > 0
@@ -79,6 +79,6 @@ export const getLastSession = (name = "", data = []) => {
 
     const duration = end - start;
     const timeString = formatTimestamp(duration);
-    
+
     return `Last session: ${timeString}`;
 };
