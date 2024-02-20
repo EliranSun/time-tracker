@@ -1,6 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../App";
 import { addDays, intervalToDuration, isSameDay, startOfWeek } from "date-fns";
+import { formatTimestamp } from "./time";
 
 export const getAllDocsInActivity = async (activityName) => {
     const querySnapshot = await getDocs(collection(db, `activities/${activityName}/data`));
@@ -77,8 +78,7 @@ export const getLastSession = (name = "", data = []) => {
     }
 
     const duration = end - start;
-    const minutes = Math.floor(duration / 60000);
-    const seconds = ((duration % 60000) / 1000).toFixed(0);
-
-    return `Last session: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    const timeString = formatTimestamp(duration);
+    
+    return `Last session: ${timeString}`;
 };
