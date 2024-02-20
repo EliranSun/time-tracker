@@ -1,7 +1,7 @@
-import {collection, getDocs} from "firebase/firestore";
-import {addDays, intervalToDuration, isSameDay, startOfWeek} from "date-fns";
-import {formatTimestamp} from "./time";
-import {db} from "./db";
+import { collection, getDocs } from "firebase/firestore";
+import { addDays, intervalToDuration, isSameDay, startOfWeek } from "date-fns";
+import { formatTimestamp } from "./time";
+import { db } from "./db";
 
 export const getAllDocsInActivity = async (activityName) => {
     const querySnapshot = await getDocs(collection(db, `activities/${activityName}/data`));
@@ -16,33 +16,34 @@ export const getLastWeekData = (name, data) => {
     const activityData = data;
     const week = [{
         name: "Sunday",
-        duration: "-",
+        duration: "",
     }, {
         name: "Monday",
-        duration: "-",
+        duration: "",
     }, {
         name: "Tuesday",
-        duration: "-",
+        duration: "",
     }, {
         name: "Wednesday",
-        duration: "-",
+        duration: "",
     }, {
         name: "Thursday",
-        duration: "-",
+        duration: "",
     }, {
         name: "Friday",
-        duration: "-",
+        duration: "",
     }, {
         name: "Saturday",
-        duration: "-",
+        duration: "",
     }];
 
     if (!name || data.length === 0 || !activityData) {
-        return week;
+        return { data: week, totalActivitiesMeasure: 0 };
     }
 
-    return week.map((day, index) => {
-        const weekStart = startOfWeek(new Date(), {weekStartsOn: 0});
+    let totalCount = 0;
+    const weekData = week.map((day, index) => {
+        const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
         const targetDay = addDays(weekStart, index);
         const dayData = activityData.filter(item => {
             return isSameDay(new Date(item.start), targetDay) && item.end > 0
@@ -56,12 +57,21 @@ export const getLastWeekData = (name, data) => {
         const hours = Math.floor(duration / 3600000);
         const minutes = Math.floor((duration % 3600000) / 60000);
 
+        const measure = Math.round(hours + (minutes * 2 / 60));
+        totalCount += measure;
+
         return {
             ...day,
-            duration: hours === 0 && minutes === 0 ? "-" :
+            measure,
+            duration: hours === 0 && minutes === 0 ? "" :
                 `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${minutes}m` : ""}`,
         }
     });
+
+    return {
+        data: weekData,
+        totalActivitiesMeasure: Math.round(totalCount),
+    };
 };
 
 export const getLastSession = (name = "", data = []) => {
