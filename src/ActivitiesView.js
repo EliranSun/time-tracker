@@ -20,7 +20,7 @@ export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd
         delay: 500,
     };
     const longPressEvent = useLongPress((event) => {
-        const touchPoints = event.touches.length;
+        const touchPoints = event.touches?.length;
         if (touchPoints === 2) {
             setIsAddEntryView(prev => !prev);
         }
