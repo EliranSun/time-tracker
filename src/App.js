@@ -209,7 +209,7 @@ function App() {
     return (
         <section className="App overflow-y-hidden h-screen" {...handlers}>
             <div className="absolute top-4 left-0 flex justify-between w-screen px-8">
-                <div className="flex gap-8">
+                <div className="flex gap-8 text-white dark:text-black">
                     <span>
                         <ArrowCounterClockwise
                             color="white"
