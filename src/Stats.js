@@ -3,7 +3,7 @@ import { getAllDocsInActivity } from "./utils/activities";
 import { isThisMonth, isThisWeek, isThisYear, isToday, roundToNearestMinutes } from "date-fns";
 
 const Timespans = ["today", "this week", "this month", "this year", "all"];
-const ROUND_TO = 60;
+const ROUND_TO = 30;
 
 export const StatsView = ({ onChangePage, activities }) => {
     const [timespanIndex, setTimespanIndex] = useState(0);
@@ -21,7 +21,7 @@ export const StatsView = ({ onChangePage, activities }) => {
             for (let i = 0; i < activityData.length; i++) {
                 const activity = activities[i];
                 const todayCompletedActivities = activityData[i].filter(item => {
-                    if (item.end === 0 || !item.end || (item.end - item.start) < ROUND_TO / 4 * 60 * 1000)
+                    if (item.end === 0 || !item.end || (item.end - item.start) < ROUND_TO / 2 * 60 * 1000)
                         return false;
 
                     switch (timespanIndex) {
@@ -61,7 +61,7 @@ export const StatsView = ({ onChangePage, activities }) => {
         if (hours === 0 && minutes === 0)
             return `1m`;
 
-        const date = new Date(1,1,1970,hours,minutes,seconds);
+        const date = new Date(1, 1, 1970, hours, minutes, seconds);
         const roundedDate = roundToNearestMinutes(date, { nearestTo: ROUND_TO });
         const roundedHours = roundedDate.getHours();
         const roundedMinutes = roundedDate.getMinutes();
@@ -90,15 +90,17 @@ export const StatsView = ({ onChangePage, activities }) => {
                     return (
                         <div
                             key={index}
-                            className="flex items-center justify-center text-5xl min-w-[20px] px-4"
+                            className="flex text-right items-center justify-between text-[2.5em] min-h-[50px] py-4 px-12 font-mono"
                             style={{
                                 backgroundColor: activity.color,
                                 height: normalizedHeight
                             }}>
-                            <h2 className="font-mono h-fit">
+                            <h2 className="">
                                 {activity.name.toUpperCase()}{' '}
-                                {getTimeString(hours, minutes, seconds)}
                             </h2>
+                            <p>
+                                {getTimeString(hours, minutes, seconds)}
+                            </p>
                             {/*<div>*/}
                             {/*    {activity.data.map((data, index) => {*/}
                             {/*        const timeElapsed = data.end ? Math.round((data.end - data.start) / 1000) : 0;*/}
