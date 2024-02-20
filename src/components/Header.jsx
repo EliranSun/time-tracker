@@ -1,40 +1,38 @@
-import {ArrowCounterClockwise, ChartBar, Lock, LockOpen} from "@phosphor-icons/react";
+import { ArrowCounterClockwise, ChartBar, Lock, LockOpen } from "@phosphor-icons/react";
 import classNames from "classnames";
-import {useMemo} from "react";
-import {Activities} from "../constants/activities";
+import { useMemo } from "react";
+import { Activities } from "../constants/activities";
 
 export const Header = ({
-                           isActivityView,
-                           setIsActivityView,
-                           isLocked,
-                           setIsLocked,
-                           currentActivity,
-                           activePage
-                       }) => {
-    const LockIcon = useMemo(() =>
-        isLocked ? Lock : LockOpen, [isLocked]);
-    const activity = Activities.find(activity => activity.name.toLowerCase() === activePage.toLowerCase());
+    activity,
+    isActivityView,
+    setIsActivityView,
+    isLocked,
+    setIsLocked,
+    currentActivity = {},
+}) => {
+    const LockIcon = useMemo(() => {
+        return isLocked ? Lock : LockOpen;
+    }, [isLocked]);
     const hasBackgroundActivity = useMemo(() => {
         return currentActivity.name && activity.name !== currentActivity.name;
     }, [currentActivity, activity]);
-    
+
     return (
         <div className="absolute top-4 left-0 flex justify-between w-screen px-8">
             <div className="flex gap-8">
-                    <span>
-                        <ArrowCounterClockwise
-                            color="white"
-                            size={32}
-                            className="cursor-pointer"
-                            onClick={() => window.location.reload()}/>
-                    </span>
                 <span>
-                        <ChartBar
-                            color="white"
-                            size={32}
-                            className="cursor-pointer"
-                            onClick={() => setIsActivityView(!isActivityView)}/>
-                    </span>
+                    <ArrowCounterClockwise
+                        size={32}
+                        className="cursor-pointer"
+                        onClick={() => window.location.reload()}/>
+                </span>
+                <span>
+                    <ChartBar
+                        size={32}
+                        className="cursor-pointer"
+                        onClick={() => setIsActivityView(!isActivityView)}/>
+                </span>
             </div>
             <div
                 style={{

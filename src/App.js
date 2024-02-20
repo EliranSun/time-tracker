@@ -1,14 +1,12 @@
 import './App.css';
-import {useEffect, useMemo, useState} from 'react';
-import {ActivitiesView} from "./ActivitiesView";
-import {StatsView} from "./Stats";
-import {ArrowCounterClockwise, ChartBar, Lock, LockOpen} from "@phosphor-icons/react";
-import {useSwipeable} from "react-swipeable";
-import classNames from "classnames";
-import {useCounter} from "./hooks/useCounter";
-import {Activities, PageMazeMap} from "./constants/activities";
-import {Icon} from "./components/Icon";
-import {Header} from "./components/Header";
+import { useEffect, useState } from 'react';
+import { ActivitiesView } from "./ActivitiesView";
+import { StatsView } from "./Stats";
+import { useSwipeable } from "react-swipeable";
+import { useCounter } from "./hooks/useCounter";
+import { Activities, PageMazeMap } from "./constants/activities";
+import { Header } from "./components/Header";
+import { ActivitiesDungeonMap } from "./components/ActivitiesDungeonMap";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }} 
 function App() {
@@ -16,7 +14,7 @@ function App() {
     const [isActivityView, setIsActivityView] = useState(true);
     const [currentActivity, setCurrentActivity] = useState(JSON.parse(localStorage.getItem('currentActivity')) || {});
     const [isLocked, setIsLocked] = useState(false);
-    const {counter} = useCounter(currentActivity.name);
+    const { counter } = useCounter(currentActivity.name);
     const [activePage, setActivePage] = useState(Object.keys(PageMazeMap).find(page => page === "Unity"));
     const handlers = useSwipeable({
         // left/right swapped to mimic "natural" scrolling direction
@@ -51,18 +49,22 @@ function App() {
         return () => window.removeEventListener('keydown', listener);
     }, []);
 
+    const activity = Activities.find(activity => activity.name.toLowerCase() === activePage.toLowerCase());
+
     return (
         <section className="App overflow-y-hidden h-screen" {...handlers}>
             <Header
-                isDiscreteMode={isDiscreteMode}
-                onDiscreteModeChange={() => setIsDiscreteMode(prev => !prev)}
+                activity={activity}
+                isActivityView={isActivityView}
+                setIsActivityView={setIsActivityView}
                 isLocked={isLocked}
-                onLockChange={() => setIsLocked(prev => !prev)}
-                activePage={activePage}/>
+                setIsLocked={setIsLocked}
+                currentActivity={currentActivity}
+            />
             {isActivityView
                 ? (
                     <>
-                        
+                        <ActivitiesDungeonMap activePage={activePage}/>
                         <ActivitiesView
                             activity={activity}
                             counter={counter}
