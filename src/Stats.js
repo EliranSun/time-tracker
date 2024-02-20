@@ -21,7 +21,7 @@ export const StatsView = ({ onChangePage, activities }) => {
             for (let i = 0; i < activityData.length; i++) {
                 const activity = activities[i];
                 const todayCompletedActivities = activityData[i].filter(item => {
-                    if (item.end === 0 || !item.end || (item.end - item.start) < ROUND_TO * 60 * 1000)
+                    if (item.end === 0 || !item.end || (item.end - item.start) < ROUND_TO / 4 * 60 * 1000)
                         return false;
 
                     switch (timespanIndex) {
