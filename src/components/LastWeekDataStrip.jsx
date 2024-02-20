@@ -63,7 +63,9 @@ export const LastWeekDataStrip = ({ activity }) => {
             <div className="absolute flex justify-center w-fit items-end bottom-28 m-auto text-center left-0 right-0">
                 {lastWeekData.data.map((item) => {
                     const measure = item.measure || 0;
-                    const measureValue = Math.round(measure + 1 / lastWeekData.totalActivitiesMeasure);
+                    const measureValue = lastWeekData.totalActivitiesMeasure > 0
+                        ? Math.round(measure + 1 / lastWeekData.totalActivitiesMeasure)
+                        : 0;
 
                     return (
                         <div
