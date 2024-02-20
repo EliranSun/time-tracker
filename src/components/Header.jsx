@@ -18,6 +18,9 @@ export const Header = ({
         return currentActivity.name && activity.name !== currentActivity.name;
     }, [currentActivity, activity]);
 
+    if (!isActivityView)
+        return null;
+
     return (
         <div className="absolute top-4 left-0 flex justify-between w-screen px-8">
             <div className="flex gap-8">

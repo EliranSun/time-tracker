@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getAllDocsInActivity } from "./utils/activities";
 import { isThisMonth, isThisWeek, isThisYear, isToday, roundToNearestMinutes } from "date-fns";
 
@@ -9,6 +9,13 @@ export const StatsView = ({ onChangePage, activities }) => {
     const [timespanIndex, setTimespanIndex] = useState(0);
     const [totalTime, setTotalTime] = useState(0);
     const [fetchedActivities, setFetchedActivities] = useState([]);
+
+    const sortedActivities = useMemo(() => fetchedActivities.sort((a, b) => {
+        const aOrder = activities.find(activity => activity.name === a.activity.name).order;
+        const bOrder = activities.find(activity => activity.name === b.activity.name).order;
+
+        return aOrder - bOrder;
+    }), [fetchedActivities, activities]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -70,18 +77,13 @@ export const StatsView = ({ onChangePage, activities }) => {
 
     return (
         <>
-            <button className="fixed top-0 right-0 bg-white px-4 py-1 w-32 text-black" onClick={() => {
+            <button className="fixed top-0 right-0 left-0 bg-white px-4 py-2 w-32 text-black m-auto" onClick={() => {
                 setTimespanIndex((timespanIndex + 1) % Timespans.length);
             }}>
                 {Timespans[timespanIndex]}
             </button>
-            <div className="flex flex-col w-screen justify-evenly h-screen">
-                {fetchedActivities.sort((a, b) => {
-                    const aOrder = activities.find(activity => activity.name === a.activity.name).order;
-                    const bOrder = activities.find(activity => activity.name === b.activity.name).order;
-
-                    return aOrder - bOrder;
-                }).map(({ activity, data, totalTime: activityTotalTime }, index) => {
+            <div className="flex flex-col w-screen justify-evenly h-screen mt-12">
+                {sortedActivities.map(({ activity, data, totalTime: activityTotalTime }, index) => {
                     const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
                     const hours = Math.floor(activityTotalTime / 1000 / 60 / 60);
                     const minutes = Math.floor(activityTotalTime / 1000 / 60 % 60);
