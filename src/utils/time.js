@@ -5,9 +5,9 @@ export const formatTimestamp = (timestamp) => {
 
     let timeString = "";
     
-    if (hours > 0) timeString += hours;
-    if (minutes > 0) timeString += `:{minutes}`;
-    if (seconds > 0) timeString += `:{seconds}`;
+    const hoursString = hours || "00";
+    const minutesString = minutes ? `:${minutes}` : ":00";
+    const secondsString = seconds ? `:${seconds}` : ":00";
 
     return timeString;
 };
