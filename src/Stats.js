@@ -90,7 +90,7 @@ export const StatsView = ({ onChangePage, activities }) => {
                     return (
                         <div
                             key={index}
-                            className="flex items-center justify-center text-5xl flex-shrink min-h-20 px-4 flex-grow"
+                            className="flex items-center justify-center text-5xl px-4"
                             style={{
                                 backgroundColor: activity.color,
                                 height: normalizedHeight
