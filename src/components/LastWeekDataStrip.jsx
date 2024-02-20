@@ -37,7 +37,6 @@ const TodaySessions = ({ activitiesData }) => {
                         <div
                             key={item.start}
                             className="flex text-xs opacity-40 justify-between w-20 m-auto font-mono">
-                            {/*<span>{starTimeDateParts[0]}</span>*/}
                             <span>{starTimeDateParts[1]}</span>
                             <span>-</span>
                             <span>
@@ -63,12 +62,9 @@ export const LastWeekDataStrip = ({ activity }) => {
         <>
             <div className="absolute flex justify-center w-fit items-end bottom-28 m-auto text-center left-0 right-0">
                 {lastWeekData.data.map((item) => {
-                    const measureValue = Math.round(item.measure + 1 / lastWeekData.totalActivitiesMeasure);
-                    console.log({
-                        'item.measure': item.measure,
-                        'lastWeekData.totalActivitiesMeasure': lastWeekData.totalActivitiesMeasure,
-                        measureValue
-                    });
+                    const measure = item.measure || 0;
+                    const measureValue = Math.round(measure + 1 / lastWeekData.totalActivitiesMeasure);
+
                     return (
                         <div
                             key={item.name}
