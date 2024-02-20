@@ -20,7 +20,7 @@ export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd
         delay: 500,
     };
     const longPressEvent = useLongPress((event) => {
-        const touchPoints = event.touches.length;
+        const touchPoints = event.touches?.length;
         if (touchPoints === 2) {
             setIsAddEntryView(prev => !prev);
         }
@@ -91,7 +91,6 @@ export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd
 
     return (
         <div
-            {...longPressEvent}
             className="h-screen w-screen flex flex-wrap gap-1 select-none">
             <Block
                 key={activity.name}
@@ -111,6 +110,7 @@ export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd
                 }}>
                 <Icon size={isDiscrete ? 10 : 80}/>
                 <p
+                    {...longPressEvent}
                     className={classNames("font-extralight tracking-wide", isDiscrete
                         ? "text-sm"
                         : "text-8xl")}>
