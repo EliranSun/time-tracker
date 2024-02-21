@@ -1,12 +1,12 @@
 import './App.css';
-import { useEffect, useState } from 'react';
-import { ActivitiesView } from "./ActivitiesView";
-import { StatsView } from "./Stats";
-import { useSwipeable } from "react-swipeable";
-import { useCounter } from "./hooks/useCounter";
-import { Activities, PageMazeMap } from "./constants/activities";
-import { Header } from "./components/Header";
-import { ActivitiesDungeonMap } from "./components/ActivitiesDungeonMap";
+import {useEffect, useState} from 'react';
+import {ActivitiesView} from "./ActivitiesView";
+import {StatsView} from "./Stats";
+import {useSwipeable} from "react-swipeable";
+import {useCounter} from "./hooks/useCounter";
+import {Activities, PageMazeMap} from "./constants/activities";
+import {Header} from "./components/Header";
+import {ActivitiesDungeonMap} from "./components/ActivitiesDungeonMap";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }} 
 function App() {
@@ -14,7 +14,7 @@ function App() {
     const [isActivityView, setIsActivityView] = useState(true);
     const [currentActivity, setCurrentActivity] = useState(JSON.parse(localStorage.getItem('currentActivity')) || {});
     const [isLocked, setIsLocked] = useState(false);
-    const { counter } = useCounter(currentActivity.name);
+    const {counter} = useCounter(currentActivity.name);
     const [activePage, setActivePage] = useState(Object.keys(PageMazeMap).find(page => page === "Unity"));
     const handlers = useSwipeable({
         // left/right swapped to mimic "natural" scrolling direction
@@ -50,6 +50,16 @@ function App() {
     }, []);
 
     const activity = Activities.find(activity => activity.name.toLowerCase() === activePage.toLowerCase());
+
+    useEffect(() => {
+        window.addEventListener("popstate", (event) => {
+            console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
+            const path = document.location.pathname;
+            if (path === "/activity" || path === "/") {
+                setIsActivityView(true);
+            }
+        });
+    }, []);
 
     return (
         <section className="App overflow-y-hidden h-screen" {...handlers}>

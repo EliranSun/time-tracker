@@ -1,16 +1,16 @@
-import { ArrowCounterClockwise, ChartBar, Lock, LockOpen } from "@phosphor-icons/react";
+import {ArrowCounterClockwise, ChartBar, Lock, LockOpen} from "@phosphor-icons/react";
 import classNames from "classnames";
-import { useMemo } from "react";
-import { Activities } from "../constants/activities";
+import {useMemo} from "react";
+import {Activities} from "../constants/activities";
 
 export const Header = ({
-    activity,
-    isActivityView,
-    setIsActivityView,
-    isLocked,
-    setIsLocked,
-    currentActivity = {},
-}) => {
+                           activity,
+                           isActivityView,
+                           setIsActivityView,
+                           isLocked,
+                           setIsLocked,
+                           currentActivity = {},
+                       }) => {
     const LockIcon = useMemo(() => {
         return isLocked ? Lock : LockOpen;
     }, [isLocked]);
@@ -34,7 +34,11 @@ export const Header = ({
                     <ChartBar
                         size={32}
                         className="cursor-pointer"
-                        onClick={() => setIsActivityView(!isActivityView)}/>
+                        onClick={() => {
+                            const page = !isActivityView ? "/activity" : "/stats";
+                            window.history.pushState({}, "", page);
+                            setIsActivityView(!isActivityView);
+                        }}/>
                 </span>
             </div>
             <div

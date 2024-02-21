@@ -1,9 +1,9 @@
 import classNames from "classnames";
-import { useOrientation } from "react-use";
-import { getLastWeekData } from "../utils/activities";
-import { useActivityData } from "../hooks/useActivityData";
-import { isSameDay, roundToNearestMinutes } from "date-fns";
-import { useMemo } from "react";
+import {useOrientation} from "react-use";
+import {getLastWeekData} from "../utils/activities";
+import {useActivityData} from "../hooks/useActivityData";
+import {isSameDay, roundToNearestMinutes} from "date-fns";
+import {useMemo} from "react";
 
 const formatDateTimeParts = (timestamp) => {
     return new Intl.DateTimeFormat('en-GB', {
@@ -12,11 +12,11 @@ const formatDateTimeParts = (timestamp) => {
         hour: 'numeric',
         minute: 'numeric',
     })
-        .format(new Date(roundToNearestMinutes(timestamp, { nearestTo: 5 })))
+        .format(new Date(roundToNearestMinutes(timestamp, {nearestTo: 5})))
         .split(' at ')
 };
 
-const TodaySessions = ({ activitiesData }) => {
+const TodaySessions = ({activitiesData}) => {
     return (
         <div>
             {activitiesData
@@ -43,7 +43,7 @@ const TodaySessions = ({ activitiesData }) => {
                                 {new Intl.DateTimeFormat('en-GB', {
                                     hour: 'numeric',
                                     minute: 'numeric',
-                                }).format(new Date(roundToNearestMinutes(item.end, { nearestTo: 5 })))}
+                                }).format(new Date(roundToNearestMinutes(item.end, {nearestTo: 5})))}
                             </span>
                         </div>
                     )
@@ -52,7 +52,7 @@ const TodaySessions = ({ activitiesData }) => {
     )
 };
 
-export const LastWeekDataStrip = ({ activity }) => {
+export const LastWeekDataStrip = ({activity}) => {
     const activitiesData = useActivityData(activity.name);
     const lastWeekData = useMemo(() => {
         return getLastWeekData(activity.name, activitiesData);
@@ -72,8 +72,8 @@ export const LastWeekDataStrip = ({ activity }) => {
                             key={item.name}
                             className={classNames("flex flex-col items-center gap-2 py-1 px-4 opacity-60")}>
                             <p className="flex flex-col flex-wrap">
-                                {(measureValue && measureValue > 0) ? new Array(measureValue).fill(null).map(i => {
-                                    return <span className="w-2 h-2 bg-white"></span>
+                                {(measureValue && measureValue > 0) ? new Array(measureValue).fill(null).map((_, index) => {
+                                    return <span key={index} className="w-2 h-2 bg-white"/>
                                 }) : null}
                             </p>
                             <div>
