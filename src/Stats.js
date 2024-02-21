@@ -2,8 +2,9 @@ import {useEffect, useMemo, useState} from "react";
 import {getAllDocsInActivity} from "./utils/activities";
 import {isThisMonth, isThisWeek, isThisYear, isToday, roundToNearestMinutes} from "date-fns";
 import {replaceMetaThemeColor} from "./utils/colors";
+import {Calendar} from "@phosphor-icons/react";
 
-const Timespans = ["today", "this week", "this month", "this year", "all"];
+const Timespans = ["today", "week", "month", "year", "all"];
 const ROUND_TO = 30;
 
 const sortActivitiesByOrder = (data, activities) => {
@@ -80,12 +81,15 @@ export const StatsView = ({onChangePage, activities}) => {
 
     return (
         <>
-            <button className="fixed top-0 right-0 left-0 bg-white px-4 py-2 w-32 text-black m-auto" onClick={() => {
-                setTimespanIndex((timespanIndex + 1) % Timespans.length);
-            }}>
+            <button
+                className="fixed bottom-3 right-5 m-auto p-4 flex items-center flex-col text-white font-mono w-16"
+                onClick={() => {
+                    setTimespanIndex((timespanIndex + 1) % Timespans.length);
+                }}>
+                <Calendar size={32}/>
                 {Timespans[timespanIndex]}
             </button>
-            <div className="flex flex-col w-screen justify-evenly h-screen mt-12">
+            <div className="flex flex-col w-screen justify-evenly h-screen">
                 {fetchedActivities.map(({activity, data, totalTime: activityTotalTime}, index) => {
                     const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
                     const hours = Math.floor(activityTotalTime / 1000 / 60 / 60);
