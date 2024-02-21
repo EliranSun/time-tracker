@@ -1,30 +1,30 @@
-import { useEffect, useMemo, useState } from "react";
-import { getAllDocsInActivity } from "./utils/activities";
-import { isThisMonth, isThisWeek, isThisYear, isToday, roundToNearestMinutes } from "date-fns";
+import {useEffect, useMemo, useState} from "react";
+import {getAllDocsInActivity} from "./utils/activities";
+import {isThisMonth, isThisWeek, isThisYear, isToday, roundToNearestMinutes} from "date-fns";
+import {replaceMetaThemeColor} from "./utils/colors";
 
 const Timespans = ["today", "this week", "this month", "this year", "all"];
 const ROUND_TO = 30;
 
-export const StatsView = ({ onChangePage, activities }) => {
-    const [timespanIndex, setTimespanIndex] = useState(0);
-    const [totalTime, setTotalTime] = useState(0);
-    const [fetchedActivities, setFetchedActivities] = useState([]);
-
-    const sortedActivities = useMemo(() => fetchedActivities.sort((a, b) => {
+const sortActivitiesByOrder = (data, activities) => {
+    return data.sort((a, b) => {
         const aOrder = activities.find(activity => activity.name === a.activity.name).order;
         const bOrder = activities.find(activity => activity.name === b.activity.name).order;
 
         return aOrder - bOrder;
-    }), [fetchedActivities, activities]);
+    });
+}
+
+export const StatsView = ({onChangePage, activities}) => {
+    const [timespanIndex, setTimespanIndex] = useState(0);
+    const [totalTime, setTotalTime] = useState(0);
+    const [fetchedActivities, setFetchedActivities] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const data = [];
-            let todayActivitiesTotalTime = 0;
+        const data = [];
+        let todayActivitiesTotalTime = 0;
 
-            const activityData = await Promise.all(activities.map(activity => getAllDocsInActivity(activity.name)));
-
-
+        Promise.all(activities.map(activity => getAllDocsInActivity(activity.name))).then(activityData => {
             for (let i = 0; i < activityData.length; i++) {
                 const activity = activities[i];
                 const todayCompletedActivities = activityData[i].filter(item => {
@@ -55,11 +55,14 @@ export const StatsView = ({ onChangePage, activities }) => {
                 });
             }
 
-            setFetchedActivities(data);
-            setTotalTime(todayActivitiesTotalTime);
-        };
+            const sorted = sortActivitiesByOrder(data, activities);
+            const firstActivityColor = sorted[0]?.activity.color;
 
-        fetchData();
+            replaceMetaThemeColor(firstActivityColor);
+
+            setFetchedActivities(sorted);
+            setTotalTime(todayActivitiesTotalTime);
+        });
     }, [timespanIndex]);
 
     // .filter(item => item.activity.name === "Pets")
@@ -69,7 +72,7 @@ export const StatsView = ({ onChangePage, activities }) => {
             return `1m`;
 
         const date = new Date(1, 1, 1970, hours, minutes, seconds);
-        const roundedDate = roundToNearestMinutes(date, { nearestTo: ROUND_TO });
+        const roundedDate = roundToNearestMinutes(date, {nearestTo: ROUND_TO});
         const roundedHours = roundedDate.getHours();
         const roundedMinutes = roundedDate.getMinutes();
         return `${roundedHours > 0 ? `${roundedHours}h` : ""}${roundedMinutes > 0 ? `${roundedMinutes}m` : ""}`;
@@ -83,7 +86,7 @@ export const StatsView = ({ onChangePage, activities }) => {
                 {Timespans[timespanIndex]}
             </button>
             <div className="flex flex-col w-screen justify-evenly h-screen mt-12">
-                {sortedActivities.map(({ activity, data, totalTime: activityTotalTime }, index) => {
+                {fetchedActivities.map(({activity, data, totalTime: activityTotalTime}, index) => {
                     const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
                     const hours = Math.floor(activityTotalTime / 1000 / 60 / 60);
                     const minutes = Math.floor(activityTotalTime / 1000 / 60 % 60);

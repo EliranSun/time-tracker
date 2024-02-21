@@ -7,6 +7,7 @@ import {useCounter} from "./hooks/useCounter";
 import {Activities, PageMazeMap} from "./constants/activities";
 import {Header} from "./components/Header";
 import {ActivitiesDungeonMap} from "./components/ActivitiesDungeonMap";
+import {replaceMetaThemeColor} from "./utils/colors";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }} 
 function App() {
@@ -57,6 +58,7 @@ function App() {
             const path = document.location.pathname;
             if (path === "/activity" || path === "/") {
                 setIsActivityView(true);
+                replaceMetaThemeColor("#282c34");
             }
         });
     }, []);
