@@ -73,7 +73,7 @@ export const LastWeekDataStrip = ({activity}) => {
                             className={classNames("flex flex-col items-center gap-2 py-1 px-4 opacity-60")}>
                             <p className="flex flex-col flex-wrap">
                                 {(measureValue && measureValue > 0) ? new Array(measureValue).fill(null).map((_, index) => {
-                                    return <span key={index} className="w-2 h-2 bg-white"/>
+                                    return <span key={index} className="w-2 h-2 bg-gray-700 dark:bg-white"/>
                                 }) : null}
                             </p>
                             <div>
