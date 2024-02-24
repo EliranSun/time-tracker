@@ -1,9 +1,8 @@
 import classNames from "classnames";
-import {useOrientation} from "react-use";
-import {getLastWeekData} from "../utils/activities";
-import {useActivityData} from "../hooks/useActivityData";
-import {isSameDay, roundToNearestMinutes} from "date-fns";
-import {useMemo} from "react";
+import { getLastWeekData } from "../utils/activities";
+import { useActivityData } from "../hooks/useActivityData";
+import { isSameDay, roundToNearestMinutes } from "date-fns";
+import { useMemo } from "react";
 
 const formatDateTimeParts = (timestamp) => {
     return new Intl.DateTimeFormat('en-GB', {
@@ -12,11 +11,11 @@ const formatDateTimeParts = (timestamp) => {
         hour: 'numeric',
         minute: 'numeric',
     })
-        .format(new Date(roundToNearestMinutes(timestamp, {nearestTo: 5})))
+        .format(new Date(roundToNearestMinutes(timestamp, { nearestTo: 5 })))
         .split(' at ')
 };
 
-const TodaySessions = ({activitiesData}) => {
+const TodaySessions = ({ activitiesData }) => {
     return (
         <div>
             {activitiesData
@@ -43,7 +42,7 @@ const TodaySessions = ({activitiesData}) => {
                                 {new Intl.DateTimeFormat('en-GB', {
                                     hour: 'numeric',
                                     minute: 'numeric',
-                                }).format(new Date(roundToNearestMinutes(item.end, {nearestTo: 5})))}
+                                }).format(new Date(roundToNearestMinutes(item.end, { nearestTo: 5 })))}
                             </span>
                         </div>
                     )
@@ -52,7 +51,7 @@ const TodaySessions = ({activitiesData}) => {
     )
 };
 
-export const LastWeekDataStrip = ({activity}) => {
+export const LastWeekDataStrip = ({ activity }) => {
     const activitiesData = useActivityData(activity.name);
     const lastWeekData = useMemo(() => {
         return getLastWeekData(activity.name, activitiesData);
