@@ -56,9 +56,6 @@ export const getLastWeekData = (name, data) => {
         let hours = Math.floor(duration / 3600000);
         let minutes = Math.floor((duration % 3600000) / 60000);
 
-        const measure = Math.round(hours + (minutes * 2 / 60));
-        totalCount += measure;
-
         if (minutes >= 30) {
             hours++;
         }
@@ -69,6 +66,9 @@ export const getLastWeekData = (name, data) => {
             minutes = `${Math.round(minutes / 10)}0`;
         }
 
+        const measure = Math.round(hours + (minutes * 2 / 60));
+        totalCount += measure;
+        
         return {
             ...day,
             measure,
