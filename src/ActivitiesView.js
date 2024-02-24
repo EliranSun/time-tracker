@@ -1,17 +1,17 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import classNames from "classnames";
-import {LastWeekDataStrip} from "./components/LastWeekDataStrip";
-import {LastSessionData} from "./components/LastSessionData";
-import {formatCounter} from "./utils/counter";
-import {useLongPress} from "react-use";
-import {Block} from "./components/Block";
-import {addActivityData, getRefByPath, updateActivityData} from "./utils/db";
-import {TimeInput} from "./components/TimeInput";
-import {DateInput} from "./components/DateInput";
-import {getAppBackgroundColor, replaceMetaThemeColor} from "./utils/colors";
-import {AddActivityTimeEntryButton} from "./components/AddActivityTimeEntryButton";
+import { LastWeekDataStrip } from "./components/LastWeekDataStrip";
+import { LastSessionData } from "./components/LastSessionData";
+import { formatCounter } from "./utils/counter";
+import { useLongPress } from "react-use";
+import { Block } from "./components/Block";
+import { addActivityData, getRefByPath, updateActivityData } from "./utils/db";
+import { TimeInput } from "./components/TimeInput";
+import { DateInput } from "./components/DateInput";
+import { getAppBackgroundColor, replaceMetaThemeColor } from "./utils/colors";
+import { AddActivityTimeEntryButton } from "./components/AddActivityTimeEntryButton";
 
-export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd, activity, isDiscrete}) => {
+export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd, activity, isDiscrete }) => {
     const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
@@ -94,7 +94,7 @@ export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd,
             className="h-screen w-screen flex flex-wrap gap-1 select-none">
             <Block
                 key={activity.name}
-                style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}
+                style={{ backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : "" }}
                 onDoubleClick={() => {
                     const shouldStartTick = !currentActivity.name;
                     const shouldStopTick = currentActivity.name === activity.name;

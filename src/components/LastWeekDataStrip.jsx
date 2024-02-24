@@ -1,58 +1,10 @@
 import classNames from "classnames";
-import {useOrientation} from "react-use";
-import {getLastWeekData} from "../utils/activities";
-import {useActivityData} from "../hooks/useActivityData";
-import {isSameDay, roundToNearestMinutes} from "date-fns";
-import {useMemo} from "react";
+import { getLastWeekData } from "../utils/activities";
+import { useActivityData } from "../hooks/useActivityData";
+import { useMemo } from "react";
+import { TodaySessions } from "./TodaySessions";
 
-const formatDateTimeParts = (timestamp) => {
-    return new Intl.DateTimeFormat('en-GB', {
-        day: 'numeric',
-        month: 'short',
-        hour: 'numeric',
-        minute: 'numeric',
-    })
-        .format(new Date(roundToNearestMinutes(timestamp, {nearestTo: 5})))
-        .split(' at ')
-};
-
-const TodaySessions = ({activitiesData}) => {
-    return (
-        <div>
-            {activitiesData
-                .filter(item => {
-                    return (
-                        isSameDay(new Date(item.start), new Date()) &&
-                        item.end > 0 &&
-                        (item.end - item.start) > 60 * 1000
-                    );
-                })
-                // .sort((a, b) => b.end - b.start - (a.end - a.start))
-                .sort((a, b) => b.start - a.start)
-                .slice(0, 4)
-                .map(item => {
-                    const starTimeDateParts = formatDateTimeParts(item.start);
-
-                    return (
-                        <div
-                            key={item.start}
-                            className="flex text-xs opacity-40 justify-between w-20 m-auto font-mono">
-                            <span>{starTimeDateParts[1]}</span>
-                            <span>-</span>
-                            <span>
-                                {new Intl.DateTimeFormat('en-GB', {
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                }).format(new Date(roundToNearestMinutes(item.end, {nearestTo: 5})))}
-                            </span>
-                        </div>
-                    )
-                })}
-        </div>
-    )
-};
-
-export const LastWeekDataStrip = ({activity}) => {
+export const LastWeekDataStrip = ({ activity }) => {
     const activitiesData = useActivityData(activity.name);
     const lastWeekData = useMemo(() => {
         return getLastWeekData(activity.name, activitiesData);
@@ -60,7 +12,7 @@ export const LastWeekDataStrip = ({activity}) => {
 
     return (
         <>
-            <div className="absolute flex justify-center w-fit items-end bottom-28 m-auto text-center left-0 right-0">
+            <div className="absolute flex justify-center w-fit items-end bottom-20 m-auto text-center left-0 right-0">
                 {lastWeekData.data.map((item) => {
                     const measure = item.measure || 0;
                     const measureValue = lastWeekData.totalActivitiesMeasure > 0
@@ -70,7 +22,7 @@ export const LastWeekDataStrip = ({activity}) => {
                     return (
                         <div
                             key={item.name}
-                            className={classNames("flex flex-col items-center gap-2 py-1 px-4 opacity-60")}>
+                            className={classNames("flex flex-col items-center gap-2 py-1 px-0 opacity-60 w-8")}>
                             <p className="flex flex-col flex-wrap">
                                 {(measureValue && measureValue > 0) ? new Array(measureValue).fill(null).map((_, index) => {
                                     return <span key={index} className="w-2 h-2 bg-gray-700 dark:bg-white"/>

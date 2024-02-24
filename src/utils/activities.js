@@ -1,5 +1,5 @@
 import { collection, getDocs } from "firebase/firestore";
-import { addDays, intervalToDuration, isSameDay, startOfWeek } from "date-fns";
+import { addDays, formatDuration, intervalToDuration, isSameDay, startOfWeek } from "date-fns";
 import { formatTimestamp } from "./time";
 import { db } from "./db";
 
@@ -16,25 +16,25 @@ export const getLastWeekData = (name, data) => {
     const activityData = data;
     const week = [{
         name: "Sunday",
-        duration: "",
+        duration: "-",
     }, {
         name: "Monday",
-        duration: "",
+        duration: "-",
     }, {
         name: "Tuesday",
-        duration: "",
+        duration: "-",
     }, {
         name: "Wednesday",
-        duration: "",
+        duration: "-",
     }, {
         name: "Thursday",
-        duration: "",
+        duration: "-",
     }, {
         name: "Friday",
-        duration: "",
+        duration: "-",
     }, {
         name: "Saturday",
-        duration: "",
+        duration: "-",
     }];
 
     if (!name || data.length === 0 || !activityData) {
@@ -49,21 +49,30 @@ export const getLastWeekData = (name, data) => {
             return isSameDay(new Date(item.start), targetDay) && item.end > 0
         });
 
-
         const duration = dayData.reduce((acc, item) => {
             return acc + item.end - item.start;
         }, 0);
 
-        const hours = Math.floor(duration / 3600000);
-        const minutes = Math.floor((duration % 3600000) / 60000);
+        let hours = Math.floor(duration / 3600000);
+        let minutes = Math.floor((duration % 3600000) / 60000);
 
         const measure = Math.round(hours + (minutes * 2 / 60));
         totalCount += measure;
 
+        if (minutes >= 30) {
+            hours++;
+        }
+
+        if (hours > 0) {
+            minutes = 0;
+        } else {
+            minutes = `${Math.round(minutes / 10)}0`;
+        }
+
         return {
             ...day,
             measure,
-            duration: hours === 0 && minutes === 0 ? "" :
+            duration: hours === 0 && minutes === 0 ? "-" :
                 `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${minutes}m` : ""}`,
         }
     });
@@ -76,7 +85,7 @@ export const getLastWeekData = (name, data) => {
 
 export const getLastSession = (name = "", data = []) => {
     if (!name || data.length === 0) {
-        return "";
+        return "No entries";
     }
 
     const lastSession = data.filter(item => item.end > 0 && item.end - item.start > 60 * 1000)?.at(-1);
