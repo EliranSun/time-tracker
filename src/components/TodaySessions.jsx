@@ -1,14 +1,14 @@
-import { isSameDay, roundToNearestMinutes } from "date-fns";
+import { roundToNearestMinutes } from "date-fns";
 
 const formatDateTimeParts = (timestamp) => {
-    return new Intl.DateTimeFormat('en-GB', {
+    return new Intl.DateTimeFormat('he-IL', {
         day: 'numeric',
         month: 'short',
-        hour: 'numeric',
+        hour: '2-digit',
         minute: 'numeric',
     })
         .format(new Date(roundToNearestMinutes(timestamp, { nearestTo: 5 })))
-        .split(' at ')
+        .split(', ');
 };
 export const TodaySessions = ({ activitiesData }) => {
     return (
@@ -16,15 +16,17 @@ export const TodaySessions = ({ activitiesData }) => {
             {activitiesData
                 .filter(item => {
                     return (
-                        // isSameDay(new Date(item.start), new Date()) &&
                         item.end > 0 &&
                         (item.end - item.start) > 60 * 1000
                     );
                 })
-                .sort((a, b) => b.start - a.start)
                 .slice(0, 4)
                 .map(item => {
                     const starTimeDateParts = formatDateTimeParts(item.start);
+                    const endDate = new Intl.DateTimeFormat('en-GB', {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                    }).format(new Date(roundToNearestMinutes(item.end, { nearestTo: 5 })));
 
                     return (
                         <div
@@ -32,12 +34,7 @@ export const TodaySessions = ({ activitiesData }) => {
                             className="flex text-xs opacity-40 justify-between w-20 m-auto font-mono">
                             <span>{starTimeDateParts[1]}</span>
                             <span>-</span>
-                            <span>
-                                {new Intl.DateTimeFormat('en-GB', {
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                }).format(new Date(roundToNearestMinutes(item.end, { nearestTo: 5 })))}
-                            </span>
+                            <span>{endDate} </span>
                         </div>
                     )
                 })}

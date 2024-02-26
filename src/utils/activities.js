@@ -16,25 +16,25 @@ export const getLastWeekData = (name, data) => {
     const activityData = data;
     const week = [{
         name: "Sunday",
-        duration: "-",
+        duration: "",
     }, {
         name: "Monday",
-        duration: "-",
+        duration: "",
     }, {
         name: "Tuesday",
-        duration: "-",
+        duration: "",
     }, {
         name: "Wednesday",
-        duration: "-",
+        duration: "",
     }, {
         name: "Thursday",
-        duration: "-",
+        duration: "",
     }, {
         name: "Friday",
-        duration: "-",
+        duration: "",
     }, {
         name: "Saturday",
-        duration: "-",
+        duration: "",
     }];
 
     if (!name || data.length === 0 || !activityData) {
@@ -63,23 +63,23 @@ export const getLastWeekData = (name, data) => {
         if (hours > 0) {
             minutes = 0;
         } else {
-            minutes = `${Math.round(minutes / 10)}0`;
+            minutes = `${Math.floor(minutes / 10)}0`;
         }
 
-        const measure = Math.round(hours + (minutes * 2 / 60));
+        const measure = Math.floor(hours + (minutes * 2 / 60));
         totalCount += measure;
-        
+
         return {
             ...day,
             measure,
-            duration: hours === 0 && minutes === 0 ? "-" :
+            duration: hours === 0 && minutes === 0 ? "" :
                 `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${minutes}m` : ""}`,
         }
     });
 
     return {
         data: weekData,
-        totalActivitiesMeasure: Math.round(totalCount),
+        totalActivitiesMeasure: Math.floor(totalCount),
     };
 };
 
