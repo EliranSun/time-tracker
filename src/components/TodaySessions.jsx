@@ -16,7 +16,7 @@ export const TodaySessions = ({ activitiesData }) => {
             {activitiesData
                 .filter(item => {
                     return (
-                        isSameDay(new Date(item.start), new Date()) &&
+                        // isSameDay(new Date(item.start), new Date()) &&
                         item.end > 0 &&
                         (item.end - item.start) > 60 * 1000
                     );
