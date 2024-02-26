@@ -46,7 +46,7 @@ export const getLastWeekData = (name, data) => {
         const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
         const targetDay = addDays(weekStart, index);
         const dayData = activityData.filter(item => {
-            return isSameDay(new Date(item.start), targetDay) && item.end > 0
+            return isSameDay(new Date(item.end), targetDay) && item.end > 0
         });
 
         const duration = dayData.reduce((acc, item) => {
