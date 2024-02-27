@@ -117,7 +117,7 @@ export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd
                             onStopTick();
                         }
                     }}>
-                    <div className="flex flex-col items-center my-12">
+                    <div className="flex flex-col items-center mt-12 my-8">
                         <Icon size={isDiscrete ? 10 : 80}/>
                         <p
                             {...longPressEvent}
@@ -127,6 +127,7 @@ export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd
                             {activity.name}
                         </p>
                         <Counter
+                            isActive={currentActivity.name === activity.name}
                             lastStartTime={lastStartTime}
                             isDiscrete={isDiscrete}/>
                     </div>
