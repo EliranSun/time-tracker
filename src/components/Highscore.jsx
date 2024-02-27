@@ -5,7 +5,7 @@ export const Highscore = ({ activities = [] }) => {
     const highscore = sortedByTime[0]?.end - sortedByTime[0]?.start;
 
     return (
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-gray-700">
             <i>High Score:</i>{' '}
             <span className="font-mono">{formatTimestamp(highscore || 0)}</span>
         </span>

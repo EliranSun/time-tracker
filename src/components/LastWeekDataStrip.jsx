@@ -1,8 +1,6 @@
 import classNames from "classnames";
 import { getLastWeekData } from "../utils/activities";
-import { useActivityData } from "../hooks/useActivityData";
 import { useMemo } from "react";
-import { TodaySessions } from "./TodaySessions";
 
 export const LastWeekDataStrip = ({ activity, data }) => {
     const lastWeekData = useMemo(() => {

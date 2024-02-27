@@ -95,74 +95,78 @@ export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd
     }, [activity.name, refPath]);
 
     return (
-        <div className="h-2/3 flex items-center flex-wrap gap-1 select-none">
-            <Block
-                key={activity.name}
-                style={{ backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : "" }}
-                onDoubleClick={() => {
-                    const shouldStartTick = !currentActivity.name;
-                    const shouldStopTick = currentActivity.name === activity.name;
+        <>
+            <div
+                className="fixed top-0 left-0 w-screen h-screen -z-10"
+                style={{ backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : "" }}/>
+            <div className="h-2/3 flex items-center flex-wrap gap-1 select-none">
+                <Block
+                    key={activity.name}
+                    onDoubleClick={() => {
+                        const shouldStartTick = !currentActivity.name;
+                        const shouldStopTick = currentActivity.name === activity.name;
 
-                    if (shouldStartTick) {
-                        onStartTick(new Date().getTime());
-                        return;
-                    }
+                        if (shouldStartTick) {
+                            onStartTick(new Date().getTime());
+                            return;
+                        }
 
-                    if (shouldStopTick) {
-                        onStopTick();
-                    }
-                }}>
-                <Icon size={isDiscrete ? 10 : 80}/>
-                <p
-                    {...longPressEvent}
-                    className={classNames("font-extralight tracking-wide", isDiscrete
-                        ? "text-sm"
-                        : "text-8xl")}>
-                    {activity.name}
-                </p>
-                {isAddEntryView ? (
-                    <div className="flex flex-col items-center">
-                        <p className={classNames("font-mono", isDiscrete ? "text-xs" : "text-6xl")}>
-                            <TimeInput name="time-hours" value="0"/>:
-                            <TimeInput name="time-minutes" value="0"/>:
-                            <TimeInput name="time-seconds" value="0"/>
-                        </p>
-                        <label>Start date:</label>
-                        <div>
-                            <div className="flex gap-4">
-                                <div className="flex justify-center">
-                                    <DateInput name="date-day"/>
-                                    <span>/</span>
-                                    <DateInput name="date-month"/>
-                                    <span>/</span>
-                                    <DateInput name="date-year"/>
+                        if (shouldStopTick) {
+                            onStopTick();
+                        }
+                    }}>
+                    <Icon size={isDiscrete ? 10 : 80}/>
+                    <p
+                        {...longPressEvent}
+                        className={classNames("font-extralight tracking-wide", isDiscrete
+                            ? "text-sm"
+                            : "text-8xl")}>
+                        {activity.name}
+                    </p>
+                    {isAddEntryView ? (
+                        <div className="flex flex-col items-center">
+                            <p className={classNames("font-mono", isDiscrete ? "text-xs" : "text-6xl")}>
+                                <TimeInput name="time-hours" value="0"/>:
+                                <TimeInput name="time-minutes" value="0"/>:
+                                <TimeInput name="time-seconds" value="0"/>
+                            </p>
+                            <label>Start date:</label>
+                            <div>
+                                <div className="flex gap-4">
+                                    <div className="flex justify-center">
+                                        <DateInput name="date-day"/>
+                                        <span>/</span>
+                                        <DateInput name="date-month"/>
+                                        <span>/</span>
+                                        <DateInput name="date-year"/>
+                                    </div>
+                                    <div className="flex justify-center">
+                                        <DateInput name="date-hours"/>:
+                                        <DateInput name="date-minutes"/>
+                                    </div>
                                 </div>
-                                <div className="flex justify-center">
-                                    <DateInput name="date-hours"/>:
-                                    <DateInput name="date-minutes"/>
-                                </div>
+                                <AddActivityTimeEntryButton
+                                    onSuccess={() => setIsAddEntryView(false)}
+                                    activityName={activity.name}/>
                             </div>
-                            <AddActivityTimeEntryButton
-                                onSuccess={() => setIsAddEntryView(false)}
-                                activityName={activity.name}/>
                         </div>
-                    </div>
-                ) : null}
-                {currentActivity.name !== activity.name ? null :
-                    <p className={classNames("font-mono", isDiscrete ? "text-xs" : "text-6xl")}>
-                        {formatCounter(lastStartTime)}
-                    </p>}
-                {(isDiscrete || isAddEntryView) ? null :
-                    <div className="my-2 flex flex-col justify-between">
-                        <div className="mb-16">
-                            <Highscore activities={activitiesData}/>
-                            <LastSessionData data={activitiesData} activity={activity}/>
-                            <br/>
-                            <TodaySessions activitiesData={activitiesData}/>
-                        </div>
-                        <LastWeekDataStrip data={activitiesData} activity={activity}/>
-                    </div>}
-            </Block>
-        </div>
+                    ) : null}
+                    {currentActivity.name !== activity.name ? null :
+                        <p className={classNames("font-mono", isDiscrete ? "text-xs" : "text-6xl")}>
+                            {formatCounter(lastStartTime)}
+                        </p>}
+                    {(isDiscrete || isAddEntryView) ? null :
+                        <div className="my-2 flex flex-col justify-between">
+                            <div className="mb-16">
+                                <Highscore activities={activitiesData}/>
+                                <LastSessionData data={activitiesData} activity={activity}/>
+                                <br/>
+                                <TodaySessions activitiesData={activitiesData}/>
+                            </div>
+                            <LastWeekDataStrip data={activitiesData} activity={activity}/>
+                        </div>}
+                </Block>
+            </div>
+        </>
     );
 };

@@ -12,7 +12,7 @@ const formatDateTimeParts = (timestamp) => {
 };
 export const TodaySessions = ({ activitiesData }) => {
     return (
-        <div className="h-16">
+        <div className="h-16 text-xs opacity-40 font-mono">
             {activitiesData
                 .filter(item => {
                     return (
@@ -31,7 +31,7 @@ export const TodaySessions = ({ activitiesData }) => {
                     return (
                         <div
                             key={item.start}
-                            className="flex text-xs opacity-40 justify-between w-20 m-auto font-mono">
+                            className="flex justify-between w-20 m-auto">
                             <span>{starTimeDateParts[1]}</span>
                             <span>-</span>
                             <span>{endDate} </span>
