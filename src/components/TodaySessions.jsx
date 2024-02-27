@@ -20,6 +20,7 @@ export const TodaySessions = ({ activitiesData }) => {
                         (item.end - item.start) > 60 * 1000
                     );
                 })
+                .sort((a, b) => b.start - a.start)
                 // .slice(0, 4)
                 .map(item => {
                     const starTimeDateParts = formatDateTimeParts(item.start);

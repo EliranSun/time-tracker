@@ -88,7 +88,10 @@ export const getLastSession = (name = "", data = []) => {
         return "No entries";
     }
 
-    const lastSession = data.filter(item => item.end > 0 && item.end - item.start > 60 * 1000)?.at(0);
+    const lastSession = data
+        .filter(item => item.end > 0 && item.end - item.start > 60 * 1000)
+        .sort((a, b) => b.start - a.start)
+        ?.at(0);
     const start = lastSession?.start;
     const end = lastSession?.end;
 
