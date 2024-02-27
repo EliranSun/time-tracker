@@ -12,7 +12,7 @@ const formatDateTimeParts = (timestamp) => {
 };
 export const TodaySessions = ({ activitiesData }) => {
     return (
-        <div className="h-16 text-xs opacity-40 font-mono">
+        <div className="h-16 w-fit text-xs opacity-40 font-mono overflow-y-auto px-2 m-auto">
             {activitiesData
                 .filter(item => {
                     return (
@@ -20,7 +20,7 @@ export const TodaySessions = ({ activitiesData }) => {
                         (item.end - item.start) > 60 * 1000
                     );
                 })
-                .slice(0, 4)
+                // .slice(0, 4)
                 .map(item => {
                     const starTimeDateParts = formatDateTimeParts(item.start);
                     const endDate = new Intl.DateTimeFormat('en-GB', {
