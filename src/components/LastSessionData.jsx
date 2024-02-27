@@ -1,15 +1,15 @@
 import { useMemo } from "react";
 import { getLastSession } from "../utils/activities";
-import { useActivityData } from "../hooks/useActivityData";
 
-export const LastSessionData = ({ activity }) => {
-    const activitiesData = useActivityData(activity.name);
-
+export const LastSessionData = ({ activity, data }) => {
     const sessionData = useMemo(() => {
-        return getLastSession(activity.name, activitiesData);
-    }, [activity.name, activitiesData]);
+        return getLastSession(activity.name, data);
+    }, [activity.name, data]);
 
     return (
-        <p className="h-20">{sessionData}</p>
+        <p className="text-gray-500 text-xs">
+            <i>Last Session:</i>{' '}
+            <span className="font-mono">{sessionData}</span>
+        </p>
     );
 };

@@ -1,13 +1,13 @@
 import './App.css';
-import {useEffect, useState} from 'react';
-import {ActivitiesView} from "./ActivitiesView";
-import {StatsView} from "./Stats";
-import {useSwipeable} from "react-swipeable";
-import {useCounter} from "./hooks/useCounter";
-import {Activities, PageMazeMap} from "./constants/activities";
-import {Header} from "./components/Header";
-import {ActivitiesDungeonMap} from "./components/ActivitiesDungeonMap";
-import {getAppBackgroundColor, replaceMetaThemeColor} from "./utils/colors";
+import { useEffect, useState } from 'react';
+import { ActivitiesView } from "./ActivitiesView";
+import { StatsView } from "./Stats";
+import { useSwipeable } from "react-swipeable";
+import { useCounter } from "./hooks/useCounter";
+import { Activities, PageMazeMap } from "./constants/activities";
+import { Header } from "./components/Header";
+import { ActivitiesDungeonMap } from "./components/ActivitiesDungeonMap";
+import { getAppBackgroundColor, replaceMetaThemeColor } from "./utils/colors";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }} 
 function App() {
@@ -15,7 +15,7 @@ function App() {
     const [isActivityView, setIsActivityView] = useState(true);
     const [currentActivity, setCurrentActivity] = useState(JSON.parse(localStorage.getItem('currentActivity')) || {});
     const [isLocked, setIsLocked] = useState(false);
-    const {counter} = useCounter(currentActivity.name);
+    const { counter } = useCounter(currentActivity.name);
     const [activePage, setActivePage] = useState(Object.keys(PageMazeMap).find(page => page === "Unity"));
     const handlers = useSwipeable({
         // left/right swapped to mimic "natural" scrolling direction
@@ -75,7 +75,7 @@ function App() {
             />
             {isActivityView
                 ? (
-                    <>
+                    <div className="h-screen m-auto flex flex-col items-center justify-center">
                         <ActivitiesDungeonMap activePage={activePage}/>
                         <ActivitiesView
                             activity={activity}
@@ -91,7 +91,7 @@ function App() {
                                 setIsLocked(false);
                                 setCurrentActivity({});
                             }}/>
-                    </>
+                    </div>
                 )
                 : <StatsView
                     activities={Activities}

@@ -93,11 +93,9 @@ export const getLastSession = (name = "", data = []) => {
     const end = lastSession?.end;
 
     if (!start || !end) {
-        return "No entries";
+        return formatTimestamp(0);
     }
 
     const duration = end - start;
-    const timeString = formatTimestamp(duration);
-
-    return `Last session: ${timeString}`;
+    return formatTimestamp(duration || 0);
 };

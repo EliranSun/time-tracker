@@ -12,7 +12,7 @@ const formatDateTimeParts = (timestamp) => {
 };
 export const TodaySessions = ({ activitiesData }) => {
     return (
-        <div>
+        <div className="h-16">
             {activitiesData
                 .filter(item => {
                     return (

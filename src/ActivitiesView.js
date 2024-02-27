@@ -10,11 +10,16 @@ import { TimeInput } from "./components/TimeInput";
 import { DateInput } from "./components/DateInput";
 import { getAppBackgroundColor, replaceMetaThemeColor } from "./utils/colors";
 import { AddActivityTimeEntryButton } from "./components/AddActivityTimeEntryButton";
+import { Highscore } from "./components/Highscore";
+import { useActivityData } from "./hooks/useActivityData";
+import { TodaySessions } from "./components/TodaySessions";
 
 export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd, activity, isDiscrete }) => {
     const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
+    const activitiesData = useActivityData(activity.name);
+
     const defaultOptions = {
         isPreventDefault: true,
         delay: 500,
@@ -90,8 +95,7 @@ export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd
     }, [activity.name, refPath]);
 
     return (
-        <div
-            className="h-screen w-screen flex flex-wrap gap-1 select-none">
+        <div className="h-2/3 flex items-center flex-wrap gap-1 select-none">
             <Block
                 key={activity.name}
                 style={{ backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : "" }}
@@ -149,9 +153,14 @@ export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd
                         {formatCounter(lastStartTime)}
                     </p>}
                 {(isDiscrete || isAddEntryView) ? null :
-                    <div>
-                        <LastSessionData activity={activity}/>
-                        <LastWeekDataStrip activity={activity}/>
+                    <div className="my-2 flex flex-col justify-between">
+                        <div className="mb-16">
+                            <Highscore activities={activitiesData}/>
+                            <LastSessionData data={activitiesData} activity={activity}/>
+                            <br/>
+                            <TodaySessions activitiesData={activitiesData}/>
+                        </div>
+                        <LastWeekDataStrip data={activitiesData} activity={activity}/>
                     </div>}
             </Block>
         </div>
