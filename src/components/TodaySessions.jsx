@@ -8,7 +8,8 @@ const formatDateTimeParts = (timestamp) => {
         minute: 'numeric',
     })
         .format(new Date(roundToNearestMinutes(timestamp, { nearestTo: 5 })))
-        .replace(" at ", ", ");
+        .replace(" at ", " ")
+        .split(" ");
 };
 export const TodaySessions = ({ activitiesData }) => {
     return (
@@ -33,9 +34,12 @@ export const TodaySessions = ({ activitiesData }) => {
                         <div
                             key={item.start}
                             className="flex justify-between w-44 m-auto">
-                            <span>{starTimeDateParts}</span>
-                            <span>-</span>
-                            <span>{endDate} </span>
+                            <span>{starTimeDateParts[0]}</span>
+                            <span>
+                                <span>{starTimeDateParts[1]}</span>
+                                <span>-</span>
+                                <span>{endDate} </span>
+                            </span>
                         </div>
                     )
                 })}
