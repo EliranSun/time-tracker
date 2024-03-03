@@ -8,8 +8,7 @@ const formatDateTimeParts = (timestamp) => {
         minute: 'numeric',
     })
         .format(new Date(roundToNearestMinutes(timestamp, { nearestTo: 5 })))
-        .replace(" at ", " ")
-        .split(" ");
+        .split(" at ");
 };
 export const TodaySessions = ({ activitiesData }) => {
     return (
