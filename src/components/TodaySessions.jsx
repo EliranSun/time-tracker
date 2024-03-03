@@ -1,7 +1,7 @@
 import { roundToNearestMinutes } from "date-fns";
 
 const formatDateTimeParts = (timestamp) => {
-    return new Intl.DateTimeFormat('he-IL', {
+    return new Intl.DateTimeFormat('en-IL', {
         day: 'numeric',
         month: 'short',
         hour: '2-digit',
