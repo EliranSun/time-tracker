@@ -1,18 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
+import {useCallback, useEffect, useState} from "react";
 import classNames from "classnames";
-import { LastWeekDataStrip } from "./components/LastWeekDataStrip";
-import { LastSessionData } from "./components/LastSessionData";
-import { useLongPress } from "react-use";
-import { Block } from "./components/Block";
-import { addActivityData, getRefByPath, updateActivityData } from "./utils/db";
-import { getAppBackgroundColor, replaceMetaThemeColor } from "./utils/colors";
-import { Highscore } from "./components/Highscore";
-import { useActivityData } from "./hooks/useActivityData";
-import { TodaySessions } from "./components/TodaySessions";
-import { AddActivityEntry } from "./components/AddActivityEntry";
-import { Counter } from "./components/Counter";
+import {LastWeekDataStrip} from "./components/LastWeekDataStrip";
+import {LastSessionData} from "./components/LastSessionData";
+import {useLongPress} from "react-use";
+import {Block} from "./components/Block";
+import {addActivityData, getRefByPath, updateActivityData} from "./utils/db";
+import {getAppBackgroundColor, replaceMetaThemeColor} from "./utils/colors";
+import {Highscore} from "./components/Highscore";
+import {useActivityData} from "./hooks/useActivityData";
+import {TodaySessions} from "./components/TodaySessions";
+import {AddActivityEntry} from "./components/AddActivityEntry";
+import {Counter} from "./components/Counter";
 
-export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd, activity, isDiscrete }) => {
+export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd, activity, isDiscrete}) => {
     const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
@@ -96,7 +96,7 @@ export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd
         <>
             <div
                 className="fixed top-0 left-0 w-screen h-screen -z-10"
-                style={{ backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : "" }}/>
+                style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}/>
             <div className="h-2/3 flex items-center flex-wrap gap-1 select-none">
                 <Block
                     key={activity.name}
@@ -135,7 +135,7 @@ export const ActivitiesView = ({ currentActivity, onActivityStart, onActivityEnd
                         : null}
                     {(isDiscrete || isAddEntryView) ? null :
                         <div className="my-2 flex flex-col justify-between">
-                            <div className="mb-16">
+                            <div className="mb-16 mx-auto">
                                 <Highscore activities={activitiesData}/>
                                 <LastSessionData data={activitiesData} activity={activity}/>
                                 <br/>

@@ -1,4 +1,4 @@
-import { roundToNearestMinutes } from "date-fns";
+import {roundToNearestMinutes} from "date-fns";
 
 const formatDateTimeParts = (timestamp) => {
     return new Intl.DateTimeFormat('en-IL', {
@@ -7,12 +7,12 @@ const formatDateTimeParts = (timestamp) => {
         hour: '2-digit',
         minute: 'numeric',
     })
-        .format(new Date(roundToNearestMinutes(timestamp, { nearestTo: 5 })))
+        .format(new Date(roundToNearestMinutes(timestamp, {nearestTo: 5})))
         .split(" at ");
 };
-export const TodaySessions = ({ activitiesData }) => {
+export const TodaySessions = ({activitiesData}) => {
     return (
-        <div className="h-16 w-fit text-xs opacity-40 font-mono overflow-y-auto px-2 m-auto">
+        <div className="h-16 text-xs opacity-40 font-mono overflow-y-auto">
             {activitiesData
                 .filter(item => {
                     return (
@@ -27,7 +27,7 @@ export const TodaySessions = ({ activitiesData }) => {
                     const endDate = new Intl.DateTimeFormat('en-GB', {
                         hour: 'numeric',
                         minute: 'numeric',
-                    }).format(new Date(roundToNearestMinutes(item.end, { nearestTo: 5 })));
+                    }).format(new Date(roundToNearestMinutes(item.end, {nearestTo: 5})));
 
                     return (
                         <div
