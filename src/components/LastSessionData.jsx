@@ -1,5 +1,6 @@
 import {useMemo} from "react";
-import {getLastSession} from "../utils/activities";
+
+import {getLastSession} from "../utils/session";
 
 export const LastSessionData = ({activity, data}) => {
     const sessionData = useMemo(() => {
