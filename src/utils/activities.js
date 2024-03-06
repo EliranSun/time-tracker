@@ -60,13 +60,12 @@ export const getLastWeekData = (name, data) => {
             hours++;
         }
 
-        // if (hours > 0) {
-            // minutes = 0;
-        // } else {
-        minutes = Math.floor(minutes / 10);
-        //}
+        let measuredMinutes = 0;
+        if (hours <= 0) {
+            measuredMinutes = Math.floor(minutes / 10);
+        }
 
-        const measure = hours + (minutes / 60);
+        const measure = hours + (measuredMinutes / 60);
         minutes = minutes < 10 ? `${minutes}0` : minutes;
         totalCount += measure;
 
