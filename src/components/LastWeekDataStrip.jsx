@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import {useMemo} from "react";
 import {getLastWeekData} from "../utils/session";
 
@@ -13,7 +12,7 @@ export const LastWeekDataStrip = ({activity, data}) => {
                 const measure = item.measure || 0;
                 return (
                     <div key={item.name} className="flex flex-col items-center w-7">
-                        <div className="relative flex flex-col flex-wrap gap-0 min-h-7 bg-black opacity-40">
+                        <div className="relative flex flex-col flex-wrap gap-0 min-h-7 bg-black opacity-20">
                             {new Array(measure).fill(null).map((_, index) => {
                                 return <span key={index} className="w-6 h-4 bg-black dark:bg-white"/>
                             })}
@@ -22,7 +21,7 @@ export const LastWeekDataStrip = ({activity, data}) => {
                                 {item.duration.minutes > 0 ? <span>{item.duration.minutes}m</span> : null}
                             </p>
                         </div>
-                        <p className="opacity-60">{item.name.slice(0, 1)}</p>
+                        <p className="opacity-40">{item.name.slice(0, 1)}</p>
                     </div>
                 )
             })}
