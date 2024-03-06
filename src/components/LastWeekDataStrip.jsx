@@ -13,16 +13,16 @@ export const LastWeekDataStrip = ({activity, data}) => {
                 const measure = item.measure || 0;
                 return (
                     <div key={item.name} className="flex flex-col items-center w-7">
-                        <div className="relative flex flex-col flex-wrap gap-0 min-h-7 bg-gray-400">
+                        <div className="relative flex flex-col flex-wrap gap-0 min-h-7 bg-black opacity-40">
                             {new Array(measure).fill(null).map((_, index) => {
-                                return <span key={index} className="w-6 h-4 bg-gray-400 dark:bg-white"/>
+                                return <span key={index} className="w-6 h-4 bg-black dark:bg-white"/>
                             })}
                             <p className="absolute text-[10px] leading-[9px] flex flex-col text-white m-auto inset-x-0 bottom-1">
                                 {item.duration.hours > 0 ? <span>{item.duration.hours}h</span> : null}
                                 {item.duration.minutes > 0 ? <span>{item.duration.minutes}m</span> : null}
                             </p>
                         </div>
-                        <p className="text-gray-500">{item.name.slice(0, 1)}</p>
+                        <p className="opacity-60">{item.name.slice(0, 1)}</p>
                     </div>
                 )
             })}
