@@ -1,5 +1,6 @@
-import {addDays, isSameDay, roundToNearestMinutes, startOfWeek} from "date-fns";
+import {addDays, isSameDay, startOfWeek} from "date-fns";
 import {formatTimestamp} from "./time";
+import {round} from 'lodash';
 
 export const getLastWeekData = (name, data) => {
     const activityData = data;
@@ -43,26 +44,29 @@ export const getLastWeekData = (name, data) => {
         }, 0);
 
         let hours = Math.floor(duration / 3600000);
-        let minutes = roundToNearestMinutes(Math.floor((duration % 3600000) / 60000), {nearestTo: 10});
+        let minutes = round(Math.floor((duration % 3600000) / 60000), -1);
 
-        if (minutes >= 30) {
+        if (minutes === 60) {
+            minutes = 0;
             hours++;
         }
 
         let measuredMinutes = 0;
         if (hours <= 0) {
-            measuredMinutes = Math.floor(minutes / 10);
+            measuredMinutes = minutes;
         }
 
-        const measure = hours + (measuredMinutes / 60);
+        const measure = Math.ceil(hours + (measuredMinutes / 60));
         minutes = minutes < 10 ? `${minutes}0` : minutes;
         totalCount += measure;
 
         return {
             ...day,
             measure,
-            duration: hours === 0 && minutes === 0 ? "" :
-                `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${minutes}m` : ""}`,
+            duration: {
+                hours,
+                minutes,
+            }
         }
     });
 
