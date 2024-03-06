@@ -8,25 +8,21 @@ export const LastWeekDataStrip = ({activity, data}) => {
     }, [activity.name, data]);
 
     return (
-        <div className="flex justify-center w-fit items-end m-auto text-center h-20 gap-2">
+        <div className="flex justify-center w-fit items-end m-auto text-center h-24 gap-0">
             {lastWeekData.data.map((item) => {
                 const measure = item.measure || 0;
                 return (
-                    <div
-                        key={item.name}
-                        className={classNames("relative flex flex-col items-center gap-2 py-1 px-0 opacity-60 w-8")}>
-                        <p className=" flex flex-col flex-wrap">
-                            {(measure && measure > 0)
-                                ? new Array(measure).fill(null).map((_, index) => {
-                                    return <span key={index} className="w-8 h-4 bg-gray-700 dark:bg-white"/>
-                                })
-                                : "-"}
-                        </p>
-                        <p className="absolute text-xs leading-tight flex flex-col text-white m-auto inset-x-0 bottom-9">
-                            {item.duration.hours > 0 ? <span>{item.duration.hours}h</span> : null}
-                            {item.duration.minutes > 0 ? <span>{item.duration.minutes}m</span> : null}
-                        </p>
-                        <p>{item.name.slice(0, 1)}</p>
+                    <div key={item.name} className="flex flex-col items-center w-7">
+                        <div className="relative flex flex-col flex-wrap gap-0 min-h-7 bg-gray-400">
+                            {new Array(measure).fill(null).map((_, index) => {
+                                return <span key={index} className="w-6 h-4 bg-gray-400 dark:bg-white"/>
+                            })}
+                            <p className="absolute text-[10px] leading-[9px] flex flex-col text-white m-auto inset-x-0 bottom-1">
+                                {item.duration.hours > 0 ? <span>{item.duration.hours}h</span> : null}
+                                {item.duration.minutes > 0 ? <span>{item.duration.minutes}m</span> : null}
+                            </p>
+                        </div>
+                        <p className="text-gray-500">{item.name.slice(0, 1)}</p>
                     </div>
                 )
             })}
