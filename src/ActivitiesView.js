@@ -12,7 +12,7 @@ import {TodaySessions} from "./components/TodaySessions";
 import {AddActivityEntry} from "./components/AddActivityEntry";
 import {Counter} from "./components/Counter";
 
-export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd, activity, isDiscrete}) => {
+export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd, activity, isZenMode}) => {
     const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
@@ -114,35 +114,39 @@ export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd,
                         }
                     }}>
                     <div className="flex flex-col items-center mt-12 my-8">
-                        <Icon size={isDiscrete ? 10 : 80}/>
+                        <Icon size={80}/>
                         <p
                             {...longPressEvent}
-                            className={classNames("font-extralight tracking-wide", isDiscrete
-                                ? "text-sm"
-                                : "text-8xl")}>
+                            className={classNames("font-extralight tracking-wide text-8xl")}>
                             {activity.name}
                         </p>
                         <Counter
                             isActive={currentActivity.name === activity.name}
                             lastStartTime={lastStartTime}
-                            isDiscrete={isDiscrete}/>
+                            isZenMode={isZenMode}/>
                     </div>
                     {isAddEntryView ?
                         <AddActivityEntry
                             activity={activity}
-                            setIsAddEntryView={setIsAddEntryView}
-                            isDiscrete={isDiscrete}/>
+                            setIsAddEntryView={setIsAddEntryView}/>
                         : null}
-                    {(isDiscrete || isAddEntryView) ? null :
-                        <div className="my-2 flex flex-col justify-between">
-                            <div className="mb-16 mx-auto">
-                                <Highscore activities={activitiesData}/>
-                                <LastSessionData data={activitiesData} activity={activity}/>
-                                <br/>
-                                <TodaySessions activitiesData={activitiesData}/>
-                            </div>
-                            <LastWeekDataStrip data={activitiesData} activity={activity}/>
-                        </div>}
+                    <div className="my-2 flex flex-col justify-between">
+                        <div className="mb-16 mx-auto">
+                            {(isZenMode || isAddEntryView) ? null : (
+                                <>
+                                    <Highscore activities={activitiesData}/>
+                                    <LastSessionData data={activitiesData} activity={activity}/>
+                                    <br/>
+                                    <TodaySessions activitiesData={activitiesData}/>
+                                </>
+                            )}
+                        </div>
+                        <div className="h-20">
+                            {(isZenMode || isAddEntryView) ? null :
+                                <LastWeekDataStrip data={activitiesData} activity={activity}/>
+                            }
+                        </div>
+                    </div>
                 </Block>
             </div>
         </>
