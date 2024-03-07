@@ -3,7 +3,7 @@ import {getLastWeekData} from "../utils/session";
 
 const Duration = ({ item }) => {
     return (
-        <p className="h-4 text-[10px] leading-[9px] flex flex-col m-auto inset-x-0 bottom-1">
+        <p className="h-4 my-2 text-[10px] leading-[9px] flex flex-col m-auto inset-x-0 bottom-1">
                                 {item.duration.hours > 0 ? <span>{item.duration.hours}h</span> : null}
                                 {item.duration.minutes > 0 ? <span>{item.duration.minutes}m</span> : null}
                         </p>
