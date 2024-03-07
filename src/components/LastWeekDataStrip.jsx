@@ -16,7 +16,7 @@ export const LastWeekDataStrip = ({activity, data}) => {
                             {new Array(measure).fill(null).map((_, index) => {
                                 return <span key={index} className="w-6 h-4 bg-black dark:bg-white"/>
                             })}
-                            <p className="absolute text-[10px] leading-[9px] flex flex-col text-white m-auto inset-x-0 bottom-1">
+                            <p className="absolute text-[10px] leading-[9px] flex flex-col text-white dark:text-black m-auto inset-x-0 bottom-1">
                                 {item.duration.hours > 0 ? <span>{item.duration.hours}h</span> : null}
                                 {item.duration.minutes > 0 ? <span>{item.duration.minutes}m</span> : null}
                             </p>
