@@ -1,6 +1,15 @@
 import {useMemo} from "react";
 import {getLastWeekData} from "../utils/session";
 
+const Duration = ({ item }) => {
+    return (
+        <p className="text-[10px] leading-[9px] flex flex-col m-auto inset-x-0 bottom-1">
+                                {item.duration.hours > 0 ? <span>{item.duration.hours}h</span> : null}
+                                {item.duration.minutes > 0 ? <span>{item.duration.minutes}m</span> : null}
+                        </p>
+                        );
+};
+
 export const LastWeekDataStrip = ({activity, data}) => {
     const lastWeekData = useMemo(() => {
         return getLastWeekData(activity.name, data);
@@ -17,10 +26,7 @@ export const LastWeekDataStrip = ({activity, data}) => {
                                 return <span key={index} className="w-2 h-2 bg-black dark:bg-white"/>
                             })}
                         </div>
-                        <p className="text-[10px] leading-[9px] flex flex-col text-white dark:text-black m-auto inset-x-0 bottom-1">
-                                {item.duration.hours > 0 ? <span>{item.duration.hours}h</span> : null}
-                                {item.duration.minutes > 0 ? <span>{item.duration.minutes}m</span> : null}
-                        </p>
+                        <Duration item={item} />
                         <p className="opacity-40">{item.name.slice(0, 1)}</p>
                     </div>
                 )
