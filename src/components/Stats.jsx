@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useState} from "react";
-import {getAllDocsInActivity} from "./utils/activities";
+import {getAllDocsInActivity} from "../utils/activities";
 import {isThisMonth, isThisWeek, isThisYear, isToday, roundToNearestMinutes} from "date-fns";
-import {replaceMetaThemeColor} from "./utils/colors";
+import {replaceMetaThemeColor} from "../utils/colors";
 import {Calendar} from "@phosphor-icons/react";
 
 const Timespans = ["today", "week", "month", "year", "all"];

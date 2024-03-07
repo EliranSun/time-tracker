@@ -1,16 +1,16 @@
 import {useCallback, useEffect, useState} from "react";
 import classNames from "classnames";
-import {LastWeekDataStrip} from "./components/LastWeekDataStrip";
-import {LastSessionData} from "./components/LastSessionData";
+import {LastWeekDataStrip} from "./LastWeekDataStrip";
+import {LastSessionData} from "./LastSessionData";
 import {useLongPress} from "react-use";
-import {Block} from "./components/Block";
-import {addActivityData, getRefByPath, updateActivityData} from "./utils/db";
-import {getAppBackgroundColor, replaceMetaThemeColor} from "./utils/colors";
-import {Highscore} from "./components/Highscore";
-import {useActivityData} from "./hooks/useActivityData";
-import {TodaySessions} from "./components/TodaySessions";
-import {AddActivityEntry} from "./components/AddActivityEntry";
-import {Counter} from "./components/Counter";
+import {Block} from "./Block";
+import {addActivityData, getRefByPath, updateActivityData} from "../utils/db";
+import {getAppBackgroundColor, replaceMetaThemeColor} from "../utils/colors";
+import {Highscore} from "./Highscore";
+import {useActivityData} from "../hooks/useActivityData";
+import {TodaySessions} from "./TodaySessions";
+import {AddActivityEntry} from "./AddActivityEntry";
+import {Counter} from "./Counter";
 
 export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd, activity, isZenMode}) => {
     const [refPath, setRefPath] = useState("");

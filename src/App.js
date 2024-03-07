@@ -1,7 +1,7 @@
 import './App.css';
 import {useEffect, useState} from 'react';
-import {ActivitiesView} from "./ActivitiesView";
-import {StatsView} from "./Stats";
+import {ActivitiesView} from "./components/ActivitiesView";
+import {StatsView} from "./components/Stats";
 import {useSwipeable} from "react-swipeable";
 import {useCounter} from "./hooks/useCounter";
 import {Activities, PageMazeMap} from "./constants/activities";
@@ -11,6 +11,7 @@ import {getAppBackgroundColor, replaceMetaThemeColor} from "./utils/colors";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }} 
 function App() {
+    // TODO: zen mode should be in context
     const [isZenMode, setIsZenMode] = useState(false);
     const [isActivityView, setIsActivityView] = useState(true);
     const [currentActivity, setCurrentActivity] = useState(JSON.parse(localStorage.getItem('currentActivity')) || {});
@@ -77,8 +78,10 @@ function App() {
             />
             {isActivityView
                 ? (
-                    <div className="h-screen m-auto flex flex-col items-center justify-center">
-                        <ActivitiesDungeonMap activePage={activePage}/>
+                    <div className="w-screen h-screen m-auto flex flex-col items-center justify-center">
+                        <ActivitiesDungeonMap
+                            isZenMode={isZenMode}
+                            activePage={activePage}/>
                         <ActivitiesView
                             activity={activity}
                             counter={counter}
