@@ -21,13 +21,13 @@ import {
 } from "@phosphor-icons/react";
 
 export const Activities = [
-    {order: 3, name: "Atly", icon: Briefcase, color: "#f8961e", page: 1, orientationAngle: 270, data: []},
+    {order: 3, name: "Atly", icon: Briefcase, color: "#f9844a", page: 1, orientationAngle: 270, data: []},
     {order: 6, name: "People", icon: Users, color: "#90be6d", page: 2, orientationAngle: 270, data: []},
     {order: 8, name: "OP", icon: Skull, color: "#4d908e", page: 3, orientationAngle: 90, data: []},
     {order: 11, name: "Gym", icon: Barbell, color: "#C71585", page: 4, orientationAngle: 270, data: []},
 
     {order: 1, name: "Unity", icon: PuzzlePiece, color: "#f94144", page: 1, orientationAngle: 0, data: []},
-    {order: 4, name: "Dates", icon: Heart, color: "#f9844a", page: 2, orientationAngle: 0, data: []},
+    {order: 4, name: "Dates", icon: Heart, color: "#f8961e", page: 2, orientationAngle: 0, data: []},
     {order: 7, name: "Read", icon: BookOpen, color: "#43aa8b", page: 3, orientationAngle: 0, data: []},
     {order: 10, name: "Sleep", icon: MoonStars, color: "#277da1", page: 4, orientationAngle: 0, data: []},
 
