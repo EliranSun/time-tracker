@@ -1,7 +1,7 @@
 import './App.css';
 import {useEffect, useState} from 'react';
-import {ActivitiesView} from "./components/ActivitiesView";
-import {StatsView} from "./components/Stats";
+import {ActivitiesView} from "./components/views/ActivitiesView";
+import {StatsView} from "./components/views/Stats";
 import {useSwipeable} from "react-swipeable";
 import {useCounter} from "./hooks/useCounter";
 import {Activities, PageMazeMap} from "./constants/activities";
@@ -18,38 +18,6 @@ function App() {
     const [isLocked, setIsLocked] = useState(false);
     const {counter} = useCounter(currentActivity.name);
     const [activePage, setActivePage] = useState(Object.keys(PageMazeMap).find(page => page === "Unity"));
-    const handlers = useSwipeable({
-        // left/right swapped to mimic "natural" scrolling direction
-        onSwipedLeft: () => setActivePage(prevPage => PageMazeMap[prevPage].Left),
-        onSwipedRight: () => setActivePage(prevPage => PageMazeMap[prevPage].Right),
-        onSwipedUp: () => setActivePage(prevPage => PageMazeMap[prevPage].Up),
-        onSwipedDown: () => setActivePage(prevPage => PageMazeMap[prevPage].Down),
-    });
-
-    useEffect(() => {
-        const listener = (e) => {
-            switch (e.key) {
-                case "ArrowLeft":
-                    setActivePage(prevPage => PageMazeMap[prevPage].Left);
-                    break;
-                case "ArrowRight":
-                    setActivePage(prevPage => PageMazeMap[prevPage].Right);
-                    break;
-                case "ArrowUp":
-                    setActivePage(prevPage => PageMazeMap[prevPage].Up);
-                    break;
-                case "ArrowDown":
-                    setActivePage(prevPage => PageMazeMap[prevPage].Down);
-                    break;
-                default:
-                    break;
-            }
-        };
-
-        window.addEventListener('keydown', listener);
-
-        return () => window.removeEventListener('keydown', listener);
-    }, []);
 
     const activity = Activities.find(activity => activity.name.toLowerCase() === activePage.toLowerCase());
 
@@ -65,7 +33,7 @@ function App() {
     }, []);
 
     return (
-        <section className="App overflow-y-hidden h-screen" {...handlers}>
+        <section className="App overflow-y-hidden h-screen">
             <Header
                 activity={activity}
                 isActivityView={isActivityView}
@@ -85,6 +53,7 @@ function App() {
                         <ActivitiesView
                             activity={activity}
                             counter={counter}
+                            setActivePage={setActivePage}
                             onChangePage={() => setIsActivityView(false)}
                             isZenMode={isZenMode}
                             currentActivity={currentActivity}

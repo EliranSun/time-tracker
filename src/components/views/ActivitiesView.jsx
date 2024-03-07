@@ -1,22 +1,24 @@
 import {useCallback, useEffect, useState} from "react";
 import classNames from "classnames";
-import {LastWeekDataStrip} from "./LastWeekDataStrip";
-import {LastSessionData} from "./LastSessionData";
+import {LastWeekDataStrip} from "../LastWeekDataStrip";
+import {LastSessionData} from "../LastSessionData";
 import {useLongPress} from "react-use";
-import {Block} from "./Block";
-import {addActivityData, getRefByPath, updateActivityData} from "../utils/db";
-import {getAppBackgroundColor, replaceMetaThemeColor} from "../utils/colors";
-import {Highscore} from "./Highscore";
-import {useActivityData} from "../hooks/useActivityData";
-import {TodaySessions} from "./TodaySessions";
-import {AddActivityEntry} from "./AddActivityEntry";
-import {Counter} from "./Counter";
+import {Block} from "../Block";
+import {addActivityData, getRefByPath, updateActivityData} from "../../utils/db";
+import {getAppBackgroundColor, replaceMetaThemeColor} from "../../utils/colors";
+import {Highscore} from "../Highscore";
+import {useActivityData} from "../../hooks/useActivityData";
+import {TodaySessions} from "../TodaySessions";
+import {AddActivityEntry} from "../AddActivityEntry";
+import {Counter} from "../Counter";
+import { usePageSwipe } from "../../hooks/usePageSwipe";
 
-export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd, activity, isZenMode}) => {
+export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd, activity, isZenMode,setActivePage}) => {
     const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
     const activitiesData = useActivityData(activity.name);
+    const swipeHandlers = usePageSwipe(setActivePage);
 
     const defaultOptions = {
         isPreventDefault: true,
@@ -93,7 +95,7 @@ export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd,
     }, [activity.name, refPath]);
 
     return (
-        <>
+        <div {...swipeHandlers} className="">
             <div
                 className="fixed top-0 left-0 w-screen h-screen -z-10"
                 style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}/>
@@ -149,6 +151,6 @@ export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd,
                     </div>
                 </Block>
             </div>
-        </>
+        </div>
     );
 };
