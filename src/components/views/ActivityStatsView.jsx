@@ -108,10 +108,10 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
 
     return (
         <section className="w-screen h-screen top-0 p-2" {...swipeHandlers}>
-            <h1 className="font-mono text-9xl mt-8 mb-2" style={{ color: activity.color }}>
+            <h1 className="font-mono text-8xl mt-8 mb-2" style={{ color: activity.color }}>
                 {activity.name.toUpperCase()}
             </h1>
-            <h2 className="font-mono text-7xl mb-8" style={{ color: activity.color }}>
+            <h2 className="font-mono text-6xl mb-8" style={{ color: activity.color }}>
                 {format(new Date(year, month, 1), 'MMM').toUpperCase()}
             </h2>
             <div className="grid grid-cols-7 justify-center max-w-[700px] m-auto mb-2">

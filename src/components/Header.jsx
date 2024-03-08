@@ -1,4 +1,4 @@
-import { ArrowCounterClockwise, ChartBar, Lock, LockOpen, YinYang } from "@phosphor-icons/react";
+import { ArrowCounterClockwise, ChartBar, House, Lock, LockOpen, YinYang } from "@phosphor-icons/react";
 import classNames from "classnames";
 import { useMemo } from "react";
 import { Views } from "../App";
@@ -33,7 +33,7 @@ export const Header = ({
     return (
         <div className="flex justify-between w-screen px-8 mt-4">
             <div className="flex gap-8">
-                <ArrowCounterClockwise
+                <House
                     size={32}
                     className="cursor-pointer"
                     onClick={() => window.location.reload()}/>
