@@ -37,9 +37,9 @@ export const StatsView = ({ onChangePage, activities }) => {
     const swipeHandlers = useTimeSwipe(setDateFrame, setTimeFrame);
 
     useEffect(() => {
-        // Promise
-        //     .all(activities.map(activity => getAllDocsInActivity(activity.name)))
-        getAllDocsInActivity()
+        Promise
+            .all(activities.map(activity => getAllDocsInActivity(activity.name)))
+        // getAllDocsInActivity()
             .then(results => {
                 console.log(results);
                 setAllActivitiesData(results);
