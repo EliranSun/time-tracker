@@ -25,13 +25,13 @@ export const Header = ({
 
     if (isZenMode)
         return (
-            <div className="absolute top-4 left-0 flex justify-end w-screen px-8">
+            <div className="mt-4 flex justify-end w-screen px-8">
                 <YinYang size={32} onClick={onZenMode}/>
             </div>
         );
 
     return (
-        <div className="top-4 left-0 flex justify-between w-screen px-8 z-30 bg-white">
+        <div className="flex justify-between w-screen px-8 mt-4">
             <div className="flex gap-8">
                 <ArrowCounterClockwise
                     size={32}
