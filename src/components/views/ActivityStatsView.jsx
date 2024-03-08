@@ -108,7 +108,7 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
 
     return (
         <section className="w-screen h-screen top-0 p-2" {...swipeHandlers}>
-            <h1 className="font-mono text-8xl mt-8 mb-2" style={{ color: activity.color }}>
+            <h1 className="font-mono text-8xl mt-8 mb-2 tracking-tighter" style={{ color: activity.color }}>
                 {activity.name.toUpperCase()}
             </h1>
             <h2 className="font-mono text-6xl mb-8" style={{ color: activity.color }}>
