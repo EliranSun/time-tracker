@@ -1,16 +1,17 @@
-import {ArrowCounterClockwise, ChartBar, Lock, LockOpen, YinYang} from "@phosphor-icons/react";
+import { ArrowCounterClockwise, ChartBar, Lock, LockOpen, YinYang } from "@phosphor-icons/react";
 import classNames from "classnames";
-import {useMemo} from "react";
+import { useMemo } from "react";
+import { Views } from "../App";
 
 export const Header = ({
-                           activity,
-                           isActivityView,
-                           setIsActivityView,
-                           isLocked,
-                           currentActivity = {},
-                           onZenMode,
-                           isZenMode
-                       }) => {
+    activity,
+    view,
+    setView,
+    isLocked,
+    currentActivity = {},
+    onZenMode,
+    isZenMode
+}) => {
     const LockIcon = useMemo(() => {
         return isLocked ? Lock : LockOpen;
     }, [isLocked]);
@@ -18,7 +19,8 @@ export const Header = ({
         return currentActivity.name && activity.name !== currentActivity.name;
     }, [currentActivity, activity]);
 
-    if (!isActivityView)
+    console.log({view,isZenMode});
+    if (view === Views.STATS)
         return null;
 
     if (isZenMode)
@@ -29,7 +31,7 @@ export const Header = ({
         );
 
     return (
-        <div className="absolute top-4 left-0 flex justify-between w-screen px-8">
+        <div className="top-4 left-0 flex justify-between w-screen px-8 z-30 bg-white">
             <div className="flex gap-8">
                 <ArrowCounterClockwise
                     size={32}
@@ -39,9 +41,9 @@ export const Header = ({
                     size={32}
                     className="cursor-pointer"
                     onClick={() => {
-                        const page = !isActivityView ? "/activity" : "/stats";
+                        const page = view === Views.STATS ? "/activity" : "/stats";
                         window.history.pushState({}, "", page);
-                        setIsActivityView(!isActivityView);
+                        setView(view === Views.STATS ? Views.ACTIVITY : Views.STATS);
                     }}/>
             </div>
             <div

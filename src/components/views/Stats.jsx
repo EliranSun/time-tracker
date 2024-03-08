@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { getAllDocsInActivity } from "../../utils/activities";
 import { isThisMonth, isThisWeek, isThisYear, isToday, add, format, sub } from "date-fns";
 import { replaceMetaThemeColor } from "../../utils/colors";
 import { Calendar } from "@phosphor-icons/react";
 import { useTimeSwipe } from "../../hooks/useTimeSwipe";
 import { round } from 'lodash';
+import { ActivitiesContext } from "../../context/ActivitiesContext";
 
 const Timespans = ["days", "week", "month", "year", "all"];
 const ROUND_TO = 30;
@@ -29,17 +30,18 @@ export const StatsView = ({ onChangePage, activities }) => {
     const [totalTime, setTotalTime] = useState(0);
     const [timeFrame, setTimeFrame] = useState(0);
     const [dateFrame, setDateFrame] = useState(0);
-    const [allActivitiesData, setAllActivitiesData] = useState([]);
+    const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
     const [sortedActivities, setSortedActivities] = useState([]);
     const [timeFrameName, setTimeFrameName] = useState(format(new Date(), "EEEE"));
 
     const swipeHandlers = useTimeSwipe(setDateFrame, setTimeFrame);
 
     useEffect(() => {
-        // TODO: This is O(n^2)!
-        Promise
-            .all(activities.map(activity => getAllDocsInActivity(activity.name)))
+        // Promise
+        //     .all(activities.map(activity => getAllDocsInActivity(activity.name)))
+        getAllDocsInActivity()
             .then(results => {
+                console.log(results);
                 setAllActivitiesData(results);
             });
     }, []);
@@ -129,8 +131,6 @@ export const StatsView = ({ onChangePage, activities }) => {
                 className="fixed bottom-3 right-5 m-auto p-4 flex items-center flex-col text-white font-mono w-16">
                 <Calendar size={32}/>
                 <div className="flex gap-4">
-                    {/*<span>{Timespans[timeFrame % 5]}</span>*/}
-                    {/*<span>{timeFrame}</span>*/}
                     <span>{timeFrameName}</span>
                 </div>
             </button>
@@ -145,7 +145,8 @@ export const StatsView = ({ onChangePage, activities }) => {
                     return (
                         <div
                             key={index}
-                            className="flex text-right items-center justify-between text-[2.5em] min-h-[50px] py-4 px-12 font-mono"
+                            onClick={() => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`)}
+                                className="flex text-right items-center justify-between text-[2.5em] min-h-[50px] py-4 px-12 font-mono"
                             style={{
                                 backgroundColor: activity.color,
                                 height: normalizedHeight
