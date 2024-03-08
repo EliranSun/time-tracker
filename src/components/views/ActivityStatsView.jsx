@@ -102,10 +102,6 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
         return '';
     };
 
-    useEffect(() => {
-        replaceMetaThemeColor(activity.color);
-    }, [activity]);
-
     return (
         <section className="w-screen h-screen top-0 p-2" {...swipeHandlers}>
             <h1 className="font-mono text-8xl mt-8 mb-2 tracking-tighter" style={{ color: activity.color }}>
