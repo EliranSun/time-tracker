@@ -132,13 +132,13 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
 
                     return (
                         <div
-                            className="text-xs w-full aspect-square flex items-center justify-center flex-col text-white"
+                            className="text-sm w-full aspect-square flex items-center justify-center flex-col text-white"
                             key={index + 1}
                             style={{
                                 backgroundColor: `${activity.color}${alpha}`,
                             }}>
                             {isZenMode ? null : <div className="text-black">
-                                {getTotalString(total)}
+                                {day}
                             </div>}
                         </div>)
                 })}
