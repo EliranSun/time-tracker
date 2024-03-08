@@ -63,7 +63,7 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
         return dataByDays;
     }, [allActivitiesData, activity.name]);
 
-    const month = subMonths(new Date(), dateIndex).getMonth();
+    const month = addMonths(new Date(), dateIndex).getMonth();
     const year = new Date().getFullYear();
     console.log({ month });
     const daysMap = getDaysIncludingWeekends(new Date(year, month, 1));
