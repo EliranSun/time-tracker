@@ -2,7 +2,7 @@ import { Activities } from "../constants/activities";
 import classNames from "classnames";
 import { Icon } from "./Icon";
 
-export const ActivitiesDungeonMap = ({ activePage, isZenMode }) => {
+export const ActivitiesDungeonMap = ({ activePage, isZenMode, goldenActivity }) => {
     if (isZenMode) {
         return null;
     }
@@ -12,6 +12,8 @@ export const ActivitiesDungeonMap = ({ activePage, isZenMode }) => {
             <div className="grid grid-cols-4 grid-rows-3 gap-2">
                 {Activities.map(activity => {
                     const isActive = activePage?.toLowerCase() === activity.name?.toLowerCase();
+                    const isGolden = goldenActivity === activity.name;
+                    
                     return (
                         <span
                             key={activity.name}
@@ -20,7 +22,10 @@ export const ActivitiesDungeonMap = ({ activePage, isZenMode }) => {
                                 "bg-gray-500 text-white dark:bg-white dark:text-black opacity-80": isActive,
                                 "opacity-30": !isActive,
                             })}>
-                            <Icon name={activity.icon}/>
+                            <Icon 
+                                color={isGolden && "#FFBF00"}
+                                weight={isGolden ? "fill" : "regular"}
+                                name={activity.icon}/>
                         </span>
                     );
                 })}
