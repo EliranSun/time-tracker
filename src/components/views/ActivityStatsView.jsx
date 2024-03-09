@@ -9,10 +9,12 @@ import {
     format,
     startOfMonth,
     startOfWeek,
-    subMonths
+    subMonths,
+    isSameDay
 } from 'date-fns';
 import { replaceMetaThemeColor } from "../../utils/colors";
 import { useTimeSwipe } from "../../hooks/useTimeSwipe";
+import classNames from "classnames";
 
 const calcAlphaChannelBasedOnOpacity = (opacity) => {
     const alpha = Math.round(opacity * 255).toString(16);
@@ -129,10 +131,13 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
 
                     const opacity = (total / highestTotal) < 0.1 ? 0.1 : total / highestTotal;
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
-
+                    const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
+                    
                     return (
                         <div
-                            className="w-full aspect-square flex items-center justify-center flex-col text-white"
+                            className={classNames("w-full aspect-square flex items-center justify-center flex-col text-white", {
+                                "outline outline-offset-2 outline-4 outline-black": isEntryToday
+                            })}
                             key={index + 1}
                             style={{
                                 backgroundColor: `${activity.color}${alpha}`,
