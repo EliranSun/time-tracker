@@ -10,6 +10,7 @@ import { ActivitiesDungeonMap } from "./components/ActivitiesDungeonMap";
 import { getAppBackgroundColor, replaceMetaThemeColor } from "./utils/colors";
 import { ActivitiesProvider } from "./context/ActivitiesContext";
 import { ActivityStatsView } from "./components/views/ActivityStatsView";
+import { random } from "lodash";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }} 
 
@@ -25,7 +26,17 @@ function App() {
     const [isLocked, setIsLocked] = useState(false);
     const { counter } = useCounter(currentActivity.name);
     const [activePage, setActivePage] = useState(Object.keys(PageMazeMap).find(page => page === "Unity"));
-
+    const goldenActivity = () => {
+        const savedResult = localStorage.getItem("goldenActivity");
+        if (savedResult) {
+            return savedResult;
+        }
+        
+        const result = Activities[random(0, Activities.length - 1)]?.name;
+        localStorage.setItem("goldenActivity", result);
+        return result;
+    };
+    
     const activity = Activities.find(activity => activity.name.toLowerCase() === activePage.toLowerCase());
 
     useEffect(() => {
@@ -89,6 +100,7 @@ function App() {
                 <div className="w-screen h-screen m-auto flex flex-col items-center justify-center">
                     <ActivitiesDungeonMap
                         isZenMode={isZenMode}
+                        goldenActivity={goldenActivity}
                         activePage={activePage}/>
                     <ActivitiesView
                         activity={activity}
