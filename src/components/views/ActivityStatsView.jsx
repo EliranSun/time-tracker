@@ -10,7 +10,8 @@ import {
     startOfMonth,
     startOfWeek,
     subMonths,
-    isSameDay
+    isSameDay,
+    isSameMonth,
 } from 'date-fns';
 import { replaceMetaThemeColor } from "../../utils/colors";
 import { useTimeSwipe } from "../../hooks/useTimeSwipe";
@@ -132,11 +133,13 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
                     const opacity = (total / highestTotal) < 0.1 ? 0.1 : total / highestTotal;
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
+                    const isEntryThisMonth = isSameMonth(new Date(), new Date(year, month, day));
                     
                     return (
                         <div
                             className={classNames("w-full aspect-square flex items-center justify-center flex-col text-white", {
-                                "outline outline-offset-2 outline-4 outline-black": isEntryToday
+                                "outline outline-offset-2 outline-4 outline-black": isEntryToday,
+                                "opacity-50": !isEntrySameMonth
                             })}
                             key={index + 1}
                             style={{
