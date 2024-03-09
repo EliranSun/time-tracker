@@ -138,7 +138,7 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
                         <div
                             className={classNames("w-full aspect-square flex items-center justify-center flex-col text-white", {
                                 "outline outline-offset-2 outline-4 outline-black": isEntryToday,
-                                "opacity-50": !isEntrySameMonth
+                                "opacity-50": !isEntryThisMonth
                             })}
                             key={index + 1}
                             style={{
