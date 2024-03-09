@@ -11,7 +11,7 @@ import {
     startOfWeek,
     subMonths,
     isSameDay,
-    isSameMonth,
+    isSameMonth
 } from 'date-fns';
 import { replaceMetaThemeColor } from "../../utils/colors";
 import { useTimeSwipe } from "../../hooks/useTimeSwipe";
@@ -68,7 +68,6 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
 
     const month = addMonths(new Date(), dateIndex).getMonth();
     const year = new Date().getFullYear();
-    console.log({ month });
     const daysMap = getDaysIncludingWeekends(new Date(year, month, 1));
 
     let highestTotal = 0;
@@ -146,9 +145,8 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
                                 backgroundColor: `${activity.color}${alpha}`,
                             }}>
                             {isZenMode ? null : <div className="flex flex-col text-black">
-                               <span className="text-bold">{day}</span>
-                                <span className="text-xs opacity-90">{getTotalString(total)}</span>
-                                
+                               <span className="font-bold">{day}</span>
+                                <span className="text-xs opacity-70">{getTotalString(total)}</span>
                             </div>}
                         </div>)
                 })}
