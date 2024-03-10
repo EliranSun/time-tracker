@@ -32,7 +32,7 @@ export const ActivitiesDungeonMap = ({ activePage, isZenMode }) => {
                                 "outline outline-2 outline-offset-2 outline-yellow-400": isGolden,
                             })}>
                             <Icon 
-                                color={isGolden && GOLD}
+                                color={isGolden ? GOLD : undefined}
                                 weight={isGolden ? "fill" : "regular"}
                                 name={activity.icon}/>
                         </span>
