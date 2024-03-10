@@ -26,6 +26,7 @@ export const ActivitiesDungeonMap = ({ activePage, isZenMode }) => {
                             key={activity.name}
                             style={{ backgroundColor: isActive ? activity.color : "" }}
                             className={classNames("size-5 flex items-center justify-center p-px", {
+                                "text-gray-900 dark:text-white": !isActive,
                                 "bg-gray-500 text-white dark:bg-white dark:text-black opacity-80": isActive,
                                 "opacity-30": !isActive && !isGolden,
                                 "outline outline-2 outline-offset-2 outline-yellow-400": isGolden,
