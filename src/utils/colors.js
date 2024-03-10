@@ -14,5 +14,5 @@ export const getAppBackgroundColor = () => {
     const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
     const isDarkMode = prefersDarkScheme.matches;
 
-    return isDarkMode ? "#282c34" : "#ffffff";
+    return isDarkMode ? "#282c34" : "#ededed";
 }
