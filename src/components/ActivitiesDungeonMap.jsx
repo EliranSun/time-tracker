@@ -29,7 +29,7 @@ export const ActivitiesDungeonMap = ({ activePage, isZenMode }) => {
                                 "text-gray-900 dark:text-white": !isActive,
                                 "bg-gray-500 text-white dark:bg-white dark:text-black opacity-80": isActive,
                                 "opacity-30": !isActive && !isGolden,
-                                "outline outline-px outline-offset-2 outline-yellow-400": isGolden,
+                                "outline outline-1 outline-offset-2 outline-yellow-400": isGolden,
                             })}>
                             <Icon 
                                 color={isGolden ? GOLD : undefined}
