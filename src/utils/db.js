@@ -1,5 +1,18 @@
-import {addDoc, collection, doc, getDoc, getFirestore, setDoc, updateDoc} from "firebase/firestore";
+import {
+    addDoc,
+    collection,
+    doc,
+    getDoc,
+    getFirestore,
+    setDoc,
+    updateDoc,
+    query,
+    orderBy,
+    getDocs,
+    limit
+} from "firebase/firestore";
 import {initializeApp} from "firebase/app";
+import {Activities} from "../constants/activities";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAfmw8BBbYUxPwXwP8kkLqsHihNScUmz4A",
@@ -29,4 +42,27 @@ export const getCurrentActivityDoc = () => {
 
 export const getRefByPath = (path) => {
     return doc(db, path);
+}
+
+export async function getNewestInEachActivity() {
+    // const activitiesCollectionRef = collection(db, "activities");
+    // const activitiesSnapshot = await getDocs(activitiesCollectionRef);
+    // console.log({docs:activitiesSnapshot.docs})
+    const newestActivitiesData = [];
+
+    for (const activity of Activities) {
+        const dataCollectionRef = collection(db, `activities/${activity.name}/data`);
+        const q = query(dataCollectionRef, orderBy("end", "desc"), limit(1));
+        const dataSnapshot = await getDocs(q);
+
+        if (!dataSnapshot.empty) {
+            const newestDataDoc = dataSnapshot.docs[0];
+            newestActivitiesData.push({
+                name: activity.name,
+                lastEntryTimestamp: newestDataDoc.data()?.end
+            });
+        }
+    }
+
+    return newestActivitiesData;
 }
