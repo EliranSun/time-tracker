@@ -5,15 +5,15 @@
 }
 
 body, html {
-    color: #ffffff;
-    background-color: #282c34;
+    color: #282c34;
+    background-color: #ededed;
     overflow: hidden;
 }
 
 /* dark mode */
 @media (prefers-color-scheme: dark) {
     body, html {
-        /* color: white;
-        background-color: #282c34;*/
+        color: #ededed;
+        background-color: #ffffff;
     }
 }
