@@ -13,7 +13,7 @@ body, html {
 /* dark mode */
 @media (prefers-color-scheme: dark) {
     body, html {
-        color: white;
-        background-color: #282c34;
+        /* color: white;
+        background-color: #282c34;*/
     }
 }
