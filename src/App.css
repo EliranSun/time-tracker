@@ -14,6 +14,6 @@ body, html {
 @media (prefers-color-scheme: dark) {
     body, html {
         color: #ededed;
-        background-color: #ffffff;
+        background-color: #282c34;
     }
 }
