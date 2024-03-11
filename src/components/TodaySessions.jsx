@@ -1,5 +1,5 @@
 import {roundToNearestMinutes} from "date-fns";
-import { formatDuration } from "../utils/sessions";
+import { formatDuration } from "../utils/session";
 
 const formatDateTimeParts = (timestamp) => {
     return new Intl.DateTimeFormat('en-IL', {
