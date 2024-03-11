@@ -81,7 +81,7 @@ export const getLastWeekData = (name, data) => {
     };
 };
 
-const formatDuration = (duration) => {
+export const formatDuration = (duration) => {
     if (!duration)
         return "";
         
