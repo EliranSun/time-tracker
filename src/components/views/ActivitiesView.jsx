@@ -8,7 +8,7 @@ import {addActivityData, getRefByPath, updateActivityData} from "../../utils/db"
 import {getAppBackgroundColor, replaceMetaThemeColor} from "../../utils/colors";
 import {Highscore} from "../Highscore";
 import {useActivityData} from "../../hooks/useActivityData";
-import {TodaySessions} from "../TodaySessions";
+import {LastSessions} from "../LastSessions";
 import {AddActivityEntry} from "../AddActivityEntry";
 import {Counter} from "../Counter";
 import { usePageSwipe } from "../../hooks/usePageSwipe";
@@ -141,7 +141,7 @@ export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd,
                                     <Highscore activities={activitiesData}/>
                                     <LastSessionData data={activitiesData} activity={activity}/>
                                     <br/>
-                                    <TodaySessions activitiesData={activitiesData}/>
+                                    <LastSessions activitiesData={activitiesData}/>
                                 </>
                             )}
                         </div>
