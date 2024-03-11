@@ -64,7 +64,7 @@ export const getLastWeekData = (name, data) => {
             ...day,
             measure,
             shortDuration: hours > 0
-                ? `${Math.round(hours + minutes / 60).toFixed(1)}h`
+                ? `${Math.round(hours + minutes / 60)}h`
                 : minutes > 0
                     ? `${minutes}m`
                     : "",
