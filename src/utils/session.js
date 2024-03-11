@@ -80,6 +80,21 @@ export const getLastWeekData = (name, data) => {
         totalActivitiesMeasure: Math.floor(totalCount),
     };
 };
+
+const formatDuration = (duration) => {
+    if (!duration)
+        return "";
+        
+    let hours = Math.floor(duration / 3600000);
+    let minutes = round(Math.floor((duration % 3600000) / 60000), -1);
+
+    return hours > 0
+                ? `${Math.round(hours + minutes / 60)}h`
+                : minutes > 0
+                    ? `${minutes}m`
+                    : ""
+};
+
 export const getLastSession = (name = "", data = []) => {
     if (!name || data.length === 0) {
         return "No entries";
@@ -93,9 +108,9 @@ export const getLastSession = (name = "", data = []) => {
     const end = lastSession?.end;
 
     if (!start || !end) {
-        return formatTimestamp(0);
+        return formatDuration(0);
     }
 
     const duration = end - start;
-    return formatTimestamp(duration || 0);
+    return formatDuration(duration || 0);
 };
