@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {getAllDocsInActivity} from "../utils/activities";
 
-export const useActivityData = (activityName) => {
+export const useActivityData = (activityName, updateCount) => {
     const [activitiesData, setActivitiesData] = useState([]);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export const useActivityData = (activityName) => {
             .catch(error => {
                 console.error("Error getting document:", error);
             });
-    }, [activityName]);
+    }, [activityName, updateCount]);
 
     return activitiesData;
 };
