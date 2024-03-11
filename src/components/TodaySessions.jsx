@@ -1,4 +1,5 @@
 import {roundToNearestMinutes} from "date-fns";
+import { formatDuration } from "../utils/sessions";
 
 const formatDateTimeParts = (timestamp) => {
     return new Intl.DateTimeFormat('en-IL', {
@@ -35,9 +36,7 @@ export const TodaySessions = ({activitiesData}) => {
                             className="flex justify-between w-44 m-auto">
                             <span>{starTimeDateParts[0]}</span>
                             <span>
-                                <span>{starTimeDateParts[1]}</span>
-                                <span>-</span>
-                                <span>{endDate} </span>
+                                <span>{formatDuration(item.end - item.start)}</span>
                             </span>
                         </div>
                     )
