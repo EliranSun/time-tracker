@@ -17,7 +17,8 @@ export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd,
     const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
-    const activitiesData = useActivityData(activity.name);
+    const [updateCount, setUpdateCount] = useState(0);
+    const activitiesData = useActivityData(activity.name, updateCount);
     const swipeHandlers = usePageSwipe(setActivePage);
 
     const defaultOptions = {
@@ -89,6 +90,7 @@ export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd,
             name: activity.name,
             end: new Date().getTime()
         })
+            .then(() => setUpdateCount(prev => prev + 1))
             .catch(error => {
                 alert(`Error updating data: ${error.message}`);
             })
