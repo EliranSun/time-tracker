@@ -33,7 +33,7 @@ export const TodaySessions = ({activitiesData}) => {
                     return (
                         <div
                             key={item.start}
-                            className="flex justify-between w-44 m-auto">
+                            className="flex justify-between m-auto">
                             <span>{starTimeDateParts[0]}</span>
                             <span>
                                 <span>{formatDuration(item.end - item.start)}</span>
