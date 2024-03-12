@@ -1,4 +1,4 @@
-import {formatTimestamp} from "../utils/time";
+import {formatDuration} from "../utils/time";
 
 export const Highscore = ({activities = []}) => {
     const sortedByTime = activities.sort((a, b) => (b.end - b.start) - (a.end - a.start));
@@ -7,7 +7,7 @@ export const Highscore = ({activities = []}) => {
     return (
         <span className="text-sm text-gray-700 flex justify-between">
             <i>High Score:</i>{' '}
-            <span className="font-mono">{formatTimestamp(highscore || 0)}</span>
+            <span className="font-mono">{formatDuration(highscore || 0)}</span>
         </span>
     )
 };
