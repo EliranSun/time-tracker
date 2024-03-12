@@ -1,4 +1,4 @@
-import {formatDuration} from "../utils/time";
+import {formatDuration} from "../utils/session";
 
 export const Highscore = ({activities = []}) => {
     const sortedByTime = activities.sort((a, b) => (b.end - b.start) - (a.end - a.start));
