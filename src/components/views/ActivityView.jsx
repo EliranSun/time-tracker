@@ -1,19 +1,16 @@
 import {useCallback, useEffect, useState} from "react";
 import classNames from "classnames";
-import {LastWeekDataStrip} from "../LastWeekDataStrip";
-import {LastSessionData} from "../LastSessionData";
 import {useLongPress} from "react-use";
 import {Block} from "../Block";
 import {addActivityData, getRefByPath, updateActivityData} from "../../utils/db";
 import {getAppBackgroundColor, replaceMetaThemeColor} from "../../utils/colors";
-import {Highscore} from "../Highscore";
 import {useActivityData} from "../../hooks/useActivityData";
-import {TodaySessions} from "../TodaySessions";
 import {AddActivityEntry} from "../AddActivityEntry";
 import {Counter} from "../Counter";
-import { usePageSwipe } from "../../hooks/usePageSwipe";
+import {usePageSwipe} from "../../hooks/usePageSwipe";
+import {ActivityDataSection} from "../organisms/ActivityDataSection";
 
-export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd, activity, isZenMode,setActivePage}) => {
+export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, activity, isZenMode, setActivePage}) => {
     const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
@@ -134,23 +131,13 @@ export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd,
                             activity={activity}
                             setIsAddEntryView={setIsAddEntryView}/>
                         : null}
-                    <div className="my-2 flex flex-col justify-between">
-                        <div className="w-28 mb-8 mx-auto">
-                            {(isZenMode || isAddEntryView) ? null : (
-                                <>
-                                    <Highscore activities={activitiesData}/>
-                                    <LastSessionData data={activitiesData} activity={activity}/>
-                                    <br/>
-                                    <TodaySessions activitiesData={activitiesData}/>
-                                </>
-                            )}
+                    {(isZenMode || isAddEntryView) ? null : (
+                        <div className="my-2 flex flex-col justify-between">
+                            <ActivityDataSection
+                                activitiesData={activitiesData}
+                                activity={activity}/>
                         </div>
-                        <div className="h-20">
-                            {(isZenMode || isAddEntryView) ? null :
-                                <LastWeekDataStrip data={activitiesData} activity={activity}/>
-                            }
-                        </div>
-                    </div>
+                    )}
                 </Block>
             </div>
         </div>
