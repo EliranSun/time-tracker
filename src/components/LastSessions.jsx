@@ -23,7 +23,8 @@ export const LastSessions = ({activitiesData}) => {
 
     return (
         <>
-            <div className="h-16 text-xs text-white font-mono overflow-y-auto">
+            <div className="h-16 text-xs text-white font-mono overflow-y-auto"
+                 onScroll={event => event.stopPropagation()}>
                 {activitiesData
                     .filter(item => {
                         return (
@@ -34,11 +35,6 @@ export const LastSessions = ({activitiesData}) => {
                     .sort((a, b) => b.start - a.start)
                     .map(item => {
                         const starTimeDateParts = formatDateTimeParts(item.start);
-                        // const endDate = new Intl.DateTimeFormat('en-GB', {
-                        //     hour: 'numeric',
-                        //     minute: 'numeric',
-                        // }).format(new Date(roundToNearestMinutes(item.end, {nearestTo: 5})));
-
                         return (
                             <div
                                 key={item.start}
@@ -46,7 +42,7 @@ export const LastSessions = ({activitiesData}) => {
                                     start: item.start,
                                     end: item.end,
                                 })}
-                                className="flex justify-between m-auto">
+                                className="flex justify-between m-auto pb-1">
                                 <span>{starTimeDateParts[0]}</span>
                                 <span>{formatDuration(item.end - item.start)}</span>
                             </div>
