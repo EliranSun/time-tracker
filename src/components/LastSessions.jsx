@@ -38,7 +38,7 @@ export const LastSessions = ({activitiesData}) => {
                     return (
                         <div
                             key={item.start}
-                            className="flex justify-between w-44 m-auto">
+                            className="flex justify-between m-auto">
                             <EditEntry start={startDate} end={endDate} duration={duration}/>
                             {/*<span>{starTimeDateParts[0]}</span>*/}
                             {/*<span>{formatDuration(item.end - item.start)}</span>*/}
