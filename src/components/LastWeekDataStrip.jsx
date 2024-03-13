@@ -28,7 +28,7 @@ export const LastWeekDataStrip = ({ activity, data }) => {
                             })}
                         </div>
                         <Duration item={item}/>
-                        <p className="">{item.name.slice(0, 1)}</p>
+                        <p className="text-sm">{item.name.slice(0, 1)}</p>
                     </div>
                 )
             })}
