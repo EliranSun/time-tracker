@@ -3,7 +3,7 @@ import {db} from "./db";
 import allActivitiesMock from '../mocks/all-activities.json';
 
 export const getAllDocsInActivity = async (activityName) => {
-    if (localStorage.getItem('mock')) {
+    if (localStorage.getItem('mock') === 'true') {
         console.log('saved expensive call');
         return allActivitiesMock;
     }
@@ -15,7 +15,7 @@ export const getAllDocsInActivity = async (activityName) => {
     querySnapshot.forEach((doc) => {
         data.push(doc.data());
     });
-    
+
     return data;
 };
 
