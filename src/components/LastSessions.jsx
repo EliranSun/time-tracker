@@ -16,9 +16,10 @@ const formatDateTimeParts = (timestamp) => {
         .split(" at ");
 };
 
-export const LastSessions = ({activitiesData}) => {
+export const LastSessions = ({activitiesData, activity}) => {
     const [domReady, setDomReady] = useState(false);
     const [sessionDialogData, setSessionDialogData] = useState({
+        id: "",
         start: 0,
         end: 0
     });
@@ -51,6 +52,7 @@ export const LastSessions = ({activitiesData}) => {
                                     key={item.start}
                                     className="flex justify-between m-auto pb-1"
                                     onClick={() => setSessionDialogData({
+                                        id: item.id,
                                         start: item.start,
                                         end: item.end,
                                     })}>
@@ -61,6 +63,7 @@ export const LastSessions = ({activitiesData}) => {
                         })}
                 </div>, document.getElementById("scrollable-elements")) : null}
             {sessionDialogData.start ?
+                // TODO: Extract to a component + disable swipe handlers on ActivityView when dialog is open
                 <dialog
                     onClose={() => setSessionDialogData({start: 0, end: 0})}
                     className="backdrop-blur-xl fixed z-30 flex items-center bg-transparent justify-center w-screen h-screen top-0">
@@ -72,6 +75,8 @@ export const LastSessions = ({activitiesData}) => {
                                 className="dark:text-white hover:text-black"/>
                         </span>
                         <EditableDateTimeEntry
+                            id={sessionDialogData.id}
+                            activityName={activity.name}
                             start={sessionDialogData.start}
                             end={sessionDialogData.end}/>
                     </div>

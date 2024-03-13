@@ -3,16 +3,17 @@ import {
     collection,
     doc,
     getDoc,
-    getFirestore,
-    setDoc,
-    updateDoc,
-    query,
-    orderBy,
     getDocs,
-    limit
+    getFirestore,
+    limit,
+    orderBy,
+    query,
+    setDoc,
+    updateDoc
 } from "firebase/firestore";
 import {initializeApp} from "firebase/app";
 import {Activities} from "../constants/activities";
+import allActivitiesMock from "../mocks/all-activities.json";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAfmw8BBbYUxPwXwP8kkLqsHihNScUmz4A",
@@ -65,4 +66,30 @@ export async function getNewestInEachActivity() {
     }
 
     return newestActivitiesData;
+}
+
+export const getAllDocsInActivity = async (activityName) => {
+    const data = [];
+
+    if (localStorage.getItem('mock') === 'true') {
+        console.log('saved expensive call');
+        return allActivitiesMock;
+
+    }
+    // TODO: This is O(n) and should be O(1)
+    const querySnapshot = await getDocs(collection(db, `activities/${activityName}/data`));
+    console.warn("getAllDocsInActivity - expensive");
+
+    querySnapshot.forEach((doc) => {
+        data.push({
+            id: doc.id,
+            ...doc.data()
+        });
+    });
+
+    return data;
+};
+
+export const updateActivityTimeById = async (activityName, docId, data) => {
+    return await updateDoc(doc(db, `activities/${activityName}/data/${docId}`), data);
 }

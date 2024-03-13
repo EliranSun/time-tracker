@@ -10,7 +10,7 @@ export const ActivityDataSection = ({activitiesData, activity}) => {
                 <Highscore activities={activitiesData}/>
                 <LastSession data={activitiesData} activity={activity}/>
                 <br/>
-                <LastSessions activitiesData={activitiesData}/>
+                <LastSessions activitiesData={activitiesData} activity={activity}/>
             </div>
             <LastWeekDataStrip data={activitiesData} activity={activity}/>
         </section>

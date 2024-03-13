@@ -1,11 +1,11 @@
-import { useContext, useEffect, useMemo, useState } from "react";
-import { getAllDocsInActivity } from "../../utils/activities";
-import { isThisMonth, isThisWeek, isThisYear, isToday, add, format, sub } from "date-fns";
-import { replaceMetaThemeColor } from "../../utils/colors";
-import { Calendar } from "@phosphor-icons/react";
-import { useTimeSwipe } from "../../hooks/useTimeSwipe";
-import { round } from 'lodash';
-import { ActivitiesContext } from "../../context/ActivitiesContext";
+import {useContext, useEffect, useMemo, useState} from "react";
+import {isThisMonth, isThisWeek, isThisYear, isToday, add, format, sub} from "date-fns";
+import {replaceMetaThemeColor} from "../../utils/colors";
+import {Calendar} from "@phosphor-icons/react";
+import {useTimeSwipe} from "../../hooks/useTimeSwipe";
+import {round} from 'lodash';
+import {ActivitiesContext} from "../../context/ActivitiesContext";
+import {getAllDocsInActivity} from "../../utils/db";
 
 const Timespans = ["days", "week", "month", "year", "all"];
 const ROUND_TO = 30;
@@ -26,7 +26,7 @@ const getTimeString = (hours, minutes, seconds) => {
     return `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${round(minutes, -1)}m` : ""}`;
 };
 
-export const StatsView = ({ onChangePage, activities }) => {
+export const StatsView = ({onChangePage, activities}) => {
     const [totalTime, setTotalTime] = useState(0);
     const [timeFrame, setTimeFrame] = useState(0);
     const [dateFrame, setDateFrame] = useState(0);
@@ -39,7 +39,7 @@ export const StatsView = ({ onChangePage, activities }) => {
     useEffect(() => {
         Promise
             .all(activities.map(activity => getAllDocsInActivity(activity.name)))
-        // getAllDocsInActivity()
+            // getAllDocsInActivity()
             .then(results => {
                 console.log(results);
                 setAllActivitiesData(results);
@@ -51,19 +51,19 @@ export const StatsView = ({ onChangePage, activities }) => {
         switch (true) {
             default:
             case timeFrame % 5 === 0:
-                setTimeFrameName(format(sub(new Date(), { days: dateFrame }), "EEEE"));
+                setTimeFrameName(format(sub(new Date(), {days: dateFrame}), "EEEE"));
                 break;
 
             case timeFrame % 5 === 1:
-                setTimeFrameName(format(sub(new Date(), { weeks: dateFrame }), "w"));
+                setTimeFrameName(format(sub(new Date(), {weeks: dateFrame}), "w"));
                 break;
 
             case timeFrame % 5 === 2:
-                setTimeFrameName(format(sub(new Date(), { months: dateFrame }), "MMMM"));
+                setTimeFrameName(format(sub(new Date(), {months: dateFrame}), "MMMM"));
                 break;
 
             case timeFrame % 5 === 3:
-                setTimeFrameName(format(sub(new Date(), { years: dateFrame }), "yyyy"));
+                setTimeFrameName(format(sub(new Date(), {years: dateFrame}), "yyyy"));
                 break;
 
             case timeFrame % 5 === 4:
@@ -85,19 +85,19 @@ export const StatsView = ({ onChangePage, activities }) => {
                 switch (true) {
                     default:
                     case timeFrame % 5 === 0:
-                        const day = add(item.end, { days: dateFrame });
+                        const day = add(item.end, {days: dateFrame});
                         return isToday(day);
 
                     case timeFrame % 5 === 1:
-                        const week = add(item.end, { weeks: dateFrame });
+                        const week = add(item.end, {weeks: dateFrame});
                         return isThisWeek(week);
 
                     case timeFrame % 5 === 2:
-                        const month = add(item.end, { months: dateFrame });
+                        const month = add(item.end, {months: dateFrame});
                         return isThisMonth(month);
 
                     case timeFrame % 5 === 3:
-                        const year = add(item.end, { years: dateFrame });
+                        const year = add(item.end, {years: dateFrame});
                         return isThisYear(year);
 
                     case timeFrame % 5 === 4:
@@ -135,7 +135,7 @@ export const StatsView = ({ onChangePage, activities }) => {
                 </div>
             </button>
             <div className="flex flex-col w-screen justify-evenly h-screen">
-                {sortedActivities.map(({ activity, data, totalTime: activityTotalTime }, index) => {
+                {sortedActivities.map(({activity, data, totalTime: activityTotalTime}, index) => {
                     const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
                     const hours = Math.floor(activityTotalTime / 1000 / 60 / 60);
                     const minutes = Math.floor(activityTotalTime / 1000 / 60 % 60);
@@ -146,7 +146,7 @@ export const StatsView = ({ onChangePage, activities }) => {
                         <div
                             key={index}
                             onClick={() => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`)}
-                                className="flex text-right items-center justify-between text-[2.5em] min-h-[50px] py-4 px-12 font-mono"
+                            className="flex text-right items-center justify-between text-[2.5em] min-h-[50px] py-4 px-12 font-mono"
                             style={{
                                 backgroundColor: activity.color,
                                 height: normalizedHeight

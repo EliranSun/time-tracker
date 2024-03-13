@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {getAllDocsInActivity} from "../utils/activities";
+import {getAllDocsInActivity} from "../utils/db";
 
 export const useActivityData = (activityName, updateCount) => {
     const [activitiesData, setActivitiesData] = useState([]);
