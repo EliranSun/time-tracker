@@ -1,7 +1,7 @@
 import {roundToNearestMinutes} from "date-fns";
 import {formatDuration} from "../utils/session";
 import {EditableDateTimeEntry} from "./EditableDateTimeEntry";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {X} from "@phosphor-icons/react";
 import {createPortal} from "react-dom";
 
@@ -17,14 +17,19 @@ const formatDateTimeParts = (timestamp) => {
 };
 
 export const LastSessions = ({activitiesData}) => {
+    const [domReady, setDomReady] = useState(false);
     const [sessionDialogData, setSessionDialogData] = useState({
         start: 0,
         end: 0
     });
 
+    useEffect(() => {
+        setDomReady(true);
+    }, []);
+
     return (
         <>
-            {createPortal(
+            {domReady ? createPortal(
                 <div
                     // TODO: Dynamic positioning
                     style={{bottom: "11.5rem", left: 0, right: 0}}
@@ -54,7 +59,7 @@ export const LastSessions = ({activitiesData}) => {
                                 </div>
                             )
                         })}
-                </div>, document.getElementById("scrollable-elements"))}
+                </div>, document.getElementById("scrollable-elements")) : null}
             {sessionDialogData.start ?
                 <dialog
                     onClose={() => setSessionDialogData({start: 0, end: 0})}
