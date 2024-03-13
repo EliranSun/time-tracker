@@ -95,6 +95,16 @@ export const formatDuration = (duration) => {
                     : ""
 };
 
+export const formatForTimeInput = (duration) => {
+    if (!duration)
+        return "";
+
+    let hours = Math.floor(duration / 3600000);
+    let minutes = Math.floor((duration % 3600000) / 60000);
+
+    return `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
+}
+
 export const getLastSession = (name = "", data = []) => {
     if (!name || data.length === 0) {
         return "No entries";

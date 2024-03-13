@@ -1,14 +1,14 @@
 import './App.css';
-import { useEffect, useState } from 'react';
-import { ActivitiesView } from "./components/views/ActivitiesView";
-import { StatsView } from "./components/views/Stats";
-import { useCounter } from "./hooks/useCounter";
-import { Activities, PageMazeMap } from "./constants/activities";
-import { Header } from "./components/Header";
-import { ActivitiesDungeonMap } from "./components/ActivitiesDungeonMap";
-import { getAppBackgroundColor, replaceMetaThemeColor } from "./utils/colors";
-import { ActivitiesProvider } from "./context/ActivitiesContext";
-import { ActivityStatsView } from "./components/views/ActivityStatsView";
+import {useEffect, useState} from 'react';
+import {ActivityView} from "./components/views/ActivityView";
+import {StatsView} from "./components/views/Stats";
+import {useCounter} from "./hooks/useCounter";
+import {Activities, PageMazeMap} from "./constants/activities";
+import {Header} from "./components/Header";
+import {ActivitiesDungeonMap} from "./components/ActivitiesDungeonMap";
+import {getAppBackgroundColor, replaceMetaThemeColor} from "./utils/colors";
+import {ActivitiesProvider} from "./context/ActivitiesContext";
+import {ActivityStatsView} from "./components/views/ActivityStatsView";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }}
 export const Views = {
@@ -21,9 +21,9 @@ function App() {
     const [isZenMode, setIsZenMode] = useState(false);
     const [currentActivity, setCurrentActivity] = useState(JSON.parse(localStorage.getItem('currentActivity')) || {});
     const [isLocked, setIsLocked] = useState(false);
-    const { counter } = useCounter(currentActivity.name);
+    const {counter} = useCounter(currentActivity.name);
     const [activePage, setActivePage] = useState(Object.keys(PageMazeMap).find(page => page === "Unity"));
-    
+
     const activity = Activities.find(activity => activity.name.toLowerCase() === activePage.toLowerCase());
 
     useEffect(() => {
@@ -88,7 +88,7 @@ function App() {
                     <ActivitiesDungeonMap
                         isZenMode={isZenMode}
                         activePage={activePage}/>
-                    <ActivitiesView
+                    <ActivityView
                         activity={activity}
                         counter={counter}
                         setActivePage={setActivePage}

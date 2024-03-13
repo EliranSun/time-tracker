@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import { getLastWeekData } from "../utils/session";
+import {useMemo} from "react";
+import {getLastWeekData} from "../utils/session";
 
-const Duration = ({ item }) => {
+const Duration = ({item}) => {
     return (
         <p className="mt-2 text-[10px] leading-[9px] flex flex-col m-auto inset-x-0 bottom-1">
             {/*{item.duration.hours > 0 ? <span>{item.duration.hours}h</span> : null}*/}
@@ -11,7 +11,7 @@ const Duration = ({ item }) => {
     );
 };
 
-export const LastWeekDataStrip = ({ activity, data }) => {
+export const LastWeekDataStrip = ({activity, data}) => {
     const lastWeekData = useMemo(() => {
         return getLastWeekData(activity.name, data);
     }, [activity.name, data]);
@@ -24,10 +24,12 @@ export const LastWeekDataStrip = ({ activity, data }) => {
                     <div key={item.name} className="flex flex-col items-center opacity-80 w-7">
                         <div className="relative flex flex-col flex-wrap gap-0 bg-black dark:bg-gray-100">
                             {new Array(measure).fill(null).map((_, index) => {
-                                return <span
-                                key={index} 
-                                style={{ backgroundColor: "black" }}
-                                className="w-2 h-2 dark:bg-gray-300"/>
+                                return (
+                                    <span
+                                        key={index}
+                                        style={{backgroundColor: ""}}
+                                        className="w-2 h-2"/>
+                                );
                             })}
                         </div>
                         <Duration item={item}/>
