@@ -24,7 +24,10 @@ export const LastWeekDataStrip = ({ activity, data }) => {
                     <div key={item.name} className="flex flex-col items-center opacity-80 w-7">
                         <div className="relative flex flex-col flex-wrap gap-0 bg-black dark:bg-gray-100">
                             {new Array(measure).fill(null).map((_, index) => {
-                                return <span key={index} className="w-2 h-2 bg-black dark:bg-gray-300"/>
+                                return <span
+                                key={index} 
+                                style={{ backgroundColor: activity.color }}
+                                className="w-2 h-2 dark:bg-gray-300"/>
                             })}
                         </div>
                         <Duration item={item}/>
