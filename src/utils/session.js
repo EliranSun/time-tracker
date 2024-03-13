@@ -1,6 +1,6 @@
-import { addDays, isSameDay, startOfWeek } from "date-fns";
-import { formatTimestamp } from "./time";
-import { round } from 'lodash';
+import {addDays, isSameDay, startOfWeek} from "date-fns";
+import {formatTimestamp} from "./time";
+import {round} from 'lodash';
 
 export const getLastWeekData = (name, data) => {
     const activityData = data;
@@ -28,12 +28,12 @@ export const getLastWeekData = (name, data) => {
     }];
 
     if (!name || data.length === 0 || !activityData) {
-        return { data: week, totalActivitiesMeasure: 0 };
+        return {data: week, totalActivitiesMeasure: 0};
     }
 
     let totalCount = 0;
     const weekData = week.map((day, index) => {
-        const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
+        const weekStart = startOfWeek(new Date(), {weekStartsOn: 0});
         const targetDay = addDays(weekStart, index);
         const dayData = activityData.filter(item => {
             return isSameDay(new Date(item.end), targetDay) && item.end > 0
@@ -84,15 +84,15 @@ export const getLastWeekData = (name, data) => {
 export const formatDuration = (duration) => {
     if (!duration)
         return "";
-        
+
     let hours = Math.floor(duration / 3600000);
     let minutes = round(Math.floor((duration % 3600000) / 60000), -1);
 
     return hours > 0
-                ? `${Math.round(hours + minutes / 60)}h`
-                : minutes > 0
-                    ? `${minutes}m`
-                    : ""
+        ? `${Math.round(hours + minutes / 60)}h`
+        : minutes > 0
+            ? `${minutes}m`
+            : ""
 };
 
 export const formatForTimeInput = (duration) => {
