@@ -26,7 +26,7 @@ export const LastWeekDataStrip = ({ activity, data }) => {
                             {new Array(measure).fill(null).map((_, index) => {
                                 return <span
                                 key={index} 
-                                style={{ backgroundColor: `${activity.color}50` }}
+                                style={{ backgroundColor: `${activity.color}80` }}
                                 className="w-2 h-2 dark:bg-gray-300"/>
                             })}
                         </div>
