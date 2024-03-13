@@ -3,6 +3,7 @@ import {formatDuration} from "../utils/session";
 import {EditableDateTimeEntry} from "./EditableDateTimeEntry";
 import {useState} from "react";
 import {X} from "@phosphor-icons/react";
+import {createPortal} from "react-dom/profiling";
 
 const formatDateTimeParts = (timestamp) => {
     return new Intl.DateTimeFormat('en-IL', {
@@ -23,32 +24,36 @@ export const LastSessions = ({activitiesData}) => {
 
     return (
         <>
-            <div className="h-16 text-xs text-white font-mono overflow-y-auto"
-                 onScroll={event => event.stopPropagation()}>
-                {activitiesData
-                    .filter(item => {
-                        return (
-                            item.end > 0 &&
-                            (item.end - item.start) > 60 * 1000
-                        );
-                    })
-                    .sort((a, b) => b.start - a.start)
-                    .map(item => {
-                        const starTimeDateParts = formatDateTimeParts(item.start);
-                        return (
-                            <div
-                                key={item.start}
-                                onClick={() => setSessionDialogData({
-                                    start: item.start,
-                                    end: item.end,
-                                })}
-                                className="flex justify-between m-auto pb-1">
-                                <span>{starTimeDateParts[0]}</span>
-                                <span>{formatDuration(item.end - item.start)}</span>
-                            </div>
-                        )
-                    })}
-            </div>
+            {createPortal(
+                <div
+                    style={{bottom: "8rem", left: 0, right: 0}}
+                    className="w-40 m-auto absolute z-20 h-16 text-xs text-white font-mono overflow-y-auto"
+                    onScroll={event => event.stopPropagation()}>
+                    {activitiesData
+                        .filter(item => {
+                            return (
+                                item.end > 0 &&
+                                item.start > 0 &&
+                                (item.end - item.start) > 60 * 1000
+                            );
+                        })
+                        .sort((a, b) => b.start - a.start)
+                        .map(item => {
+                            const starTimeDateParts = formatDateTimeParts(item.start);
+                            return (
+                                <div
+                                    key={item.start}
+                                    className="flex justify-between m-auto pb-1"
+                                    onClick={() => setSessionDialogData({
+                                        start: item.start,
+                                        end: item.end,
+                                    })}>
+                                    <span>{starTimeDateParts[0]}</span>
+                                    <span>{formatDuration(item.end - item.start)}</span>
+                                </div>
+                            )
+                        })}
+                </div>, document.getElementById("scrollable-elements"))}
             {sessionDialogData.start ?
                 <dialog
                     onClose={() => setSessionDialogData({start: 0, end: 0})}

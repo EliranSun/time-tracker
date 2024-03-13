@@ -94,52 +94,55 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
     }, [activity.name, refPath]);
 
     return (
-        <div {...swipeHandlers} className="">
-            <div
-                className="fixed top-0 left-0 w-screen h-screen -z-10"
-                style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}/>
-            <div className="h-2/3 flex items-center flex-wrap gap-1 select-none">
-                <Block
-                    key={activity.name}
-                    onDoubleClick={() => {
-                        const shouldStartTick = !currentActivity.name;
-                        const shouldStopTick = currentActivity.name === activity.name;
+        <>
+            <div {...swipeHandlers} className="">
+                <div
+                    className="fixed top-0 left-0 w-screen h-screen -z-10"
+                    style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}/>
+                <div className="h-2/3 flex items-center flex-wrap gap-1 select-none">
+                    <Block
+                        key={activity.name}
+                        onDoubleClick={() => {
+                            const shouldStartTick = !currentActivity.name;
+                            const shouldStopTick = currentActivity.name === activity.name;
 
-                        if (shouldStartTick) {
-                            onStartTick(new Date().getTime());
-                            return;
-                        }
+                            if (shouldStartTick) {
+                                onStartTick(new Date().getTime());
+                                return;
+                            }
 
-                        if (shouldStopTick) {
-                            onStopTick();
-                        }
-                    }}>
-                    <div className="flex flex-col items-center mt-12 my-8">
-                        <Icon size={80}/>
-                        <p
-                            {...longPressEvent}
-                            className={classNames("font-extralight tracking-wide text-8xl")}>
-                            {activity.name}
-                        </p>
-                        <Counter
-                            isActive={currentActivity.name === activity.name}
-                            lastStartTime={lastStartTime}
-                            isZenMode={isZenMode}/>
-                    </div>
-                    {isAddEntryView ?
-                        <AddActivityEntry
-                            activity={activity}
-                            setIsAddEntryView={setIsAddEntryView}/>
-                        : null}
-                    {(isZenMode || isAddEntryView) ? null : (
-                        <div className="my-2 flex flex-col justify-between">
-                            <ActivityDataSection
-                                activitiesData={activitiesData}
-                                activity={activity}/>
+                            if (shouldStopTick) {
+                                onStopTick();
+                            }
+                        }}>
+                        <div className="flex flex-col items-center mt-12 my-8">
+                            <Icon size={80}/>
+                            <p
+                                {...longPressEvent}
+                                className={classNames("font-extralight tracking-wide text-8xl")}>
+                                {activity.name}
+                            </p>
+                            <Counter
+                                isActive={currentActivity.name === activity.name}
+                                lastStartTime={lastStartTime}
+                                isZenMode={isZenMode}/>
                         </div>
-                    )}
-                </Block>
+                        {isAddEntryView ?
+                            <AddActivityEntry
+                                activity={activity}
+                                setIsAddEntryView={setIsAddEntryView}/>
+                            : null}
+                        {(isZenMode || isAddEntryView) ? null : (
+                            <div className="my-2 flex flex-col justify-between">
+                                <ActivityDataSection
+                                    activitiesData={activitiesData}
+                                    activity={activity}/>
+                            </div>
+                        )}
+                    </Block>
+                </div>
             </div>
-        </div>
+            <div id="scrollable-elements"/>
+        </>
     );
 };
