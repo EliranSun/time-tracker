@@ -135,7 +135,7 @@ export const ActivitiesView = ({currentActivity, onActivityStart, onActivityEnd,
                             setIsAddEntryView={setIsAddEntryView}/>
                         : null}
                     <div className="my-2 flex flex-col justify-between">
-                        <div className="w-28 mb-16 mx-auto">
+                        <div className="w-28 mb-8 mx-auto">
                             {(isZenMode || isAddEntryView) ? null : (
                                 <>
                                     <Highscore activities={activitiesData}/>
