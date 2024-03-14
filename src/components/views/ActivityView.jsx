@@ -120,7 +120,9 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                         }}>
                         <div 
                             className="flex flex-col items-center mt-12 my-8">
-                            <Icon size={80}/>
+                            <Icon 
+                            onClick={() => setIsAddEntryView(!isAddEntryView)}
+                            size={80}/>
                             <p
                                 className={classNames("font-extralight tracking-wide text-8xl")}>
                                 {activity.name}
