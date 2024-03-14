@@ -9,7 +9,7 @@ const onDateTimeChange = (event) => {
 
 const Toast = () => {
     return (
-        <div className="fixed rounded-4xl flex items-center justify-center left-0 right-0 m-auto bottom-10 bg-black text-white w-44 text-lg h-10">
+        <div className="fixed rounded-3xl flex items-center justify-center left-0 right-0 m-auto bottom-10 bg-black text-white w-44 text-lg h-10">
             hello
         </div>
     );
