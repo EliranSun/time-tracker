@@ -91,5 +91,12 @@ export const getAllDocsInActivity = async (activityName) => {
 };
 
 export const updateActivityTimeById = async (activityName, docId, data) => {
-    return await updateDoc(doc(db, `activities/${activityName}/data/${docId}`), data);
+    if (!activityName || !docId || (!data.start && !data.end)) {
+        throw new Error("missing data");
+    }
+    
+    return await updateDoc(doc(db, `activities/${activityName}/data/${docId}`), {
+        start: data.start,
+        end: data.end,
+    });
 }
