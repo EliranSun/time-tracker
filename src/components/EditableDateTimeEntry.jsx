@@ -7,6 +7,14 @@ const onDateTimeChange = (event) => {
     const value = event.target.value;
 };
 
+const Toast = () => {
+    return (
+        <div className="fixed left-0 right-0 m-auto bottom-10 bg-black text-white w-44 text-lg h-20">
+            hello
+        </div>
+    );
+};
+
 export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
     const [startDate, setStartDate] = useState(new Date(start).toISOString().slice(0, 10));
     const [endDate, setEndDate] = useState(new Date(end).toISOString().slice(0, 10));
@@ -14,6 +22,7 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
     const [endTime, setEndTime] = useState(new Date(end).toString().slice(16, 21));
 
     return (
+        <>
         <div
             className="flex justify-between w-full flex flex-col justify-between w-full items-center text-black dark:text-white h-full">
             <div className="flex flex-col items-center gap-4 justify-between">
@@ -52,5 +61,7 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
                 {formatDuration(end - start)}~
             </div>
         </div>
+        <Toast/>
+        </>
     );
 }
