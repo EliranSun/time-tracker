@@ -42,7 +42,10 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
                     onBlur={() => {
                         const newTimestamp = new Date(startDate + "T" + startTime + ":00").getTime();
                         if (newTimestamp !== start) {
-                            updateActivityTimeById(activityName, id, {start: newTimestamp})
+                            updateActivityTimeById(activityName, id, {
+                                start: newTimestamp,
+                                end,
+                            })
                                 .then(() => setInputUpdateResultString("success"))
                                 .catch((error) => setInputUpdateResultString("error"));
                         }
@@ -57,7 +60,10 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
                     onBlur={() => {
                         const newTimestamp = new Date(endDate + "T" + endTime + ":00").getTime();
                         if (newTimestamp !== end) {
-                            updateActivityTimeById(activityName, id, {end: newTimestamp})
+                            updateActivityTimeById(activityName, id, {
+                                end: newTimestamp, 
+                                start,
+                            })
                                 .then(() => setInputUpdateResultString("success"))
                                 .catch((error) => setInputUpdateResultString("error"));
                         }
