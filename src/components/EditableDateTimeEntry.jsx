@@ -43,7 +43,7 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
                         const newTimestamp = new Date(startDate + "T" + startTime + ":00").getTime();
                         if (newTimestamp !== start) {
                             updateActivityTimeById(activityName, id, {start: newTimestamp})
-                                .then(() => setInputUpdateResultString("sucess"))
+                                .then(() => setInputUpdateResultString("success"))
                                 .catch((error) => setInputUpdateResultString("error"));
                         }
                     }}/>
