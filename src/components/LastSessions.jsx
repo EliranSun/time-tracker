@@ -34,7 +34,7 @@ export const LastSessions = ({activitiesData, activity}) => {
                 <div
                     // TODO: Dynamic positioning
                     style={{bottom: "11.5rem", left: 0, right: 0}}
-                    className="w-32 m-auto absolute z-20 h-16 text-xs text-white font-mono overflow-y-auto"
+                    className="w-32 m-auto absolute z-20 h-16 text-xs font-mono overflow-y-auto"
                     onScroll={event => event.stopPropagation()}>
                     {activitiesData
                         .filter(item => {
