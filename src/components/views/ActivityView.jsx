@@ -119,7 +119,6 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                             }
                         }}>
                         <div 
-                            {...longPressEvent}
                             className="flex flex-col items-center mt-12 my-8">
                             <Icon size={80}/>
                             <p
