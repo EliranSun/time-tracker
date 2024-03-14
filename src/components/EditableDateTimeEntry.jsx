@@ -12,6 +12,7 @@ const Toast = ({ type }) => {
     return (
         <div className={classNames({
             "opacity-0": !type,
+            "opacity-100": type,
             "animate-all fixed rounded flex items-center justify-center left-0 right-0": true, 
             "m-auto bottom-20 bg-black text-white w-fit px-4 text-lg h-10": true,
             })}>
@@ -25,7 +26,8 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
     const [endDate, setEndDate] = useState(new Date(end).toISOString().slice(0, 10));
     const [startTime, setStartTime] = useState(new Date(start).toString().slice(16, 21));
     const [endTime, setEndTime] = useState(new Date(end).toString().slice(16, 21));
-
+    const [inputUpdateResultString, setInputUpdateResultString] = useState("");
+    
     return (
         <>
         <div
@@ -41,8 +43,8 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
                         const newTimestamp = new Date(startDate + "T" + startTime + ":00").getTime();
                         if (newTimestamp !== start) {
                             updateActivityTimeById(activityName, id, {start: newTimestamp})
-                                .then(() => alert("Updated!"))
-                                .catch((error) => alert(error));
+                                .then(() => setInputUpdateResultString("sucess"))
+                                .catch((error) => setInputUpdateResultString("error"));
                         }
                     }}/>
                 <ArrowDown size={42} className="dark:text-white"/>
@@ -56,8 +58,8 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
                         const newTimestamp = new Date(endDate + "T" + endTime + ":00").getTime();
                         if (newTimestamp !== end) {
                             updateActivityTimeById(activityName, id, {end: newTimestamp})
-                                .then(() => alert("Updated!"))
-                                .catch((error) => alert(error));
+                                .then(() => setInputUpdateResultString("success"))
+                                .catch((error) => setInputUpdateResultString("error"));
                         }
                     }}
                 />
@@ -66,7 +68,7 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
                 {formatDuration(end - start)}~
             </div>
         </div>
-        <Toast/>
+        <Toast type={inputUpdateResultString}/> 
         </>
     );
 }
