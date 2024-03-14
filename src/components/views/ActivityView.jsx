@@ -20,11 +20,11 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
 
     const defaultOptions = {
         isPreventDefault: true,
-        delay: 500,
+        delay: 3000,
     };
     const longPressEvent = useLongPress((event) => {
         const touchPoints = event.touches?.length;
-        if (touchPoints === 2) {
+        if (touchPoints === 1) {
             setIsAddEntryView(prev => !prev);
         }
     }, defaultOptions);
