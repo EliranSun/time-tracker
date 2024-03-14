@@ -95,7 +95,10 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
 
     return (
         <>
-            <div {...swipeHandlers} className="">
+            <div
+                {...longPressEvent}
+                {...swipeHandlers} 
+                className="">
                 <div
                     className="fixed top-0 left-0 w-screen h-screen -z-10"
                     style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}/>
@@ -118,7 +121,6 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                         <div className="flex flex-col items-center mt-12 my-8">
                             <Icon size={80}/>
                             <p
-                                {...longPressEvent}
                                 className={classNames("font-extralight tracking-wide text-8xl")}>
                                 {activity.name}
                             </p>
