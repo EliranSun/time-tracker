@@ -132,7 +132,7 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                                 isZenMode={isZenMode}/>
                         </div>
                         {isAddEntryView ?
-                            <AddActivityEntry
+                            <EditableDateTimeEntry
                                 activity={activity}
                                 setIsAddEntryView={setIsAddEntryView}/>
                             : null}
