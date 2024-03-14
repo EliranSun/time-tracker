@@ -2,6 +2,7 @@ import {ArrowDown} from "@phosphor-icons/react";
 import {formatDuration} from "../utils/session";
 import {useState} from "react";
 import {updateActivityTimeById} from "../utils/db";
+import classNames from "classnames";
 
 const onDateTimeChange = (event) => {
     const value = event.target.value;
@@ -9,7 +10,10 @@ const onDateTimeChange = (event) => {
 
 const Toast = ({ type }) => {
     return (
-        <div className="fixed rounded flex items-center justify-center left-0 right-0 m-auto bottom-10 bg-black text-white w-44 text-lg h-10">
+        <div className={classNames({
+            "fixed rounded flex items-center justify-center left-0 right-0": true, 
+            "m-auto bottom-10 bg-black text-white w-fit px-4 text-lg h-10": true,
+            })}>
             { type === "success" ? "alright!" : "something got entangled" }
         </div>
     );
