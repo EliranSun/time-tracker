@@ -132,9 +132,7 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                                 isZenMode={isZenMode}/>
                         </div>
                         {isAddEntryView ?
-                            <EditableDateTimeEntry
-                                activity={activity}
-                                setIsAddEntryView={setIsAddEntryView}/>
+                            <EditableDateTimeEntry activityName={activity.name} />
                             : null}
                         {(isZenMode || isAddEntryView) ? null : (
                             <div className="my-2 flex flex-col justify-between">
