@@ -97,7 +97,6 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
     return (
         <>
             <div
-                {...longPressEvent}
                 {...swipeHandlers} 
                 className="">
                 <div
@@ -119,7 +118,9 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                                 onStopTick();
                             }
                         }}>
-                        <div className="flex flex-col items-center mt-12 my-8">
+                        <div 
+                            {...longPressEvent}
+                            className="flex flex-col items-center mt-12 my-8">
                             <Icon size={80}/>
                             <p
                                 className={classNames("font-extralight tracking-wide text-8xl")}>
