@@ -9,6 +9,7 @@ import {AddActivityEntry} from "../AddActivityEntry";
 import {Counter} from "../Counter";
 import {usePageSwipe} from "../../hooks/usePageSwipe";
 import {ActivityDataSection} from "../organisms/ActivityDataSection";
+import {EditableDateTimeEntry} from "../EditableDateTimeEntry";
 
 export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, activity, isZenMode, setActivePage}) => {
     const [refPath, setRefPath] = useState("");
