@@ -15,8 +15,8 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
 
     return (
         <div
-            className="flex justify-between w-full flex flex-col justify-between w-full items-center text-white h-full">
-            <div className="flex flex-col items-center gap-4 justify-between text-black dark:text-white">
+            className="flex justify-between w-full flex flex-col justify-between w-full items-center text-black dark:text-white h-full">
+            <div className="flex flex-col items-center gap-4 justify-between">
                 <input type="date" className="text-base bg-transparent" defaultValue={startDate}/>
                 <input
                     type="time"
