@@ -132,14 +132,14 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                                 lastStartTime={lastStartTime}
                                 isZenMode={isZenMode}/>
                         </div>
-                        {isAddEntryView ?
                             <EditActivityEntryModal
+                            isOpen={isAddEntryView}
+                            onClose={() => setIsAddEntryView(false)}
                             entry={{
                                 start: new Date().getTime() - 60 * 60 * 1000,
                                 end: new Date().getTime(),
                                 activityName: activity.name,
                             }} />
-                            : null}
                         {(isZenMode || isAddEntryView) ? null : (
                             <div className="my-2 flex flex-col justify-between">
                                 <ActivityDataSection
