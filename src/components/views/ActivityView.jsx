@@ -1,11 +1,9 @@
 import {useCallback, useEffect, useState} from "react";
 import classNames from "classnames";
-import {useLongPress} from "react-use";
 import {Block} from "../Block";
 import {addActivityData, getRefByPath, updateActivityData} from "../../utils/db";
 import {getAppBackgroundColor, replaceMetaThemeColor} from "../../utils/colors";
 import {useActivityData} from "../../hooks/useActivityData";
-import {AddActivityEntry} from "../AddActivityEntry";
 import {Counter} from "../Counter";
 import {usePageSwipe} from "../../hooks/usePageSwipe";
 import {ActivityDataSection} from "../organisms/ActivityDataSection";
@@ -17,18 +15,7 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
     const [isAddEntryView, setIsAddEntryView] = useState(false);
     const [updateCount, setUpdateCount] = useState(0);
     const activitiesData = useActivityData(activity.name, updateCount);
-    const swipeHandlers = usePageSwipe(setActivePage);
-
-    const defaultOptions = {
-        isPreventDefault: true,
-        delay: 3000,
-    };
-    const longPressEvent = useLongPress((event) => {
-        const touchPoints = event.touches?.length;
-        if (touchPoints === 1) {
-            setIsAddEntryView(prev => !prev);
-        }
-    }, defaultOptions);
+    const swipeHandlers = usePageSwipe(setActivePage, isAddEntryView);
 
     useEffect(() => {
         if (!currentActivity.name || currentActivity.name !== activity.name) {
@@ -94,11 +81,10 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
             })
     }, [activity.name, refPath]);
 
+    const handlers = isAddEntryView ? {} : swipeHandlers;
     return (
         <>
-            <div
-                {...swipeHandlers} 
-                className="">
+            <div {...handlers}>
                 <div
                     className="fixed top-0 left-0 w-screen h-screen -z-10"
                     style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}/>
@@ -118,11 +104,11 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                                 onStopTick();
                             }
                         }}>
-                        <div 
+                        <div
                             className="flex flex-col items-center mt-12 my-8">
-                            <Icon 
-                            onClick={() => setIsAddEntryView(!isAddEntryView)}
-                            size={80}/>
+                            <Icon
+                                onClick={() => setIsAddEntryView(!isAddEntryView)}
+                                size={80}/>
                             <p
                                 className={classNames("font-extralight tracking-wide text-8xl")}>
                                 {activity.name}
@@ -132,14 +118,14 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                                 lastStartTime={lastStartTime}
                                 isZenMode={isZenMode}/>
                         </div>
-                            <EditActivityEntryModal
+                        <EditActivityEntryModal
                             isOpen={isAddEntryView}
                             onClose={() => setIsAddEntryView(false)}
                             entry={{
                                 start: new Date().getTime() - 60 * 60 * 1000,
                                 end: new Date().getTime(),
                                 name: activity.name,
-                            }} />
+                            }}/>
                         {(isZenMode || isAddEntryView) ? null : (
                             <div className="my-2 flex flex-col justify-between">
                                 <ActivityDataSection
