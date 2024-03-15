@@ -9,7 +9,7 @@ import {AddActivityEntry} from "../AddActivityEntry";
 import {Counter} from "../Counter";
 import {usePageSwipe} from "../../hooks/usePageSwipe";
 import {ActivityDataSection} from "../organisms/ActivityDataSection";
-import {EditableDateTimeEntry} from "../EditableDateTimeEntry";
+import {EditActivityEntryModal} from "../organisms/EditActivityEntryModal";
 
 export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, activity, isZenMode, setActivePage}) => {
     const [refPath, setRefPath] = useState("");
@@ -133,10 +133,12 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                                 isZenMode={isZenMode}/>
                         </div>
                         {isAddEntryView ?
-                            <EditableDateTimeEntry 
-                            start={new Date().getTime() - 60 * 60 * 1000}
-                            end={new Date().getTime()}
-                            activityName={activity.name} />
+                            <EditActivityEntryModal
+                            entry={{
+                                start: new Date().getTime() - 60 * 60 * 1000,
+                                end: new Date().getTime(),
+                                activityName: activity.name,
+                            }} />
                             : null}
                         {(isZenMode || isAddEntryView) ? null : (
                             <div className="my-2 flex flex-col justify-between">
