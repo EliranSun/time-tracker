@@ -2,7 +2,7 @@ import { noop } from "lodash";
 import { X, Check } from "@phosphor-icons/react";
 import { EditableDateTimeEntry } from "../EditableDateTimeEntry";
 
-const ModalButton = ({children}) => {
+export const ModalButton = ({children}) => {
     return (
          <span className="rounded-full border-4 border-black dark:border-white p-4 hover:bg-white hover:text-black">
             {children}
@@ -27,13 +27,6 @@ export const EditActivityEntryModal = ({ entry, isOpen = false, onClose = noop }
                                 onClick={onClose}
                                 className="dark:text-white hover:text-black"/>
                         </ModalButton>
-                         {!entry.id ? 
-                        <ModalButton>
-                           <Check
-                                size={52}
-                                onClick={onClose}
-                                className="dark:text-white hover:text-black"/> 
-                        </ModalButton>: null}
                         </div>
                         <h1>{entry.name}</h1>
                         <EditableDateTimeEntry
