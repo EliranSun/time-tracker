@@ -1,5 +1,5 @@
 import { noop } from "lodash";
-import { X } from "@phosphor-icons/react";
+import { X, Check } from "@phosphor-icons/react";
 import { EditableDateTimeEntry } from "../EditableDateTimeEntry";
 
 export const EditActivityEntryModal = ({ entry, isOpen = false, onClose = noop }) => {
@@ -17,6 +17,10 @@ export const EditActivityEntryModal = ({ entry, isOpen = false, onClose = noop }
                                 size={52}
                                 onClick={onClose}
                                 className="dark:text-white hover:text-black"/>
+                            {!entry.id ? <Check
+                                size={52}
+                                onClick={onClose}
+                                className="dark:text-white hover:text-black"/> : null}
                         </span>
                         <h1>{entry.name}</h1>
                         <EditableDateTimeEntry
