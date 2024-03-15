@@ -21,7 +21,7 @@ export const EditActivityEntryModal = ({entry, isOpen = false, onClose = noop}) 
                             className="dark:text-white hover:text-black"/>
                     </ModalButton>
                 </div>
-                <h1 className="text-3xl">{entry.name} {entry.id ? "ADD" : "EDIT"}</h1>
+                <h1 className="text-3xl">{entry.id ? "Edit" : "Add"} {entry.name} Entry</h1>
                 <EditableDateTimeEntry
                     id={entry.id}
                     activityName={entry.name}
