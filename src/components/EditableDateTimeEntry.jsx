@@ -43,7 +43,11 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
                                 return;
                             }
 
-
+                            if (!id) {
+                                alert("adding!");
+                                return;
+                            }
+                            
                             updateActivityTimeById(activityName, id, {
                                 start: newStartTimestamp,
                                 end,
@@ -62,6 +66,11 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
                             const newEndTimestamp = new Date(endDate + "T" + endTime + ":00").getTime();
                             if (newEndTimestamp === end || (start > newEndTimestamp)) {
                                 setInputUpdateResultString("error");
+                                return;
+                            }
+                            
+                            if (!id) {
+                                alert("adding!");
                                 return;
                             }
 
