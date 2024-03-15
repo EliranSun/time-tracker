@@ -11,7 +11,7 @@ export const EditActivityEntryModal = ({ entry, onClose = noop }) => {
                         <span className="absolute top-14 rounded-full border-4 border-black dark:border-white p-4 hover:bg-white hover:text-black">
                             <X
                                 size={52}
-                                onClick={() => setSessionDialogData({start: 0, end: 0})}
+                                onClick={onClose}
                                 className="dark:text-white hover:text-black"/>
                         </span>
                         <EditableDateTimeEntry
