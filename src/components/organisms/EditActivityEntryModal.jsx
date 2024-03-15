@@ -20,7 +20,7 @@ export const EditActivityEntryModal = ({ entry, isOpen = false, onClose = noop }
                     open={true}
                     className="backdrop-blur-xl fixed z-30 flex items-center bg-transparent justify-center w-screen h-screen top-0">
                     <div className="flex flex-col items-center font-mono justify-center w-5/6 h-2/3 rounded-xl p-8 pt-16">
-                        <div className="absolute top-14">
+                        <div className="absolute flex gap-4 top-14">
                         <ModalButton>
                             <X
                                 size={52}
