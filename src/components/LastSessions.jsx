@@ -2,7 +2,7 @@ import {roundToNearestMinutes} from "date-fns";
 import {formatDuration} from "../utils/session";
 import {EditableDateTimeEntry} from "./EditableDateTimeEntry";
 import {useState} from "react";
-import {X} from "@phosphor-icons/react";
+import {ClockCounterClockwise, X} from "@phosphor-icons/react";
 
 const formatDateTimeParts = (timestamp) => {
     return new Intl.DateTimeFormat('en-IL', {
@@ -52,6 +52,7 @@ export const LastSessions = ({activitiesData, activity}) => {
                             </div>
                         )
                     })}
+                    <ClockCounterClockwise size={32} />
             </div>
             {sessionDialogData.start ?
                 // TODO: Extract to a component + disable swipe handlers on ActivityView when dialog is open
