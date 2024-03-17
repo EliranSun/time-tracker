@@ -7,7 +7,7 @@ export const LastSession = ({activity, data}) => {
     }, [activity.name, data]);
 
     return (
-        <p className="text-xs flex justify-between">
+        <p className="w-full text-xs flex justify-between">
             <i>Last Session:</i>{' '}
             <span className="font-mono">{sessionData}</span>
         </p>
