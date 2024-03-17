@@ -13,6 +13,7 @@ export const ApiStatus = {
 };
 
 export const EditableDateTimeEntry = ({id, activityName, start, end, isListView = false}) => {
+    console.log({isListView});
     const [startDate, setStartDate] = useState(new Date(start).toISOString().slice(0, 10));
     const [endDate, setEndDate] = useState(new Date(end).toISOString().slice(0, 10));
     const [startTime, setStartTime] = useState(new Date(start).toString().slice(16, 21));
@@ -37,11 +38,11 @@ export const EditableDateTimeEntry = ({id, activityName, start, end, isListView 
 
     return (
         <>
-            <div className={classNames("flex justify-between w-full flex flex-col justify-between w-full items-center text-black dark:text-white h-full", {
+            <div className="flex justify-between w-full flex flex-col justify-between w-full items-center text-black dark:text-white h-full">
+                <div className={classNames("flex items-center gap-4 justify-between mb-16",{
                     "flex-col": !isListView,
                     "flex-row": isListView,
                 })}>
-                <div className={classNames("flex items-center gap-4 justify-between mb-16")}>
                     <input
                         type="date"
                         className="text-base bg-transparent"
