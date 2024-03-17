@@ -10,6 +10,9 @@ export const usePageSwipe = (onSwipe = noop, isDisabled = false) => {
         onSwipedRight: () => onSwipe(prevPage => PageMazeMap[prevPage].Right),
         onSwipedUp: () => onSwipe(prevPage => PageMazeMap[prevPage].Up),
         onSwipedDown: () => onSwipe(prevPage => PageMazeMap[prevPage].Down),
+        preventScrollOnSwipe: isDisabled,
+        trackTouch: !isDisabled,
+        trackMouse: !isDisabled,
     });
 
     useEffect(() => {
