@@ -37,7 +37,9 @@ export const ActivityDataSection = ({activitiesData, activity}) => {
             <div className="w-32 mb-28 mx-auto" ref={ref}>
                 <Highscore activities={activitiesData}/>
                 <LastSession data={activitiesData} activity={activity}/>
-                {domReady ? createPortal(children, container) : null}
+                <LastSessions
+                activitiesData={activitiesData}
+                activity={activity}/>
                 <ClockCounterClockwise size={32} />
             </div>
             <LastWeekDataStrip data={activitiesData} activity={activity}/>
