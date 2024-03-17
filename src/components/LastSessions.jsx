@@ -35,7 +35,7 @@ export const LastSessions = ({activitiesData, activity}) => {
                             (item.end - item.start) > 60 * 10000
                         );
                     })
-                    .sort((a, b) => b.start - a.start)
+                    .sort((a, b) => b.start - a.start).slice(0,3)
                     .map(item => {
                         const starTimeDateParts = formatDateTimeParts(item.start);
                         return (
