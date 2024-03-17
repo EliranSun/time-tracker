@@ -2,7 +2,7 @@ import {ArrowDown, Check} from "@phosphor-icons/react";
 import {formatDuration} from "../utils/session";
 import {useMemo, useState} from "react";
 import {addActivityData, updateActivityTimeById} from "../utils/db";
-import {ModalButton} from "./atoms/ModalButton";
+import {Button} from "./atoms/Button";
 import {Toast} from "./atoms/Toast";
 
 export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
@@ -82,7 +82,7 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
                     {durationTimeString}~
                 </div>
                 {id ? null :
-                    <ModalButton>
+                    <Button>
                         <Check
                             size={52}
                             className="dark:text-white hover:text-black"
@@ -111,7 +111,7 @@ export const EditableDateTimeEntry = ({id, activityName, start, end}) => {
                                 });
                                 setInputUpdateResultString("success");
                             }}/>
-                    </ModalButton>}
+                    </Button>}
             </div>
             <Toast type={inputUpdateResultString}/>
         </>

@@ -7,7 +7,7 @@ import {useActivityData} from "../../hooks/useActivityData";
 import {Counter} from "../Counter";
 import {usePageSwipe} from "../../hooks/usePageSwipe";
 import {ActivityDataSection} from "../organisms/ActivityDataSection";
-import {EditActivityEntryModal} from "../organisms/EditActivityEntryModal";
+import {ActivitiesEntriesView} from "./ActivitiesEntriesView";
 
 export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, activity, isZenMode, setActivePage}) => {
     const [refPath, setRefPath] = useState("");
@@ -118,7 +118,7 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                                 lastStartTime={lastStartTime}
                                 isZenMode={isZenMode}/>
                         </div>
-                        <EditActivityEntryModal
+                        <ActivitiesEntriesView
                             isOpen={isAddEntryView}
                             onClose={() => setIsAddEntryView(false)}
                             entry={{
