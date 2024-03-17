@@ -24,6 +24,7 @@ export const ActivitiesEntriesView = ({entry, isOpen = false, onClose = noop}) =
                 <h1 className="text-3xl">{entry.id ? "Edit" : "Add"} {entry.name} Entry</h1>
                 <EditableDateTimeEntry
                     id={entry.id}
+                    isListView={true}
                     activityName={entry.name}
                     start={entry.start}
                     end={entry.end}/>
