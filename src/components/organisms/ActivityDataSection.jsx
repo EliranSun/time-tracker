@@ -33,15 +33,13 @@ export const ActivityDataSection = ({activitiesData, activity}) => {
     );
 
     return (
-        <section>
-            <div className="w-32 mb-28 mx-auto" ref={ref}>
+        <section className="flex flex-col gap-4 w-32 mx-auto" ref={ref}>
                 <Highscore activities={activitiesData}/>
                 <LastSession data={activitiesData} activity={activity}/>
                 <LastSessions
                 activitiesData={activitiesData}
                 activity={activity}/>
                 <ClockCounterClockwise size={32} />
-            </div>
             <LastWeekDataStrip data={activitiesData} activity={activity}/>
         </section>
     )
