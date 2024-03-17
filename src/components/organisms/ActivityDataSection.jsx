@@ -4,7 +4,7 @@ import {LastSessions} from "../LastSessions";
 import {LastWeekDataStrip} from "../LastWeekDataStrip";
 import {useEffect, useRef, useState} from "react";
 import {createPortal} from "react-dom";
-
+import {ClockCounterClockwise} from "@phosphor-icons/react";
 const UPPER_DIV_HEIGHT = 40;
 
 export const ActivityDataSection = ({activitiesData, activity}) => {
@@ -38,6 +38,7 @@ export const ActivityDataSection = ({activitiesData, activity}) => {
                 <Highscore activities={activitiesData}/>
                 <LastSession data={activitiesData} activity={activity}/>
                 {domReady ? createPortal(children, container) : null}
+                <ClockCounterClockwise size={32} />
             </div>
             <LastWeekDataStrip data={activitiesData} activity={activity}/>
         </section>
