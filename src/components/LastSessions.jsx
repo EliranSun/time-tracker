@@ -1,4 +1,4 @@
-import {roundToNearestMinutes, formatDistanceToNow} from "date-fns";
+import {roundToNearestMinutes, formatDistanceToNowStrict} from "date-fns";
 import {formatDuration} from "../utils/session";
 import {EditableDateTimeEntry} from "./EditableDateTimeEntry";
 import {useState} from "react";
@@ -38,7 +38,7 @@ export const LastSessions = ({activitiesData, activity}) => {
                     .sort((a, b) => b.start - a.start).slice(0,3)
                     .map(item => {
                         const starTimeDateParts = formatDateTimeParts(item.start);
-                        const timeSince = formatDistanceToNow(item.start, { addSuffix: false });
+                        const timeSince = formatDistanceToNowStrict(item.start, { addSuffix: false });
                         return (
                             <div
                                 key={item.start}
