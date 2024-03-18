@@ -38,12 +38,12 @@ export const LastSessions = ({activitiesData, activity}) => {
                     .sort((a, b) => b.start - a.start).slice(0,3)
                     .map(item => {
                         const starTimeDateParts = formatDateTimeParts(item.start);
-                        const timeSince = formatDistanceToNowStrict(item.start, { addSuffix: false });
+                        const timeSince = formatDistanceToNowStrict(item.end);
                         return (
                             <div
                                 key={item.start}
                                 className="flex justify-between m-auto pb-1">
-                                <span>{timeSince}</span>
+                                <span>{timeSince} ago</span>
                                 <span>{formatDuration(item.end - item.start)}</span>
                             </div>
                         )
