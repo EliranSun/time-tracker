@@ -1,4 +1,4 @@
-import {roundToNearestMinutes} from "date-fns";
+import {roundToNearestMinutes, formatDistanceToNow} from "date-fns";
 import {formatDuration} from "../utils/session";
 import {EditableDateTimeEntry} from "./EditableDateTimeEntry";
 import {useState} from "react";
@@ -38,11 +38,12 @@ export const LastSessions = ({activitiesData, activity}) => {
                     .sort((a, b) => b.start - a.start).slice(0,3)
                     .map(item => {
                         const starTimeDateParts = formatDateTimeParts(item.start);
+                        const timeSince = formatDistanceToNow(item.start);
                         return (
                             <div
                                 key={item.start}
                                 className="flex justify-between m-auto pb-1">
-                                <span>{starTimeDateParts[0]}</span>
+                                <span>{timeSince}</span>
                                 <span>{formatDuration(item.end - item.start)}</span>
                             </div>
                         )
