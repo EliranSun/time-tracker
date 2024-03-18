@@ -37,6 +37,10 @@ export const ActivityDataSection = ({activitiesData, activity, onActivitiesDataE
     return (
         <section className="flex flex-col items-center justify-center gap-4 w-32 mx-auto" ref={ref}>
             <Highscore activities={activitiesData}/>
+            <div className="flex justify-between">
+                <span>Streak:</span>
+                <span>0</span>
+            </div>
             <LastSessions
                 activitiesData={activitiesData}
                 activity={activity}/>
