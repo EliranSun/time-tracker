@@ -38,7 +38,7 @@ export const LastSessions = ({activitiesData, activity}) => {
                     .sort((a, b) => b.start - a.start).slice(0,3)
                     .map(item => {
                         const starTimeDateParts = formatDateTimeParts(item.start);
-                        const timeSince = formatDistanceToNow(item.start);
+                        const timeSince = formatDistanceToNow(item.start, { addSuffix: false });
                         return (
                             <div
                                 key={item.start}
