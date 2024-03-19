@@ -5,12 +5,15 @@ import {Button} from "../atoms/Button";
 import {useMemo} from "react";
 import {Activities} from "../../constants/activities";
 
-const TEN_MINUTES = 10 * 60 * 1000;
+const ONE_MINUTE = 1 * 60 * 1000;
 
 export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = noop}) => {
     const filtered = useMemo(() => {
         return entries
-            .filter(item => item.end > 0 && item.start > 0 && item.end - item.start > TEN_MINUTES)
+            .filter(item => 
+                item.end > 0 && 
+                item.start > 0 && 
+                item.end - item.start > ONE_MINUTE)
             .sort((a, b) => b.end - a.end);
     }, [entries]);
 
