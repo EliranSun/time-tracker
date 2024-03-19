@@ -7,15 +7,16 @@ import {useActivityData} from "../../hooks/useActivityData";
 import {Counter} from "../Counter";
 import {usePageSwipe} from "../../hooks/usePageSwipe";
 import {ActivityDataSection} from "../organisms/ActivityDataSection";
-import {EditActivityEntryModal} from "../organisms/EditActivityEntryModal";
+import {ActivitiesEntriesView} from "./ActivitiesEntriesView";
 
 export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, activity, isZenMode, setActivePage}) => {
     const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
+    const [isEditEntryView, setIsEditEntryView] = useState(false);
     const [updateCount, setUpdateCount] = useState(0);
     const activitiesData = useActivityData(activity.name, updateCount);
-    const swipeHandlers = usePageSwipe(setActivePage, isAddEntryView);
+    const swipeHandlers = usePageSwipe(setActivePage, isAddEntryView || isEditEntryView);
 
     useEffect(() => {
         if (!currentActivity.name || currentActivity.name !== activity.name) {
@@ -81,10 +82,9 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
             })
     }, [activity.name, refPath]);
 
-    const handlers = isAddEntryView ? {} : swipeHandlers;
     return (
         <>
-            <div {...handlers}>
+            <div {...swipeHandlers}>
                 <div
                     className="fixed top-0 left-0 w-screen h-screen -z-10"
                     style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}/>
@@ -118,17 +118,18 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                                 lastStartTime={lastStartTime}
                                 isZenMode={isZenMode}/>
                         </div>
-                        <EditActivityEntryModal
+                        <ActivitiesEntriesView
                             isOpen={isAddEntryView}
                             onClose={() => setIsAddEntryView(false)}
-                            entry={{
+                            entries={[{
                                 start: new Date().getTime() - 60 * 60 * 1000,
                                 end: new Date().getTime(),
                                 name: activity.name,
-                            }}/>
+                            }]}/>
                         {(isZenMode || isAddEntryView) ? null : (
                             <div className="my-2 flex flex-col justify-between">
                                 <ActivityDataSection
+                                    onActivitiesDataEdit={setIsEditEntryView}
                                     activitiesData={activitiesData}
                                     activity={activity}/>
                             </div>
