@@ -6,6 +6,8 @@ import {Button} from "./atoms/Button";
 import {Toast} from "./atoms/Toast";
 import classNames from "classnames";
 import {formatDistanceToNow} from "date-fns";
+import {Activities} from "../constants/activities";
+import {calcAlphaChannelBasedOnOpacity} from "../utils/colors";
 
 export const ApiStatus = {
     SUCCESS: "SUCCESS",
@@ -42,15 +44,16 @@ export const EditableDateTimeEntry = ({id, activityName, start, end, isListView 
         <>
             <div className={classNames("w-full text-black dark:text-white h-full", {
                 "border-b border-white/20": false,
-                "flex gap-4 justify-center items-center": isListView,
+                "flex gap-4 items-center": isListView,
             })}>
-                <div className={classNames("flex items-center justify-between", {
-                    "flex-col gap-4 mb-16": !isListView,
-                    "flex-row gap-4 justify-between bg-black/20 p-4": isListView,
-                })}>
+                <div
+                    className={classNames("flex items-center justify-between", {
+                        "flex-col gap-4 mb-16": !isListView,
+                        "flex-row gap-4 justify-between px-5 py-4 w-80 bg-black/20": isListView,
+                    })}>
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col">
-                            <span className="text-xs opacity-70">{formatDistanceToNow(start)} ago</span>
+                            <span className="text-[9px] opacity-70">{formatDistanceToNow(start)} ago</span>
                             <input
                                 type="date"
                                 className="bg-transparent text-sm"
@@ -59,7 +62,7 @@ export const EditableDateTimeEntry = ({id, activityName, start, end, isListView 
                         </div>
                         <input
                             type="time"
-                            className={classNames("bg-transparent", {"text-6xl": !isListView, "text-lg": isListView})}
+                            className={classNames("bg-transparent", {"text-6xl": !isListView, "text-2xl": isListView})}
                             defaultValue={startTime}
                             onChange={event => setStartTime(event.target.value)}
                             onBlur={() => {
@@ -81,7 +84,7 @@ export const EditableDateTimeEntry = ({id, activityName, start, end, isListView 
                         : <ArrowDown size={42} className="dark:text-white"/>}
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col">
-                            <span className="text-xs opacity-70">{formatDistanceToNow(end)} ago</span>
+                            <span className="text-[9px] opacity-70">{formatDistanceToNow(end)} ago</span>
                             <input
                                 type="date"
                                 className="bg-transparent text-sm"
@@ -90,7 +93,7 @@ export const EditableDateTimeEntry = ({id, activityName, start, end, isListView 
                         </div>
                         <input
                             type="time"
-                            className={classNames("bg-transparent", {"text-6xl": !isListView, "text-xl": isListView})}
+                            className={classNames("bg-transparent", {"text-6xl": !isListView, "text-2xl": isListView})}
                             defaultValue={endTime}
                             onChange={event => setEndTime(event.target.value)}
                             onBlur={() => {

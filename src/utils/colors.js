@@ -16,3 +16,7 @@ export const getAppBackgroundColor = () => {
 
     return isDarkMode ? "#282c34" : "#ededed";
 }
+export const calcAlphaChannelBasedOnOpacity = (opacity) => {
+    const alpha = Math.round(opacity * 255).toString(16);
+    return alpha.length === 1 ? `0${alpha}` : alpha;
+}

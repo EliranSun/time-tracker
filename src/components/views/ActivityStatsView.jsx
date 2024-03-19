@@ -1,32 +1,26 @@
-import { useContext, useEffect, useMemo, useState } from "react";
-import { ActivitiesContext } from "../../context/ActivitiesContext";
-import { round, uniqBy } from 'lodash';
+import {useContext, useMemo, useState} from "react";
+import {ActivitiesContext} from "../../context/ActivitiesContext";
+import {round, uniqBy} from 'lodash';
 import {
     addMonths,
     eachDayOfInterval,
     endOfMonth,
     endOfWeek,
     format,
-    startOfMonth,
-    startOfWeek,
-    subMonths,
     isSameDay,
-    isSameMonth
+    isSameMonth,
+    startOfMonth,
+    startOfWeek
 } from 'date-fns';
-import { replaceMetaThemeColor } from "../../utils/colors";
-import { useTimeSwipe } from "../../hooks/useTimeSwipe";
+import {calcAlphaChannelBasedOnOpacity} from "../../utils/colors";
+import {useTimeSwipe} from "../../hooks/useTimeSwipe";
 import classNames from "classnames";
-
-const calcAlphaChannelBasedOnOpacity = (opacity) => {
-    const alpha = Math.round(opacity * 255).toString(16);
-    return alpha.length === 1 ? `0${alpha}` : alpha;
-}
 
 function getDaysIncludingWeekends(date) {
     const firstDayOfMonth = startOfMonth(date);
     const lastDayOfMonth = endOfMonth(date);
-    const startOfWeekForFirstDay = startOfWeek(firstDayOfMonth, { weekStartsOn: 0 });
-    const endOfWeekForLastDay = endOfWeek(lastDayOfMonth, { weekStartsOn: 0 });
+    const startOfWeekForFirstDay = startOfWeek(firstDayOfMonth, {weekStartsOn: 0});
+    const endOfWeekForLastDay = endOfWeek(lastDayOfMonth, {weekStartsOn: 0});
     const daysArray = eachDayOfInterval({
         start: startOfWeekForFirstDay,
         end: endOfWeekForLastDay,
@@ -39,7 +33,7 @@ function getDaysIncludingWeekends(date) {
     }));
 }
 
-export const ActivityStatsView = ({ activity, isZenMode }) => {
+export const ActivityStatsView = ({activity, isZenMode}) => {
     const [dateIndex, setDateIndex] = useState(0);
     const swipeHandlers = useTimeSwipe(setDateIndex);
 
@@ -72,7 +66,7 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
 
     let highestTotal = 0;
     const _ = useMemo(() => {
-        return daysMap.map(({ day, month, year }, index) => {
+        return daysMap.map(({day, month, year}, index) => {
             const activityThisDay = activityData[`${year}-${month}-${day}`] || [];
             const total = (activityThisDay.reduce((acc, entry) => {
                 return acc + (entry.end - entry.start);
@@ -106,10 +100,10 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
 
     return (
         <section className="w-screen h-screen top-0 p-2" {...swipeHandlers}>
-            <h1 className="font-mono text-8xl mt-8 mb-2 tracking-tighter" style={{ color: activity.color }}>
+            <h1 className="font-mono text-8xl mt-8 mb-2 tracking-tighter" style={{color: activity.color}}>
                 {activity.name.toUpperCase()}
             </h1>
-            <h2 className="font-mono text-6xl mb-8" style={{ color: activity.color }}>
+            <h2 className="font-mono text-6xl mb-8" style={{color: activity.color}}>
                 {format(new Date(year, month, 1), 'MMM').toUpperCase()}
             </h2>
             <div className="grid grid-cols-7 justify-center max-w-[700px] m-auto mb-2">
@@ -122,7 +116,7 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
                 <div>S</div>
             </div>
             <div className="grid grid-cols-7 gap-px justify-center max-w-[700px] m-auto bg-white/90">
-                {daysMap.map(({ day, month, year }, index) => {
+                {daysMap.map(({day, month, year}, index) => {
                     const key = `${year}-${month}-${day}`;
                     const activityThisDay = activityData[key] || [];
                     const total = (activityThisDay.reduce((acc, entry) => {
@@ -133,7 +127,7 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
                     const isEntryThisMonth = isSameMonth(new Date(), new Date(year, month, day));
-                    
+
                     return (
                         <div
                             className={classNames("w-full aspect-square flex items-center justify-center flex-col text-white", {
@@ -145,7 +139,7 @@ export const ActivityStatsView = ({ activity, isZenMode }) => {
                                 backgroundColor: `${activity.color}${alpha}`,
                             }}>
                             {isZenMode ? null : <div className="flex flex-col text-black">
-                               <span className="font-bold">{day}</span>
+                                <span className="font-bold">{day}</span>
                                 <span className="text-xs opacity-70">{getTotalString(total)}</span>
                             </div>}
                         </div>)
