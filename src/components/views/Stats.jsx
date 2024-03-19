@@ -141,6 +141,7 @@ export const StatsView = ({onChangePage, activities}) => {
                     const minutes = Math.floor(activityTotalTime / 1000 / 60 % 60);
                     const seconds = Math.floor(activityTotalTime / 1000 % 60);
                     const timeString = getTimeString(hours, minutes, seconds);
+                    const Icon = activity.icon;
 
                     return (
                         <div
@@ -152,7 +153,8 @@ export const StatsView = ({onChangePage, activities}) => {
                                 height: normalizedHeight
                             }}>
                             <h2 className="">
-                                {activity.name.toUpperCase()}{' '}
+                                {/*{activity.name.toUpperCase().slice(0, 5)}{' '}*/}
+                                <Icon/>{' '}
                             </h2>
                             <p>
                                 {timeString}
@@ -180,4 +182,5 @@ export const StatsView = ({onChangePage, activities}) => {
             </div>
         </div>
     )
-};
+}
+    ;
