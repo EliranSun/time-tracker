@@ -153,7 +153,7 @@ export const StatsView = ({onChangePage, activities}) => {
                  {isNavigationPressed ? <span className="bg-black">
                 {adjacentTimeframes.previous}
                 </span> : null}
-            <button className="bg-black p-4 flex items-center flex-col text-white font-mono w-16">
+            <button className="bg-black h-32 p-4 flex items-center flex-col text-white font-mono w-16">
                 {/* <Timer size={32}/> */}
                 <div className="relative">
                     <span className="absolute top-0 inset-x-0">{timeFrameName}</span>
