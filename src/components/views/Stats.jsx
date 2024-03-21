@@ -146,7 +146,7 @@ export const StatsView = ({onChangePage, activities}) => {
                 <span className="bg-black">
                 {adjacentTimeframes.higher}
                 </span>
-                <div>
+                <div className="flex gap-2">
                 <span className="bg-black">
                 {adjacentTimeframes.previous}
                 </span>
