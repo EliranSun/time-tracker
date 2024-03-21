@@ -1,11 +1,11 @@
-import {useContext, useEffect, useMemo, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {isThisMonth, isThisWeek, isThisYear, isToday, add, format, sub} from "date-fns";
 import {replaceMetaThemeColor} from "../../utils/colors";
-import {Timer, ArrowsOutCardinal} from "@phosphor-icons/react";
 import {useTimeSwipe} from "../../hooks/useTimeSwipe";
 import {round} from 'lodash';
 import {ActivitiesContext} from "../../context/ActivitiesContext";
 import {getAllDocsInActivity} from "../../utils/db";
+import {CardinalNavigation} from "../organisms/CardinalNavigation";
 
 const Timespans = ["days", "week", "month", "year", "all"];
 const ROUND_TO = 30;
@@ -36,13 +36,13 @@ export const StatsView = ({onChangePage, activities}) => {
     const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
     const [sortedActivities, setSortedActivities] = useState([]);
     const [timeFrameName, setTimeFrameName] = useState(format(new Date(), "EEEE"));
-    const [adjacentTimeframes, setAdjacentTimeframes] = useState({ 
-            previous: "",
-            next: "",
-            lower: "",
-            higher: ""
-        });
-        
+    const [adjacentTimeframes, setAdjacentTimeframes] = useState({
+        previous: "",
+        next: "",
+        lower: "",
+        higher: ""
+    });
+
     const swipeHandlers = useTimeSwipe(setDateFrame, setTimeFrame);
 
     useEffect(() => {
@@ -143,31 +143,11 @@ export const StatsView = ({onChangePage, activities}) => {
 
     return (
         <div>
-            <div 
-                {...swipeHandlers}
-                className="fixed flex flex-col text-white gap-2 items-center justify-center inset-x-0 bottom-5 m-auto">
-                {isNavigationPressed ? <span className="bg-black">
-                {adjacentTimeframes.higher}
-                </span> : null}
-                <div className="flex gap-2">
-                 {isNavigationPressed ? <span className="bg-black">
-                {adjacentTimeframes.previous}
-                </span> : null}
-            <button className="bg-black h-32 p-4 flex items-center flex-col text-white font-mono w-16">
-                {/* <Timer size={32}/> */}
-                <div className="relative">
-                    <span className="absolute top-0 inset-x-0">{timeFrameName}</span>
-                    <ArrowsOutCardinal size={50}/>
-                </div>
-            </button>
-            {isNavigationPressed ? <span className="bg-black">
-            {adjacentTimeframes.next}
-            </span>: null}
-            </div>
-            {isNavigationPressed ? <span className="bg-black">
-                {adjacentTimeframes.lower}
-                </span> : null}
-            </div>
+            <CardinalNavigation
+                setAdjacentTimeframes={setAdjacentTimeframes}
+                adjacentTimeframes={adjacentTimeframes}
+                timeFrameName={timeFrameName}
+                swipeHandlers={swipeHandlers}/>
             <div className="flex flex-col w-screen justify-evenly h-screen">
                 {sortedActivities.map(({activity, data, totalTime: activityTotalTime}, index) => {
                     const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
@@ -190,9 +170,7 @@ export const StatsView = ({onChangePage, activities}) => {
                                 {/*{activity.name.toUpperCase().slice(0, 5)}{' '}*/}
                                 <Icon/>{' '}
                             </h2>
-                            <p>
-                                {timeString}
-                            </p>
+                            <p>{timeString}</p>
                             {/*<div>*/}
                             {/*    {activity.data.map((data, index) => {*/}
                             {/*        const timeElapsed = data.end ? Math.round((data.end - data.start) / 1000) : 0;*/}
@@ -216,5 +194,4 @@ export const StatsView = ({onChangePage, activities}) => {
             </div>
         </div>
     )
-}
-    ;
+};
