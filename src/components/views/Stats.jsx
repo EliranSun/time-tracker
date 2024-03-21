@@ -26,7 +26,7 @@ const getTimeString = (hours, minutes, seconds) => {
     return `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${round(minutes, -1)}m` : ""}`;
 };
 
-const formatDay = (dateFrame) => format(add(new Date(), {days: dateFrame}), "EEEE")
+const formatDay = (dateFrame) => format(sub(new Date(), {days: dateFrame}), "EEEE")
 
 export const StatsView = ({onChangePage, activities}) => {
     const [totalTime, setTotalTime] = useState(0);
@@ -38,7 +38,7 @@ export const StatsView = ({onChangePage, activities}) => {
     const [adjacentTimeframes, setAdjacentTimeframes] = useState({ 
             previous: "",
             next: "",
-            upper: "",
+            lower: "",
             higher: ""
         });
         
@@ -62,8 +62,10 @@ export const StatsView = ({onChangePage, activities}) => {
                 // day
                 setTimeFrameName(formatDay(dateFrame));
                 setAdjacentTimeframes({
-                    previous: formatDay(dateFrame - 1),
-                    next: formatDay(dateFrame + 1),
+                    previous: formatDay(dateFrame + 1),
+                    next: formatDay(dateFrame - 1),
+                    higher: "week",
+                    lower: "∞"
                 });
                 break;
 
@@ -141,14 +143,26 @@ export const StatsView = ({onChangePage, activities}) => {
     return (
         <div {...swipeHandlers}>
             <div className="fixed flex gap-2 items-center justify-center inset-x-0 bottom-5 m-auto">
+                <span className="bg-black">
+                {adjacentTimeframes.higher}
+                </span>
+                <div>
+                <span className="bg-black">
                 {adjacentTimeframes.previous}
+                </span>
             <button className="bg-black p-4 flex items-center flex-col text-white font-mono w-16">
                 <Timer size={32}/>
                 <div className="flex gap-4">
                     <span>{timeFrameName}</span>
                 </div>
             </button>
+            <span className="bg-black">
             {adjacentTimeframes.next}
+            </span>
+            </div>
+            <span className="bg-black">
+                {adjacentTimeframes.lower}
+                </span>
             </div>
             <div className="flex flex-col w-screen justify-evenly h-screen">
                 {sortedActivities.map(({activity, data, totalTime: activityTotalTime}, index) => {
