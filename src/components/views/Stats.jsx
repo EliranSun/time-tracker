@@ -141,8 +141,10 @@ export const StatsView = ({onChangePage, activities}) => {
 
 
     return (
-        <div {...swipeHandlers}>
-            <div className="fixed flex flex-col text-white gap-2 items-center justify-center inset-x-0 bottom-5 m-auto">
+        <div>
+            <div 
+                {...swipeHandlers}
+                className="fixed flex flex-col text-white gap-2 items-center justify-center inset-x-0 bottom-5 m-auto">
                 <span className="bg-black">
                 {adjacentTimeframes.higher}
                 </span>
