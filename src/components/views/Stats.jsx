@@ -26,6 +26,8 @@ const getTimeString = (hours, minutes, seconds) => {
     return `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${round(minutes, -1)}m` : ""}`;
 };
 
+const formatDay = (dateFrame) => format(sub(new Date(), {days: dateFrame}), "EEEE")
+
 export const StatsView = ({onChangePage, activities}) => {
     const [totalTime, setTotalTime] = useState(0);
     const [timeFrame, setTimeFrame] = useState(0);
@@ -57,8 +59,12 @@ export const StatsView = ({onChangePage, activities}) => {
         switch (true) {
             default:
             case timeFrame % 5 === 0:
-                // dayl
-                setTimeFrameName(format(sub(new Date(), {days: dateFrame}), "EEEE"));
+                // day
+                setTimeFrameName(formatDay(dateFrame));
+                setAdjacentTimeframes({
+                    previous: formatDay(dateFrame - 1),
+                    next: formatDay(dateFrame + 1),
+                });
                 break;
 
             case timeFrame % 5 === 1:
@@ -134,13 +140,16 @@ export const StatsView = ({onChangePage, activities}) => {
 
     return (
         <div {...swipeHandlers}>
-            <button
-                className="fixed inset-x-0 bottom-5 bg-black m-auto p-4 flex items-center flex-col text-white font-mono w-16">
+            <div className="fixed flex gap-2 items-center justify-center inset-x-0 bottom-5 m-auto">
+                {adjacentTimeframes.previous}
+            <button className="bg-black p-4 flex items-center flex-col text-white font-mono w-16">
                 <Timer size={32}/>
                 <div className="flex gap-4">
                     <span>{timeFrameName}</span>
                 </div>
             </button>
+            {adjacentTimeframes.next}
+            </div>
             <div className="flex flex-col w-screen justify-evenly h-screen">
                 {sortedActivities.map(({activity, data, totalTime: activityTotalTime}, index) => {
                     const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
