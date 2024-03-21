@@ -1,7 +1,7 @@
 import {useContext, useEffect, useMemo, useState} from "react";
 import {isThisMonth, isThisWeek, isThisYear, isToday, add, format, sub} from "date-fns";
 import {replaceMetaThemeColor} from "../../utils/colors";
-import {Timer} from "@phosphor-icons/react";
+import {Timer, ArrowsOutCardinal} from "@phosphor-icons/react";
 import {useTimeSwipe} from "../../hooks/useTimeSwipe";
 import {round} from 'lodash';
 import {ActivitiesContext} from "../../context/ActivitiesContext";
@@ -29,6 +29,7 @@ const getTimeString = (hours, minutes, seconds) => {
 const formatDay = (dateFrame) => format(sub(new Date(), {days: dateFrame}), "EEEE")
 
 export const StatsView = ({onChangePage, activities}) => {
+    const [isNavigationPressed, setIsNavigationPressed] = useState(false);
     const [totalTime, setTotalTime] = useState(0);
     const [timeFrame, setTimeFrame] = useState(0);
     const [dateFrame, setDateFrame] = useState(0);
@@ -145,26 +146,26 @@ export const StatsView = ({onChangePage, activities}) => {
             <div 
                 {...swipeHandlers}
                 className="fixed flex flex-col text-white gap-2 items-center justify-center inset-x-0 bottom-5 m-auto">
-                <span className="bg-black">
+                {isNavigationPressed ? <span className="bg-black">
                 {adjacentTimeframes.higher}
-                </span>
+                </span> : null}
                 <div className="flex gap-2">
-                <span className="bg-black">
+                 {isNavigationPressed ? <span className="bg-black">
                 {adjacentTimeframes.previous}
-                </span>
+                </span> : null}
             <button className="bg-black p-4 flex items-center flex-col text-white font-mono w-16">
                 <Timer size={32}/>
                 <div className="flex gap-4">
                     <span>{timeFrameName}</span>
                 </div>
             </button>
-            <span className="bg-black">
+            {isNavigationPressed ? <span className="bg-black">
             {adjacentTimeframes.next}
-            </span>
+            </span>: null}
             </div>
-            <span className="bg-black">
+            {isNavigationPressed ? <span className="bg-black">
                 {adjacentTimeframes.lower}
-                </span>
+                </span> : null}
             </div>
             <div className="flex flex-col w-screen justify-evenly h-screen">
                 {sortedActivities.map(({activity, data, totalTime: activityTotalTime}, index) => {
