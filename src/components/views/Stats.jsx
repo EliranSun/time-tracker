@@ -155,8 +155,9 @@ export const StatsView = ({onChangePage, activities}) => {
                 </span> : null}
             <button className="bg-black p-4 flex items-center flex-col text-white font-mono w-16">
                 <Timer size={32}/>
-                <div className="flex gap-4">
-                    <span>{timeFrameName}</span>
+                <div className="relative flex gap-4">
+                    <span className="absolute">{timeFrameName}</span>
+                    <ArrowsOutCardinal size={50}/>
                 </div>
             </button>
             {isNavigationPressed ? <span className="bg-black">
