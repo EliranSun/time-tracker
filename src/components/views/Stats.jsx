@@ -26,7 +26,7 @@ const getTimeString = (hours, minutes, seconds) => {
     return `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${round(minutes, -1)}m` : ""}`;
 };
 
-const formatDay = (dateFrame) => format(sub(new Date(), {days: dateFrame}), "EEEE")
+const formatDay = (dateFrame) => format(add(new Date(), {days: dateFrame}), "EEEE")
 
 export const StatsView = ({onChangePage, activities}) => {
     const [totalTime, setTotalTime] = useState(0);
