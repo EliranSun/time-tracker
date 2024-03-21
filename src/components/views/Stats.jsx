@@ -156,7 +156,7 @@ export const StatsView = ({onChangePage, activities}) => {
             <button className="bg-black p-4 flex items-center flex-col text-white font-mono w-16">
                 {/* <Timer size={32}/> */}
                 <div className="relative flex gap-4">
-                    <span className="absolute">{timeFrameName}</span>
+                    <span className="absolute top-0 inset-x-0">{timeFrameName}</span>
                     <ArrowsOutCardinal size={50}/>
                 </div>
             </button>
