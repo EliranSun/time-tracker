@@ -1,7 +1,7 @@
 import {useContext, useEffect, useMemo, useState} from "react";
 import {isThisMonth, isThisWeek, isThisYear, isToday, add, format, sub} from "date-fns";
 import {replaceMetaThemeColor} from "../../utils/colors";
-import {Calendar} from "@phosphor-icons/react";
+import {Timer} from "@phosphor-icons/react";
 import {useTimeSwipe} from "../../hooks/useTimeSwipe";
 import {round} from 'lodash';
 import {ActivitiesContext} from "../../context/ActivitiesContext";
@@ -33,7 +33,13 @@ export const StatsView = ({onChangePage, activities}) => {
     const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
     const [sortedActivities, setSortedActivities] = useState([]);
     const [timeFrameName, setTimeFrameName] = useState(format(new Date(), "EEEE"));
-
+    const [adjacentTimeframes, setAdjacentTimeframes] = useState({ 
+            previous: "",
+            next: "",
+            upper: "",
+            higher: ""
+        });
+        
     const swipeHandlers = useTimeSwipe(setDateFrame, setTimeFrame);
 
     useEffect(() => {
@@ -51,6 +57,7 @@ export const StatsView = ({onChangePage, activities}) => {
         switch (true) {
             default:
             case timeFrame % 5 === 0:
+                // dayl
                 setTimeFrameName(format(sub(new Date(), {days: dateFrame}), "EEEE"));
                 break;
 
@@ -67,7 +74,7 @@ export const StatsView = ({onChangePage, activities}) => {
                 break;
 
             case timeFrame % 5 === 4:
-                setTimeFrameName("♾");
+                setTimeFrameName("∞");
                 break;
         }
     }, [dateFrame, timeFrame]);
@@ -128,8 +135,8 @@ export const StatsView = ({onChangePage, activities}) => {
     return (
         <div {...swipeHandlers}>
             <button
-                className="fixed bottom-3 right-5 m-auto p-4 flex items-center flex-col text-white font-mono w-16">
-                <Calendar size={32}/>
+                className="fixed inset-x-0 bottom-5 bg-black m-auto p-4 flex items-center flex-col text-white font-mono w-16">
+                <Timer size={32}/>
                 <div className="flex gap-4">
                     <span>{timeFrameName}</span>
                 </div>
