@@ -7,6 +7,8 @@ export const CardinalNavigation = ({timeFrameName, swipeHandlers, adjacentTimefr
     return (
         <div
             {...swipeHandlers}
+            onTouchStart={() => !isNavigationPressed && setIsNavigationPressed(true)}
+            onTouchEnd={() => isNavigationPressed && setIsNavigationPressed(false)}
             className="fixed flex flex-col text-white gap-2 items-center justify-center inset-x-0 bottom-5 m-auto">
             {isNavigationPressed ?
                 <span className="bg-black">
