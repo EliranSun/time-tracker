@@ -22,11 +22,11 @@ export const CardinalNavigation = ({timeFrameName, swipeHandlers, adjacentTimefr
             onTouchStart={() => !isNavigationPressed && setIsNavigationPressed(true)}
             onTouchEnd={() => isNavigationPressed && setIsNavigationPressed(false)}
             className="fixed flex flex-col text-white select-none gap-2 items-center justify-center inset-x-0 bottom-5 m-auto">
-                <CardinalButton isHidden={isHidden}>
+                <CardinalButton isHidden={!isNavigationPressed}>
                     {adjacentTimeframes.higher}
                 </CardinalButton>
             <div className="flex gap-2">
-                    <CardinalButton isHidden={isHidden}>
+                    <CardinalButton isHidden={!isNavigationPressed}>
                         {adjacentTimeframes.previous}
                     </CardinalButton>
                 <button
@@ -34,11 +34,11 @@ export const CardinalNavigation = ({timeFrameName, swipeHandlers, adjacentTimefr
                     <span className="absolute top-0 inset-x-0">{timeFrameName.slice(0, 4)}</span>
                     <ArrowsOutCardinal size={50}/>
                 </button>
-                    <CardinalButton isHidden={isHidden}>
+                    <CardinalButton isHidden={!isNavigationPressed}>
                         {adjacentTimeframes.next}
                     </CardinalButton>
             </div>
-                <CardinalButton isHidden={isHidden}>
+                <CardinalButton isHidden={!isNavigationPressed}>
                     {adjacentTimeframes.lower}
                 </CardinalButton>
         </div>
