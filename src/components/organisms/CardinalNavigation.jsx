@@ -1,5 +1,17 @@
 import {ArrowsOutCardinal} from "@phosphor-icons/react";
 import {useState} from "react";
+import classNames from "classnames";
+
+const CardinalButton = ({children, isHidden }) => {
+    return (
+        <span className={classNames("bg-black", { 
+        "opacity-0": isHidden,
+        "opacity-100": !isHidden,
+        })}>
+                    {children}
+                </span>
+    );
+};
 
 export const CardinalNavigation = ({timeFrameName, swipeHandlers, adjacentTimeframes, setAdjacentTimeframes}) => {
     const [isNavigationPressed, setIsNavigationPressed] = useState(false);
@@ -10,29 +22,25 @@ export const CardinalNavigation = ({timeFrameName, swipeHandlers, adjacentTimefr
             onTouchStart={() => !isNavigationPressed && setIsNavigationPressed(true)}
             onTouchEnd={() => isNavigationPressed && setIsNavigationPressed(false)}
             className="fixed flex flex-col text-white select-none gap-2 items-center justify-center inset-x-0 bottom-5 m-auto">
-            {isNavigationPressed ?
-                <span className="bg-black">
+                <CardinalButton isHidden={isHidden}>
                     {adjacentTimeframes.higher}
-                </span> : null}
+                </CardinalButton>
             <div className="flex gap-2">
-                {isNavigationPressed ?
-                    <span className="bg-black">
+                    <CardinalButton isHidden={isHidden}>
                         {adjacentTimeframes.previous}
-                    </span> : null}
+                    </CardinalButton>
                 <button
                     className="relative bg-black w-fit p-4 flex items-center justify-center flex-col text-white font-mono w-16">
                     <span className="absolute top-0 inset-x-0">{timeFrameName.slice(0, 4)}</span>
                     <ArrowsOutCardinal size={50}/>
                 </button>
-                {isNavigationPressed ?
-                    <span className="bg-black">
+                    <CardinalButton isHidden={isHidden}>
                         {adjacentTimeframes.next}
-                    </span> : null}
+                    </CardinalButton>
             </div>
-            {isNavigationPressed ?
-                <span className="bg-black">
+                <CardinalButton isHidden={isHidden}>
                     {adjacentTimeframes.lower}
-                </span> : null}
+                </CardinalButton>
         </div>
     )
 }
