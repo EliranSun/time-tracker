@@ -26,7 +26,10 @@ const getTimeString = (hours, minutes, seconds) => {
     return `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${round(minutes, -1)}m` : ""}`;
 };
 
-const formatDay = (dateFrame) => format(sub(new Date(), {days: dateFrame}), "EEEE")
+const formatDay = (dateFrame) => format(sub(new Date(), {days: dateFrame}), "EEEE");
+const formatWeek = (dateFrame) => format(sub(new Date(), {weeks: dateFrame}), "w");
+const formatMonth = (dateFrame) => format(sub(new Date(), {months: dateFrame}), "MMMM");
+const formatYear = (dateFrame) => format(sub(new Date(), {years: dateFrame}), "yyyy");
 
 export const StatsView = ({onChangePage, activities}) => {
     const [isNavigationPressed, setIsNavigationPressed] = useState(false);
@@ -43,7 +46,12 @@ export const StatsView = ({onChangePage, activities}) => {
         higher: ""
     });
 
-    const swipeHandlers = useTimeSwipe(setDateFrame, setTimeFrame);
+    const swipeHandlers = useTimeSwipe((newDateFrame) => {
+        setDateFrame(newDateFrame);
+    }, (newTimeFrame) => {
+        setTimeFrame(newTimeFrame);
+        setDateFrame(0);
+    });
 
     useEffect(() => {
         Promise
@@ -71,19 +79,47 @@ export const StatsView = ({onChangePage, activities}) => {
                 break;
 
             case timeFrame % 5 === 1:
-                setTimeFrameName(format(sub(new Date(), {weeks: dateFrame}), "w"));
+                // week
+                setTimeFrameName(formatWeek(dateFrame));
+                setAdjacentTimeframes({
+                    previous: formatWeek(dateFrame + 1),
+                    next: formatWeek(dateFrame - 1),
+                    higher: "month",
+                    lower: "day"
+                });
                 break;
 
             case timeFrame % 5 === 2:
-                setTimeFrameName(format(sub(new Date(), {months: dateFrame}), "MMMM"));
+                // month
+                setTimeFrameName(formatMonth(dateFrame));
+                setAdjacentTimeframes({
+                    previous: formatMonth(dateFrame + 1),
+                    next: formatMonth(dateFrame - 1),
+                    higher: "year",
+                    lower: "week"
+                });
                 break;
 
             case timeFrame % 5 === 3:
-                setTimeFrameName(format(sub(new Date(), {years: dateFrame}), "yyyy"));
+                // year
+                setTimeFrameName(formatYear(dateFrame));
+                setAdjacentTimeframes({
+                    previous: formatYear(dateFrame + 1),
+                    next: formatYear(dateFrame - 1),
+                    higher: "∞",
+                    lower: "month"
+                });
                 break;
 
             case timeFrame % 5 === 4:
-                setTimeFrameName("∞");
+                // all
+                setTimeFrameName("all");
+                setAdjacentTimeframes({
+                    previous: "∞",
+                    next: "∞",
+                    higher: "day",
+                    lower: "year"
+                });
                 break;
         }
     }, [dateFrame, timeFrame]);
