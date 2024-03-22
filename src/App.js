@@ -1,7 +1,7 @@
 import './App.css';
 import {useEffect, useState} from 'react';
 import {ActivityView} from "./components/views/ActivityView";
-import {StatsView} from "./components/views/Stats";
+import {StatsView} from "./components/views/StatsView";
 import {useCounter} from "./hooks/useCounter";
 import {Activities, PageMazeMap} from "./constants/activities";
 import {Header} from "./components/Header";

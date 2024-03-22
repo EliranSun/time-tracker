@@ -6,6 +6,7 @@ import {round} from 'lodash';
 import {ActivitiesContext} from "../../context/ActivitiesContext";
 import {getAllDocsInActivity} from "../../utils/db";
 import {CardinalNavigation} from "../organisms/CardinalNavigation";
+import classNames from "classnames";
 
 const Timespans = ["days", "week", "month", "year", "all"];
 const ROUND_TO = 30;
@@ -27,7 +28,7 @@ const getTimeString = (hours, minutes, seconds) => {
 };
 
 const formatDay = (dateFrame) => format(sub(new Date(), {days: dateFrame}), "EEEE");
-const formatWeek = (dateFrame) => format(sub(new Date(), {weeks: dateFrame}), "w");
+const formatWeek = (dateFrame) => `week ${format(sub(new Date(), {weeks: dateFrame}), "w")}`;
 const formatMonth = (dateFrame) => format(sub(new Date(), {months: dateFrame}), "MMMM");
 const formatYear = (dateFrame) => format(sub(new Date(), {years: dateFrame}), "yyyy");
 
@@ -170,7 +171,7 @@ export const StatsView = ({onChangePage, activities}) => {
         const sorted = sortActivitiesByOrder(data, activities);
         const firstActivityColor = sorted[0]?.activity.color;
 
-        replaceMetaThemeColor(firstActivityColor);
+        // replaceMetaThemeColor(firstActivityColor);
 
         setSortedActivities(sorted);
         setTotalTime(todayActivitiesTotalTime);
@@ -178,13 +179,8 @@ export const StatsView = ({onChangePage, activities}) => {
 
 
     return (
-        <div>
-            <CardinalNavigation
-                setAdjacentTimeframes={setAdjacentTimeframes}
-                adjacentTimeframes={adjacentTimeframes}
-                timeFrameName={timeFrameName}
-                swipeHandlers={swipeHandlers}/>
-            <div className="flex flex-col w-screen justify-evenly h-screen">
+        <>
+            <div className="flex flex-col w-screen justify-evenly h-[90vh] px-2 overflow-hidden">
                 {sortedActivities.map(({activity, data, totalTime: activityTotalTime}, index) => {
                     const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
                     const hours = Math.floor(activityTotalTime / 1000 / 60 / 60);
@@ -192,42 +188,33 @@ export const StatsView = ({onChangePage, activities}) => {
                     const seconds = Math.floor(activityTotalTime / 1000 % 60);
                     const timeString = getTimeString(hours, minutes, seconds);
                     const Icon = activity.icon;
+                    const isLast = index === sortedActivities.length - 1;
+                    const isFirst = index === 0;
+                    const onClick = () => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`);
 
                     return (
                         <div
                             key={index}
-                            onClick={() => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`)}
-                            className="flex text-right items-center justify-between text-[2.5em] min-h-[50px] py-4 px-12 font-mono"
+                            className={classNames({
+                                "flex text-right items-center justify-between text-[2.5em] min-h-[50px] py-4 px-12 font-mono": true,
+                                "rounded-b-3xl": isLast,
+                                "rounded-t-3xl": isFirst,
+                            })}
                             style={{
                                 backgroundColor: activity.color,
                                 height: normalizedHeight
                             }}>
-                            <h2 className="">
-                                {/*{activity.name.toUpperCase().slice(0, 5)}{' '}*/}
-                                <Icon/>{' '}
-                            </h2>
+                            <Icon onClick={onClick}/>
                             <p>{timeString}</p>
-                            {/*<div>*/}
-                            {/*    {activity.data.map((data, index) => {*/}
-                            {/*        const timeElapsed = data.end ? Math.round((data.end - data.start) / 1000) : 0;*/}
-
-                            {/*        if (timeElapsed === 0)*/}
-                            {/*            return null;*/}
-
-                            {/*        return (*/}
-                            {/*            <div key={index}>*/}
-                            {/*                {timeElapsed} seconds*/}
-                            {/*                on {new Date(data.start).toLocaleDateString("en-GB", {*/}
-                            {/*                timeZone: "UTC",*/}
-                            {/*            })}*/}
-                            {/*            </div>*/}
-                            {/*        )*/}
-                            {/*    })}*/}
-                            {/*</div>*/}
                         </div>
                     );
                 })}
             </div>
-        </div>
+            <CardinalNavigation
+                setAdjacentTimeframes={setAdjacentTimeframes}
+                adjacentTimeframes={adjacentTimeframes}
+                timeFrameName={timeFrameName}
+                swipeHandlers={swipeHandlers}/>
+        </>
     )
 };

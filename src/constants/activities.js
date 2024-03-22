@@ -20,22 +20,125 @@ import {
     Users
 } from "@phosphor-icons/react";
 
+const Colors = {
+    VIVID_RED: "#f94144",
+    BURNT_ORANGE: "#d9480f",
+    BRIGHT_ORANGE: "#f3722c",
+    LIGHT_ORANGE: "#f9844a",
+    // AMBER: "#f8961e",
+    YELLOW: "#f9c74f",
+    SOFT_GREEN: "#90be6d",
+    AQUAMARINE: "#43aa8b",
+    SLATE_GREEN: "#4d908e",
+    DEEP_BLUE: "#277da1",
+    MOUNTBATTEN_PINK: "#9A7197",
+    PLUM: "#9B5094",
+    RED_VIOLET: "#C71585",
+};
+
+const ActivityColors = {
+    Unity: Colors.VIVID_RED,
+    Creative: Colors.BURNT_ORANGE,
+    Atly: Colors.BRIGHT_ORANGE,
+    Dates: Colors.LIGHT_ORANGE,
+    Pets: Colors.YELLOW,
+    People: Colors.SOFT_GREEN,
+    Read: Colors.AQUAMARINE,
+    OP: Colors.SLATE_GREEN,
+    Media: Colors.DEEP_BLUE,
+    Sleep: Colors.MOUNTBATTEN_PINK,
+    Games: Colors.PLUM,
+    Gym: Colors.RED_VIOLET,
+};
+
 export const Activities = [
-    {order: 3, name: "Atly", icon: Briefcase, color: "#f9844a", page: 1, orientationAngle: 270, data: []},
-    {order: 6, name: "People", icon: Users, color: "#90be6d", page: 2, orientationAngle: 270, data: []},
-    {order: 8, name: "OP", icon: Skull, color: "#4d908e", page: 3, orientationAngle: 90, data: []},
-    {order: 11, name: "Gym", icon: Barbell, color: "#C71585", page: 4, orientationAngle: 270, data: []},
+    {
+        order: 3,
+        name: "Atly",
+        icon: Briefcase,
+        color: ActivityColors.Atly,
+        data: []
+    },
+    {
+        order: 6,
+        name: "People",
+        icon: Users,
+        color: ActivityColors.People,
+        data: []
+    },
+    {
+        order: 8,
+        name: "OP",
+        icon: Skull,
+        color: ActivityColors.OP,
+        data: []
+    },
+    {
+        order: 12,
+        name: "Gym",
+        icon: Barbell,
+        color: ActivityColors.Gym,
+        data: []
+    },
 
-    {order: 1, name: "Unity", icon: PuzzlePiece, color: "#f94144", page: 1, orientationAngle: 0, data: []},
-    {order: 4, name: "Dates", icon: Heart, color: "#f8961e", page: 2, orientationAngle: 0, data: []},
-    {order: 7, name: "Read", icon: BookOpen, color: "#43aa8b", page: 3, orientationAngle: 0, data: []},
-    {order: 10, name: "Sleep", icon: MoonStars, color: "#277da1", page: 4, orientationAngle: 0, data: []},
-
-    {order: 2, name: "Creative", icon: PaintBrush, color: "#f3722c", page: 1, orientationAngle: 90, data: []},
-    {order: 5, name: "Pets", icon: PawPrint, color: "#f9c74f", page: 2, orientationAngle: 90, data: []},
-    {order: 9, name: "Media", icon: Television, color: "#577590", page: 3, orientationAngle: 270, data: []},
-    {order: 12, name: "Games", icon: GameController, color: "#9400D3", page: 4, orientationAngle: 90, data: []},
+    {
+        order: 1,
+        name: "Unity",
+        icon: PuzzlePiece,
+        color: ActivityColors.Unity,
+        data: []
+    },
+    {
+        order: 4,
+        name: "Dates",
+        icon: Heart,
+        color: ActivityColors.Dates,
+        data: []
+    },
+    {
+        order: 7,
+        name: "Read",
+        icon: BookOpen,
+        color: ActivityColors.Read,
+        data: []
+    },
+    {
+        order: 10,
+        name: "Sleep",
+        icon: MoonStars,
+        color: ActivityColors.Sleep,
+        data: []
+    },
+    {
+        order: 2,
+        name: "Creative",
+        icon: PaintBrush,
+        color: ActivityColors.Creative,
+        data: []
+    },
+    {
+        order: 5,
+        name: "Pets",
+        icon: PawPrint,
+        color: ActivityColors.Pets,
+        data: []
+    },
+    {
+        order: 9,
+        name: "Media",
+        icon: Television,
+        color: ActivityColors.Media,
+        data: []
+    },
+    {
+        order: 11,
+        name: "Games",
+        icon: GameController,
+        color: ActivityColors.Games,
+        data: []
+    },
 ];
+
 const ActivitiesEnum = {
     Unity: "Unity",
     Creative: "Creative",
