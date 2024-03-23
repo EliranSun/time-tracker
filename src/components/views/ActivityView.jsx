@@ -24,12 +24,16 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
         }
 
         if (currentActivity.start > 0 && currentActivity.end === 0) {
-            replaceMetaThemeColor(activity.color);
             setLastStartTime(currentActivity.start);
             setRefPath(currentActivity.refPath);
-        } else {
-                    replaceMetaThemeColor(getAppBackgroundColor());
-                }
+        }
+                    
+                    
+                    
+        replaceMetaThemeColor(
+            activity.name === currentActivity.name
+            ? activity.color
+            : getAppBackgroundColor());
     }, [activity.name, currentActivity]);
 
     useEffect(() => {
