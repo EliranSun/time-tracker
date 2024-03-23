@@ -1,8 +1,8 @@
-import {CaretLeft, CaretRight} from "@phosphor-icons/react";
-import {useState} from "react";
+import { CaretLeft, CaretRight } from "@phosphor-icons/react";
+import { useState } from "react";
 import classNames from "classnames";
 
-const CardinalButton = ({children, isHidden}) => {
+const CardinalButton = ({ children, isHidden }) => {
     return (
         <span
             className={classNames("cursor-pointer", {
@@ -16,7 +16,7 @@ const CardinalButton = ({children, isHidden}) => {
     );
 };
 
-export const CardinalNavigation = ({timeFrameName, swipeHandlers, adjacentTimeframes, setAdjacentTimeframes}) => {
+export const CardinalNavigation = ({ timeFrameName, swipeHandlers, adjacentTimeframes, setAdjacentTimeframes }) => {
     const [isNavigationPressed, setIsNavigationPressed] = useState(false);
 
     return (
@@ -27,7 +27,7 @@ export const CardinalNavigation = ({timeFrameName, swipeHandlers, adjacentTimefr
             onTouchStart={() => !isNavigationPressed && setIsNavigationPressed(true)}
             onTouchEnd={() => isNavigationPressed && setIsNavigationPressed(false)}
             className={classNames({
-                "flex flex-col text-white select-none gap-2 items-center justify-center p-2": true,
+                "flex flex-col text-white select-none gap-2 items-center justify-center p-2 w-full": true,
             })}>
             {/*<CardinalButton isHidden={!isNavigationPressed}>*/}
             {/*    {adjacentTimeframes.higher}*/}

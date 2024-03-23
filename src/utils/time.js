@@ -1,3 +1,6 @@
+import { format, sub } from "date-fns";
+import { round } from "lodash";
+
 const ONE_HOUR = 60 * 60;
 
 export const formatTimestamp = (timestampDiff) => {
@@ -20,4 +23,14 @@ export const formatTimestamp = (timestampDiff) => {
         else secondsString = `:${seconds}`;
 
     return hoursString + minutesString + secondsString;
+};
+export const formatDay = (dateFrame) => format(sub(new Date(), { days: dateFrame }), "EEEE");
+export const formatWeek = (dateFrame) => `week ${format(sub(new Date(), { weeks: dateFrame }), "w")}`;
+export const formatMonth = (dateFrame) => format(sub(new Date(), { months: dateFrame }), "MMMM");
+export const formatYear = (dateFrame) => format(sub(new Date(), { years: dateFrame }), "yyyy");
+export const getTimeString = (hours, minutes, seconds) => {
+    if (hours === 0 && minutes === 0)
+        return `1m`;
+
+    return `${hours > 0 ? `${hours}h` : ""}${minutes > 0 ? `${round(minutes, -1)}m` : ""}`;
 };
