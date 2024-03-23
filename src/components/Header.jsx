@@ -48,7 +48,7 @@ export const Header = ({
             </div>
             <div
                 className={classNames({
-                    "w-1/4 flex items-center justify-center gap-8": true,
+                    "w-fit flex items-center justify-center gap-8": true,
                     "text-xl px-2 rounded-2xl": hasBackgroundActivity,
                 })}
                 style={{
