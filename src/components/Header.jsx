@@ -25,7 +25,7 @@ export const Header = ({
 
     if (isZenMode)
         return (
-            <div className="mt-4 flex justify-end w-screen px-8">
+            <div className="mt-4 flex justify-end w-screen px-4">
                 <YinYang size={32} onClick={onZenMode}/>
             </div>
         );
