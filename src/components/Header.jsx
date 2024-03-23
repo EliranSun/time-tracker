@@ -47,18 +47,23 @@ export const Header = ({
                     }}/>
             </div>
             <div
-                className={classNames("w-full flex items-center justify-end gap-8", {
+                className={classNames({
+                    "w-2/3 flex items-center justify-center gap-8": true,
                     "text-xl px-4 py-2 rounded-2xl": hasBackgroundActivity,
                 })}
                 style={{
-                    backgroundColor: hasBackgroundActivity ? currentActivity.color : "transparent"
+                    backgroundColor: hasBackgroundActivity 
+                    ? currentActivity.color 
+                    : "transparent"
                 }}>
                 <LockIcon
                     size={32}
                     className="cursor-pointer"/>
                 {hasBackgroundActivity ? `${currentActivity.name}` : ""}
             </div>
-                            <YinYang size={32} onClick={onZenMode}/>
+            <div>
+                <YinYang size={32} onClick={onZenMode}/>
+            </div>
         </div>
     );
 }
