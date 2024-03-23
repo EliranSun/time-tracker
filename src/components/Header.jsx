@@ -45,6 +45,7 @@ export const Header = ({
                         window.history.pushState({}, "", page);
                         setView(view === Views.STATS ? Views.ACTIVITY : Views.STATS);
                     }}/>
+                                    <YinYang size={32} onClick={onZenMode}/>
             </div>
             <div
                 className={classNames({
@@ -61,9 +62,8 @@ export const Header = ({
                     className="cursor-pointer"/>
                 {hasBackgroundActivity ? `${currentActivity.name}` : ""}
             </div>
-            <div>
-                <YinYang size={32} onClick={onZenMode}/>
-            </div>
+
+
         </div>
     );
 }
