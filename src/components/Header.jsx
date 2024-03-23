@@ -47,7 +47,7 @@ export const Header = ({
                     }}/>
             </div>
             <div
-                className={classNames("flex items-center justify-end gap-8", {
+                className={classNames("w-full flex items-center justify-end gap-8", {
                     "text-xl px-4 py-2 rounded-2xl": hasBackgroundActivity,
                 })}
                 style={{
@@ -57,8 +57,8 @@ export const Header = ({
                     size={32}
                     className="cursor-pointer"/>
                 {hasBackgroundActivity ? `${currentActivity.name}` : ""}
-                <YinYang size={32} onClick={onZenMode}/>
             </div>
+                            <YinYang size={32} onClick={onZenMode}/>
         </div>
     );
 }
