@@ -5,9 +5,9 @@ export const Highscore = ({activities = []}) => {
     const highscore = sortedByTime[0]?.end - sortedByTime[0]?.start;
 
     return (
-        <span className="w-full text-sm flex justify-between">
-            <i>High Score:</i>{' '}
-            <span className="font-mono">{formatDuration(highscore || 0)}</span>
+        <span className="w-full text-sm flex gap-1">
+            <i>Highscore: </i>
+            <span className="font-mono font-bold">{formatDuration(highscore || 0)}</span>
         </span>
     )
 };

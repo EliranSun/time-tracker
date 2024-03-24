@@ -9,11 +9,19 @@ import {usePageSwipe} from "../../hooks/usePageSwipe";
 import {ActivityDataSection} from "../organisms/ActivityDataSection";
 import {ActivitiesEntriesView} from "./ActivitiesEntriesView";
 
-export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, activity, isZenMode, setActivePage}) => {
+export const ActivityView = ({
+                                 currentActivity,
+                                 onActivityStart,
+                                 onActivityEnd,
+                                 activity,
+                                 isZenMode,
+                                 setActivePage,
+                                 isEditEntryView,
+                                 setIsEditEntryView
+                             }) => {
     const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
-    const [isEditEntryView, setIsEditEntryView] = useState(false);
     const [updateCount, setUpdateCount] = useState(0);
     const activitiesData = useActivityData(activity.name, updateCount);
     const swipeHandlers = usePageSwipe(setActivePage, isAddEntryView || isEditEntryView);
@@ -130,7 +138,8 @@ export const ActivityView = ({currentActivity, onActivityStart, onActivityEnd, a
                         {(isZenMode || isAddEntryView) ? null : (
                             <div className="my-2 flex flex-col justify-between">
                                 <ActivityDataSection
-                                    onActivitiesDataEdit={setIsEditEntryView}
+                                    isEditEntryView={isEditEntryView}
+                                    setIsEditEntryView={setIsEditEntryView}
                                     activitiesData={activitiesData}
                                     activity={activity}/>
                             </div>

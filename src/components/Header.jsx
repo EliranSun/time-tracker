@@ -1,7 +1,16 @@
-import {ChartBar, House, Lock, LockOpen, YinYang, Coffee} from "@phosphor-icons/react";
+import {ChartBar, House, Lock, LockOpen, YinYang, Coffee, ClockCounterClockwise} from "@phosphor-icons/react";
 import classNames from "classnames";
 import {useMemo} from "react";
 import {Views} from "../App";
+
+const HeaderStyle = ({children}) => {
+    return (
+        <div
+            className="fixed w-fit inset-x-0 m-auto bottom-6 flex items-center justify-center border-t border-gray-300 gap-8 py-4 px-8">
+            {children}
+        </div>
+    );
+};
 
 export const Header = ({
                            activity,
@@ -10,7 +19,8 @@ export const Header = ({
                            isLocked,
                            currentActivity = {},
                            onZenMode,
-                           isZenMode
+                           isZenMode,
+                           onEntryHistoryClick
                        }) => {
     const LockIcon = useMemo(() => {
         return isLocked ? Lock : LockOpen;
@@ -19,20 +29,21 @@ export const Header = ({
         return currentActivity.name && activity.name !== currentActivity.name;
     }, [currentActivity, activity]);
 
-    console.log({view, isZenMode});
-    if (view === Views.STATS)
+    if (view === Views.STATS) {
         return null;
+    }
 
-    if (isZenMode)
+    if (isZenMode) {
         return (
-            <div className="mt-4 flex justify-end w-screen px-4">
+            <HeaderStyle>
                 <YinYang size={32} onClick={onZenMode}/>
-            </div>
+            </HeaderStyle>
         );
+    }
 
     return (
         <>
-            <div className="fixed w-fit inset-x-0 m-auto bottom-6 flex items-center justify-center border-t border-gray-300 gap-8 py-4 px-8">
+            <HeaderStyle>
                 <House
                     size={32}
                     className="cursor-pointer"
@@ -46,7 +57,9 @@ export const Header = ({
                         setView(view === Views.STATS ? Views.ACTIVITY : Views.STATS);
                     }}/>
                 <YinYang size={32} onClick={onZenMode}/>
-            </div>
+                <ClockCounterClockwise size={32} onClick={onEntryHistoryClick}/>
+                <Coffee size={32} className="cursor-pointer"/>
+            </HeaderStyle>
 
             <div
                 className={classNames({
@@ -60,7 +73,7 @@ export const Header = ({
                         : "transparent"
                 }}>
                 <LockIcon size={32} className="cursor-pointer"/>
-                {/*<span className="text-sm">{hasBackgroundActivity ? `${currentActivity.name}` : ""}</span>*/}
+                <span className="text-sm">{hasBackgroundActivity ? `${currentActivity.name}` : ""}</span>
             </div>
         </>
     );

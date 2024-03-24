@@ -10,9 +10,9 @@ const ONE_MINUTE = 1 * 60 * 1000;
 export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = noop}) => {
     const filtered = useMemo(() => {
         return entries
-            .filter(item => 
-                item.end > 0 && 
-                item.start > 0 && 
+            .filter(item =>
+                item.end > 0 &&
+                item.start > 0 &&
                 item.end - item.start > ONE_MINUTE)
             .sort((a, b) => b.end - a.end);
     }, [entries]);
@@ -25,26 +25,27 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
 
     return (
         <dialog
-            onClose={onClose}
             open={true}
-            onClick={(event) => event.stopPropagation()}
-            className="backdrop-blur-xl fixed z-30 flex items-center bg-transparent justify-center w-screen h-screen top-0">
-            <div className="absolute flex top-8">
+            className="backdrop-blur-xl fixed z-30 flex pt-10 bg-transparent justify-center w-screen h-screen top-0"
+            onClick={(event) => {
+                event.stopPropagation();
+                event.preventDefault();
+            }}>
+            <div className="w-full justify-center absolute flex bottom-16 border border-black" onClick={onClose}>
                 <Button>
                     <X
                         size={52}
-                        onClick={onClose}
                         className="dark:text-white hover:text-black"/>
                 </Button>
             </div>
             <div
-                className="flex items-center justify-center flex-col gap-8 items-center font-mono justify-center h-5/6 rounded-xl pt-20">
+                className="flex items-start flex-col gap-8 font-mono justify-center h-[72vh] rounded-xl">
                 <h1 className="text-3xl dark:text-white">
                     {entries[0].id ? "Edit" : "Add"}{" "}
                     <span style={{color: activity.color}}>{entries[0].name}</span>{" "}
                     Entr{entries.length > 1 ? "ies" : "y"}
                 </h1>
-                <div className="overflow-y-auto overflow-x-hidden h-full flex flex-col gap-2 w-full h-full">
+                <div className="overflow-y-auto overflow-x-hidden h-full flex flex-col gap-2">
                     {filtered.map(entry => {
                         return (
                             <EditableDateTimeEntry

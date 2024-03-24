@@ -24,6 +24,7 @@ function App() {
     const {counter} = useCounter(currentActivity.name);
     const [activePage, setActivePage] = useState(Object.keys(PageMazeMap).find(page => page === "Unity"));
     const activity = Activities.find(activity => activity.name.toLowerCase() === activePage.toLowerCase());
+    const [isEditEntryView, setIsEditEntryView] = useState(false);
 
     useEffect(() => {
         window.addEventListener("popstate", (event) => {
@@ -74,7 +75,7 @@ function App() {
         <ActivitiesProvider>
             <section className="overflow-hidden fixed top-0 left-0">
                 {view === Views.ACTIVITIES ? (
-                    <div className="w-screen mt-16 m-auto flex flex-col items-center justify-center">
+                    <div className="w-screen h-screen m-auto flex flex-col items-center justify-center">
                         <ActivitiesDungeonMap
                             isZenMode={isZenMode}
                             activePage={activePage}/>
@@ -84,6 +85,8 @@ function App() {
                             setActivePage={setActivePage}
                             onChangePage={() => setView(Views.STATS)}
                             isZenMode={isZenMode}
+                            isEditEntryView={isEditEntryView}
+                            setIsEditEntryView={setIsEditEntryView}
                             currentActivity={currentActivity}
                             onActivityStart={newActivity => {
                                 setIsLocked(true);
@@ -108,6 +111,7 @@ function App() {
                     setIsLocked={setIsLocked}
                     onZenMode={() => setIsZenMode(prev => !prev)}
                     currentActivity={currentActivity}
+                    onEntryHistoryClick={() => setIsEditEntryView(true)}
                 />
             </section>
         </ActivitiesProvider>

@@ -25,7 +25,7 @@ export const LastSessions = ({activitiesData, activity}) => {
     return (
         <>
             <div
-                className="w-32 m-auto z-20 h-16 text-xs font-mono overflow-y-auto"
+                className="w-full m-auto z-20 h-16 text-xs font-mono overflow-y-auto"
                 onScroll={event => event.stopPropagation()}>
                 {activitiesData
                     .filter(item => {
@@ -35,7 +35,7 @@ export const LastSessions = ({activitiesData, activity}) => {
                             (item.end - item.start) > 60 * 10000
                         );
                     })
-                    .sort((a, b) => b.start - a.start).slice(0,3)
+                    .sort((a, b) => b.start - a.start).slice(0, 3)
                     .map(item => {
                         const starTimeDateParts = formatDateTimeParts(item.start);
                         const timeSince = formatDistanceToNowStrict(item.end);
@@ -48,7 +48,7 @@ export const LastSessions = ({activitiesData, activity}) => {
                             </div>
                         )
                     })}
-                    
+
             </div>
             {/*{sessionDialogData.start ?*/}
             {/*    // TODO: Extract to a component + disable swipe handlers on ActivityView when dialog is open*/}
