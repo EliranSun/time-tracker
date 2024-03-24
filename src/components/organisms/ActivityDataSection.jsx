@@ -35,7 +35,7 @@ export const ActivityDataSection = ({activitiesData, activity, setIsEditEntryVie
             <div className="flex gap-4">
                 <Highscore activities={activitiesData}/>
                 <div className="w-full text-sm flex gap-1 justify-between">
-                    <span>Streak:</span><span className="font-mono font-bold">0h</span>
+                    <span>Streak:</span><span className="font-mono font-bold">0d</span>
                 </div>
             </div>
             <LastSessions

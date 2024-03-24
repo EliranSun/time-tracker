@@ -2,6 +2,7 @@ import {ChartBar, House, Lock, LockOpen, YinYang, Coffee, ClockCounterClockwise}
 import classNames from "classnames";
 import {useMemo} from "react";
 import {Views} from "../App";
+import {Link} from "react-router-dom";
 
 const HeaderStyle = ({children}) => {
     return (
@@ -12,7 +13,7 @@ const HeaderStyle = ({children}) => {
     );
 };
 
-export const Header = ({
+export const Navbar = ({
                            activity,
                            view,
                            setView,
@@ -44,18 +45,21 @@ export const Header = ({
     return (
         <>
             <HeaderStyle>
-                <House
-                    size={32}
-                    className="cursor-pointer"
-                    onClick={() => window.location.reload()}/>
-                <ChartBar
-                    size={32}
-                    className="cursor-pointer"
-                    onClick={() => {
-                        const page = view === Views.STATS ? "/activity" : "/stats";
-                        window.history.pushState({}, "", page);
-                        setView(view === Views.STATS ? Views.ACTIVITY : Views.STATS);
-                    }}/>
+                <Link to="/unity">
+                    <House
+                        size={32}
+                        className="cursor-pointer"/>
+                </Link>
+                <Link to="/stats">
+                    <ChartBar
+                        size={32}
+                        className="cursor-pointer"
+                        onClick={() => {
+                            const page = view === Views.STATS ? "/activity" : "/stats";
+                            window.history.pushState({}, "", page);
+                            setView(view === Views.STATS ? Views.ACTIVITY : Views.STATS);
+                        }}/>
+                </Link>
                 <YinYang size={32} onClick={onZenMode}/>
                 <ClockCounterClockwise size={32} onClick={onEntryHistoryClick}/>
                 <Coffee size={32} className="cursor-pointer"/>

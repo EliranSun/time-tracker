@@ -1,22 +1,21 @@
-import { useContext, useEffect, useState } from "react";
-import { add, format, isThisMonth, isThisWeek, isThisYear, isToday } from "date-fns";
-import { useTimeSwipe } from "../../hooks/useTimeSwipe";
-import { ActivitiesContext } from "../../context/ActivitiesContext";
-import { getAllDocsInActivity } from "../../utils/db";
-import { CardinalNavigation } from "../organisms/CardinalNavigation";
+import {useContext, useEffect, useState} from "react";
+import {add, format, isThisMonth, isThisWeek, isThisYear, isToday} from "date-fns";
+import {useTimeSwipe} from "../../hooks/useTimeSwipe";
+import {ActivitiesContext} from "../../context/ActivitiesContext";
+import {getAllDocsInActivity} from "../../utils/db";
+import {CardinalNavigation} from "../organisms/CardinalNavigation";
 import classNames from "classnames";
-import { getTimeString } from "../../utils/time";
-import { useTimeAndDateFrame } from "../../hooks/useTimeAndDateFrame";
-import { useTotalTime } from "../../hooks/useTotalTime";
+import {getTimeString} from "../../utils/time";
+import {useTimeAndDateFrame} from "../../hooks/useTimeAndDateFrame";
+import {useTotalTime} from "../../hooks/useTotalTime";
 
-export const StatsView = ({ onChangePage, activities }) => {
-    // const [isNavigationPressed, setIsNavigationPressed] = useState(false);
+export const StatsView = ({activities}) => {
     const [timeFrame, setTimeFrame] = useState(0);
     const [dateFrame, setDateFrame] = useState(0);
     const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
     const [shouldFilterSleep, setShouldFilterSleep] = useState(false);
-    const { adjacentTimeframes, setAdjacentTimeframes, timeFrameName } = useTimeAndDateFrame(timeFrame, dateFrame);
-    const { totalTime, sortedActivities } = useTotalTime({
+    const {adjacentTimeframes, setAdjacentTimeframes, timeFrameName} = useTimeAndDateFrame(timeFrame, dateFrame);
+    const {totalTime, sortedActivities} = useTotalTime({
         activities,
         allActivitiesData,
         dateFrame,
@@ -44,7 +43,7 @@ export const StatsView = ({ onChangePage, activities }) => {
         <>
             <div className="flex flex-col w-screen justify-evenly h-[90vh] px-2 overflow-hidden">
                 {sortedActivities
-                    .map(({ activity, data, totalTime: activityTotalTime }, index) => {
+                    .map(({activity, data, totalTime: activityTotalTime}, index) => {
                         const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
                         const hours = Math.floor(activityTotalTime / 1000 / 60 / 60);
                         const minutes = Math.floor(activityTotalTime / 1000 / 60 % 60);
