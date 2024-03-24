@@ -21,30 +21,36 @@ import {
 } from "@phosphor-icons/react";
 
 const Colors = {
-    VIVID_RED: "#f94144",
-    BRIGHT_ORANGE: "#f3722c",
-    LIGHT_ORANGE: "#f9844a",
-    AMBER: "#f8961e",
-    YELLOW: "#f9c74f",
-    SOFT_GREEN: "#90be6d",
-    AQUAMARINE: "#43aa8b",
-    SLATE_GREEN: "#4d908e",
+    IMPERIAL_RED: "#f94144",
+    ORANGE: "#f3722c",
+    CARROT_ORANGE: "#F8961E",
+
+    CORAL: "#FFB300",
+    SAFFRON: "#f9c74f",
+    PISTACHIO: "#90be6d",
+
+    ZOMP: "#43aa8b",
+    DARK_CYAN: "#4d908e",
     DEEP_BLUE: "#277da1",
+
     MOUNTBATTEN_PINK: "#9A7197",
     PLUM: "#9B5094",
     RED_VIOLET: "#C71585",
 };
 
 const ActivityColors = {
-    Unity: Colors.VIVID_RED,
-    Creative: Colors.BRIGHT_ORANGE,
-    Atly: Colors.LIGHT_ORANGE,
-    Dates: Colors.AMBER,
-    Pets: Colors.YELLOW,
-    People: Colors.SOFT_GREEN,
-    Read: Colors.AQUAMARINE,
-    OP: Colors.SLATE_GREEN,
+    Unity: Colors.IMPERIAL_RED,
+    Creative: Colors.ORANGE,
+    Atly: Colors.CARROT_ORANGE,
+
+    Dates: Colors.CORAL,
+    Pets: Colors.SAFFRON,
+    People: Colors.PISTACHIO,
+
+    Read: Colors.ZOMP,
+    OP: Colors.DARK_CYAN,
     Media: Colors.DEEP_BLUE,
+
     Sleep: Colors.MOUNTBATTEN_PINK,
     Games: Colors.PLUM,
     Gym: Colors.RED_VIOLET,
