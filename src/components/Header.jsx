@@ -52,7 +52,7 @@ export const Header = ({
                 className={classNames({
                     "absolute top-5 right-5": true,
                     "w-fit flex items-center justify-center gap-2": true,
-                    "text-xl py-2 px-4 rounded-2xl": hasBackgroundActivity,
+                    "py-2 px-4 rounded-2xl": true,
                 })}
                 style={{
                     backgroundColor: hasBackgroundActivity
