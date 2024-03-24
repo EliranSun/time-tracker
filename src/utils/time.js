@@ -36,9 +36,9 @@ export const getTimeString = (hours, minutes, timeFrame = Timeframes.DAY) => {
 
     const daysString = days ? `${days}d` : "";
     const minutesString = remainingMinutes ? `${remainingMinutes}m` : "";
+    let hoursString = remainingHours ? `${remainingHours}h` : "";
 
     if (timeFrame < Timeframes.MONTH) {
-        const hoursString = remainingHours ? `${remainingHours}h` : "";
         return `${daysString}${hoursString}${minutesString}`;
     }
 
@@ -46,10 +46,10 @@ export const getTimeString = (hours, minutes, timeFrame = Timeframes.DAY) => {
         remainingHours++;
     }
 
-    const hoursString = remainingHours ? `${remainingHours}h` : "";
+    hoursString = remainingHours ? `${remainingHours}h` : "";
 
     if (!hoursString && !daysString) {
-        return `${minutesString}`;
+        return `<1h`;
     }
 
     return `${daysString}${hoursString}`;
