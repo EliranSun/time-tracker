@@ -1,17 +1,17 @@
-import { ArrowCounterClockwise, ChartBar, House, Lock, LockOpen, YinYang } from "@phosphor-icons/react";
+import {ChartBar, House, Lock, LockOpen, YinYang, Coffee} from "@phosphor-icons/react";
 import classNames from "classnames";
-import { useMemo } from "react";
-import { Views } from "../App";
+import {useMemo} from "react";
+import {Views} from "../App";
 
 export const Header = ({
-    activity,
-    view,
-    setView,
-    isLocked,
-    currentActivity = {},
-    onZenMode,
-    isZenMode
-}) => {
+                           activity,
+                           view,
+                           setView,
+                           isLocked,
+                           currentActivity = {},
+                           onZenMode,
+                           isZenMode
+                       }) => {
     const LockIcon = useMemo(() => {
         return isLocked ? Lock : LockOpen;
     }, [isLocked]);
@@ -19,7 +19,7 @@ export const Header = ({
         return currentActivity.name && activity.name !== currentActivity.name;
     }, [currentActivity, activity]);
 
-    console.log({view,isZenMode});
+    console.log({view, isZenMode});
     if (view === Views.STATS)
         return null;
 
@@ -31,8 +31,8 @@ export const Header = ({
         );
 
     return (
-        <div className="flex justify-between w-screen px-8">
-            <div className="flex mt-4 gap-8">
+        <>
+            <div className="fixed bottom-10 flex items-center justify-center w-screen gap-8 px-8">
                 <House
                     size={32}
                     className="cursor-pointer"
@@ -45,26 +45,23 @@ export const Header = ({
                         window.history.pushState({}, "", page);
                         setView(view === Views.STATS ? Views.ACTIVITY : Views.STATS);
                     }}/>
-                                    <YinYang size={32} onClick={onZenMode}/>
+                <YinYang size={32} onClick={onZenMode}/>
             </div>
+
             <div
                 className={classNames({
-                    "w-fit flex items-center justify-center gap-8": true,
-                    "text-xl mt-2 py-2 px-4 rounded-2xl": hasBackgroundActivity,
-                    "mt-4": !hasBackgroundActivity
+                    "absolute top-5 right-5": true,
+                    "w-fit flex items-center justify-center gap-2": true,
+                    "text-xl py-2 px-4 rounded-2xl": hasBackgroundActivity,
                 })}
                 style={{
-                    backgroundColor: hasBackgroundActivity 
-                    ? currentActivity.color 
-                    : "transparent"
+                    backgroundColor: hasBackgroundActivity
+                        ? currentActivity.color
+                        : "transparent"
                 }}>
-                <LockIcon
-                    size={32}
-                    className="cursor-pointer"/>
-                {hasBackgroundActivity ? `${currentActivity.name}` : ""}
+                <LockIcon size={32} className="cursor-pointer"/>
+                {/*<span className="text-sm">{hasBackgroundActivity ? `${currentActivity.name}` : ""}</span>*/}
             </div>
-
-
-        </div>
+        </>
     );
 }

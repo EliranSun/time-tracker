@@ -70,46 +70,48 @@ function App() {
         });
     }, []);
 
-    return (<ActivitiesProvider>
-        <section className="App overflow-y-hidden h-screen">
-            <Header
-                activity={activity}
-                view={view}
-                setView={setView}
-                isLocked={isLocked}
-                isZenMode={isZenMode}
-                setIsLocked={setIsLocked}
-                onZenMode={() => setIsZenMode(prev => !prev)}
-                currentActivity={currentActivity}
-            />
-            {view === Views.ACTIVITIES ? (
-                <div className="w-screen h-screen m-auto flex flex-col items-center justify-center">
-                    <ActivitiesDungeonMap
-                        isZenMode={isZenMode}
-                        activePage={activePage}/>
-                    <ActivityView
-                        activity={activity}
-                        counter={counter}
-                        setActivePage={setActivePage}
-                        onChangePage={() => setView(Views.STATS)}
-                        isZenMode={isZenMode}
-                        currentActivity={currentActivity}
-                        onActivityStart={newActivity => {
-                            setIsLocked(true);
-                            setCurrentActivity(newActivity);
-                        }}
-                        onActivityEnd={() => {
-                            setIsLocked(false);
-                            setCurrentActivity({});
-                        }}/>
-                </div>) : null}
-            {view === Views.STATS ?
-                <StatsView
-                    activities={Activities}
-                    onChangePage={() => setView(Views.ACTIVITIES)}/> : null}
-            {view === Views.ACTIVITY ? <ActivityStatsView isZenMode={isZenMode} activity={activity}/> : null}
-        </section>
-    </ActivitiesProvider>)
+    return (
+        <ActivitiesProvider>
+            <section className="overflow-hidden fixed top-0 left-0">
+                {view === Views.ACTIVITIES ? (
+                    <div className="w-screen mt-16 m-auto flex flex-col items-center justify-center">
+                        <ActivitiesDungeonMap
+                            isZenMode={isZenMode}
+                            activePage={activePage}/>
+                        <ActivityView
+                            activity={activity}
+                            counter={counter}
+                            setActivePage={setActivePage}
+                            onChangePage={() => setView(Views.STATS)}
+                            isZenMode={isZenMode}
+                            currentActivity={currentActivity}
+                            onActivityStart={newActivity => {
+                                setIsLocked(true);
+                                setCurrentActivity(newActivity);
+                            }}
+                            onActivityEnd={() => {
+                                setIsLocked(false);
+                                setCurrentActivity({});
+                            }}/>
+                    </div>) : null}
+                {view === Views.STATS ?
+                    <StatsView
+                        activities={Activities}
+                        onChangePage={() => setView(Views.ACTIVITIES)}/> : null}
+                {view === Views.ACTIVITY ? <ActivityStatsView isZenMode={isZenMode} activity={activity}/> : null}
+                <Header
+                    activity={activity}
+                    view={view}
+                    setView={setView}
+                    isLocked={isLocked}
+                    isZenMode={isZenMode}
+                    setIsLocked={setIsLocked}
+                    onZenMode={() => setIsZenMode(prev => !prev)}
+                    currentActivity={currentActivity}
+                />
+            </section>
+        </ActivitiesProvider>
+    )
 }
 
 export default App;

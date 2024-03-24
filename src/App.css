@@ -1,9 +1,3 @@
-.App {
-    text-align: center;
-    overflow: hidden;
-    position: fixed;
-}
-
 body, html {
     color: #282c34;
     background-color: #ededed;
