@@ -24,6 +24,7 @@ function App() {
     const {counter} = useCounter(currentActivity.name);
     const [activePage, setActivePage] = useState(Object.keys(PageMazeMap).find(page => page === "Unity"));
 
+alert(activePage);
     const activity = Activities.find(activity => activity.name.toLowerCase() === activePage.toLowerCase());
 
     useEffect(() => {
