@@ -1,18 +1,24 @@
 import {useSwipeable} from "react-swipeable";
 import {PageMazeMap} from "../constants/activities";
 import {useEffect} from "react";
-import {noop} from "lodash";
+import {noop, upperFirst} from "lodash";
 
+const Actions = {
+    Up: "Up",
+    Down: "Down",
+    Left: "Left",
+    Right: "Right",
+};
+
+const swipeAction = (action, onSwipe) => {
+    onSwipe(prevPage => PageMazeMap[upperFirst(prevPage)][action]);
+};
 export const usePageSwipe = (onSwipe = noop, isDisabled = false) => {
     const handlers = useSwipeable({
-        // left/right swapped to mimic "natural" scrolling direction
-        onSwipedLeft: () => onSwipe(prevPage => {
-            alert(prevPage);
-            return PageMazeMap[prevPage].Left;
-            }),
-        onSwipedRight: () => onSwipe(prevPage => PageMazeMap[prevPage].Right),
-        onSwipedUp: () => onSwipe(prevPage => PageMazeMap[prevPage].Up),
-        onSwipedDown: () => onSwipe(prevPage => PageMazeMap[prevPage].Down),
+        onSwipedLeft: () => swipeAction(Actions.Left, onSwipe),
+        onSwipedRight: () => swipeAction(Actions.Right, onSwipe),
+        onSwipedUp: () => swipeAction(Actions.Up, onSwipe),
+        onSwipedDown: () => swipeAction(Actions.Down, onSwipe),
         preventScrollOnSwipe: isDisabled,
         trackTouch: !isDisabled,
         trackMouse: !isDisabled,
@@ -20,22 +26,28 @@ export const usePageSwipe = (onSwipe = noop, isDisabled = false) => {
 
     useEffect(() => {
         const listener = (e) => {
+            let action;
             switch (e.key) {
                 case "ArrowLeft":
-                    onSwipe(prevPage => PageMazeMap[prevPage].Left);
+                    action = Actions.Left;
                     break;
                 case "ArrowRight":
-                    onSwipe(prevPage => PageMazeMap[prevPage].Right);
+                    action = Actions.Right;
                     break;
                 case "ArrowUp":
-                    onSwipe(prevPage => PageMazeMap[prevPage].Up);
+                    action = Actions.Up;
                     break;
                 case "ArrowDown":
-                    onSwipe(prevPage => PageMazeMap[prevPage].Down);
+                    action = Actions.Down;
                     break;
                 default:
                     break;
             }
+
+            if (!action)
+                return;
+
+            swipeAction(action, onSwipe);
         };
 
         if (isDisabled) {

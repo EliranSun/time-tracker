@@ -22,10 +22,9 @@ import {
 
 const Colors = {
     VIVID_RED: "#f94144",
-    BURNT_ORANGE: "#d9480f",
     BRIGHT_ORANGE: "#f3722c",
     LIGHT_ORANGE: "#f9844a",
-    // AMBER: "#f8961e",
+    AMBER: "#f8961e",
     YELLOW: "#f9c74f",
     SOFT_GREEN: "#90be6d",
     AQUAMARINE: "#43aa8b",
@@ -38,9 +37,9 @@ const Colors = {
 
 const ActivityColors = {
     Unity: Colors.VIVID_RED,
-    Creative: Colors.BURNT_ORANGE,
-    Atly: Colors.BRIGHT_ORANGE,
-    Dates: Colors.LIGHT_ORANGE,
+    Creative: Colors.BRIGHT_ORANGE,
+    Atly: Colors.LIGHT_ORANGE,
+    Dates: Colors.AMBER,
     Pets: Colors.YELLOW,
     People: Colors.SOFT_GREEN,
     Read: Colors.AQUAMARINE,
