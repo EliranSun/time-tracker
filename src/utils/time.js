@@ -47,6 +47,10 @@ export const getTimeString = (hours, minutes, timeFrame = Timeframes.DAY) => {
     }
 
     const hoursString = remainingHours ? `${remainingHours}h` : "";
-    
+
+    if (!hoursString && !daysString) {
+        return `${minutesString}`;
+    }
+
     return `${daysString}${hoursString}`;
 };
