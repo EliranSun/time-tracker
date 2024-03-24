@@ -6,7 +6,10 @@ import {noop} from "lodash";
 export const usePageSwipe = (onSwipe = noop, isDisabled = false) => {
     const handlers = useSwipeable({
         // left/right swapped to mimic "natural" scrolling direction
-        onSwipedLeft: () => onSwipe(prevPage => PageMazeMap[prevPage].Left),
+        onSwipedLeft: () => onSwipe(prevPage => {
+            alert(prevPage);
+            return PageMazeMap[prevPage].Left;
+            }),
         onSwipedRight: () => onSwipe(prevPage => PageMazeMap[prevPage].Right),
         onSwipedUp: () => onSwipe(prevPage => PageMazeMap[prevPage].Up),
         onSwipedDown: () => onSwipe(prevPage => PageMazeMap[prevPage].Down),
