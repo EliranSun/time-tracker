@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { add, isThisMonth, isThisWeek, isThisYear, isToday } from "date-fns";
 import { sortActivitiesByOrder } from "../utils/activities";
 
-const ROUND_TO = 30;
+const ROUND_TO = 10;
 
 export function useTotalTime({ activities, allActivitiesData, dateFrame, timeFrame, shouldFilterSleep }) {
     // TODO: Two different hooks
@@ -16,7 +16,7 @@ export function useTotalTime({ activities, allActivitiesData, dateFrame, timeFra
         for (let i = 0; i < allActivitiesData.length; i++) {
             const activity = activities[i];
             const todayCompletedActivities = allActivitiesData[i].filter(item => {
-                if (item.end === 0 || !item.end || (item.end - item.start) < ROUND_TO / 2 * 60 * 1000)
+                if (item.end === 0 || !item.end || (item.end - item.start) < (ROUND_TO * 60 * 1000))
                     return false;
 
                 if (shouldFilterSleep && activity.name === "Sleep")
