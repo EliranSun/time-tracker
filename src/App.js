@@ -4,7 +4,7 @@ import {ActivityView} from "./components/views/ActivityView";
 import {StatsView} from "./components/views/StatsView";
 import {useCounter} from "./hooks/useCounter";
 import {Activities, PageMazeMap} from "./constants/activities";
-import {Header} from "./components/Header";
+import {Navbar} from "./components/Navbar";
 import {ActivitiesDungeonMap} from "./components/ActivitiesDungeonMap";
 import {getAppBackgroundColor, replaceMetaThemeColor} from "./utils/colors";
 import {ActivitiesProvider} from "./context/ActivitiesContext";
@@ -15,10 +15,11 @@ export const Views = {
     ACTIVITIES: "activities", STATS: "stats", ACTIVITY: "activity",
 }
 
+
 function App() {
-    const [view, setView] = useState(Views.ACTIVITIES);
     // TODO: zen mode should be in context
     const [isZenMode, setIsZenMode] = useState(false);
+    const [view, setView] = useState(Views.ACTIVITIES);
     const [currentActivity, setCurrentActivity] = useState(JSON.parse(localStorage.getItem('currentActivity')) || {});
     const [isLocked, setIsLocked] = useState(false);
     const {counter} = useCounter(currentActivity.name);
@@ -76,10 +77,8 @@ function App() {
             <section className="overflow-hidden fixed top-0 left-0">
                 {view === Views.ACTIVITIES ? (
                     <div className="w-screen h-screen m-auto flex flex-col items-center justify-center">
-                        <ActivitiesDungeonMap
-                            isZenMode={isZenMode}
-                            activePage={activePage}/>
                         <ActivityView
+                            activePage={activePage}
                             activity={activity}
                             counter={counter}
                             setActivePage={setActivePage}
@@ -102,7 +101,7 @@ function App() {
                         activities={Activities}
                         onChangePage={() => setView(Views.ACTIVITIES)}/> : null}
                 {view === Views.ACTIVITY ? <ActivityStatsView isZenMode={isZenMode} activity={activity}/> : null}
-                <Header
+                <Navbar
                     activity={activity}
                     view={view}
                     setView={setView}

@@ -2,6 +2,7 @@ import {useSwipeable} from "react-swipeable";
 import {PageMazeMap} from "../constants/activities";
 import {useEffect} from "react";
 import {noop, upperFirst} from "lodash";
+import {useNavigate} from "react-router-dom";
 
 const Actions = {
     Up: "Up",
@@ -10,10 +11,19 @@ const Actions = {
     Right: "Right",
 };
 
-const swipeAction = (action, onSwipe) => {
-    onSwipe(prevPage => PageMazeMap[upperFirst(prevPage)][action]);
+const swipeAction = (action, onSwipe, navigate) => {
+    onSwipe(prevPage => {
+        const nextPage = PageMazeMap[upperFirst(prevPage)][action];
+        if (navigate) {
+            navigate(`/${nextPage.toLowerCase()}`);
+        }
+
+        return nextPage;
+    });
 };
+
 export const usePageSwipe = (onSwipe = noop, isDisabled = false) => {
+    const navigate = useNavigate();
     const handlers = useSwipeable({
         onSwipedLeft: () => swipeAction(Actions.Left, onSwipe),
         onSwipedRight: () => swipeAction(Actions.Right, onSwipe),
@@ -47,7 +57,7 @@ export const usePageSwipe = (onSwipe = noop, isDisabled = false) => {
             if (!action)
                 return;
 
-            swipeAction(action, onSwipe);
+            swipeAction(action, onSwipe, navigate);
         };
 
         if (isDisabled) {

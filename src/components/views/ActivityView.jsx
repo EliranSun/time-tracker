@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import classNames from "classnames";
 import {Block} from "../Block";
 import {addActivityData, getRefByPath, updateActivityData} from "../../utils/db";
@@ -8,17 +8,25 @@ import {Counter} from "../Counter";
 import {usePageSwipe} from "../../hooks/usePageSwipe";
 import {ActivityDataSection} from "../organisms/ActivityDataSection";
 import {ActivitiesEntriesView} from "./ActivitiesEntriesView";
+import {ActivitiesDungeonMap} from "../ActivitiesDungeonMap";
+import {useParams} from "react-router-dom";
+import {Activities} from "../../constants/activities";
 
 export const ActivityView = ({
                                  currentActivity,
                                  onActivityStart,
                                  onActivityEnd,
-                                 activity,
                                  isZenMode,
                                  setActivePage,
                                  isEditEntryView,
-                                 setIsEditEntryView
+                                 setIsEditEntryView,
+                                 activePage
                              }) => {
+    const {id} = useParams();
+    const activity = useMemo(() => {
+        return Activities.find(activity => activity.name.toLowerCase() === id.toLowerCase());
+    }, [id]);
+
     const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
@@ -92,62 +100,62 @@ export const ActivityView = ({
     }, [activity.name, refPath]);
 
     return (
-        <>
-            <div {...swipeHandlers}>
-                <div
-                    className="fixed top-0 left-0 w-screen h-screen -z-10"
-                    style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}/>
-                <div className="h-2/3 flex items-center flex-wrap gap-1 select-none">
-                    <Block
-                        key={activity.name}
-                        onDoubleClick={() => {
-                            const shouldStartTick = !currentActivity.name;
-                            const shouldStopTick = currentActivity.name === activity.name;
+        <div {...swipeHandlers}>
+            <ActivitiesDungeonMap
+                isZenMode={isZenMode}
+                activePage={activePage}/>
+            <div
+                className="fixed top-0 left-0 w-screen h-screen -z-10"
+                style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}/>
+            <div className="h-2/3 flex items-center flex-wrap gap-1 select-none">
+                <Block
+                    key={activity.name}
+                    onDoubleClick={() => {
+                        const shouldStartTick = !currentActivity.name;
+                        const shouldStopTick = currentActivity.name === activity.name;
 
-                            if (shouldStartTick) {
-                                onStartTick(new Date().getTime());
-                                return;
-                            }
+                        if (shouldStartTick) {
+                            onStartTick(new Date().getTime());
+                            return;
+                        }
 
-                            if (shouldStopTick) {
-                                onStopTick();
-                            }
-                        }}>
-                        <div
-                            className="flex flex-col items-center mt-12 my-8">
-                            <Icon
-                                onClick={() => setIsAddEntryView(!isAddEntryView)}
-                                size={80}/>
-                            <p
-                                className={classNames("font-extralight tracking-wide text-8xl")}>
-                                {activity.name}
-                            </p>
-                            <Counter
-                                isActive={currentActivity.name === activity.name}
-                                lastStartTime={lastStartTime}
-                                isZenMode={isZenMode}/>
+                        if (shouldStopTick) {
+                            onStopTick();
+                        }
+                    }}>
+                    <div
+                        className="flex flex-col items-center mt-12 my-8">
+                        <Icon
+                            onClick={() => setIsAddEntryView(!isAddEntryView)}
+                            size={80}/>
+                        <p
+                            className={classNames("font-extralight tracking-wide text-8xl")}>
+                            {activity.name}
+                        </p>
+                        <Counter
+                            isActive={currentActivity.name === activity.name}
+                            lastStartTime={lastStartTime}
+                            isZenMode={isZenMode}/>
+                    </div>
+                    <ActivitiesEntriesView
+                        isOpen={isAddEntryView}
+                        onClose={() => setIsAddEntryView(false)}
+                        entries={[{
+                            start: new Date().getTime() - 60 * 60 * 1000,
+                            end: new Date().getTime(),
+                            name: activity.name,
+                        }]}/>
+                    {(isZenMode || isAddEntryView) ? null : (
+                        <div className="my-2 flex flex-col justify-between">
+                            <ActivityDataSection
+                                isEditEntryView={isEditEntryView}
+                                setIsEditEntryView={setIsEditEntryView}
+                                activitiesData={activitiesData}
+                                activity={activity}/>
                         </div>
-                        <ActivitiesEntriesView
-                            isOpen={isAddEntryView}
-                            onClose={() => setIsAddEntryView(false)}
-                            entries={[{
-                                start: new Date().getTime() - 60 * 60 * 1000,
-                                end: new Date().getTime(),
-                                name: activity.name,
-                            }]}/>
-                        {(isZenMode || isAddEntryView) ? null : (
-                            <div className="my-2 flex flex-col justify-between">
-                                <ActivityDataSection
-                                    isEditEntryView={isEditEntryView}
-                                    setIsEditEntryView={setIsEditEntryView}
-                                    activitiesData={activitiesData}
-                                    activity={activity}/>
-                            </div>
-                        )}
-                    </Block>
-                </div>
+                    )}
+                </Block>
             </div>
-            <div id="scrollable-elements"/>
-        </>
+        </div>
     );
 };
