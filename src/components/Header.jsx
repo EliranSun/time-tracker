@@ -32,7 +32,7 @@ export const Header = ({
 
     return (
         <>
-            <div className="fixed inset-x-0 m-auto bottom-10 flex items-center justify-center border-t border-gray-200 gap-8 py-4 px-8">
+            <div className="fixed inset-x-0 m-auto bottom-10 flex items-center justify-center border-t border-gray-200 mt-4 gap-8 py-4 px-8">
                 <House
                     size={32}
                     className="cursor-pointer"
