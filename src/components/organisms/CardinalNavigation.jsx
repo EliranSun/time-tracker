@@ -1,4 +1,4 @@
-import { CaretLeft, CaretRight } from "@phosphor-icons/react";
+import { CaretLeft, CaretRight, CaretUp, CaretDown } from "@phosphor-icons/react";
 import { useState } from "react";
 import classNames from "classnames";
 
@@ -23,17 +23,11 @@ export const CardinalNavigation = ({ timeFrameName, swipeHandlers, adjacentTimef
         <div className={classNames({
                 "flex flex-col text-white select-none gap-2 items-center justify-center p-2 w-full": true,
             })}>
-            {/*<CardinalButton isHidden={!isNavigationPressed}>*/}
-            {/*    {adjacentTimeframes.higher}*/}
-            {/*</CardinalButton>*/}
             <div className="w-full justify-center flex items-center text-black dark:text-white">
                    <div className="flex gap-2">
                 <CaretLeft size={24}/>
                 <CaretRight size={24}/>
                 </div>
-                {/*<CardinalButton isHidden={!isNavigationPressed}>*/}
-                {/*    {adjacentTimeframes.previous}*/}
-                {/*</CardinalButton>*/}
                 <button
                     className={classNames({
                         "bg-black": false,
@@ -41,15 +35,17 @@ export const CardinalNavigation = ({ timeFrameName, swipeHandlers, adjacentTimef
                         "p-4 h-12 rounded-2xl": true,
                         "flex items-center justify-center flex-col": true,
                     })}>
-                    <span className="flex items-center justify-center">{timeFrameName}</span>
+                    <span className="flex items-center justify-center">
+                        {timeFrameName}
+                    </span>
                 </button>
-                {/*<CardinalButton isHidden={!isNavigationPressed}>*/}
-                {/*    {adjacentTimeframes.next}*/}
-                {/*</CardinalButton>*/}
             </div>
-            {/*<CardinalButton isHidden={!isNavigationPressed}>*/}
-            {/*    {adjacentTimeframes.lower}*/}
-            {/*</CardinalButton>*/}
+            <div className="w-full justify-center flex items-center text-black dark:text-white">
+                <CaretUp size={24}/>
+                {adjacentTimeframes.higher}
+                <CaretDown size={24}/>
+                {adjacentTimeframes.lower}
+            </div>
         </div>
     )
 }
