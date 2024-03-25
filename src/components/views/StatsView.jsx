@@ -41,7 +41,7 @@ export const StatsView = ({activities}) => {
 
     return (
         <>
-            <div className="p-4 flex gap-2">
+            <div className="p-4 flex justify-between">
             <h1 className="text-3xl">{timeFrameName}</h1>
             <div className="flex items-center gap-2">
                 <CaretUp />
