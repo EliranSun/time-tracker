@@ -23,11 +23,11 @@ export const CardinalNavigation = ({ timeFrameName, swipeHandlers, adjacentTimef
         <div className={classNames({
                 "flex text-white select-none gap-2 items-center justify-center p-2 w-full": true,
             })}>
-            <div className="w-full justify-center flex items-center text-black dark:text-white">
-                   <div className="flex gap-2">
+            <div className="w-full justify-center gap-2 flex items-center text-black dark:text-white">
                 <CaretLeft size={24}/>
+                {adjacentTimeframes.previous}
                 <CaretRight size={24}/>
-                </div>
+                {adjacentTimeframes.next}
                 <button
                     className={classNames({
                         "bg-black": false,
