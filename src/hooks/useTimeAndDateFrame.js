@@ -23,7 +23,7 @@ export function useTimeAndDateFrame(timeFrame, dateFrame) {
                     previous: formatDay(dateFrame + 1),
                     next: formatDay(dateFrame - 1),
                     higher: "week",
-                    lower: "∞"
+                    lower: "all"
                 });
                 break;
 
@@ -55,7 +55,7 @@ export function useTimeAndDateFrame(timeFrame, dateFrame) {
                 setAdjacentTimeframes({
                     previous: formatYear(dateFrame + 1),
                     next: formatYear(dateFrame - 1),
-                    higher: "∞",
+                    higher: "all",
                     lower: "month"
                 });
                 break;
@@ -64,8 +64,8 @@ export function useTimeAndDateFrame(timeFrame, dateFrame) {
                 // all
                 setTimeFrameName("all");
                 setAdjacentTimeframes({
-                    previous: "∞",
-                    next: "∞",
+                    previous: "all",
+                    next: "all",
                     higher: "day",
                     lower: "year"
                 });
