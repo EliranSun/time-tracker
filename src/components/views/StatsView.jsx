@@ -8,7 +8,7 @@ import {getTimeString} from "../../utils/time";
 import {useTimeAndDateFrame} from "../../hooks/useTimeAndDateFrame";
 import {useTotalTime} from "../../hooks/useTotalTime";
 import {Timeframes} from "../../constants/time";
-import {CaretUp, CaretDown, MoonStars} from "@phosphor-icons/react";
+import {CaretUp, CaretDown, MoonStars, CaretLeft, CaretRight} from "@phosphor-icons/react";
 
 export const StatsView = ({activities}) => {
     const [timeFrame, setTimeFrame] = useState(0);
@@ -42,7 +42,11 @@ export const StatsView = ({activities}) => {
     return (
         <div {...swipeHandlers}>
             <div className="px-4 py-2 flex justify-between">
-                <h1 className="text-3xl font-mono">{timeFrameName.toUpperCase()}</h1>
+                <h1 className="text-3xl font-mono">
+                    <CaretLeft/>
+                    {timeFrameName.toUpperCase()}
+                    <CaretRight/>
+                </h1>
                 <div className="flex gap-2">
                     <div className="flex items-center gap-2">
                         <CaretUp/>
