@@ -40,9 +40,10 @@ export const StatsView = ({activities}) => {
     }, []);
 
     return (
-        <>
+        <div {...swipeHandlers}>
             <div className="p-4 flex justify-between">
             <h1 className="text-3xl">{timeFrameName}</h1>
+            <div className="flex gap-2">
             <div className="flex items-center gap-2">
                 <CaretUp />
                 {adjacentTimeframes.higher}
@@ -50,6 +51,7 @@ export const StatsView = ({activities}) => {
             <div className="flex items-center gap-2">
                 <CaretDown />
                 {adjacentTimeframes.lower}
+            </div>
             </div>
             </div>
             <div className="flex flex-col w-screen justify-evenly h-[90vh] px-2 overflow-hidden">
@@ -90,6 +92,6 @@ export const StatsView = ({activities}) => {
                     onChange={() => setShouldFilterSleep(!shouldFilterSleep)}
                     checked={shouldFilterSleep}/>
             </div>
-        </>
+        </div>
     )
 };
