@@ -43,11 +43,11 @@ export const StatsView = ({activities}) => {
         <>
             <div className="p-4 flex gap-2">
             <h1 className="text-3xl">{timeFrameName}</h1>
-            <div>
+            <div className="flex gap-2">
                 <CaretUp />
-                {adjacentTimeframes.higer}
+                {adjacentTimeframes.upper}
             </div>
-            <div>
+            <div className="flex gap-2">
                 <CaretDown />
                 {adjacentTimeframes.lower}
             </div>
