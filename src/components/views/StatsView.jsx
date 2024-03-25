@@ -42,7 +42,7 @@ export const StatsView = ({activities}) => {
     return (
         <div {...swipeHandlers}>
             <div className="px-4 py-2 flex justify-between">
-                <h1 className="text-3xl font-mono">
+                <h1 className="text-3xl font-mono flex gap-2 items-center">
                     <CaretLeft/>
                     {timeFrameName.toUpperCase()}
                     <CaretRight/>
