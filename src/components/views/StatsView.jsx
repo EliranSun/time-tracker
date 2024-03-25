@@ -52,13 +52,13 @@ export const StatsView = ({activities}) => {
                         <CaretDown/>
                         {adjacentTimeframes.lower}
                     </div>
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="checkbox"
-                            onChange={() => setShouldFilterSleep(!shouldFilterSleep)}
-                            checked={shouldFilterSleep}/>
-                        <MoonStars/>
-                    </div>
+                </div>
+                <div className="flex items-center gap-2">
+                    <input
+                        type="checkbox"
+                        onChange={() => setShouldFilterSleep(!shouldFilterSleep)}
+                        checked={shouldFilterSleep}/>
+                    <MoonStars/>
                 </div>
             </div>
             <div className="flex flex-col w-screen justify-evenly h-[90vh] px-2 overflow-hidden">
