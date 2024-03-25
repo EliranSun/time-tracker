@@ -40,7 +40,9 @@ export const StatsView = ({activities}) => {
 
     return (
         <>
-            <h1 className="text-3xl my-2 ml-2">{timeFrameName}</h1>
+            <div className="p-4">
+            <h1 className="text-3xl">{timeFrameName}</h1>
+            </div>
             <div className="flex flex-col w-screen justify-evenly h-[90vh] px-2 overflow-hidden">
                 {sortedActivities
                     .map(({activity, data, totalTime: activityTotalTime}, index) => {
@@ -74,12 +76,7 @@ export const StatsView = ({activities}) => {
                     })}
             </div>
             <div className="flex justify-between px-8 items-center">
-                <CardinalNavigation
-                    setAdjacentTimeframes={setAdjacentTimeframes}
-                    adjacentTimeframes={adjacentTimeframes}
-                    timeFrameName={timeFrameName}
-                    swipeHandlers={swipeHandlers}/>
-                <input
+              <input
                     type="checkbox"
                     onChange={() => setShouldFilterSleep(!shouldFilterSleep)}
                     checked={shouldFilterSleep}/>
