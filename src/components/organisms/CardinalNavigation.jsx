@@ -29,7 +29,6 @@ export const CardinalNavigation = ({ timeFrameName, swipeHandlers, adjacentTimef
                 <CaretRight size={24}/>
                 {adjacentTimeframes.next}
             </div>
-            {timeFrameName}
             <div className="w-full justify-center flex items-center gap-2 text-black dark:text-white">
                 <CaretUp size={24}/>
                 {adjacentTimeframes.higher}
