@@ -8,6 +8,7 @@ import {getTimeString} from "../../utils/time";
 import {useTimeAndDateFrame} from "../../hooks/useTimeAndDateFrame";
 import {useTotalTime} from "../../hooks/useTotalTime";
 import {Timeframes} from "../../constants/time";
+import { CaretUp, CaretDown } from "@phosphor-icons/react";
 
 export const StatsView = ({activities}) => {
     const [timeFrame, setTimeFrame] = useState(0);
@@ -40,8 +41,16 @@ export const StatsView = ({activities}) => {
 
     return (
         <>
-            <div className="p-4">
+            <div className="p-4 flex gap-2">
             <h1 className="text-3xl">{timeFrameName}</h1>
+            <div>
+                <CaretUp />
+                {adjacentTimeframes.higer}
+            </div>
+            <div>
+                <CaretDown />
+                {adjacentTimeframes.lower}
+            </div>
             </div>
             <div className="flex flex-col w-screen justify-evenly h-[90vh] px-2 overflow-hidden">
                 {sortedActivities
