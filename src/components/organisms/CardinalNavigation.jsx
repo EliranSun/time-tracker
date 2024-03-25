@@ -20,20 +20,17 @@ export const CardinalNavigation = ({ timeFrameName, swipeHandlers, adjacentTimef
     const [isNavigationPressed, setIsNavigationPressed] = useState(false);
 
     return (
-        <div
-            {...swipeHandlers}
-            onMouseDown={() => !isNavigationPressed && setIsNavigationPressed(true)}
-            onMouseUp={() => isNavigationPressed && setIsNavigationPressed(false)}
-            onTouchStart={() => !isNavigationPressed && setIsNavigationPressed(true)}
-            onTouchEnd={() => isNavigationPressed && setIsNavigationPressed(false)}
-            className={classNames({
+        <div className={classNames({
                 "flex flex-col text-white select-none gap-2 items-center justify-center p-2 w-full": true,
             })}>
             {/*<CardinalButton isHidden={!isNavigationPressed}>*/}
             {/*    {adjacentTimeframes.higher}*/}
             {/*</CardinalButton>*/}
-            <div className="w-full justify-evenly flex items-center gap-2 text-black dark:text-white">
+            <div className="w-full justify-center flex items-center text-black dark:text-white">
+                   <div className="flex gap-2">
                 <CaretLeft size={24}/>
+                <CaretRight size={24}/>
+                </div>
                 {/*<CardinalButton isHidden={!isNavigationPressed}>*/}
                 {/*    {adjacentTimeframes.previous}*/}
                 {/*</CardinalButton>*/}
@@ -49,7 +46,6 @@ export const CardinalNavigation = ({ timeFrameName, swipeHandlers, adjacentTimef
                 {/*<CardinalButton isHidden={!isNavigationPressed}>*/}
                 {/*    {adjacentTimeframes.next}*/}
                 {/*</CardinalButton>*/}
-                <CaretRight size={24}/>
             </div>
             {/*<CardinalButton isHidden={!isNavigationPressed}>*/}
             {/*    {adjacentTimeframes.lower}*/}
