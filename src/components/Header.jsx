@@ -29,10 +29,6 @@ export const Header = ({
         return currentActivity.name && activity.name !== currentActivity.name;
     }, [currentActivity, activity]);
 
-    if (view === Views.STATS) {
-        return null;
-    }
-
     if (isZenMode) {
         return (
             <HeaderStyle>
