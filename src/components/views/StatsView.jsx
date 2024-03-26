@@ -48,7 +48,7 @@ export const StatsView = ({activities}) => {
                 adjacentTimeframes={adjacentTimeframes}
                 setShouldFilterSleep={setShouldFilterSleep}
                 shouldFilterSleep={shouldFilterSleep}/>
-            <div className="flex flex-col w-screen justify-evenly h-[90vh] px-2 overflow-hidden">
+            <div className="flex flex-col w-screen justify-evenly h-[80vh] px-2 overflow-hidden">
                 {sortedActivities
                     .map(({activity, data, totalTime: activityTotalTime}, index) => {
                         const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
