@@ -10,7 +10,6 @@ import {useTotalTime} from "../../hooks/useTotalTime";
 import {Timeframes} from "../../constants/time";
 import {CaretUp, CaretDown, MoonStars, CaretLeft, CaretRight} from "@phosphor-icons/react";
 import {StatsViewHeader} from "../molecules/StatsViewHeader";
-import {Header as Navbar} from "../Header";
 
 export const StatsView = ({activities}) => {
     const [timeFrame, setTimeFrame] = useState(0);
@@ -82,7 +81,6 @@ export const StatsView = ({activities}) => {
                     })}
             </div>
         </div>
-        <Navbar/>
         </>
     )
 };
