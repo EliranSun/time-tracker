@@ -4,7 +4,7 @@ import {ActivityView} from "./components/views/ActivityView";
 import {StatsView} from "./components/views/StatsView";
 import {useCounter} from "./hooks/useCounter";
 import {Activities, PageMazeMap} from "./constants/activities";
-import {Header} from "./components/Header";
+import {Navbar} from "./components/Navbar";
 import {ActivitiesDungeonMap} from "./components/ActivitiesDungeonMap";
 import {getAppBackgroundColor, replaceMetaThemeColor} from "./utils/colors";
 import {ActivitiesProvider} from "./context/ActivitiesContext";
@@ -26,9 +26,21 @@ function App() {
     const activity = Activities.find(activity => activity.name.toLowerCase() === activePage.toLowerCase());
     const [isEditEntryView, setIsEditEntryView] = useState(false);
 
+    console.log({activePage});
     useEffect(() => {
+        switch (document.location.pathname) {
+            case "/":
+                setView(Views.ACTIVITIES);
+                break;
+            case "/stats":
+                setView(Views.STATS);
+                break;
+            default:
+                setView(Views.ACTIVITY);
+                break;
+        }
+
         window.addEventListener("popstate", (event) => {
-            console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
             const path = document.location.pathname;
             if (path === "/") {
                 setView(Views.ACTIVITIES);
@@ -51,6 +63,7 @@ function App() {
             apply: (target, thisArg, argArray) => {
                 // trigger here what you need
                 const path = argArray[2];
+                console.log("location: " + document.location + ", state: " + JSON.stringify(argArray));
                 if (path.includes("/stats/activity")) {
                     setView(Views.ACTIVITY);
                     setActivePage(path.split("/").pop());
@@ -102,7 +115,7 @@ function App() {
                         activities={Activities}
                         onChangePage={() => setView(Views.ACTIVITIES)}/> : null}
                 {view === Views.ACTIVITY ? <ActivityStatsView isZenMode={isZenMode} activity={activity}/> : null}
-                <Header
+                <Navbar
                     activity={activity}
                     view={view}
                     setView={setView}

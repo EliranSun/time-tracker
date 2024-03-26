@@ -1,31 +1,42 @@
-import {CaretDown, CaretLeft, CaretRight, CaretUp, MoonStars} from "@phosphor-icons/react";
+import {CaretDown, CaretUp, MoonStars} from "@phosphor-icons/react";
 
-export const StatsViewHeader = ({timeFrameName, adjacentTimeframes, setShouldFilterSleep, shouldFilterSleep}) => {
+const DateFrame = ({value}) => {
     return (
-        <div className="px-4 pt-2 pb-4 flex justify-between">
-            <div className="flex gap-2 items-center">
-                <CaretLeft/>
-                <h1 className="text-3xl font-mono">
-                    {timeFrameName.toUpperCase()}
-                </h1>
-                <CaretRight/>
-            </div>
-            <div className="flex gap-2">
-                <div className="flex items-center gap-2">
-                    <CaretUp/>
-                    {adjacentTimeframes.higher}
-                </div>
-                <div className="flex items-center gap-2">
-                    <CaretDown/>
-                    {adjacentTimeframes.lower}
-                </div>
+        <div className="flex gap-2">
+            <div className="flex flex-col items-center justify-center">
+                <CaretUp size={13}/>
+                <CaretDown size={13}/>
             </div>
             <div className="flex items-center gap-2">
-                <input
-                    type="checkbox"
-                    onChange={() => setShouldFilterSleep(!shouldFilterSleep)}
-                    checked={shouldFilterSleep}/>
-                <MoonStars/>
+                {value}
+            </div>
+        </div>
+    )
+};
+
+const FilterSleepCheckbox = ({setShouldFilterSleep, shouldFilterSleep}) => {
+    return (
+        <div className="flex items-center gap-2">
+            <input
+                type="checkbox"
+                onChange={() => setShouldFilterSleep(!shouldFilterSleep)}
+                checked={shouldFilterSleep}/>
+            <MoonStars size={20}/>
+        </div>
+    );
+};
+
+export const StatsViewHeader = ({timeFrameName, dateFrame, setShouldFilterSleep, shouldFilterSleep}) => {
+    return (
+        <div className="px-4 pt-2 pb-4 flex justify-between">
+            <h1 className="text-3xl font-mono">
+                {timeFrameName.toUpperCase()}
+            </h1>
+            <div className="flex gap-4">
+                <DateFrame value={dateFrame}/>
+                <FilterSleepCheckbox
+                    shouldFilterSleep={shouldFilterSleep}
+                    setShouldFilterSleep={setShouldFilterSleep}/>
             </div>
         </div>
     );

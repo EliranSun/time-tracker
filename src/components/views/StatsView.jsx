@@ -10,13 +10,14 @@ import {useTotalTime} from "../../hooks/useTotalTime";
 import {Timeframes} from "../../constants/time";
 import {CaretUp, CaretDown, MoonStars, CaretLeft, CaretRight} from "@phosphor-icons/react";
 import {StatsViewHeader} from "../molecules/StatsViewHeader";
+import {ActivityTotalTime} from "../molecules/ActivityTotalTime";
 
 export const StatsView = ({activities}) => {
     const [timeFrame, setTimeFrame] = useState(0);
     const [dateFrame, setDateFrame] = useState(Timeframes.DAY);
     const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
     const [shouldFilterSleep, setShouldFilterSleep] = useState(false);
-    const {adjacentTimeframes, setAdjacentTimeframes, timeFrameName} = useTimeAndDateFrame(timeFrame, dateFrame);
+    const {timeFrameName} = useTimeAndDateFrame(timeFrame, dateFrame);
     const {totalTime, sortedActivities} = useTotalTime({
         activities,
         allActivitiesData,
@@ -40,47 +41,40 @@ export const StatsView = ({activities}) => {
             });
     }, []);
 
+    const dateFrameName = Object.entries(Timeframes).find(([_key, value]) => value === timeFrame)[0];
+    console.log({dateFrameName})
+
     return (
         <>
-        <div {...swipeHandlers}>
-            <StatsViewHeader
-                timeFrameName={timeFrameName}
-                adjacentTimeframes={adjacentTimeframes}
-                setShouldFilterSleep={setShouldFilterSleep}
-                shouldFilterSleep={shouldFilterSleep}/>
-            <div className="flex flex-col w-screen justify-evenly h-[80vh] px-2 overflow-hidden">
-                {sortedActivities
-                    .map(({activity, data, totalTime: activityTotalTime}, index) => {
-                        const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
-                        const hours = Math.floor(activityTotalTime / 1000 / 60 / 60);
-                        const minutes = Math.floor(activityTotalTime / 1000 / 60 % 60);
-                        const timeString = getTimeString(hours, minutes, timeFrame);
-                        const Icon = activity.icon;
-                        const isLast = index === sortedActivities.length - 1;
-                        const isFirst = index === 0;
-                        const onClick = () => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`);
-
-                        return (
-                            <div
-                                key={index}
-                                className={classNames({
-                                    "flex text-right items-center justify-between text-[2.5em] min-h-[50px] py-4 px-12 font-mono": true,
-                                    "rounded-b-3xl": isLast,
-                                    "rounded-t-3xl": isFirst,
-                                })}
-                                style={{
-                                    backgroundColor: activity.color,
-                                    height: normalizedHeight
-                                }}>
-                                <Icon onClick={onClick}/>
-                                <div className="flex flex-col items-end">
-                                    {timeString}
-                                </div>
+            <div {...swipeHandlers}>
+                <StatsViewHeader
+                    dateFrame={dateFrameName}
+                    timeFrameName={timeFrameName}
+                    // adjacentTimeframes={adjacentTimeframes}
+                    setShouldFilterSleep={setShouldFilterSleep}
+                    shouldFilterSleep={shouldFilterSleep}/>
+                <div className="flex flex-col w-screen justify-evenly h-[80vh] px-2 overflow-hidden">
+                    {sortedActivities.length === 0
+                        ? (
+                            <div className="font-mono text-center text-3xl">
+                                This day is filled with possibilities... <br/><br/>
+                                Their only masters <br/> are you and time.
                             </div>
-                        );
-                    })}
+                        )
+                        : sortedActivities.map(({activity, data, totalTime: activityTotalTime}, index) => {
+                            return (
+                                <ActivityTotalTime
+                                    key={activity.name}
+                                    activityTotalTime={activityTotalTime}
+                                    timeFrame={timeFrame}
+                                    totalTime={totalTime}
+                                    activity={activity}
+                                    isLast={index === sortedActivities.length - 1}
+                                    isFirst={index === 0}/>
+                            )
+                        })}
+                </div>
             </div>
-        </div>
         </>
     )
 };
