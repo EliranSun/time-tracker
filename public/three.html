@@ -1,0 +1,280 @@
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+</head>
+
+<body class="bg-gray-800" dir="rtl">
+<img class="w-screen" id="memory-image" src="">
+<div>
+    <h1 class="text-white text-3xl px-8 pt-4 font-mono" id="title">
+        Loading...
+    </h1>
+    <p class="text-white p-8" id="description"></p>
+</div>
+
+<img class="backdrop-blur absolute w-screen p-8 h-auto top-0" id="memory-map" src=""/>
+</body>
+
+<script>
+    const memories = {
+        marina: {
+            date: '2022-03-28',
+            image: 'marina.png',
+            map: 'marina-map.PNG',
+            title: 'ספינת הרוחות',
+            description: 'מסענו כך מתחיל בהפתעה גמורה,\n' +
+                'ב28 למרץ של שנה ועוד שנה שעברה\n' +
+                'בספינת הרוחות שאותנו הסעירה\n' +
+                'וחגגה לנו שנה עם יין וכוס בירה\n'
+        },
+        tashaz: {
+            date: '2022-03-31',
+            image: 'tashaz.png',
+            map: 'tashaz-map.PNG',
+            title: 'התמונה האייקונית',
+            description: "ובאותו סוף שבוע כבר מסתבר אנחנו חרוצים מאוד\n" +
+                "יוצאים עם אלה הקטנה לצימר ראשון, \n" +
+                "נותנים לה להסתובב חופשי ולתת איזה ביס לדתי בארון\n" +
+                "סתם לא היו דברים כאלה הכל שקר וכזב\n" +
+                "אבל איך נהנו בחופש רואים עלינו\n"
+        },
+        yehuda: {
+            date: '2022-04-02',
+            image: 'midbar-yehuda.png',
+            map: 'midbar-yehuda-map.PNG',
+            title: 'המדבר הצפוני',
+            description: "טוב מה נסגר עם השירים מספיק ודי.\n" +
+                "וואלה אני רק זוכר שהיה חום למות. \n" +
+                "אבל חום כייף כזה, וכובעי לופי ואלה נהנתה. מה רע.\n" +
+                "אני זוכר שהיא הייתה כל כך כל כך צמאה…\n"
+        },
+        nitsana: {
+            date: '2022-04-01',
+            image: 'nitsana.png',
+            map: 'nitsana-map.PNG',
+            title: 'המדבר הצפוני',
+            description: "טוב מה נסגר עם השירים מספיק ודי.\n" +
+                "וואלה אני רק זוכר שהיה חום למות. \n" +
+                "אבל חום כייף כזה, וכובעי לופי ואלה נהנתה. מה רע.\n" +
+                "אני זוכר שהיא הייתה כל כך כל כך צמאה…\n"
+        },
+        joker: {
+            date: '2022-04-01',
+            image: 'joker-harley.jpg',
+            title: 'המדבר הצפוני',
+            description: "טוב מה נסגר עם השירים מספיק ודי.\n" +
+                "וואלה אני רק זוכר שהיה חום למות. \n" +
+                "אבל חום כייף כזה, וכובעי לופי ואלה נהנתה. מה רע.\n" +
+                "אני זוכר שהיא הייתה כל כך כל כך צמאה…\n"
+        },
+        goren: {
+            date: '2022-04-01',
+            image: 'goren.png',
+            map: 'goren-map.PNG',
+            title: 'המדבר הצפוני',
+            description: "טוב מה נסגר עם השירים מספיק ודי.\n" +
+                "וואלה אני רק זוכר שהיה חום למות. \n" +
+                "אבל חום כייף כזה, וכובעי לופי ואלה נהנתה. מה רע.\n" +
+                "אני זוכר שהיא הייתה כל כך כל כך צמאה…\n"
+        },
+        sky: {
+            date: '2022-04-01',
+            image: 'skydive.jpg',
+            title: 'המדבר הצפוני',
+            description: "טוב מה נסגר עם השירים מספיק ודי.\n" +
+                "וואלה אני רק זוכר שהיה חום למות. \n" +
+                "אבל חום כייף כזה, וכובעי לופי ואלה נהנתה. מה רע.\n" +
+                "אני זוכר שהיא הייתה כל כך כל כך צמאה…\n"
+        },
+        phone: {
+            date: '2022-04-01',
+            image: 'london-transport.png',
+            map: 'london-transport-map.PNG',
+            title: 'המדבר הצפוני',
+            description: "טוב מה נסגר עם השירים מספיק ודי.\n" +
+                "וואלה אני רק זוכר שהיה חום למות. \n" +
+                "אבל חום כייף כזה, וכובעי לופי ואלה נהנתה. מה רע.\n" +
+                "אני זוכר שהיא הייתה כל כך כל כך צמאה…\n"
+        },
+        yoda: {
+            date: '2022-04-01',
+            image: 'tussauds-yoda.jpg',
+            map: 'tussauds-yoda-map.PNG',
+            title: 'המדבר הצפוני',
+            description: "טוב מה נסגר עם השירים מספיק ודי.\n" +
+                "וואלה אני רק זוכר שהיה חום למות. \n" +
+                "אבל חום כייף כזה, וכובעי לופי ואלה נהנתה. מה רע.\n" +
+                "אני זוכר שהיא הייתה כל כך כל כך צמאה…\n"
+        },
+        bb8: {
+            date: '2022-04-01',
+            image: 'tussauds-bb8.png',
+            map: 'tussauds-bb8-map.PNG',
+            title: 'המדבר הצפוני',
+            description: "טוב מה נסגר עם השירים מספיק ודי.\n" +
+                "וואלה אני רק זוכר שהיה חום למות. \n" +
+                "אבל חום כייף כזה, וכובעי לופי ואלה נהנתה. מה רע.\n" +
+                "אני זוכר שהיא הייתה כל כך כל כך צמאה…\n"
+        },
+        bonim: {
+            date: '2022-04-01',
+            image: 'habonim.jpg',
+            map: 'habonim-map.PNG',
+            title: 'המדבר הצפוני',
+            description: "טוב מה נסגר עם השירים מספיק ודי.\n" +
+                "וואלה אני רק זוכר שהיה חום למות. \n" +
+                "אבל חום כייף כזה, וכובעי לופי ואלה נהנתה. מה רע.\n" +
+                "אני זוכר שהיא הייתה כל כך כל כך צמאה…\n"
+        },
+        galilee: {
+            date: '2022-04-01',
+            image: 'galilee-sea.jpg',
+            map: 'galilee-sea-map.PNG',
+            title: 'Galilee',
+            description: "טוב מה נסגר עם השירים מספיק ודי.\n" +
+                "וואלה אני רק זוכר שהיה חום למות. \n" +
+                "אבל חום כייף כזה, וכובעי לופי ואלה נהנתה. מה רע.\n" +
+                "אני זוכר שהיא הייתה כל כך כל כך צמאה…\n"
+        },
+        titanic: {
+            date: '2022-04-01',
+            image: 'titanic.jpg',
+            title: 'המדבר הצפוני',
+            description: "טוב מה נסגר עם השירים מספיק ודי.\n" +
+                "וואלה אני רק זוכר שהיה חום למות. \n" +
+                "אבל חום כייף כזה, וכובעי לופי ואלה נהנתה. מה רע.\n" +
+                "אני זוכר שהיא הייתה כל כך כל כך צמאה…\n"
+        },
+        family: {
+            date: '2022-04-01',
+            image: 'with-family.jpg',
+            title: 'המדבר הצפוני',
+            description: "טוב מה נסגר עם השירים מספיק ודי.\n" +
+                "וואלה אני רק זוכר שהיה חום למות. \n" +
+                "אבל חום כייף כזה, וכובעי לופי ואלה נהנתה. מה רע.\n" +
+                "אני זוכר שהיא הייתה כל כך כל כך צמאה…\n"
+        },
+        culture: {
+            image: 'culture.jpg',
+                        date: '2022-04-01',
+            map: 'culture-map.PNG',
+            title: 'Culture',
+            description: ''
+        },
+        teamlab: {
+            image: 'teamlab.png',
+            map: 'teamlab-map.PNG',
+                        date: '2022-04-01',
+            title: 'Culture',
+            description: ''
+        },
+        chidoya: {
+            image: 'chidoya.png',
+            map: 'chidoya-map.PNG',
+                        date: '2022-04-01',
+            title: 'Chidoya',
+            description: ''
+        },
+        fuji: {
+            date: '2023-07-01',
+            image: 'fujikawaguchiko.png',
+            map: 'fujikawaguchiko-map.PNG',
+            title: "פוג'י ההר הנעלם",
+            description: "היה היה לו הר בשם פוג'י, \n" +
+                "שאחרת היו קוראים לו ההר הנעלם.\n" +
+                "ההר המתנשא היהיר. לא מתאים לו להראות,\n" +
+                "בטח לא לזוג תיריים שחיפש אותו כל היום\n" +
+                "ורדף אחריו אחרי שרכב על רכבות הרים\n"
+        },
+        kyoto: {
+            date: '2023-07-01',
+            image: 'kyoto.png',
+            map: 'kyoto-map.PNG',
+            title: 'Galilee',
+            description: ''
+        },
+        ogicho: {
+            date: '2023-07-01',
+            image: 'ogicho-view.png',
+            map: 'ogicho-view-map.PNG',
+            title: "פוג'י ההר הנעלם",
+            description: "היה היה לו הר בשם פוג'י, \n" +
+                "שאחרת היו קוראים לו ההר הנעלם.\n" +
+                "ההר המתנשא היהיר. לא מתאים לו להראות,\n" +
+                "בטח לא לזוג תיריים שחיפש אותו כל היום\n" +
+                "ורדף אחריו אחרי שרכב על רכבות הרים\n"
+        },
+        shirakawa: {
+            date: '2023-07-01',
+            image: 'shirakawa.png',
+            map: 'shirakawa-map.PNG',
+            title: "פוג'י ההר הנעלם",
+            description: "היה היה לו הר בשם פוג'י, \n" +
+                "שאחרת היו קוראים לו ההר הנעלם.\n" +
+                "ההר המתנשא היהיר. לא מתאים לו להראות,\n" +
+                "בטח לא לזוג תיריים שחיפש אותו כל היום\n" +
+                "ורדף אחריו אחרי שרכב על רכבות הרים\n"
+        },
+        migdalor: {
+            date: '2023-09-01',
+            image: 'migdalor.png',
+            map: 'migdalor-map.PNG',
+            title: "מורה הדרך",
+            description: "בסוף, שנתיים אחרי, אנחנו כבר כמעט פה…\n" +
+                "צברנו הרבה זכרונות ביחד, חווית, רגשות….\n" +
+                "אני באמת מאמין ומקווה בכל ליבי שיהיו לנו עוד ועוד ועוד\n" +
+                "לחיי הבירה, ולחיי אלה (ובוני) ולחיי המגדלור. \n" +
+                "לחייך ולחיי - בסבל ובאושר, \n" +
+                "כי החיים זה באמת מסע, מה אני אגיד. \n" +
+                "אז טוב, טוב שאנחנו ביחד בבית, במשפחה. \n" +
+                "כי זה שלנו\n" +
+                "וזה אנחנו\n"
+        },
+    }
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const imageId = urlParams.get('id');
+    const image = document.getElementById('memory-image');
+
+    const src = `three-years/${memories[imageId].image}`;
+    image.src = src;
+
+    let isMapOpen = false;
+    const map = document.getElementById('memory-map');
+    
+    if (map) {
+    map.src = `three-years/${memories[imageId].map}`;
+    map.style.display = 'none';
+    }
+    
+    image.onclick = () => {
+        const map = document.getElementById('memory-map');
+        if (!map) return;
+        
+        if (isMapOpen) {
+            map.style.display = 'none';
+        } else {
+            map.style.display = 'block';
+        }
+        isMapOpen = !isMapOpen;
+    }
+
+    map.onclick = () => {
+        map.style.display = 'none';
+        isMapOpen = false;
+    }
+
+    image.onload = () => {
+        const title = document.getElementById('title');
+
+        title.innerText = memories[imageId].title + '\n';
+        title.innerText += new Date(memories[imageId].date).toLocaleDateString('he-IL', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+
+        const description = document.getElementById('description');
+        description.innerText = memories[imageId].description;
+    }
+</script>
