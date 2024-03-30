@@ -84,7 +84,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
         const minutes = round(Math.floor((total - hours) * 60), -1);
 
         if (hours > 0 && minutes > 0) {
-            return `${hours}h ${minutes}m`;
+            return `${hours}h${minutes}m`;
         }
 
         if (hours > 0) {
@@ -141,7 +141,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                             }}>
                             {isZenMode ? null : <div className="flex flex-col text-black">
                                 <span className="text-xs opacity-50">{day}</span>
-                                <span className="opacity-70 font-mono">{getTotalString(total)}</span>
+                                <span className="text-sm opacity-70 font-mono">{getTotalString(total)}</span>
                             </div>}
                         </div>)
                 })}
