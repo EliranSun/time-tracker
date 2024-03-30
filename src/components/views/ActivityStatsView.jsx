@@ -115,7 +115,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                 <div>F</div>
                 <div>S</div>
             </div>
-            <div className="grid grid-cols-7 gap-px justify-center max-w-[700px] m-auto bg-white/90">
+            <div className="grid grid-cols-7 gap-px justify-center max-w-[700px] m-auto">
                 {daysMap.map(({day, month, year}, index) => {
                     const key = `${year}-${month}-${day}`;
                     const activityThisDay = activityData[key] || [];
@@ -123,7 +123,10 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                         return acc + (entry.end - entry.start);
                     }, 0) / 1000 / 60 / 60);
 
-                    const opacity = total / highestTotal;
+                    const opacity = activity.name.toLowerCase() === "sleep" ? 
+                    (total / 12) :
+                    total / 18;
+                    
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
                     const isEntryThisMonth = isSameMonth(new Date(), new Date(year, month, day));
