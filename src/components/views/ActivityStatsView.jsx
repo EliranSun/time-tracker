@@ -123,7 +123,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                         return acc + (entry.end - entry.start);
                     }, 0) / 1000 / 60 / 60);
 
-                    const opacity = (total / highestTotal) < 0.1 ? 0.1 : total / highestTotal;
+                    const opacity = total / highestTotal;
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
                     const isEntryThisMonth = isSameMonth(new Date(), new Date(year, month, day));
