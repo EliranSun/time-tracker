@@ -123,9 +123,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                         return acc + (entry.end - entry.start);
                     }, 0) / 1000 / 60 / 60);
 
-                    const opacity = activity.name.toLowerCase() === "sleep" ? 
-                    (total / 12) :
-                    total / 18;
+                    const opacity = total / highestTotal;
                     
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
