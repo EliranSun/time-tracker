@@ -62,12 +62,13 @@ const GravitySimulation = () => {
                         // Running the renderer
                         Render.run(render);
 
-                        window.addEventListener("devicemotion", (e) => {
-                            const acceleration = e.accelerationIncludingGravity;
-                            Matter.Body.applyForce(divBodies[0], divBodies[0].position, {
-                                x: acceleration.x,
-                                y: acceleration.y,
-                            });
+                        window.addEventListener("devicemotion", (event) => {
+                            const {accelerationIncludingGravity} = event;
+
+                            // Use accelerationIncludingGravity.x and accelerationIncludingGravity.y to adjust gravity
+                            // You might need to scale these values to fit your simulation's needs
+                            engineRef.current.world.gravity.x = accelerationIncludingGravity.x * 0.001;
+                            engineRef.current.world.gravity.y = -accelerationIncludingGravity.y * 0.001;
                         })
                     } else {
                         alert(`Permission denied: ${response}`);
