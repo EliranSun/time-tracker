@@ -162,7 +162,9 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                                 backgroundColor: `${activity.color}${alpha}`,
                             }}>
                             {isZenMode ? null : 
-                                <div className="w-full flex items-start justify-start flex-col">
+                                <div 
+                                    style={{ border: `1px solid ${activity.color}` }}
+                                    className="w-full flex items-start justify-start flex-col">
                                 <span className="text-xs">{day}</span>
                                 <span className="text-sm font-mono">{getTotalString(totalInHours)}</span>
                             </div>}
