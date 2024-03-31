@@ -123,21 +123,25 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                         return acc + (entry.end - entry.start);
                     }, 0) / 1000 / 60 / 60);
 
-                    const opacity = totalInHours > 6 
+                    const opacity = totalInHours > 8
                         ? 1
-                        : totalInHours > 5 
-                            ? 0.9
-                            : totalInHours > 4
-                                ? 0.8
-                                : totalInHours > 3
-                                    ? 0.7
-                                    : totalInHours > 2
-                                        ? 0.6
-                                        : totalInHours > 1
-                                            ? 0.5
-                                            : totalInHours === 0
-                                                ? 0
-                                                : 0.4;
+                        : totalInHours > 7
+                            ? 0.8
+                            : totalInHours > 6
+                                ? 0.6
+                                : totalInHours > 5
+                                    ? 0.4
+                                    : totalInHours > 4
+                                        ? 0.5
+                                        : totalInHours > 3
+                                            ? 0.4
+                                            : totalInHours > 2
+                                                ? 0.3
+                                                : totalInHours > 1
+                                                    ? 0.2
+                                                    : totalInHours === 0
+                                                        ? 0
+                                                        : 0.1;
                     
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
