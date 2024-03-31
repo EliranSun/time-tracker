@@ -123,7 +123,11 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                         return acc + (entry.end - entry.start);
                     }, 0) / 1000 / 60 / 60);
 
-                    const opacity = totalInHours > 8
+                    const opacity = (totalInHours / highestTotalInHours) < 0.08
+                     ? 0.08 
+                    : (totalInHours / highestTotalInHours);
+                    
+                    /* const opacity = totalInHours > 8
                         ? 1
                         : totalInHours > 7
                             ? 0.9
@@ -141,7 +145,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                                                     ? 0.53
                                                     : totalInHours === 0
                                                         ? 0
-                                                        : 0.52;
+                                                        : 0.52; */
                     
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
