@@ -163,8 +163,8 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                             }}>
                             {isZenMode ? null : 
                                 <div className="w-full flex items-start justify-start flex-col">
-                                <span className="text-xs opacity-50">{day}</span>
-                                <span className="text-sm opacity-70 font-mono">{getTotalString(totalInHours)}</span>
+                                <span className="text-xs">{day}</span>
+                                <span className="text-sm font-mono">{getTotalString(totalInHours)}</span>
                             </div>}
                         </div>)
                 })}
