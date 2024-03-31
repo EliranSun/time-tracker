@@ -153,18 +153,17 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
 
                     return (
                         <div
-                            className={classNames("w-full px-2 aspect-square flex items-center justify-center flex-col rounded text-white", {
+                            className={classNames("w-full h-full aspect-square flex items-center justify-center flex-col rounded text-white", {
                                 "outline outline-offset-2 outline-4 outline-black": isEntryToday,
                                 "opacity-30": !isEntryThisMonth
                             })}
                             key={index + 1}
                             style={{
+                                border: `1px solid ${activity.color}`
                                 backgroundColor: `${activity.color}${alpha}`,
                             }}>
                             {isZenMode ? null : 
-                                <div 
-                                    style={{ border: `1px solid ${activity.color}` }}
-                                    className="w-full flex items-start justify-start flex-col">
+                                <div className="w-full flex items-start justify-start flex-col">
                                 <span className="text-xs">{day}</span>
                                 <span className="text-sm font-mono">{getTotalString(totalInHours)}</span>
                             </div>}
