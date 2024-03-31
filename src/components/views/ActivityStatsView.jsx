@@ -110,7 +110,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                     <div key={index} className="text-center">{day}</div>
                 ))}
             </div>
-            <div className="grid grid-cols-7 gap-2 justify-center max-w-[700px] m-auto">
+            <div className="grid grid-cols-7 gap-1 justify-center max-w-[700px] m-auto">
                 {daysMap.map(({day, month, year}, index) => {
                     const key = `${year}-${month}-${day}`;
                     const activityThisDay = activityData[key] || [];
