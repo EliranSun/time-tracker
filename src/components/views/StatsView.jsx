@@ -42,7 +42,6 @@ export const StatsView = ({activities}) => {
     }, []);
 
     const dateFrameName = Object.entries(Timeframes).find(([_key, value]) => value === timeFrame)[0];
-    console.log({dateFrameName})
 
     return (
         <>
@@ -50,7 +49,6 @@ export const StatsView = ({activities}) => {
                 <StatsViewHeader
                     dateFrame={dateFrameName}
                     timeFrameName={timeFrameName}
-                    // adjacentTimeframes={adjacentTimeframes}
                     setShouldFilterSleep={setShouldFilterSleep}
                     shouldFilterSleep={shouldFilterSleep}/>
                 <div className="flex flex-col w-screen justify-evenly h-[80vh] px-2 overflow-hidden">

@@ -27,20 +27,25 @@ function App() {
     const activity = Activities.find(activity => activity.name.toLowerCase() === activePage.toLowerCase());
     const [isEditEntryView, setIsEditEntryView] = useState(false);
 
-    console.log({activePage});
     useEffect(() => {
-        switch (document.location.pathname) {
+        console.log(document.location.pathname);
+        switch (true) {
             default:
-            case "/":
+            case document.location.pathname === "/":
                 setView(Views.ACTIVITIES);
                 break;
 
-            case "/stats":
+            case document.location.pathname === "/stats":
                 setView(Views.STATS);
                 break;
 
-            case "/gravity":
+            case document.location.pathname === "/gravity":
                 setView(Views.GRAVITY);
+                break;
+
+            case document.location.pathname.includes("/stats/activity"):
+                setView(Views.ACTIVITY);
+                setActivePage(document.location.pathname.split("/").pop());
                 break;
         }
 

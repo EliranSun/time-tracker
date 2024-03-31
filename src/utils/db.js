@@ -14,6 +14,7 @@ import {
 import {initializeApp} from "firebase/app";
 import {Activities} from "../constants/activities";
 import allActivitiesMock from "../mocks/all-activities.json";
+import {flatten} from "lodash";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -70,10 +71,11 @@ export const getAllDocsInActivity = async (activityName) => {
     const data = [];
 
     if (localStorage.getItem('mock') === 'true') {
-        console.log('saved expensive call');
-        return allActivitiesMock;
-
+        const activity = allActivitiesMock.find(activity => activity.find(a => a.name === activityName));
+        console.log({activity});
+        return activity;
     }
+
     // TODO: This is O(n) and should be O(1)
     const querySnapshot = await getDocs(collection(db, `activities/${activityName}/data`));
     console.warn("getAllDocsInActivity - expensive");

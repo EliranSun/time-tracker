@@ -1,4 +1,4 @@
-import {useContext, useMemo, useState} from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 import {ActivitiesContext} from "../../context/ActivitiesContext";
 import {round, uniqBy} from 'lodash';
 import {
@@ -15,6 +15,7 @@ import {
 import {calcAlphaChannelBasedOnOpacity} from "../../utils/colors";
 import {useTimeSwipe} from "../../hooks/useTimeSwipe";
 import classNames from "classnames";
+import {getAllDocsInActivity} from "../../utils/db";
 
 function getDaysIncludingWeekends(date) {
     const firstDayOfMonth = startOfMonth(date);
@@ -40,9 +41,13 @@ const Weekdays = [
 export const ActivityStatsView = ({activity, isZenMode}) => {
     const [dateIndex, setDateIndex] = useState(0);
     const swipeHandlers = useTimeSwipe(setDateIndex);
-
-    const [allActivitiesData] = useContext(ActivitiesContext);
+    const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
     const activityData = useMemo(() => {
+        if (allActivitiesData.length === 0) {
+            return {};
+        }
+
+        console.log({allActivitiesData});
         const dataByDays = {};
         const activities = allActivitiesData.find(entries => {
             return entries.some(entry => entry.name === activity.name);
@@ -93,13 +98,24 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
         if (hours === 0 && minutes > 0) {
             return `${minutes}m`;
         }
-        
+
         if (hours === 0 && minutes === 0) {
             return "";
         }
 
         return `${hours}h`;
     };
+
+    useEffect(() => {
+        if (allActivitiesData.length === 0) {
+            getAllDocsInActivity(activity.name)
+                .then(results => {
+                    setAllActivitiesData([results]);
+                });
+        }
+    }, [allActivitiesData]);
+
+    console.log({activityData, allActivitiesData});
 
     return (
         <section className="w-screen h-screen top-0 p-2" {...swipeHandlers}>
@@ -114,7 +130,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                     <div key={index} className="text-center">{day}</div>
                 ))}
             </div>
-            <div className="grid grid-cols-7 gap-1 justify-center max-w-[700px] m-auto">
+            <div className="grid grid-cols-7 gap-1.5 justify-center max-w-[700px] m-auto">
                 {daysMap.map(({day, month, year}, index) => {
                     const key = `${year}-${month}-${day}`;
                     const activityThisDay = activityData[key] || [];
@@ -124,7 +140,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
 
                     const opacity = totalInHours / highestTotalInHours;
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
-                    
+
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
                     const isEntryThisMonth = isSameMonth(new Date(), new Date(year, month, day));
 
@@ -132,9 +148,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                         <div
                             key={index + 1}
                             style={{
-                                backgroundColor: alpha < 0.1 ?
-                                `${activity.color}01` : 
-                                `${activity.color}${alpha}`,
+                                backgroundColor: `${activity.color}${alpha}`,
                             }}
                             className={classNames("w-full text-center h-full rounded-full aspect-square", {
                                 "flex items-center justify-center flex-col text-white px-2": true,
@@ -142,12 +156,12 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                                 "opacity-30": !isEntryThisMonth
                             })}>
                             {isZenMode ? null :
-                                <div className="w-full flex text-center items-start justify-start flex-col">
-                                    <span className="text-xs text-black dark:text-white">{day}</span>
+                                <>
+                                    <span className="text-xs text-black">{day}</span>
                                     <span className="text-sm font-mono">
                                         {getTotalString(totalInHours)}
                                     </span>
-                                </div>}
+                                </>}
                         </div>)
                 })}
             </div>
