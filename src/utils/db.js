@@ -16,14 +16,15 @@ import {Activities} from "../constants/activities";
 import allActivitiesMock from "../mocks/all-activities.json";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAfmw8BBbYUxPwXwP8kkLqsHihNScUmz4A",
-    authDomain: "logger-fe3bd.firebaseapp.com",
-    databaseURL: "https://logger-fe3bd.firebaseio.com",
-    projectId: "logger-fe3bd",
-    storageBucket: "logger-fe3bd.appspot.com",
-    messagingSenderId: "119768735200",
-    appId: "1:119768735200:web:65700d37504d4ec03edf85"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
+
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
@@ -46,9 +47,6 @@ export const getRefByPath = (path) => {
 }
 
 export async function getNewestInEachActivity() {
-    // const activitiesCollectionRef = collection(db, "activities");
-    // const activitiesSnapshot = await getDocs(activitiesCollectionRef);
-    // console.log({docs:activitiesSnapshot.docs})
     const newestActivitiesData = [];
 
     for (const activity of Activities) {
@@ -94,7 +92,7 @@ export const updateActivityTimeById = async (activityName, docId, data) => {
     if (!activityName || !docId || (!data.start && !data.end)) {
         throw new Error("missing data");
     }
-    
+
     return await updateDoc(doc(db, `activities/${activityName}/data/${docId}`), {
         start: data.start,
         end: data.end,
