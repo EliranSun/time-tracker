@@ -93,6 +93,10 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
         if (hours === 0 && minutes > 0) {
             return `${minutes}m`;
         }
+        
+        if (hours === 0 && minutes === 0) {
+            return "";
+        }
 
         return `${hours}h`;
     };
