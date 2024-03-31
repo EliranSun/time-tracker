@@ -76,14 +76,15 @@ const GravitySimulation = () => {
         World.add(engineRef.current.world, floor);
 
         const handleOrientationChange = (event) => {
-            const x = event.accelerationIncludingGravity.x;
-            const y = event.accelerationIncludingGravity.y;
-            const z = event.accelerationIncludingGravity.z;
-
-            setMotion({x, y, z});
-
-            engineRef.current.world.gravity.x = x;
-            engineRef.current.world.gravity.y = y;
+            setMotion({
+                x: event.accelerationIncludingGravity.x,
+                y: event.accelerationIncludingGravity.y,
+                z: event.accelerationIncludingGravity.z,
+            });
+            Matter.Body.applyForce(floor, {x: floor.position.x, y: floor.position.y}, {
+                x: motion.x * 0.01,
+                y: motion.y * 0.01,
+            });
         };
 
         window.addEventListener('devicemotion', handleOrientationChange, true);
