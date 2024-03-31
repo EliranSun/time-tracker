@@ -115,7 +115,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                 <div>F</div>
                 <div>S</div>
             </div>
-            <div className="grid grid-cols-7 gap-px justify-center max-w-[700px] m-auto">
+            <div className="grid grid-cols-7 gap-1 justify-center max-w-[700px] m-auto">
                 {daysMap.map(({day, month, year}, index) => {
                     const key = `${year}-${month}-${day}`;
                     const activityThisDay = activityData[key] || [];
@@ -159,7 +159,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                             })}
                             key={index + 1}
                             style={{
-                                border: `1px solid ${activity.color}`,
+                                // border: `1px solid ${activity.color}`,
                                 backgroundColor: `${activity.color}${alpha}`,
                             }}>
                             {isZenMode ? null : 
