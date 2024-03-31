@@ -29,7 +29,6 @@ const GravitySimulation = () => {
     // Ref for the container to add the divs
     const sceneRef = useRef(null);
     const engineRef = useRef(Matter.Engine.create());
-    const [motion, setMotion] = useState({x: 0, y: 0, z: 0});
 
     useEffect(() => {
         // Destructuring necessary modules from Matter.js
@@ -76,14 +75,10 @@ const GravitySimulation = () => {
         World.add(engineRef.current.world, floor);
 
         const handleOrientationChange = (event) => {
-            setMotion({
-                x: event.accelerationIncludingGravity.x,
-                y: event.accelerationIncludingGravity.y,
-                z: event.accelerationIncludingGravity.z,
-            });
-            Matter.Body.applyForce(floor, {x: floor.position.x, y: floor.position.y}, {
-                x: motion.x,
-                y: motion.y
+            const {beta, gamma} = event;
+            Matter.Body.applyForce(divBodies[0], divBodies[0].position, {
+                x: gamma / 10,
+                y: beta / 10,
             });
         };
 
