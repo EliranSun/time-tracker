@@ -30,6 +30,7 @@ function App() {
     console.log({activePage});
     useEffect(() => {
         switch (document.location.pathname) {
+            default:
             case "/":
                 setView(Views.ACTIVITIES);
                 break;
@@ -39,10 +40,6 @@ function App() {
                 break;
 
             case "/gravity":
-                setView(Views.GRAVITY);
-                break;
-
-            default:
                 setView(Views.GRAVITY);
                 break;
         }
