@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useCallback} from 'react';
 import Matter from 'matter-js';
-import {} from "react/index";
 
 
 const GravitySimulation = () => {
@@ -87,7 +86,7 @@ const GravitySimulation = () => {
             <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded user-select-none hover:bg-blue-700"
                 onClick={permission}>
-                Request Permission
+                Apply gravity
             </button>
             <div ref={sceneRef}/>
         </>
