@@ -82,8 +82,8 @@ const GravitySimulation = () => {
                 z: event.accelerationIncludingGravity.z,
             });
             Matter.Body.applyForce(floor, {x: floor.position.x, y: floor.position.y}, {
-                x: motion.x * 0.01,
-                y: motion.y * 0.01,
+                x: motion.x,
+                y: motion.y
             });
         };
 
