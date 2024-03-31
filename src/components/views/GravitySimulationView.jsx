@@ -1,6 +1,30 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Matter from 'matter-js';
 
+function permission() {
+    if (typeof (DeviceMotionEvent) !== "undefined" && typeof (DeviceMotionEvent.requestPermission) === "function") {
+        // (optional) Do something before API request prompt.
+        DeviceMotionEvent.requestPermission()
+            .then(response => {
+                // (optional) Do something after API prompt dismissed.
+                if (response === "granted") {
+                    alert("Permission granted");
+                    window.addEventListener("devicemotion", (e) => {
+                        // do something for 'e' here.
+                    })
+                } else {
+                    alert(`Permission denied: ${response}`);
+                }
+            })
+            .catch(error => {
+                alert(`Error occurred: ${error}`);
+            })
+    } else {
+        alert("DeviceMotionEvent is not defined");
+    }
+}
+
+
 const GravitySimulation = () => {
     // Ref for the container to add the divs
     const sceneRef = useRef(null);
@@ -86,6 +110,11 @@ const GravitySimulation = () => {
     return (
         <>
             {JSON.stringify(motion)}
+            <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded user-select-none hover:bg-blue-700"
+                onClick={permission}>
+                Request Permission
+            </button>
             <div ref={sceneRef}/>
         </>
     )
