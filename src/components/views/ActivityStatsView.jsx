@@ -159,7 +159,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                             })}
                             key={index + 1}
                             style={{
-                                border: `1px solid ${activity.color}`
+                                border: `1px solid ${activity.color}`,
                                 backgroundColor: `${activity.color}${alpha}`,
                             }}>
                             {isZenMode ? null : 
