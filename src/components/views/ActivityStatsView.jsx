@@ -72,7 +72,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                 return acc + (entry.end - entry.start);
             }, 0) / 1000 / 60 / 60);
 
-            if (totalInHours > highestTotal) {
+            if (totalInHours > highestTotalInHours) {
                 highestTotalInHours = totalInHours;
             }
             return total;
