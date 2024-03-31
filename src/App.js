@@ -9,10 +9,11 @@ import {ActivitiesDungeonMap} from "./components/ActivitiesDungeonMap";
 import {getAppBackgroundColor, replaceMetaThemeColor} from "./utils/colors";
 import {ActivitiesProvider} from "./context/ActivitiesContext";
 import {ActivityStatsView} from "./components/views/ActivityStatsView";
+import GravitySimulationView from "./components/views/GravitySimulationView";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }}
 export const Views = {
-    ACTIVITIES: "activities", STATS: "stats", ACTIVITY: "activity",
+    ACTIVITIES: "activities", STATS: "stats", ACTIVITY: "activity", GRAVITY: "gravity"
 }
 
 function App() {
@@ -32,16 +33,26 @@ function App() {
             case "/":
                 setView(Views.ACTIVITIES);
                 break;
+
             case "/stats":
                 setView(Views.STATS);
                 break;
+
+            case "/gravity":
+                setView(Views.GRAVITY);
+                break;
+
             default:
-                setView(Views.ACTIVITY);
+                setView(Views.GRAVITY);
                 break;
         }
 
         window.addEventListener("popstate", (event) => {
             const path = document.location.pathname;
+            if (path === "/gravity") {
+                setView(Views.GRAVITY);
+            }
+
             if (path === "/") {
                 setView(Views.ACTIVITIES);
                 replaceMetaThemeColor(getAppBackgroundColor());
@@ -63,7 +74,10 @@ function App() {
             apply: (target, thisArg, argArray) => {
                 // trigger here what you need
                 const path = argArray[2];
-                console.log("location: " + document.location + ", state: " + JSON.stringify(argArray));
+                if (path === "/gravity") {
+                    setView(Views.GRAVITY);
+                }
+
                 if (path.includes("/stats/activity")) {
                     setView(Views.ACTIVITY);
                     setActivePage(path.split("/").pop());
@@ -87,6 +101,7 @@ function App() {
     return (
         <ActivitiesProvider>
             <section className="overflow-hidden fixed top-0 left-0">
+                {view === Views.GRAVITY ? <GravitySimulationView/> : null}
                 {view === Views.ACTIVITIES ? (
                     <div className="w-screen h-screen m-auto flex flex-col items-center justify-center">
                         <ActivitiesDungeonMap

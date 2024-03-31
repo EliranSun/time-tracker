@@ -54,7 +54,10 @@ export const Navbar = ({
                     }}/>
                 <YinYang size={32} onClick={onZenMode}/>
                 <ClockCounterClockwise size={32} onClick={onEntryHistoryClick}/>
-                <Coffee size={32} className="cursor-pointer"/>
+                <Coffee
+                    size={32}
+                    onClick={() => window.history.pushState({}, "", "/gravity")}
+                    className="cursor-pointer"/>
             </NavbarStyle>
 
             {view !== Views.STATS
