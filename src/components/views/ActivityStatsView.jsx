@@ -126,22 +126,22 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                     const opacity = totalInHours > 8
                         ? 1
                         : totalInHours > 7
-                            ? 0.8
+                            ? 0.9
                             : totalInHours > 6
-                                ? 0.6
+                                ? 0.8
                                 : totalInHours > 5
-                                    ? 0.4
+                                    ? 0.7
                                     : totalInHours > 4
-                                        ? 0.5
+                                        ? 0.6
                                         : totalInHours > 3
-                                            ? 0.4
+                                            ? 0.55
                                             : totalInHours > 2
-                                                ? 0.3
+                                                ? 0.54
                                                 : totalInHours > 1
-                                                    ? 0.2
+                                                    ? 0.53
                                                     : totalInHours === 0
                                                         ? 0
-                                                        : 0.1;
+                                                        : 0.52;
                     
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
