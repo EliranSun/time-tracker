@@ -67,8 +67,8 @@ const GravitySimulation = () => {
 
                             // Use accelerationIncludingGravity.x and accelerationIncludingGravity.y to adjust gravity
                             // You might need to scale these values to fit your simulation's needs
-                            engineRef.current.world.gravity.x = accelerationIncludingGravity.x * 0.001;
-                            engineRef.current.world.gravity.y = -accelerationIncludingGravity.y * 0.001;
+                            engineRef.current.world.gravity.x = accelerationIncludingGravity.x * 0.1;
+                            engineRef.current.world.gravity.y = -accelerationIncludingGravity.y * 0.1;
                         })
                     } else {
                         alert(`Permission denied: ${response}`);
