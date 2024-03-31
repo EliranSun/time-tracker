@@ -64,16 +64,16 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
     const year = new Date().getFullYear();
     const daysMap = getDaysIncludingWeekends(new Date(year, month, 1));
 
-    let highestTotal = 0;
+    let highestTotalInHours = 0;
     const _ = useMemo(() => {
         return daysMap.map(({day, month, year}, index) => {
             const activityThisDay = activityData[`${year}-${month}-${day}`] || [];
-            const total = (activityThisDay.reduce((acc, entry) => {
+            const totalInHours = (activityThisDay.reduce((acc, entry) => {
                 return acc + (entry.end - entry.start);
             }, 0) / 1000 / 60 / 60);
 
-            if (total > highestTotal) {
-                highestTotal = total;
+            if (totalInHours > highestTotal) {
+                highestTotalInHours = totalInHours;
             }
             return total;
         });
@@ -119,11 +119,25 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                 {daysMap.map(({day, month, year}, index) => {
                     const key = `${year}-${month}-${day}`;
                     const activityThisDay = activityData[key] || [];
-                    const total = (activityThisDay.reduce((acc, entry) => {
+                    const totalInHours = (activityThisDay.reduce((acc, entry) => {
                         return acc + (entry.end - entry.start);
                     }, 0) / 1000 / 60 / 60);
 
-                    const opacity = total / highestTotal;
+                    const opacity = totalInHours > 6 
+                        ? 1
+                        : totalInHours > 5 
+                            ? 0.9
+                            : totalInHours > 4
+                                ? 0.8
+                                : totalInHours > 3
+                                    ? 0.7
+                                    : totalInHours > 2
+                                        ? 0.6
+                                        : totalInHours > 1
+                                            ? 0.5
+                                            : totalInHours === 0
+                                                ? 0
+                                                : 0.4;
                     
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
