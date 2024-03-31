@@ -129,7 +129,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                             key={index + 1}
                             style={{
                                 backgroundColor: alpha < 0.1 ?
-                                `${activity.color}01`, : 
+                                `${activity.color}01` : 
                                 `${activity.color}${alpha}`,
                             }}
                             className={classNames("w-full h-full aspect-square", {
