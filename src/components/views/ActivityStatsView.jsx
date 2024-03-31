@@ -118,11 +118,9 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                         return acc + (entry.end - entry.start);
                     }, 0) / 1000 / 60 / 60);
 
-                    const opacity = (totalInHours / highestTotalInHours) < 0.08
-                        ? 0.08
-                        : (totalInHours / highestTotalInHours);
-
+                    const opacity = totalInHours / highestTotalInHours;
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
+                    
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
                     const isEntryThisMonth = isSameMonth(new Date(), new Date(year, month, day));
 
@@ -130,7 +128,9 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                         <div
                             key={index + 1}
                             style={{
-                                backgroundColor: `${activity.color}${alpha}`,
+                                backgroundColor: alpha < 0.1 ?
+                                "rgba(0,0,0,0.5)" : 
+                                `${activity.color}${alpha}`,
                             }}
                             className={classNames("w-full h-full aspect-square", {
                                 "flex items-center justify-center flex-col text-white px-2": true,
