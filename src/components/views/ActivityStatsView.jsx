@@ -11,6 +11,7 @@ import {
     isSameMonth,
     startOfMonth,
     startOfWeek,
+    roundToNearestHours
 } from 'date-fns';
 import {calcAlphaChannelBasedOnOpacity} from "../../utils/colors";
 import {useTimeSwipe} from "../../hooks/useTimeSwipe";
@@ -32,10 +33,6 @@ function getDaysIncludingWeekends(date) {
         year: day.getFullYear(),
     }));
 }
-
-const Weekdays = [
-    'S', 'M', 'T', 'W', 'T', 'F', 'S'
-];
 
 export const ActivityStatsView = ({activity, isZenMode}) => {
     const [dateIndex, setDateIndex] = useState(0);
@@ -86,15 +83,20 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
     const getTotalString = (total) => {
         const hours = Number(String(total).split('.')[0]);
         const minutes = round(Math.floor((total - hours) * 60), -1);
-        if (minutes > 30) {
-            return `${hours + 1}h`;
+
+        if (hours > 0 && minutes > 0) {
+            return `${hours}h${minutes}m`;
         }
 
-        if (hours === 0 && minutes > 0) {
+        if (hours > 0) {
+            return `${hours}h`;
+        }
+
+        if (minutes > 0) {
             return `${minutes}m`;
         }
 
-        return `${hours}h`;
+        return '';
     };
 
     return (
@@ -106,9 +108,13 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                 {format(new Date(year, month, 1), 'MMM').toUpperCase()}
             </h2>
             <div className="grid grid-cols-7 justify-center max-w-[700px] m-auto mb-2">
-                {Weekdays.map((day, index) => (
-                    <div key={index} className="text-center">{day}</div>
-                ))}
+                <div>S</div>
+                <div>M</div>
+                <div>T</div>
+                <div>W</div>
+                <div>T</div>
+                <div>F</div>
+                <div>S</div>
             </div>
             <div className="grid grid-cols-7 gap-1 justify-center max-w-[700px] m-auto">
                 {daysMap.map(({day, month, year}, index) => {
@@ -119,31 +125,49 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                     }, 0) / 1000 / 60 / 60);
 
                     const opacity = (totalInHours / highestTotalInHours) < 0.08
-                        ? 0.08
-                        : (totalInHours / highestTotalInHours);
-
+                     ? 0.08 
+                    : (totalInHours / highestTotalInHours);
+                    
+                    /* const opacity = totalInHours > 8
+                        ? 1
+                        : totalInHours > 7
+                            ? 0.9
+                            : totalInHours > 6
+                                ? 0.8
+                                : totalInHours > 5
+                                    ? 0.7
+                                    : totalInHours > 4
+                                        ? 0.6
+                                        : totalInHours > 3
+                                            ? 0.55
+                                            : totalInHours > 2
+                                                ? 0.54
+                                                : totalInHours > 1
+                                                    ? 0.53
+                                                    : totalInHours === 0
+                                                        ? 0
+                                                        : 0.52; */
+                    
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
                     const isEntryThisMonth = isSameMonth(new Date(), new Date(year, month, day));
 
                     return (
                         <div
+                            className={classNames("w-full h-full aspect-square flex items-center justify-center flex-col text-white", {
+                                "px-2 outline outline-offset-2 outline-4 outline-black": isEntryToday,
+                                "opacity-30": !isEntryThisMonth
+                            })}
                             key={index + 1}
                             style={{
+                                // border: `1px solid ${activity.color}`,
                                 backgroundColor: `${activity.color}${alpha}`,
-                            }}
-                            className={classNames("w-full h-full aspect-square", {
-                                "flex items-center justify-center flex-col text-white": true,
-                                "outline outline-offset-2 outline-4 outline-black": isEntryToday,
-                                "opacity-30": !isEntryThisMonth
-                            })}>
-                            {isZenMode ? null :
+                            }}>
+                            {isZenMode ? null : 
                                 <div className="w-full flex items-start justify-start flex-col">
-                                    <span className="text-xs">{day}</span>
-                                    <span className="w-full text-center text-sm font-mono">
-                                        {getTotalString(totalInHours)}
-                                    </span>
-                                </div>}
+                                <span className="text-xs">{day}</span>
+                                <span className="text-sm font-mono">{getTotalString(totalInHours)}</span>
+                            </div>}
                         </div>)
                 })}
             </div>
