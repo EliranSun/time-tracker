@@ -117,9 +117,9 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
     console.log({activityData, allActivitiesData});
 
     return (
-        <section className="w-screen h-screen top-0 p-2" {...swipeHandlers}>
+        <section className="" {...swipeHandlers}>
             <h1 
-                className="font-mono hypens-manual w-10/12 text-8xl mt-8 mb-2 tracking-tighter" 
+                className="font-mono hypens-manual w-10/12 text-8xl mt-12 mb-2 tracking-tighter" 
                 style={{color: activity.color}}>
                 {activity.name.toUpperCase().slice(0,5)}&shy;{activity.name.toUpperCase().slice(5, activity.name.length)}
             </h1>
