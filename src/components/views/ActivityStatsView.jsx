@@ -121,7 +121,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
             <h1 
                 className="font-mono hypens-manual w-10/12 text-8xl mt-8 mb-2 tracking-tighter" 
                 style={{color: activity.color}}>
-                {activity.name.toUpperCase().slice(0,5)}&shy;{activity.name.toUpperCase().slice(5, activity.name.length - 1)}
+                {activity.name.toUpperCase().slice(0,5)}&shy;{activity.name.toUpperCase().slice(5, activity.name.length)}
             </h1>
             <h2 className="font-mono text-6xl mb-8" style={{color: activity.color}}>
                 {format(new Date(year, month, 1), 'MMM').toUpperCase()}
