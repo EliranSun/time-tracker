@@ -115,13 +115,16 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
     }, [allActivitiesData]);
 
     console.log({activityData, allActivitiesData});
+    const formattedActivityName = useMemo(() => {
+        return activity.name.toUpperCase();
+    }, [activity.name]);
 
     return (
-        <section className="w-screen" {...swipeHandlers}>
-            <h1 
-                className="font-mono hypens-manual w-10/12 text-8xl mt-16 mb-2 tracking-tighter" 
+        <section className="w-screen px-4" {...swipeHandlers}>
+            <h1
+                className="font-mono hypens-manual w-10/12 text-8xl mt-16 mb-2 tracking-tighter"
                 style={{color: activity.color}}>
-                {activity.name.toUpperCase().slice(0,5)}&shy;{activity.name.toUpperCase().slice(5, activity.name.length)}
+                {formattedActivityName.slice(0, 5)}&shy;{formattedActivityName.slice(5, activity.name.length)}
             </h1>
             <h2 className="font-mono text-6xl mb-8" style={{color: activity.color}}>
                 {format(new Date(year, month, 1), 'MMM').toUpperCase()}
