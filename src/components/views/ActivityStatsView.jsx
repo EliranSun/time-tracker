@@ -47,7 +47,6 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
             return {};
         }
 
-        console.log({allActivitiesData});
         const dataByDays = {};
         const activities = allActivitiesData.find(entries => {
             return entries.some(entry => entry.name === activity.name);
