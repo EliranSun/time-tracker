@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 import {useTimeSwipe} from "../../hooks/useTimeSwipe";
 import {ActivitiesContext} from "../../context/ActivitiesContext";
 import {getAllDocsInActivity} from "../../utils/db";
@@ -41,7 +41,11 @@ export const StatsView = ({activities}) => {
             });
     }, []);
 
-    const summedTime = sortedActivities?.reduce((acc, curr) => acc + (curr.totalTime || 0), 0) || 0;
+    const summedTime = useMemo(() => {
+        const totalTimestamp = sortedActivities.reduce((acc, curr) => acc + curr.totalTime, 0);
+        return totalTimestamp;
+    }, []);
+    
     const dateFrameName = Object.entries(Timeframes).find(([_key, value]) => value === timeFrame)[0];
 
     return (
