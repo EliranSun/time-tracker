@@ -4,7 +4,7 @@ import {ActivitiesContext} from "../../context/ActivitiesContext";
 import {getAllDocsInActivity} from "../../utils/db";
 import {CardinalNavigation} from "../organisms/CardinalNavigation";
 import classNames from "classnames";
-import {getTimeString} from "../../utils/time";
+import {getTimeString, formatTimestamp} from "../../utils/time";
 import {useTimeAndDateFrame} from "../../hooks/useTimeAndDateFrame";
 import {useTotalTime} from "../../hooks/useTotalTime";
 import {Timeframes} from "../../constants/time";
@@ -43,7 +43,7 @@ export const StatsView = ({activities}) => {
 
     const summedTime = useMemo(() => {
         const totalTimestamp = sortedActivities.reduce((acc, curr) => acc + curr.totalTime, 0);
-        return totalTimestamp;
+        return formatTimestamp(totalTimestamp);
     }, []);
     
     const dateFrameName = Object.entries(Timeframes).find(([_key, value]) => value === timeFrame)[0];
