@@ -41,7 +41,7 @@ export const StatsView = ({activities}) => {
             });
     }, []);
 
-    const summedTime = sortedActivities.reduce((curr, acc) => acc + (curr.totalTime || 0), 0);
+    const summedTime = sortedActivities?.reduce((curr, acc) => acc + (curr.totalTime || 0), 0) || 0;
     const dateFrameName = Object.entries(Timeframes).find(([_key, value]) => value === timeFrame)[0];
 
     return (
