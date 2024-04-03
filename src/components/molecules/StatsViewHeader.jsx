@@ -26,12 +26,13 @@ const FilterSleepCheckbox = ({setShouldFilterSleep, shouldFilterSleep}) => {
     );
 };
 
-export const StatsViewHeader = ({timeFrameName, dateFrame, setShouldFilterSleep, shouldFilterSleep}) => {
+export const StatsViewHeader = ({timeFrameName, summedTime, dateFrame, setShouldFilterSleep, shouldFilterSleep}) => {
     return (
         <div className="px-4 pt-2 pb-4 flex justify-between">
             <h1 className="text-3xl font-mono">
                 {timeFrameName.toUpperCase()}
             </h1>
+            {summedTime}
             <div className="flex gap-4">
                 <DateFrame value={dateFrame}/>
                 <FilterSleepCheckbox
