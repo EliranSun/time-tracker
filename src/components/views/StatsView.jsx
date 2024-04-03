@@ -41,6 +41,7 @@ export const StatsView = ({activities}) => {
             });
     }, []);
 
+    const summedTime = sortedActivities.reduce((curr, acc) => acc + curr.totalTime, 0);
     const dateFrameName = Object.entries(Timeframes).find(([_key, value]) => value === timeFrame)[0];
 
     return (
@@ -48,6 +49,7 @@ export const StatsView = ({activities}) => {
             <div {...swipeHandlers}>
                 <StatsViewHeader
                     dateFrame={dateFrameName}
+                    summedTime={summedTime}
                     timeFrameName={timeFrameName}
                     setShouldFilterSleep={setShouldFilterSleep}
                     shouldFilterSleep={shouldFilterSleep}/>
