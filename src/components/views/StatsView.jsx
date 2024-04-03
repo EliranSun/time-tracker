@@ -44,7 +44,7 @@ export const StatsView = ({activities}) => {
     const summedTime = useMemo(() => {
         const totalTimestamp = sortedActivities.reduce((acc, curr) => acc + curr.totalTime, 0);
         return (totalTimestamp / 60 / 60);
-    }, []);
+    }, [sortedActivities]);
     
     const dateFrameName = Object.entries(Timeframes).find(([_key, value]) => value === timeFrame)[0];
 
