@@ -1,8 +1,8 @@
 export const Badge = ({label, value}) => {
     return (
-        <span className="w-full text-sm flex flex-col items-center justify-center gap-1">
-            <i>{label}</i>
+        <span className="w-fit flex flex-col items-center justify-center gap-px">
             <span className="font-mono font-bold">{value}</span>
+            <span className="text-xs">{label}</span>
         </span>
     )
 }
