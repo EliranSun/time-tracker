@@ -2,6 +2,9 @@ import {Badge} from "../atoms/Badge";
 import {useMemo} from "react";
 import {isYesterday} from "date-fns";
 
+const ONE_DAY = 24 * 60 * 60 * 1000;
+const TWO_DAYS = 2 * ONE_DAY;
+
 export const ActivityStreak = ({activities = []}) => {
     const streak = useMemo(() => {
         // Last activity is the most recent one
@@ -28,7 +31,10 @@ export const ActivityStreak = ({activities = []}) => {
             }
 
             const previousActivity = sortedByTime[index - 1];
-            const isConsecutive = previousActivity.start - activity.start < 24 * 60 * 60 * 1000;
+            const timeBetween = previousActivity.start - activity.start;
+            // bigger than one day because a single day might contain multiple activities,
+            // and streak count as one day with 1+ activity
+            const isConsecutive = timeBetween > ONE_DAY && timeBetween < TWO_DAYS;
 
             if (isConsecutive) {
                 currentStreak++;
