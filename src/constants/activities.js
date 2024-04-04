@@ -62,6 +62,7 @@ export const Activities = [
         name: "Atly",
         icon: Briefcase,
         color: ActivityColors.Atly,
+        priority: 5,
         data: []
     },
     {
@@ -69,6 +70,7 @@ export const Activities = [
         name: "People",
         icon: Users,
         color: ActivityColors.People,
+        priority: 4,
         data: []
     },
     {
@@ -76,6 +78,7 @@ export const Activities = [
         name: "OP",
         icon: Skull,
         color: ActivityColors.OP,
+        priority: 3,
         data: []
     },
     {
@@ -83,6 +86,7 @@ export const Activities = [
         name: "Gym",
         icon: Barbell,
         color: ActivityColors.Gym,
+        priority: 6,
         data: []
     },
 
@@ -91,6 +95,7 @@ export const Activities = [
         name: "Unity",
         icon: PuzzlePiece,
         color: ActivityColors.Unity,
+        priority: 1,
         data: []
     },
     {
@@ -98,6 +103,7 @@ export const Activities = [
         name: "Dates",
         icon: Heart,
         color: ActivityColors.Dates,
+        priority: 2,
         data: []
     },
     {
@@ -105,6 +111,7 @@ export const Activities = [
         name: "Read",
         icon: BookOpen,
         color: ActivityColors.Read,
+        priority: 7,
         data: []
     },
     {
@@ -112,6 +119,7 @@ export const Activities = [
         name: "Sleep",
         icon: MoonStars,
         color: ActivityColors.Sleep,
+        priority: 9,
         data: []
     },
     {
@@ -119,6 +127,7 @@ export const Activities = [
         name: "Creative",
         icon: PaintBrush,
         color: ActivityColors.Creative,
+        priority: 8,
         data: []
     },
     {
@@ -126,6 +135,7 @@ export const Activities = [
         name: "Pets",
         icon: PawPrint,
         color: ActivityColors.Pets,
+        priority: 10,
         data: []
     },
     {
@@ -133,6 +143,7 @@ export const Activities = [
         name: "Media",
         icon: Television,
         color: ActivityColors.Media,
+        priority: 12,
         data: []
     },
     {
@@ -140,6 +151,7 @@ export const Activities = [
         name: "Games",
         icon: GameController,
         color: ActivityColors.Games,
+        priority: 11,
         data: []
     },
 ];
