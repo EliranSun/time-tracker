@@ -6,18 +6,24 @@ const TWO_DAYS = 2 * ONE_DAY;
 
 export const ActivityStreak = ({activities = []}) => {
     const streak = useMemo(() => {
-        const sortedByTime = activities.sort((a, b) => a.start - b.start);
+        // Last activity is the most recent one
+        const sortedByTime = activities
+            .filter(activity => activity.end > 0 && activity.start > 0)
+            .sort((a, b) => b.start - a.start);
+
         let streak = 0;
         let currentStreak = 0;
-        let lastEnd = 0;
+
         sortedByTime.forEach(activity => {
-            if ((activity.start - lastEnd) > ONE_DAY && (activity.start - lastEnd) < TWO_DAYS) {
-                currentStreak++;
-                streak = Math.max(streak, currentStreak);
-            } else {
+            const isNextDay = activity.start - sortedByTime[streak]?.start > TWO_DAYS;
+            const isSameDay = activity.start - sortedByTime[streak]?.start < ONE_DAY;
+
+            if (isNextDay) {
+                streak = currentStreak > streak ? currentStreak : streak;
                 currentStreak = 0;
+            } else if (isSameDay) {
+                currentStreak++;
             }
-            lastEnd = activity.end;
         });
 
         return streak;
