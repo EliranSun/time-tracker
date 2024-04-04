@@ -1,8 +1,6 @@
 import {Badge} from "../atoms/Badge";
 import {useMemo} from "react";
-
-const ONE_DAY = 24 * 60 * 60 * 1000;
-const TWO_DAYS = 2 * ONE_DAY;
+import {isYesterday} from "date-fns";
 
 export const ActivityStreak = ({activities = []}) => {
     const streak = useMemo(() => {
@@ -14,18 +12,31 @@ export const ActivityStreak = ({activities = []}) => {
         let streak = 0;
         let currentStreak = 0;
 
-        sortedByTime.forEach(activity => {
-            const isNextDay = activity.start - sortedByTime[streak]?.start > TWO_DAYS;
-            const isSameDay = activity.start - sortedByTime[streak]?.start < ONE_DAY;
-
-            if (isNextDay) {
-                streak = currentStreak > streak ? currentStreak : streak;
-                currentStreak = 0;
-            } else if (isSameDay) {
-                currentStreak++;
-            }
+        const hasActivityYesterday = sortedByTime.some((activity, index) => {
+            return isYesterday(activity.start);
         });
 
+        if (!hasActivityYesterday) {
+            return streak;
+        }
+
+        sortedByTime.forEach((activity, index) => {
+            if (index === 0) {
+                currentStreak = 1;
+                streak = 1;
+                return;
+            }
+
+            const previousActivity = sortedByTime[index - 1];
+            const isConsecutive = previousActivity.start - activity.start < 24 * 60 * 60 * 1000;
+
+            if (isConsecutive) {
+                currentStreak++;
+                streak = Math.max(streak, currentStreak);
+            } else {
+                currentStreak = 1;
+            }
+        });
         return streak;
     }, [activities]);
 
