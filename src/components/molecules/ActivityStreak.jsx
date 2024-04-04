@@ -2,6 +2,7 @@ import {Badge} from "../atoms/Badge";
 import {useMemo} from "react";
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
+const TWO_DAYS = 2 * ONE_DAY;
 
 export const ActivityStreak = ({activities = []}) => {
     const streak = useMemo(() => {
@@ -10,7 +11,7 @@ export const ActivityStreak = ({activities = []}) => {
         let currentStreak = 0;
         let lastEnd = 0;
         sortedByTime.forEach(activity => {
-            if ((activity.start - lastEnd) < ONE_DAY) {
+            if ((activity.start - lastEnd) > ONE_DAY && (activity.start - lastEnd) < TWO_DAYS) {
                 currentStreak++;
                 streak = Math.max(streak, currentStreak);
             } else {
