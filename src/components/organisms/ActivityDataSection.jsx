@@ -32,8 +32,11 @@ export const ActivityDataSection = ({activitiesData, activity, setIsEditEntryVie
 
     return (
         <section className="flex flex-col items-center justify-center gap-4 mx-auto" ref={ref}>
-            <div className="flex gap-4">
-                <Highscore activities={activitiesData}/>
+            <div className="flex flex-col gap-4">
+                <div>
+                    Priority {activity.priority}
+                </div>
+                 <Highscore activities={activitiesData}/>
                 <div className="w-full text-sm flex gap-1 justify-between">
                     <span>Streak:</span><span className="font-mono font-bold">0h</span>
                 </div>
