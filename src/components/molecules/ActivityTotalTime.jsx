@@ -12,7 +12,7 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
     return (
         <div
             className={classNames({
-                "flex text-right items-center justify-between text-[2em] min-h-[20px] py-4 px-12 font-mono": true,
+                "flex text-right items-center justify-between text-sm min-h-[20px] py-4 px-12 font-mono": true,
                 "rounded-b-3xl": isLast,
                 "rounded-t-3xl": isFirst,
             })}
