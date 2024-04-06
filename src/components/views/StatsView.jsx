@@ -58,7 +58,7 @@ export const StatsView = ({activities}) => {
                     timeFrameName={timeFrameName}
                     setShouldFilterSleep={setShouldFilterSleep}
                     shouldFilterSleep={shouldFilterSleep}/>
-                <div className="flex-col w-screen justify-evenly h-[70vh] px-2 overflow-hidden">
+                <div className="flex-col w-screen justify-evenly h-[80vh] px-2 overflow-hidden">
                     {sortedActivities.length === 0
                         ? (
                             <div className="font-mono text-center text-3xl">
