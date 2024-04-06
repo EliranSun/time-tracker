@@ -8,6 +8,7 @@ import {Counter} from "../Counter";
 import {usePageSwipe} from "../../hooks/usePageSwipe";
 import {ActivityDataSection} from "../organisms/ActivityDataSection";
 import {ActivitiesEntriesView} from "./ActivitiesEntriesView";
+import {readableColor} from 'polished';
 
 export const ActivityView = ({
                                  currentActivity,
@@ -91,6 +92,8 @@ export const ActivityView = ({
             })
     }, [activity.name, refPath]);
 
+    const textColor = readableColor(currentActivity.name === activity.name ? activity.color : getAppBackgroundColor());
+
     return (
         <>
             <div {...swipeHandlers}>
@@ -119,6 +122,7 @@ export const ActivityView = ({
                                 onClick={() => setIsAddEntryView(!isAddEntryView)}
                                 size={80}/>
                             <p
+                                style={{color: textColor}}
                                 className={classNames("font-extralight tracking-wide text-8xl")}>
                                 {activity.name}
                             </p>
