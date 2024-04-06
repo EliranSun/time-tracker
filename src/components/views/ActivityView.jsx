@@ -25,7 +25,26 @@ export const ActivityView = ({
     const [isAddEntryView, setIsAddEntryView] = useState(false);
     const [updateCount, setUpdateCount] = useState(0);
     const activitiesData = useActivityData(activity.name, updateCount);
-    const swipeHandlers = usePageSwipe(setActivePage, isAddEntryView || isEditEntryView);
+    const textColor = readableColor(currentActivity.name === activity.name ? activity.color : getAppBackgroundColor());
+    const activitySwitch = useCallback(() => {
+        const shouldStartTick = !currentActivity.name;
+        const shouldStopTick = currentActivity.name === activity.name;
+
+        if (shouldStartTick) {
+            onStartTick(new Date().getTime());
+            return;
+        }
+
+        if (shouldStopTick) {
+            onStopTick();
+        }
+    }, [currentActivity.name, activity.name]);
+
+    const swipeHandlers = usePageSwipe({
+        onSwipe: setActivePage,
+        onEntryToggle: activitySwitch,
+        isDisabled: isAddEntryView || isEditEntryView
+    });
 
     useEffect(() => {
         if (!currentActivity.name || currentActivity.name !== activity.name) {
@@ -92,33 +111,26 @@ export const ActivityView = ({
             })
     }, [activity.name, refPath]);
 
-    const textColor = readableColor(currentActivity.name === activity.name ? activity.color : getAppBackgroundColor());
-
     return (
         <>
             <div {...swipeHandlers}>
                 <div
                     className="fixed top-0 left-0 w-screen h-screen -z-10"
+                    onDoubleClick={activitySwitch}
+                    onKeyDown={(event) => {
+                        const isEnterKey = event.key === "Enter";
+                        if (!isEnterKey)
+                            return;
+
+                        activitySwitch();
+                    }}
                     style={{
                         color: textColor,
                         backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""
                     }}/>
                 <div className="h-2/3 flex items-center flex-wrap gap-1 select-none">
                     <Block
-                        key={activity.name}
-                        onDoubleClick={() => {
-                            const shouldStartTick = !currentActivity.name;
-                            const shouldStopTick = currentActivity.name === activity.name;
-
-                            if (shouldStartTick) {
-                                onStartTick(new Date().getTime());
-                                return;
-                            }
-
-                            if (shouldStopTick) {
-                                onStopTick();
-                            }
-                        }}>
+                        key={activity.name}>
                         <div
                             className="flex flex-col items-center mt-12 my-8">
                             <Icon

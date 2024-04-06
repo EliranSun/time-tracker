@@ -1,5 +1,5 @@
 body, html {
-    color: #282c34;
+    /*color: #282c34;*/
     background-color: #ededed;
     overflow: hidden;
 }
@@ -7,7 +7,7 @@ body, html {
 /* dark mode */
 @media (prefers-color-scheme: dark) {
     body, html {
-        color: #ededed;
+        /*color: #ededed;*/
         background-color: #282c34;
     }
 }

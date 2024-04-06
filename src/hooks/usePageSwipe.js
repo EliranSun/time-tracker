@@ -13,7 +13,11 @@ const Actions = {
 const swipeAction = (action, onSwipe) => {
     onSwipe(prevPage => PageMazeMap[upperFirst(prevPage)][action]);
 };
-export const usePageSwipe = (onSwipe = noop, isDisabled = false) => {
+export const usePageSwipe = ({
+                                 onSwipe = noop,
+                                 onEntryToggle,
+                                 isDisabled = false
+                             }) => {
     const handlers = useSwipeable({
         onSwipedLeft: () => swipeAction(Actions.Left, onSwipe),
         onSwipedRight: () => swipeAction(Actions.Right, onSwipe),
@@ -28,6 +32,10 @@ export const usePageSwipe = (onSwipe = noop, isDisabled = false) => {
         const listener = (e) => {
             let action;
             switch (e.key) {
+                case "Enter":
+                    onEntryToggle();
+                    break;
+
                 case "ArrowLeft":
                     action = Actions.Left;
                     break;

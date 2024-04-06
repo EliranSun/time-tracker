@@ -1,14 +1,12 @@
-import { Activities } from "../constants/activities";
+import {Activities} from "../constants/activities";
 import classNames from "classnames";
-import { Icon } from "./Icon";
+import {Icon} from "./Icon";
 import {useOldestActivity} from "../hooks/useOldestActivity";
 
 const GOLD = "#FFBF00";
 
-export const ActivitiesDungeonMap = ({ activePage, isZenMode }) => {
+export const ActivitiesDungeonMap = ({activePage, isZenMode}) => {
     const oldestActivityName = useOldestActivity();
-
-    console.log({oldestActivityName});
 
     if (isZenMode) {
         return null;
@@ -20,18 +18,18 @@ export const ActivitiesDungeonMap = ({ activePage, isZenMode }) => {
                 {Activities.map(activity => {
                     const isActive = activePage?.toLowerCase() === activity.name?.toLowerCase();
                     const isGolden = oldestActivityName === activity.name;
-                    
+
                     return (
                         <span
                             key={activity.name}
-                            style={{ backgroundColor: isActive ? activity.color : "" }}
+                            style={{backgroundColor: isActive ? activity.color : ""}}
                             className={classNames("size-5 flex items-center justify-center p-px", {
                                 "text-gray-900 dark:text-white": !isActive,
                                 "bg-gray-500 text-white dark:bg-white dark:text-black opacity-80": isActive,
                                 "opacity-30": !isActive && !isGolden,
                                 "outline outline-1 outline-offset-2 outline-yellow-400": isGolden,
                             })}>
-                            <Icon 
+                            <Icon
                                 color={isGolden ? GOLD : undefined}
                                 weight={isGolden ? "fill" : "regular"}
                                 name={activity.icon}/>
