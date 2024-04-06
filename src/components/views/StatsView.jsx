@@ -58,6 +58,7 @@ export const StatsView = ({activities}) => {
                     timeFrameName={timeFrameName}
                     setShouldFilterSleep={setShouldFilterSleep}
                     shouldFilterSleep={shouldFilterSleep}/>
+                    <div className="overflow-y-auto h-[80vh]">
                 <div className="flex-col w-screen justify-evenly h-[100vh] px-2 overflow-y-auto">
                     {sortedActivities.length === 0
                         ? (
@@ -78,6 +79,7 @@ export const StatsView = ({activities}) => {
                                     isFirst={index === 0}/>
                             )
                         })}
+                </div>
                 </div>
             </div>
         </>
