@@ -116,7 +116,6 @@ export const ActivityView = ({
             <div {...swipeHandlers}>
                 <div
                     className="fixed top-0 left-0 w-screen h-screen -z-10"
-                    onDoubleClick={activitySwitch}
                     onKeyDown={(event) => {
                         const isEnterKey = event.key === "Enter";
                         if (!isEnterKey)
@@ -128,7 +127,9 @@ export const ActivityView = ({
                         color: textColor,
                         backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""
                     }}/>
-                <div className="h-2/3 flex items-center flex-wrap gap-1 select-none">
+                <div
+                    onDoubleClick={activitySwitch}
+                    className="h-2/3 flex items-center flex-wrap gap-1 select-none">
                     <Block
                         key={activity.name}>
                         <div
