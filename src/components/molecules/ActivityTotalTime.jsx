@@ -1,5 +1,6 @@
 import {getTimeString} from "../../utils/time";
 import classNames from "classnames";
+import {readableColor} from 'polished';
 
 export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, activity, isLast, isFirst}) => {
     const normalizedHeight = activityTotalTime / totalTime * 100 + "%";
@@ -8,6 +9,7 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
     const timeString = getTimeString(hours, minutes, timeFrame);
     const Icon = activity.icon;
     const onClick = () => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`);
+    const textColor = readableColor(activity.color);
 
     return (
         <div
@@ -17,6 +19,7 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
                 "rounded-t-3xl": isFirst,
             })}
             style={{
+                color: textColor,
                 backgroundColor: activity.color,
                 height: normalizedHeight
             }}>
