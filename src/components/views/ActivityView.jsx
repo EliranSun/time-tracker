@@ -99,7 +99,10 @@ export const ActivityView = ({
             <div {...swipeHandlers}>
                 <div
                     className="fixed top-0 left-0 w-screen h-screen -z-10"
-                    style={{backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""}}/>
+                    style={{
+                        color: textColor,
+                        backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""
+                    }}/>
                 <div className="h-2/3 flex items-center flex-wrap gap-1 select-none">
                     <Block
                         key={activity.name}
@@ -122,7 +125,6 @@ export const ActivityView = ({
                                 onClick={() => setIsAddEntryView(!isAddEntryView)}
                                 size={80}/>
                             <p
-                                style={{color: textColor}}
                                 className={classNames("font-extralight tracking-wide text-8xl")}>
                                 {activity.name}
                             </p>
