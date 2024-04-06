@@ -76,7 +76,7 @@ export const StatsView = ({activities}) => {
                     onChangeView={() => setViewType(viewType === ViewTypes.AGGREGATE ? ViewTypes.DETAIL : ViewTypes.AGGREGATE)}
                     setShouldFilterSleep={setShouldFilterSleep}
                     shouldFilterSleep={shouldFilterSleep}/>
-                <div className="overflow-y-auto h-[77vh]">
+                <div className="overflow-y-auto h-[76vh]">
                     <div className="flex-col w-screen justify-center h-screen px-2">
                         {items.length === 0 ? (
                             <div className="font-mono text-center text-3xl">
