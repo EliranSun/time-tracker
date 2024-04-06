@@ -67,7 +67,7 @@ export const StatsView = ({activities}) => {
 
     return (
         <>
-            <div>
+            <div className="relative">
                 <StatsViewHeader
                     dateFrame={dateFrameName}
                     summedTime={summedTime}
@@ -76,16 +76,17 @@ export const StatsView = ({activities}) => {
                     onChangeView={() => setViewType(viewType === ViewTypes.AGGREGATE ? ViewTypes.DETAIL : ViewTypes.AGGREGATE)}
                     setShouldFilterSleep={setShouldFilterSleep}
                     shouldFilterSleep={shouldFilterSleep}/>
-                <div className="relative overflow-y-auto h-[83vh]">
-                    <div className="absolute flex w-full h-full justify-between items-end">
-                        <NavigationButton onClick={() => setDateFrame(prev => prev + 1)}>
-                            <ArrowFatLeft/>
-                        </NavigationButton>
-                        <NavigationButton onClick={() => setDateFrame(prev => prev - 1)}>
-                            <ArrowFatRight/>
-                        </NavigationButton>
-                    </div>
-                    <div className="flex-col w-screen justify-center h-full px-2 overflow-y-auto">
+                <div
+                    className="absolute bottom-20 flex w-full h-full justify-between items-end">
+                    <NavigationButton onClick={() => setDateFrame(prev => prev + 1)}>
+                        <ArrowFatLeft/>
+                    </NavigationButton>
+                    <NavigationButton onClick={() => setDateFrame(prev => prev - 1)}>
+                        <ArrowFatRight/>
+                    </NavigationButton>
+                </div>
+                <div className="relative overflow-y-auto h-[93vh]">
+                    <div className="flex-col w-screen justify-center h-[77vh] px-2 overflow-y-auto">
                         {items.length === 0 ? (
                             <div className="font-mono text-center text-3xl">
                                 This day is filled with possibilities... <br/><br/>
