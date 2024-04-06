@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
-import { add, isThisMonth, isThisWeek, isThisYear, isToday } from "date-fns";
-import { sortActivitiesByOrder } from "../utils/activities";
+import {useEffect, useState} from "react";
+import {add, isThisMonth, isThisWeek, isThisYear, isToday} from "date-fns";
+import {sortActivitiesByOrder} from "../utils/activities";
 
 const ROUND_TO = 10;
 
-export function useTotalTime({ activities, allActivitiesData, dateFrame, timeFrame, shouldFilterSleep }) {
+export function useTotalTime({activities, allActivitiesData, dateFrame, timeFrame, shouldFilterSleep}) {
     // TODO: Two different hooks
     const [totalTime, setTotalTime] = useState(0);
     const [sortedActivities, setSortedActivities] = useState([]);
+    const [unsortedActivities, setUnsortedActivities] = useState([]);
 
     useEffect(() => {
         const data = [];
         let todayActivitiesTotalTime = 0;
+        setUnsortedActivities([]);
 
         for (let i = 0; i < allActivitiesData.length; i++) {
             const activity = activities[i];
@@ -25,25 +27,27 @@ export function useTotalTime({ activities, allActivitiesData, dateFrame, timeFra
                 switch (true) {
                     default:
                     case timeFrame % 5 === 0:
-                        const day = add(item.end, { days: dateFrame });
+                        const day = add(item.end, {days: dateFrame});
                         return isToday(day);
 
                     case timeFrame % 5 === 1:
-                        const week = add(item.end, { weeks: dateFrame });
+                        const week = add(item.end, {weeks: dateFrame});
                         return isThisWeek(week);
 
                     case timeFrame % 5 === 2:
-                        const month = add(item.end, { months: dateFrame });
+                        const month = add(item.end, {months: dateFrame});
                         return isThisMonth(month);
 
                     case timeFrame % 5 === 3:
-                        const year = add(item.end, { years: dateFrame });
+                        const year = add(item.end, {years: dateFrame});
                         return isThisYear(year);
 
                     case timeFrame % 5 === 4:
                         return true;
                 }
             });
+
+            setUnsortedActivities(prev => prev.concat(todayCompletedActivities));
 
             const totalTime = todayCompletedActivities.reduce((acc, item) => acc + item.end - item.start, 0);
             todayActivitiesTotalTime += totalTime;
@@ -56,13 +60,11 @@ export function useTotalTime({ activities, allActivitiesData, dateFrame, timeFra
         }
 
         const sorted = sortActivitiesByOrder(data, activities);
-
-        // const firstActivityColor = sorted[0]?.activity.color;
-        // replaceMetaThemeColor(firstActivityColor);
-
         setSortedActivities(sorted);
         setTotalTime(todayActivitiesTotalTime);
+        setUnsortedActivities(prev => prev.sort((a, b) => b.start - a.start));
+
     }, [allActivitiesData, timeFrame, dateFrame, shouldFilterSleep]);
 
-    return { totalTime, sortedActivities };
+    return {totalTime, sortedActivities, unsortedActivities};
 }

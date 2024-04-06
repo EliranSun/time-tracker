@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { formatDay, formatMonth, formatWeek, formatYear } from "../utils/time";
-import { format } from "date-fns";
+import {useEffect, useState} from "react";
+import {formatDay, formatMonth, formatWeek, formatYear} from "../utils/time";
+import {format} from "date-fns";
 
-export function useTimeAndDateFrame(timeFrame, dateFrame) {
+export function useTimeAndDateFrame(t, dateFrame) {
     // TODO: Two different hooks
     const [timeFrameName, setTimeFrameName] = useState(format(new Date(), "EEEE"));
     const [adjacentTimeframes, setAdjacentTimeframes] = useState({
@@ -11,6 +11,8 @@ export function useTimeAndDateFrame(timeFrame, dateFrame) {
         lower: "",
         higher: ""
     });
+
+    const timeFrame = Math.abs(t);
 
     useEffect(() => {
         // TODO: We can refactor to without an effect
@@ -73,5 +75,5 @@ export function useTimeAndDateFrame(timeFrame, dateFrame) {
         }
     }, [dateFrame, timeFrame]);
 
-    return { timeFrameName, adjacentTimeframes, setAdjacentTimeframes };
+    return {timeFrameName, adjacentTimeframes, setAdjacentTimeframes};
 }

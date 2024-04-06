@@ -72,7 +72,6 @@ export const getAllDocsInActivity = async (activityName) => {
 
     if (localStorage.getItem('mock') === 'true') {
         const activity = allActivitiesMock.find(activity => activity.find(a => a.name === activityName));
-        console.log({activity});
         return activity;
     }
 

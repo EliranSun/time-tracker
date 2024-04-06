@@ -1,4 +1,4 @@
-import {CaretDown, CaretUp, MoonStars} from "@phosphor-icons/react";
+import {CaretDown, CaretUp, MoonStars, ChartPieSlice} from "@phosphor-icons/react";
 
 const DateFrame = ({value}) => {
     return (
@@ -20,23 +20,31 @@ const FilterSleepCheckbox = ({setShouldFilterSleep, shouldFilterSleep}) => {
             <input
                 type="checkbox"
                 onChange={() => setShouldFilterSleep(!shouldFilterSleep)}
-                checked={shouldFilterSleep}/>
+                checked={!shouldFilterSleep}/>
             <MoonStars size={20}/>
         </div>
     );
 };
 
-export const StatsViewHeader = ({timeFrameName, summedTime, dateFrame, setShouldFilterSleep, shouldFilterSleep}) => {
+export const StatsViewHeader = ({
+                                    timeFrameName,
+                                    summedTime,
+                                    dateFrame,
+                                    onChangeView,
+                                    setShouldFilterSleep,
+                                    shouldFilterSleep
+                                }) => {
     return (
         <div className="px-4 pt-2 pb-4 flex items-center justify-between">
             <h1 className="text-3xl font-mono">
                 {timeFrameName.toUpperCase()}
             </h1>
             <div className="text-xs">
-            {summedTime}
+                {summedTime}
             </div>
-            <div className="flex gap-4">
+            <div className="flex items-center gap-4">
                 <DateFrame value={dateFrame}/>
+                <ChartPieSlice onClick={onChangeView}/>
                 <FilterSleepCheckbox
                     shouldFilterSleep={shouldFilterSleep}
                     setShouldFilterSleep={setShouldFilterSleep}/>

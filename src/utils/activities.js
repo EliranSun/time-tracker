@@ -21,7 +21,6 @@ export const calculateStreak = (activities = []) => {
     let currentStreak = 0;
 
     const hasActivityYesterday = sortedByTime.some(activity => {
-        console.log(activity.name, activity.start, new Date(activity.start).toDateString());
         return isYesterday(activity.start);
     });
 
