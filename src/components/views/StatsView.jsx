@@ -51,7 +51,7 @@ export const StatsView = ({activities}) => {
 
     return (
         <>
-            <div {...swipeHandlers}>
+            <div>
                 <StatsViewHeader
                     dateFrame={dateFrameName}
                     summedTime={summedTime}
