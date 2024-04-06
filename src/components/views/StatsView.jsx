@@ -19,7 +19,7 @@ const ViewTypes = {
 
 const NavigationButton = ({children, ...rest}) => {
     return (
-        <div className="bg-white rounded-full p-2 shadow" {...rest}>
+        <div className="bg-white rounded-full m-2 p-3 shadow" {...rest}>
             {children}
         </div>
     );
