@@ -62,7 +62,7 @@ export function useTotalTime({activities, allActivitiesData, dateFrame, timeFram
         const sorted = sortActivitiesByOrder(data, activities);
         setSortedActivities(sorted);
         setTotalTime(todayActivitiesTotalTime);
-        setUnsortedActivities(prev => prev.sort((a, b) => b.start - a.start));
+        setUnsortedActivities(prev => prev.sort((a, b) => a.start - b.start));
 
     }, [allActivitiesData, timeFrame, dateFrame, shouldFilterSleep]);
 
