@@ -19,7 +19,7 @@ const ViewTypes = {
 
 const NavigationButton = ({children, ...rest}) => {
     return (
-        <div className="bg-white rounded-full m-2 p-3 shadow" {...rest}>
+        <div className="bg-white rounded-full m-4 p-3 shadow" {...rest}>
             {children}
         </div>
     );
@@ -77,7 +77,7 @@ export const StatsView = ({activities}) => {
                     setShouldFilterSleep={setShouldFilterSleep}
                     shouldFilterSleep={shouldFilterSleep}/>
                 <div className="relative overflow-y-auto h-[83vh]">
-                    <div className="absolute flex w-full h-full justify-between items-center">
+                    <div className="absolute flex w-full h-full justify-between items-end">
                         <NavigationButton onClick={() => setDateFrame(prev => prev + 1)}>
                             <ArrowFatLeft/>
                         </NavigationButton>
