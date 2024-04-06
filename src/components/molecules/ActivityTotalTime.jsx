@@ -12,7 +12,7 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
     return (
         <div
             className={classNames({
-                "flex items-center justify-start gap-8 text-lg py-4 px-12 font-mono": true,
+                "flex items-center justify-center text-lg py-4 px-12 font-mono": true,
                 "rounded-b-3xl": isLast,
                 "rounded-t-3xl": isFirst,
             })}
@@ -20,9 +20,11 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
                 backgroundColor: activity.color,
                 height: normalizedHeight
             }}>
-            <Icon onClick={onClick}/>
-            <div className="flex flex-col items-end">
-                {timeString}
+            <div className="flex w-40 items-center">
+                <Icon onClick={onClick}/>
+                <div className="ml-2">
+                    {timeString}
+                </div>
             </div>
         </div>
     );
