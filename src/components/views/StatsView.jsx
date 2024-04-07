@@ -10,6 +10,7 @@ import {StatsViewHeader} from "../molecules/StatsViewHeader";
 import {ActivityTotalTime} from "../molecules/ActivityTotalTime";
 import {Activities} from "../../constants/activities";
 import {ArrowFatLeft, ArrowFatRight} from "@phosphor-icons/react";
+import classNames from "classnames";
 
 const ViewTypes = {
     AGGREGATE: "aggregate",
@@ -29,6 +30,7 @@ const NavigationButton = ({children, ...rest}) => {
 export const StatsView = ({activities}) => {
     const [timeFrame, setTimeFrame] = useState(0);
     const [dateFrame, setDateFrame] = useState(Timeframes.DAY);
+    const [isExpanded, setIsExpanded] = useState(false);
     const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
     const [shouldFilterSleep, setShouldFilterSleep] = useState(false);
     const {timeFrameName} = useTimeAndDateFrame(timeFrame, dateFrame);
@@ -78,7 +80,9 @@ export const StatsView = ({activities}) => {
                     setShouldFilterSleep={setShouldFilterSleep}
                     shouldFilterSleep={shouldFilterSleep}/>
                 <div className="overflow-y-auto h-[76vh]">
-                    <div className="flex-col w-screen justify-center h-screen px-2">
+                    <div className={classNames("flex-col w-screen justify-center h-screen px-2", {
+                            "flex": !isExpanded
+                        })}>
                         {items.length === 0 ? (
                             <div className="font-mono text-center text-3xl">
                                 This day is filled with possibilities... <br/><br/>
