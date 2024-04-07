@@ -1,4 +1,9 @@
-import {CaretDown, CaretUp, MoonStars, ChartPieSlice} from "@phosphor-icons/react";
+import {
+CaretDown, 
+CaretUp, 
+MoonStars, 
+ArrowsIn,
+ChartPieSlice} from "@phosphor-icons/react";
 
 const DateFrame = ({value, onClick}) => {
     return (
@@ -33,7 +38,8 @@ export const StatsViewHeader = ({
                                     onChangeTimeFrame,
                                     onChangeView,
                                     setShouldFilterSleep,
-                                    shouldFilterSleep
+                                    shouldFilterSleep,
+                                    onExpandViewClick
                                 }) => {
     return (
         <div className="px-4 pt-2 pb-4 flex items-center justify-between">
@@ -45,7 +51,8 @@ export const StatsViewHeader = ({
             </div>
             <div className="flex items-center gap-4">
                 <DateFrame value={dateFrame} onClick={onChangeTimeFrame}/>
-                <ChartPieSlice onClick={onChangeView}/>
+                <ArrowIn onClick={onExpandViewClick}/>
+                 <ChartPieSlice onClick={onChangeView}/>
                 <FilterSleepCheckbox
                     shouldFilterSleep={shouldFilterSleep}
                     setShouldFilterSleep={setShouldFilterSleep}/>
