@@ -75,6 +75,7 @@ export const StatsView = ({activities}) => {
                     dateFrame={dateFrameName}
                     summedTime={summedTime}
                     timeFrameName={timeFrameName}
+                    onExpandViewClick={() => setIsExpanded(!isExpanded)}
                     onChangeTimeFrame={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}
                     onChangeView={() => setViewType(viewType === ViewTypes.AGGREGATE ? ViewTypes.DETAIL : ViewTypes.AGGREGATE)}
                     setShouldFilterSleep={setShouldFilterSleep}
