@@ -158,7 +158,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                             className={classNames("w-full text-center h-full rounded-full aspect-square", {
                                 "flex items-center justify-center flex-col text-white px-2": true,
                                 "outline outline-offset-2 outline-4 outline-black": isEntryToday,
-                                "opacity-30": !isEntryThisMonth
+                                "opacity-10": !isEntryThisMonth
                             })}>
                             {isZenMode ? null :
                                 <>
