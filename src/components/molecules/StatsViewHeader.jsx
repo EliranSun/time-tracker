@@ -51,7 +51,7 @@ export const StatsViewHeader = ({
             </div>
             <div className="flex items-center gap-4">
                 <DateFrame value={dateFrame} onClick={onChangeTimeFrame}/>
-                <ArrowIn onClick={onExpandViewClick}/>
+                <ArrowsIn onClick={onExpandViewClick}/>
                  <ChartPieSlice onClick={onChangeView}/>
                 <FilterSleepCheckbox
                     shouldFilterSleep={shouldFilterSleep}
