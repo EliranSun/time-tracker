@@ -81,8 +81,9 @@ export const StatsView = ({activities}) => {
                     setShouldFilterSleep={setShouldFilterSleep}
                     shouldFilterSleep={shouldFilterSleep}/>
                 <div className="overflow-y-auto h-[76vh]">
-                    <div className={classNames("flex-col w-screen justify-center h-screen px-2", {
-                            "flex": !isExpanded
+                    <div className={classNames("flex-col w-screen justify-center px-2", {
+                            "flex h-full": !isExpanded,
+                            "h-screen": isExpanded,
                         })}>
                         {items.length === 0 ? (
                             <div className="font-mono text-center text-3xl">
