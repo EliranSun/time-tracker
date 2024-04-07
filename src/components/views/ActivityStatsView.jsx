@@ -70,7 +70,8 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
 
     const month = addMonths(new Date(), dateIndex).getMonth();
     const year = new Date().getFullYear();
-    const daysMap = getDaysIncludingWeekends(new Date(year, month, 1));
+    const selectedMonthDate = new Date(year, month, 1);
+    const daysMap = getDaysIncludingWeekends(selectedMonthDate);
 
     let highestTotalInHours = 0;
     const _ = useMemo(() => {
@@ -146,7 +147,7 @@ export const ActivityStatsView = ({activity, isZenMode}) => {
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
 
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
-                    const isEntryThisMonth = isSameMonth(new Date(), new Date(year, month, day));
+                    const isEntryThisMonth = isSameMonth(selectedMonthDate, new Date(year, month, day));
 
                     return (
                         <div
