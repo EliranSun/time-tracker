@@ -18,7 +18,8 @@ export function useTotalTime({activities, allActivitiesData, dateFrame, timeFram
         for (let i = 0; i < allActivitiesData.length; i++) {
             const activity = activities[i];
             const todayCompletedActivities = allActivitiesData[i].filter(item => {
-                if (item.end === 0 || !item.end || (item.end - item.start) < (ROUND_TO * 60 * 1000))
+                // (item.end - item.start) < (ROUND_TO * 60 * 1000)
+                if (item.end === 0 || !item.end)
                     return false;
 
                 if (shouldFilterSleep && activity.name === "Sleep")
