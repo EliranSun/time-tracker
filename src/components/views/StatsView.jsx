@@ -67,6 +67,18 @@ export const StatsView = ({activities}) => {
     const items = useMemo(() => {
         return viewType === ViewTypes.AGGREGATE ? sortedActivities : unsortedActivities;
     }, [viewType, sortedActivities, unsortedActivities]);
+    // console.log({items});
+
+    const maxHeight = useMemo(() => {
+        if (items.length === 0 || !totalTime)
+            return 0;
+
+        const minActivity = items.reduce((acc, curr) => acc.totalTime < curr.totalTime ? acc : curr, items[0]);
+        const percentage = minActivity.totalTime / totalTime;
+        return Math.round(1 / percentage);
+    }, [totalTime, items]);
+
+    // console.log({maxHeight});
 
     return (
         <>
@@ -82,9 +94,9 @@ export const StatsView = ({activities}) => {
                     shouldFilterSleep={shouldFilterSleep}/>
                 <div className="overflow-y-auto h-[76vh]">
                     <div className={classNames("flex-col w-screen justify-center px-2", {
-                            "flex h-full": !isExpanded,
-                            "h-screen": isExpanded,
-                        })}>
+                        "flex h-full": !isExpanded,
+                        "h-screen": isExpanded,
+                    })}>
                         {items.length === 0 ? (
                             <div className="font-mono text-center text-3xl">
                                 This day is filled with possibilities... <br/><br/>
@@ -109,6 +121,7 @@ export const StatsView = ({activities}) => {
                                     activityTotalTime={activityTotalTime}
                                     timeFrame={timeFrame}
                                     totalTime={totalTime}
+                                    maxHeight={maxHeight}
                                     activity={activity}
                                     isLast={index === items.length - 1}
                                     isFirst={index === 0}/>

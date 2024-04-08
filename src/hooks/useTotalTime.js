@@ -48,9 +48,14 @@ export function useTotalTime({activities, allActivitiesData, dateFrame, timeFram
                 }
             });
 
-            setUnsortedActivities(prev => prev.concat(todayCompletedActivities));
-
             const totalTime = todayCompletedActivities.reduce((acc, item) => acc + item.end - item.start, 0);
+            setUnsortedActivities(prev => prev.concat(todayCompletedActivities.map(item => {
+                return {
+                    ...item,
+                    totalTime: item.end - item.start
+                }
+            })));
+
             todayActivitiesTotalTime += totalTime;
 
             todayCompletedActivities.length > 0 && data.push({
