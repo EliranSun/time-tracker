@@ -130,13 +130,12 @@ export const StatsView = ({activities}) => {
                         })}
                     </div>
                 </div>
-                <div
-                    className="flex justify-between items-end">
+                <div className="flex justify-between items-center">
                     <NavigationButton onClick={() => setDateFrame(prev => prev + 1)}>
                         <ArrowFatLeft/>
                     </NavigationButton>
                     <DateFrame 
-                        value={dateFrame} 
+                        value={dateFrameName} 
                         onClick={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}
                         />
                     <NavigationButton onClick={() => setDateFrame(prev => prev - 1)}>
