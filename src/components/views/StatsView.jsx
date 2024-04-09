@@ -9,8 +9,22 @@ import {Timeframes} from "../../constants/time";
 import {StatsViewHeader} from "../molecules/StatsViewHeader";
 import {ActivityTotalTime} from "../molecules/ActivityTotalTime";
 import {Activities} from "../../constants/activities";
-import {ArrowFatLeft, ArrowFatRight} from "@phosphor-icons/react";
+import {ArrowFatLeft, ArrowFatRight, CaretUp, CaretDown} from "@phosphor-icons/react";
 import classNames from "classnames";
+
+const DateFrame = ({value, onClick}) => {
+    return (
+        <div className="flex gap-2" onClick={onClick}>
+            <div className="flex flex-col items-center justify-center">
+                <CaretUp size={13}/>
+                <CaretDown size={13}/>
+            </div>
+            <div className="flex items-center gap-2">
+                {value}
+            </div>
+        </div>
+    )
+};
 
 const ViewTypes = {
     AGGREGATE: "aggregate",
@@ -121,6 +135,10 @@ export const StatsView = ({activities}) => {
                     <NavigationButton onClick={() => setDateFrame(prev => prev + 1)}>
                         <ArrowFatLeft/>
                     </NavigationButton>
+                    <DateFrame 
+                        value={dateFrame} 
+                        onClick={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}
+                        />
                     <NavigationButton onClick={() => setDateFrame(prev => prev - 1)}>
                         <ArrowFatRight/>
                     </NavigationButton>
