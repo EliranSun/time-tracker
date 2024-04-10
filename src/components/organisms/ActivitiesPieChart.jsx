@@ -11,10 +11,18 @@ const mockData = [
     {name: 'Group F', value: 189, color: "tomato"},
 ];
 
-const CustomLabel = ({x, y, payload}) => {
+const CustomLabel = ({cx, cy, midAngle, innerRadius, outerRadius, payload}) => {
+    // Calculate the radius for positioning the labels outside the pie chart
+    const radius = outerRadius + 50; // Increase 30 or adjust as needed for your design
+
+    // Convert polar coordinates (angle, radius) to Cartesian coordinates (x, y)
+    const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
+    const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
+
     return (
-        <text x={x} y={y} fill={payload.color} textAnchor="middle">
-            {payload.name} - {payload.value}
+        <text x={x} y={y} fill={payload.color} textAnchor="middle" dominantBaseline="central">
+            <tspan x={x} alignmentBaseline="middle">{payload.name.slice(0, 1)}{payload.value}h</tspan>
+            {/*<tspan x={x} y={y + 20}>{payload.value}</tspan>*/}
         </text>
     );
 };
