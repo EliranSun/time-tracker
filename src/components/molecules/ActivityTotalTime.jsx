@@ -10,7 +10,7 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
     const Icon = activity.icon;
     const onClick = () => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`);
     const textColor = readableColor(activity.color);
-
+    const dateString = new Date(activity.end).toLocaleDateString("he-IL")
     return (
         <div
             className={classNames({
@@ -28,7 +28,8 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
                 <div className="ml-2">
                     {timeString}
                 </div>
-                {new Date(activity.end).toLocaleTimeString("he-IL")}
+                {dateString.toString() !== "Invalid Date" ?
+                    dateString : ""}
             </div>
         </div>
     );
