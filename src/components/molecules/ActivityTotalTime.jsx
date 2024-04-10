@@ -29,16 +29,17 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
                 height: normalizedHeight
             }}>
             <div className="flex justify-between w-full items-center">
+                {dateString.toString() !== "Invalid Date" ?
+                    <div className="text-xs">
+                    {dateString}, {dateTimeString}
+                    </div> : ""}
+                
                 <div className="flex items-center gap-2">
                 <Icon onClick={onClick}/>
                 <div className="ml-2">
                     {timeString}
                 </div>
                 </div>
-                {dateString.toString() !== "Invalid Date" ?
-                    <div className="text-xs">
-                    {dateString}, {dateTimeString}
-                    </div> : ""}
             </div>
         </div>
     );
