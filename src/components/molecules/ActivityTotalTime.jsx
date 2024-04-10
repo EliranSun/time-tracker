@@ -25,7 +25,7 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
                 backgroundColor: activity.color,
                 height: normalizedHeight
             }}>
-            <div className="flex justify between w-full items-center">
+            <div className="flex justify-between w-full items-center">
                 <div className="flex items-center gap-2">
                 <Icon onClick={onClick}/>
                 <div className="ml-2">
