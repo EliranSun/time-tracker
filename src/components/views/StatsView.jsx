@@ -90,6 +90,46 @@ export const StatsView = ({activities}) => {
         return viewType === ViewTypes.AGGREGATE ? sortedActivities : unsortedActivities;
     }, [viewType, sortedActivities, unsortedActivities]);
 
+    const view = useMemo(() => {
+        if (items.length === 0) {
+            return (
+                <div className="font-mono text-center text-3xl">
+                    This day is filled with possibilities... <br/><br/>
+                    Their only masters <br/> are you and time.
+                </div>
+            );
+        }
+
+        if (viewType === ViewTypes.PIECHART) {
+            return <ActivitiesPieChart data={items}/>;
+        }
+
+        return items.map((item, index) => {
+            let activity;
+            let activityTotalTime;
+
+            if (viewType === ViewTypes.DETAIL) {
+                activity = Activities.find(activity => activity.name === item.name);
+                activity = {...activity, ...item};
+                activityTotalTime = activity.end - activity.start;
+            } else {
+                activity = item.activity;
+                activityTotalTime = item.totalTime;
+            }
+
+            return (
+                <ActivityTotalTime
+                    key={activity.name + index}
+                    activityTotalTime={activityTotalTime}
+                    timeFrame={timeFrame}
+                    totalTime={totalTime}
+                    activity={activity}
+                    isLast={index === items.length - 1}
+                    isFirst={index === 0}/>
+            )
+        });
+    }, [items, viewType, timeFrame, totalTime]);
+
     return (
         <>
             <div className="relative">
@@ -107,39 +147,7 @@ export const StatsView = ({activities}) => {
                         "flex h-full": !isExpanded,
                         "h-screen": isExpanded,
                     })}>
-                        {items.length === 0 ? (
-                            <div className="font-mono text-center text-3xl">
-                                This day is filled with possibilities... <br/><br/>
-                                Their only masters <br/> are you and time.
-                            </div>
-                        ) : items.map((item, index) => {
-                            let activity;
-                            let activityTotalTime;
-
-                            if (viewType === ViewTypes.DETAIL) {
-                                activity = Activities.find(activity => activity.name === item.name);
-                                activity = {...activity, ...item};
-                                activityTotalTime = activity.end - activity.start;
-                            } else {
-                                activity = item.activity;
-                                activityTotalTime = item.totalTime;
-                            }
-
-                            if (viewType === ViewTypes.PIECHART) {
-                                return <ActivitiesPieChart/>;
-                            }
-
-                            return (
-                                <ActivityTotalTime
-                                    key={activity.name + index}
-                                    activityTotalTime={activityTotalTime}
-                                    timeFrame={timeFrame}
-                                    totalTime={totalTime}
-                                    activity={activity}
-                                    isLast={index === items.length - 1}
-                                    isFirst={index === 0}/>
-                            )
-                        })}
+                        {view}
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
