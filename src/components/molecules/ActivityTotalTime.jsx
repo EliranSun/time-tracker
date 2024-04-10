@@ -23,11 +23,12 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
                 backgroundColor: activity.color,
                 height: normalizedHeight
             }}>
-            <div className="flex w-28 items-center">
+            <div className="flex w-40 items-center">
                 <Icon onClick={onClick}/>
                 <div className="ml-2">
                     {timeString}
                 </div>
+                {new Date(activity.end).toLocaleTimeString("he-IL")}
             </div>
         </div>
     );
