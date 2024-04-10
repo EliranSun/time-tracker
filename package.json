@@ -18,6 +18,7 @@
     "react-scripts": "5.0.1",
     "react-swipeable": "^7.0.1",
     "react-use": "^17.5.0",
+    "recharts": "^2.12.4",
     "web-vitals": "^2.1.0"
   },
   "scripts": {

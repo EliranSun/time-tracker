@@ -11,6 +11,7 @@ import {ActivityTotalTime} from "../molecules/ActivityTotalTime";
 import {Activities} from "../../constants/activities";
 import {ArrowFatLeft, ArrowFatRight, CaretUp, CaretDown} from "@phosphor-icons/react";
 import classNames from "classnames";
+import {ActivitiesPieChart} from "../organisms/ActivitiesPieChart";
 
 const DateFrame = ({value, onClick}) => {
     return (
@@ -30,6 +31,12 @@ const ViewTypes = {
     AGGREGATE: "aggregate",
     DETAIL: "detail",
     PIECHART: "piechart",
+};
+
+const ViewNav = {
+    [ViewTypes.AGGREGATE]: ViewTypes.DETAIL,
+    [ViewTypes.DETAIL]: ViewTypes.PIECHART,
+    [ViewTypes.PIECHART]: ViewTypes.AGGREGATE,
 };
 
 const NavigationButton = ({children, ...rest}) => {
@@ -57,6 +64,7 @@ export const StatsView = ({activities}) => {
         timeFrame,
         shouldFilterSleep
     });
+
     const swipeHandlers = useTimeSwipe((newDateFrame) => {
         setDateFrame(newDateFrame);
     }, (newTimeFrame) => {
@@ -91,14 +99,14 @@ export const StatsView = ({activities}) => {
                     timeFrameName={timeFrameName}
                     onExpandViewClick={() => setIsExpanded(!isExpanded)}
                     onChangeTimeFrame={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}
-                    onChangeView={() => setViewType(viewType === ViewTypes.AGGREGATE ? ViewTypes.DETAIL : ViewTypes.AGGREGATE)}
+                    onChangeView={() => setViewType(ViewNav[viewType])}
                     setShouldFilterSleep={setShouldFilterSleep}
                     shouldFilterSleep={shouldFilterSleep}/>
                 <div className="overflow-y-auto h-[76vh]">
                     <div className={classNames("flex-col w-screen justify-center px-2", {
-                            "flex h-full": !isExpanded,
-                            "h-screen": isExpanded,
-                        })}>
+                        "flex h-full": !isExpanded,
+                        "h-screen": isExpanded,
+                    })}>
                         {items.length === 0 ? (
                             <div className="font-mono text-center text-3xl">
                                 This day is filled with possibilities... <br/><br/>
@@ -115,6 +123,10 @@ export const StatsView = ({activities}) => {
                             } else {
                                 activity = item.activity;
                                 activityTotalTime = item.totalTime;
+                            }
+
+                            if (viewType === ViewTypes.PIECHART) {
+                                return <ActivitiesPieChart/>;
                             }
 
                             return (
@@ -134,10 +146,10 @@ export const StatsView = ({activities}) => {
                     <NavigationButton onClick={() => setDateFrame(prev => prev + 1)}>
                         <ArrowFatLeft/>
                     </NavigationButton>
-                    <DateFrame 
-                        value={dateFrameName} 
+                    <DateFrame
+                        value={dateFrameName}
                         onClick={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}
-                        />
+                    />
                     <NavigationButton onClick={() => setDateFrame(prev => prev - 1)}>
                         <ArrowFatRight/>
                     </NavigationButton>

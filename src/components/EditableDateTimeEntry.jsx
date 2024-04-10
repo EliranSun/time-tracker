@@ -115,7 +115,7 @@ export const EditableDateTimeEntry = ({id, activityName, start, end, isListView 
                     {durationTimeString}~
                 </div>
                 {id ? null :
-                    <div className="w-full absolute flex bottom-16 left-16">
+                    <div className="w-full absolute flex justify-center items-center bottom-16 left-16">
                         <Button>
                             <Check
                                 size={52}
