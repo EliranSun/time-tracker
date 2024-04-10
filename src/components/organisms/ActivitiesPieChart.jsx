@@ -13,7 +13,7 @@ const mockData = [
 
 const CustomLabel = ({cx, cy, midAngle, innerRadius, outerRadius, payload}) => {
     // Calculate the radius for positioning the labels outside the pie chart
-    const radius = outerRadius + 50; // Increase 30 or adjust as needed for your design
+    const radius = outerRadius + 40; // Increase 30 or adjust as needed for your design
 
     // Convert polar coordinates (angle, radius) to Cartesian coordinates (x, y)
     const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
@@ -43,7 +43,7 @@ export const ActivitiesPieChart = ({activities = []}) => {
     return (
         <div className="w-full flex items-center justify-center">
             <PieChart
-                width={window.innerWidth * 0.9} height={window.innerHeight}>
+                width={window.innerWidth} height={window.innerHeight}>
                 <Pie
                     dataKey="value"
                     startAngle={180}
