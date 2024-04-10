@@ -101,7 +101,7 @@ export const StatsView = ({activities}) => {
         }
 
         if (viewType === ViewTypes.PIECHART) {
-            return <ActivitiesPieChart data={items}/>;
+            return <ActivitiesPieChart activities={items}/>;
         }
 
         return items.map((item, index) => {

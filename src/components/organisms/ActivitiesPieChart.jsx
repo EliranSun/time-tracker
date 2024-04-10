@@ -1,15 +1,15 @@
-import {PieChart, Pie, ResponsiveContainer} from 'recharts';
+import {PieChart, Pie, Cell, ResponsiveContainer} from 'recharts';
+import {useMemo} from "react";
 
-const data = [
-    {name: 'Group A', value: 400},
-    {name: 'Group B', value: 300},
-    {name: 'Group C', value: 300},
-    {name: 'Group D', value: 200},
-    {name: 'Group E', value: 278},
-    {name: 'Group F', value: 189},
-];
+export const ActivitiesPieChart = ({activities = []}) => {
+    const data = useMemo(() => {
+        return activities.map(activity => ({
+            name: activity.name,
+            value: activity.totalTime,
+            color: activity.color,
+        }));
+    }, [activities]);
 
-export const ActivitiesPieChart = () => {
     return (
         <ResponsiveContainer width="100%" height="100%">
             <PieChart width={400} height={400}>
@@ -17,13 +17,16 @@ export const ActivitiesPieChart = () => {
                     dataKey="value"
                     startAngle={180}
                     endAngle={0}
-                    data={data}
                     cx="50%"
                     cy="50%"
                     outerRadius={80}
                     fill="#8884d8"
                     label
-                />
+                >
+                    {data.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color}/>
+                    ))}
+                </Pie>
             </PieChart>
         </ResponsiveContainer>
     );
