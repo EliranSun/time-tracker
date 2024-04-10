@@ -32,7 +32,7 @@ export const formatYear = (dateFrame) => format(sub(new Date(), {years: dateFram
 export const getTimeString = (hours, minutes, timeFrame = Timeframes.DAY) => {
     const days = Math.floor(hours / 24);
     let remainingHours = hours % 24;
-    let remainingMinutes = minutes % 60;
+    let remainingMinutes = round(minutes % 60, -1);
 
     const daysString = days ? `${days}d` : "";
     const minutesString = remainingMinutes ? `${remainingMinutes}m` : "";
