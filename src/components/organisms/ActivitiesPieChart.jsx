@@ -13,7 +13,7 @@ const mockData = [
 
 const CustomLabel = ({cx, cy, midAngle, innerRadius, outerRadius, payload}) => {
     // Calculate the radius for positioning the labels outside the pie chart
-    const radius = outerRadius + 40; // Increase 30 or adjust as needed for your design
+    const radius = outerRadius + 35; // Increase 30 or adjust as needed for your design
 
     // Convert polar coordinates (angle, radius) to Cartesian coordinates (x, y)
     const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
@@ -21,7 +21,7 @@ const CustomLabel = ({cx, cy, midAngle, innerRadius, outerRadius, payload}) => {
 
     return (
         <text x={x} y={y} fill={payload.color} textAnchor="middle" dominantBaseline="central">
-            <tspan x={x} alignmentBaseline="middle">{payload.name.slice(0, 1)}{payload.value}h</tspan>
+            <tspan x={x} alignmentBaseline="middle">{payload.name.slice(0, 3)} {payload.value}h</tspan>
             {/*<tspan x={x} y={y + 20}>{payload.value}</tspan>*/}
         </text>
     );
@@ -36,23 +36,23 @@ export const ActivitiesPieChart = ({activities = []}) => {
         }));
     }, [activities]);
 
-    const size = Math.min(window.innerWidth, window.innerHeight);
-    const outerRadius = (size * 0.9) / 4; // Example to make the pie chart 90% of the viewport size, adjust as needed
-
+    // the gap from the center of the pie chart to the outer edge
+    const outerRadius = window.innerWidth / 3;
 
     return (
-        <div className="w-full flex items-center justify-center">
+        <div className="flex">
             <PieChart
-                width={window.innerWidth} height={window.innerHeight}>
+                width={window.innerWidth} height={window.innerHeight / 2}>
                 <Pie
                     dataKey="value"
-                    startAngle={180}
-                    endAngle={0}
+                    startAngle={0}
+                    endAngle={180}
                     data={data}
                     cx="50%"
                     cy="50%"
                     outerRadius={outerRadius}
                     label={CustomLabel}
+                    labelLine={false}
                     fill="#8884d8"
                 >
                     {data.map((entry, index) => (
