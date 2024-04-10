@@ -53,10 +53,11 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
                 </div>
             </div>
 
-            <div className="w-full absolute flex justify-center items-center bottom-16 right-16" onClick={onClose}>
+            <div className="w-full absolute flex justify-center items-center bottom-16 right-16">
                 <Button>
                     <X
                         size={52}
+                        onClick={onClose}
                         className="dark:text-white hover:text-black"/>
                 </Button>
             </div>
