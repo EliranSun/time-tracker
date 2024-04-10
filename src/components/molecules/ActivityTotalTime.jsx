@@ -10,7 +10,9 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
     const Icon = activity.icon;
     const onClick = () => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`);
     const textColor = readableColor(activity.color);
-    const dateString = new Date(activity.end).toLocaleDateString("he-IL")
+    const dateString = new Date(activity.end).toLocaleDateString("he-IL");
+    const dateTimeString = new Date(activity.end).toLocaleTimeString("he-IL")
+    
     return (
         <div
             className={classNames({
@@ -23,13 +25,17 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
                 backgroundColor: activity.color,
                 height: normalizedHeight
             }}>
-            <div className="flex w-40 items-center">
+            <div className="flex justify between w-96 items-center">
+                <div className="flex items-center gap-2">
                 <Icon onClick={onClick}/>
                 <div className="ml-2">
                     {timeString}
                 </div>
+                </div>
                 {dateString.toString() !== "Invalid Date" ?
-                    dateString : ""}
+                    <div className="text-xs">
+                    {dateString}, {dateTimeString}
+                    </div> : ""}
             </div>
         </div>
     );
