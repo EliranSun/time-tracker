@@ -43,12 +43,11 @@ export const EditableDateTimeEntry = ({id, activityName, start, end, isListView 
     return (
         <>
             <div className={classNames("w-full text-black dark:text-white h-full", {
-                "border-b border-white/20": false,
                 "flex gap-4 items-center": isListView,
             })}>
                 <div
                     className={classNames("flex items-center justify-between", {
-                        "flex-col gap-4 mb-16": !isListView,
+                        "flex-col gap-4 mb-16 w-full": !isListView,
                         "flex-row gap-4 justify-between px-5 py-4 w-80 bg-black/20": isListView,
                     })}>
                     <div className="flex flex-col gap-4">
@@ -116,36 +115,32 @@ export const EditableDateTimeEntry = ({id, activityName, start, end, isListView 
                     {durationTimeString}~
                 </div>
                 {id ? null :
-                    <Button>
-                        <Check
-                            size={52}
-                            className="dark:text-white hover:text-black"
-                            onClick={async () => {
-                                if (id) {
-                                    return;
-                                }
+                    <div className="w-full absolute flex bottom-16 left-16">
+                        <Button>
+                            <Check
+                                size={52}
+                                className="dark:text-white hover:text-black"
+                                onClick={async () => {
+                                    if (id) {
+                                        return;
+                                    }
 
-                                const newStartTimestamp = new Date(startDate + "T" + startTime + ":00").getTime();
-                                const newEndTimestamp = new Date(endDate + "T" + endTime + ":00").getTime();
-                                if (newStartTimestamp > newEndTimestamp) {
-                                    setUpdateActivityStatus(ApiStatus.ERROR);
-                                    return;
-                                }
+                                    const newStartTimestamp = new Date(startDate + "T" + startTime + ":00").getTime();
+                                    const newEndTimestamp = new Date(endDate + "T" + endTime + ":00").getTime();
+                                    if (newStartTimestamp > newEndTimestamp) {
+                                        setUpdateActivityStatus(ApiStatus.ERROR);
+                                        return;
+                                    }
 
-                                console.log({
-                                    start: new Date(newStartTimestamp).toString(),
-                                    end: new Date(newEndTimestamp).toString(),
-                                    name: activityName,
-                                })
-
-                                await addActivityData({
-                                    start: newStartTimestamp,
-                                    end: newEndTimestamp,
-                                    name: activityName,
-                                });
-                                setUpdateActivityStatus(ApiStatus.SUCCESS);
-                            }}/>
-                    </Button>}
+                                    await addActivityData({
+                                        start: newStartTimestamp,
+                                        end: newEndTimestamp,
+                                        name: activityName,
+                                    });
+                                    setUpdateActivityStatus(ApiStatus.SUCCESS);
+                                }}/>
+                        </Button>
+                    </div>}
             </div>
             <Toast type={updateActivityStatus}/>
         </>

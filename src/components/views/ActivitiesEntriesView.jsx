@@ -31,13 +31,6 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
                 event.stopPropagation();
                 event.preventDefault();
             }}>
-            <div className="w-full justify-center absolute flex bottom-16 border border-black" onClick={onClose}>
-                <Button>
-                    <X
-                        size={52}
-                        className="dark:text-white hover:text-black"/>
-                </Button>
-            </div>
             <div
                 className="flex items-start flex-col gap-8 font-mono justify-center h-[72vh] rounded-xl">
                 <h1 className="text-3xl dark:text-white">
@@ -58,6 +51,14 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
                         );
                     })}
                 </div>
+            </div>
+
+            <div className="w-full absolute flex bottom-16 right-16" onClick={onClose}>
+                <Button>
+                    <X
+                        size={52}
+                        className="dark:text-white hover:text-black"/>
+                </Button>
             </div>
         </dialog>
     );
