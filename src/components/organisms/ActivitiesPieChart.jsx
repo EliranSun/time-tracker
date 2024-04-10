@@ -12,7 +12,7 @@ export const ActivitiesPieChart = ({activities = []}) => {
 
     return (
         <ResponsiveContainer width="100%" height="100%">
-            <PieChart width={400} height={400}>
+            <PieChart width={window.innerWidth} height={window.innerHeight * 0.8}>
                 <Pie
                     dataKey="value"
                     startAngle={180}
