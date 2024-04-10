@@ -10,8 +10,8 @@ export const ActivityTotalTime = ({activityTotalTime, timeFrame, totalTime, acti
     const Icon = activity.icon;
     const onClick = () => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`);
     const textColor = readableColor(activity.color);
-    const dateString = new Date(activity.end).toLocaleDateString("he-IL");
-    const dateTimeString = new Date(activity.end).toLocaleTimeString("he-IL", {
+    const dateString = new Date(activity.start).toLocaleDateString("he-IL");
+    const dateTimeString = new Date(activity.start).toLocaleTimeString("he-IL", {
         hour: "2-digit", 
         minute: "2-digit" 
         });
