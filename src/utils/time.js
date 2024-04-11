@@ -34,7 +34,7 @@ export const formatWeek = (dateFrame) => {
 
     // Format the dates. Customize the string as needed.
     // This will give you a format like '7-13.4.24' for April 7th to 13th, 2024.
-    const formattedRange = `${format(start, 'd')}-${format(end, 'd "MMM yy')}`;
+    const formattedRange = `${format(start, 'd')}-${format(end, 'd MMM yy')}`;
 
     // return `week ${format(, "w")}`;
     return formattedRange;
