@@ -42,7 +42,7 @@ export const ActivitiesPieChart = ({activities = []}) => {
     const outerRadius = window.innerWidth / 3;
 
     return (
-        <div className="flex">
+        <div className="flex flex-col justify-center gap-16">
             <PieChart
                 width={window.innerWidth} height={window.innerHeight / 2}>
                 <Pie

@@ -70,7 +70,7 @@ export async function getNewestInEachActivity() {
 export const getAllDocsInActivity = async (activityName) => {
     const data = [];
 
-    if (localStorage.getItem('mock') === 'true') {
+    if (localStorage.getItem('mock') === 'true' || process.env.REACT_APP_ENABLE_MOCK === "true") {
         const activity = allActivitiesMock.find(activity => activity.find(a => a.name === activityName));
         return activity;
     }
