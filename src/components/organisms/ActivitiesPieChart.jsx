@@ -1,5 +1,5 @@
 import {PieChart, Pie, Cell, ResponsiveContainer} from 'recharts';
-import {useMemo} from "react";
+import {useMemo, useState} from "react";
 import {Activities} from "../../constants/activities";
 
 const mockData = [
@@ -28,6 +28,8 @@ const CustomLabel = ({cx, cy, midAngle, innerRadius, outerRadius, payload}) => {
 };
 
 export const ActivitiesPieChart = ({activities = []}) => {
+    const [isFullView, setIsFullView] = useState(false);
+    
     const data = useMemo(() => {
         return activities.map(item => ({
             name: item.activity.name,
@@ -46,7 +48,7 @@ export const ActivitiesPieChart = ({activities = []}) => {
                 <Pie
                     dataKey="value"
                     startAngle={0}
-                    endAngle={180}
+                    endAngle={isFullView ? 360 : 180}
                     data={data}
                     cx="50%"
                     cy="50%"
@@ -60,6 +62,8 @@ export const ActivitiesPieChart = ({activities = []}) => {
                     ))}
                 </Pie>
             </PieChart>
+                <button onClick={(e) => setIsFullView(!isFullView)}>
+            toggle full view</button>
         </div>
     );
 }
