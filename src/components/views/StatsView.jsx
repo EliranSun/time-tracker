@@ -54,6 +54,7 @@ export const StatsView = ({activities}) => {
                     dateFrame={dateFrameName}
                     summedTime={summedTime}
                     timeFrameName={timeFrameName}
+                    isExpanded={isExpanded}
                     onExpandViewClick={() => setIsExpanded(!isExpanded)}
                     onChangeTimeFrame={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}
                     onChangeView={() => setViewType(ViewNav[viewType])}
@@ -61,8 +62,8 @@ export const StatsView = ({activities}) => {
                     setInactiveColors={setInactiveColors}/>
                 <div className="overflow-y-auto h-[73vh]">
                     <div className={classNames("flex-col w-screen justify-center px-2", {
-                        "flex h-full": !isExpanded,
-                        "h-max": isExpanded,
+                        "flex flex-col h-fit": !isExpanded,
+                        "flex flex-col h-max": isExpanded,
                     })}>
                         <TimeAndDateStats
                             items={items}
