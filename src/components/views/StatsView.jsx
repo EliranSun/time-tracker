@@ -62,7 +62,7 @@ export const StatsView = ({activities}) => {
                 <div className="overflow-y-auto h-[73vh]">
                     <div className={classNames("flex-col w-screen justify-center px-2", {
                         "flex h-full": !isExpanded,
-                        "h-screen": isExpanded,
+                        "h-max": isExpanded,
                     })}>
                         <TimeAndDateStats
                             items={items}
