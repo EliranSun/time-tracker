@@ -8,7 +8,7 @@ import {Navbar} from "./components/Navbar";
 import {ActivitiesDungeonMap} from "./components/ActivitiesDungeonMap";
 import {getAppBackgroundColor, replaceMetaThemeColor} from "./utils/colors";
 import {ActivitiesProvider} from "./context/ActivitiesContext";
-import {ActivityStatsView} from "./components/views/ActivityStatsView";
+import {ActivityCalendarView} from "./components/views/ActivityCalendarView";
 import GravitySimulationView from "./components/views/GravitySimulationView";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }}
@@ -131,7 +131,7 @@ function App() {
                     <StatsView
                         activities={Activities}
                         onChangePage={() => setView(Views.ACTIVITIES)}/> : null}
-                {view === Views.ACTIVITY ? <ActivityStatsView isZenMode={isZenMode} activity={activity}/> : null}
+                {view === Views.ACTIVITY ? <ActivityCalendarView isZenMode={isZenMode} activity={activity}/> : null}
                 <Navbar
                     activity={activity}
                     view={view}

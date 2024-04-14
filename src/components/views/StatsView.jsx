@@ -6,46 +6,12 @@ import {useTimeAndDateFrame} from "../../hooks/useTimeAndDateFrame";
 import {useTotalTime} from "../../hooks/useTotalTime";
 import {Timeframes} from "../../constants/time";
 import {StatsViewHeader} from "../molecules/StatsViewHeader";
-import {ActivityTotalTime} from "../molecules/ActivityTotalTime";
-import {Activities} from "../../constants/activities";
-import {ArrowFatLeft, ArrowFatRight, CaretUp, CaretDown} from "@phosphor-icons/react";
+import {ArrowFatLeft, ArrowFatRight} from "@phosphor-icons/react";
 import classNames from "classnames";
-import {ActivitiesPieChart} from "../organisms/ActivitiesPieChart";
-
-const DateFrame = ({value, onClick}) => {
-    return (
-        <div className="flex gap-2" onClick={onClick}>
-            <div className="flex flex-col items-center justify-center">
-                <CaretUp size={13}/>
-                <CaretDown size={13}/>
-            </div>
-            <div className="flex items-center gap-2">
-                {value}
-            </div>
-        </div>
-    )
-};
-
-const ViewTypes = {
-    AGGREGATE: "aggregate",
-    DETAIL: "detail",
-    PIECHART: "piechart",
-};
-
-const ViewNav = {
-    [ViewTypes.AGGREGATE]: ViewTypes.DETAIL,
-    [ViewTypes.DETAIL]: ViewTypes.PIECHART,
-    [ViewTypes.PIECHART]: ViewTypes.AGGREGATE,
-};
-
-const NavigationButton = ({children, ...rest}) => {
-    return (
-        <div
-            className="bg-white dark:bg-black dark:text-white dark:border dark:border-white rounded-full m-4 p-3 shadow" {...rest}>
-            {children}
-        </div>
-    );
-};
+import {ViewNav, ViewTypes} from "../../constants/views";
+import {DateNavigation} from "../atoms/DateNavigation";
+import {NavigationButton} from "../atoms/NavigationButton";
+import {TimeAndDateStats} from "../organisms/TimeAndDateStats";
 
 export const StatsView = ({activities}) => {
     const [timeFrame, setTimeFrame] = useState(0);
@@ -55,7 +21,6 @@ export const StatsView = ({activities}) => {
     const {timeFrameName} = useTimeAndDateFrame(timeFrame, dateFrame);
     const [viewType, setViewType] = useState(ViewTypes.AGGREGATE);
     const [inactiveColors, setInactiveColors] = useState([]);
-
     const {totalTime, sortedActivities, unsortedActivities} = useTotalTime({
         activities,
         allActivitiesData,
@@ -82,46 +47,6 @@ export const StatsView = ({activities}) => {
         return viewType === ViewTypes.AGGREGATE ? sortedActivities : unsortedActivities;
     }, [viewType, sortedActivities, unsortedActivities]);
 
-    const view = useMemo(() => {
-        if (items.length === 0) {
-            return (
-                <div className="font-mono text-center text-3xl">
-                    This day is filled with possibilities... <br/><br/>
-                    Their only masters <br/> are you and time.
-                </div>
-            );
-        }
-
-        if (viewType === ViewTypes.PIECHART) {
-            return <ActivitiesPieChart activities={sortedActivities}/>;
-        }
-
-        return items.map((item, index) => {
-            let activity;
-            let activityTotalTime;
-
-            if (viewType === ViewTypes.DETAIL) {
-                activity = Activities.find(activity => activity.name === item.name);
-                activity = {...activity, ...item};
-                activityTotalTime = activity.end - activity.start;
-            } else {
-                activity = item.activity;
-                activityTotalTime = item.totalTime;
-            }
-
-            return (
-                <ActivityTotalTime
-                    key={activity.name + index}
-                    activityTotalTime={activityTotalTime}
-                    timeFrame={timeFrame}
-                    totalTime={totalTime}
-                    activity={activity}
-                    isLast={index === items.length - 1}
-                    isFirst={index === 0}/>
-            )
-        });
-    }, [items, viewType, timeFrame, totalTime]);
-
     return (
         <>
             <div className="relative">
@@ -139,14 +64,19 @@ export const StatsView = ({activities}) => {
                         "flex h-full": !isExpanded,
                         "h-screen": isExpanded,
                     })}>
-                        {view}
+                        <TimeAndDateStats
+                            items={items}
+                            sortedActivities={sortedActivities}
+                            timeFrame={timeFrame}
+                            totalTime={totalTime}
+                            type={viewType}/>
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
                     <NavigationButton onClick={() => setDateFrame(prev => prev + 1)}>
                         <ArrowFatLeft/>
                     </NavigationButton>
-                    <DateFrame
+                    <DateNavigation
                         value={dateFrameName}
                         onClick={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}
                     />

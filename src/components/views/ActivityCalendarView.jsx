@@ -38,7 +38,7 @@ const Weekdays = [
     'S', 'M', 'T', 'W', 'T', 'F', 'S'
 ];
 
-export const ActivityStatsView = ({activity, isZenMode}) => {
+export const ActivityCalendarView = ({activity, isZenMode}) => {
     const [dateIndex, setDateIndex] = useState(0);
     const swipeHandlers = useTimeSwipe(setDateIndex);
     const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
