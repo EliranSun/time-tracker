@@ -6,6 +6,7 @@ import {
     ChartPieSlice} from "@phosphor-icons/react";
 import { Activities } from "../../constants/activities";
 import { useState } from "react";
+import classNames from "classnames";
 
 const FilterSleepCheckbox = ({setShouldFilterSleep, shouldFilterSleep}) => {
     return (
@@ -30,6 +31,8 @@ export const StatsViewHeader = ({
     onExpandViewClick
 }) => {
     const [inactiveColors, setInactiveColors] = useState([]);
+    
+    
     return (
         <div className="px-4 pt-2 pb-4 flex items-center justify-between">
             <h1 className="text-3xl font-mono">
@@ -48,7 +51,9 @@ export const StatsViewHeader = ({
             <div className="flex">
                 {Activities.map(activity => 
             <span 
-                className="w-4 h-4"
+                className={classNames("w-4 h-4", {
+                    "bg-gray-200": inactiveColors.includes(activity.color)
+                })}
                 style={{backgroundColor: activity.color}}/>)}
             </div>
         </div>
