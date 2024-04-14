@@ -29,15 +29,10 @@ export const formatDay = (dateFrame) => format(sub(new Date(), {days: dateFrame}
 
 export const formatWeek = (dateFrame) => {
     const date = sub(new Date(), {weeks: dateFrame});
-    const start = startOfWeek(date, { weekStartsOn: 0 }); // week starts on Sunday (0)
-    const end = endOfWeek(date, { weekStartsOn: 0 }); // week ends on Saturday (6)
+    const start = startOfWeek(date, {weekStartsOn: 0});
+    const end = endOfWeek(date, {weekStartsOn: 0});
 
-    // Format the dates. Customize the string as needed.
-    // This will give you a format like '7-13.4.24' for April 7th to 13th, 2024.
-    const formattedRange = `${format(start, 'd')}-${format(end, 'd MMM yy')}`;
-
-    // return `week ${format(, "w")}`;
-    return formattedRange;
+    return `${format(start, 'd')}-${format(end, 'd MMM')}`;
 };
 
 export const formatMonth = (dateFrame) => format(sub(new Date(), {months: dateFrame}), "MMMM");

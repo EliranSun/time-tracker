@@ -1,10 +1,11 @@
 import {useEffect, useState} from "react";
 import {add, isThisMonth, isThisWeek, isThisYear, isToday} from "date-fns";
 import {sortActivitiesByOrder} from "../utils/activities";
+import {Activities} from "../constants/activities";
 
 const ACTIVITY_MIN_TIME = 2 * 60 * 1000;
 
-export function useTotalTime({activities, allActivitiesData, dateFrame, timeFrame, shouldFilterSleep}) {
+export function useTotalTime({activities, allActivitiesData, dateFrame, timeFrame, inactiveColors}) {
     // TODO: Two different hooks
     const [totalTime, setTotalTime] = useState(0);
     const [sortedActivities, setSortedActivities] = useState([]);
@@ -19,11 +20,12 @@ export function useTotalTime({activities, allActivitiesData, dateFrame, timeFram
             const activity = activities[i];
             const todayCompletedActivities = allActivitiesData[i].filter(item => {
                 const isBelowMinTime = item.end - item.start < ACTIVITY_MIN_TIME;
-                
+                const activityColor = Activities.find(a => a.name === item.name).color;
+
                 if (item.end === 0 || !item.end || isBelowMinTime)
                     return false;
 
-                if (shouldFilterSleep && activity.name === "Sleep")
+                if (inactiveColors.includes(activityColor))
                     return false;
 
                 switch (true) {
@@ -66,7 +68,7 @@ export function useTotalTime({activities, allActivitiesData, dateFrame, timeFram
         setTotalTime(todayActivitiesTotalTime);
         setUnsortedActivities(prev => prev.sort((a, b) => a.start - b.start));
 
-    }, [allActivitiesData, timeFrame, dateFrame, shouldFilterSleep]);
+    }, [allActivitiesData, timeFrame, dateFrame, inactiveColors]);
 
     return {totalTime, sortedActivities, unsortedActivities};
 }

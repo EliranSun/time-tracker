@@ -27,40 +27,45 @@ export const StatsViewHeader = ({
                                     dateFrame,
                                     onChangeTimeFrame,
                                     onChangeView,
-                                    setShouldFilterSleep,
-                                    shouldFilterSleep,
-                                    onExpandViewClick
+                                    onExpandViewClick,
+                                    inactiveColors,
+                                    setInactiveColors,
                                 }) => {
-    const [inactiveColors, setInactiveColors] = useState([]);
-
 
     return (
-        <div className="px-4 pt-2 pb-4 flex items-center justify-between">
-            <h1 className="text-3xl font-mono">
-                {timeFrameName.toUpperCase()}
-            </h1>
-            {/* <div className="text-xs">
-                {summedTime}
+        <div>
+            <div className="px-4 pt-2 pb-4 flex items-center justify-between">
+                <h1 className="text-2xl font-mono">
+                    {timeFrameName.toUpperCase()}
+                </h1>
+                <div className="flex">
+                    {Activities.map(activity => {
+                        const Icon = activity.icon;
+                        return (
+                            <span
+                                style={{backgroundColor: activity.color}}
+                                className={classNames("w-5 h-5 flex items-center justify-center", {
+                                    "grayscale": inactiveColors.includes(activity.color),
+                                })}
+                                onClick={() => {
+                                    setInactiveColors(inactiveColors.includes(activity.color)
+                                        ? inactiveColors.filter(color => color !== activity.color)
+                                        : [...inactiveColors, activity.color]);
+                                }}>
+                            <Icon/>
+                        </span>
+                        );
+                    })}
+                </div>
             </div>
-            <div className="flex items-center gap-4">
-                <ArrowsIn onClick={onExpandViewClick}/>
-                 <ChartPieSlice onClick={onChangeView}/>
-                <FilterSleepCheckbox
-                    shouldFilterSleep={shouldFilterSleep}
-                    setShouldFilterSleep={setShouldFilterSleep}/>
-            </div> */}
-            <div className="flex">
-                {Activities.map(activity =>
-                    <span
-                        style={{backgroundColor: activity.color}}
-                        className={classNames("w-4 h-4", {
-                            "bg-gray-200": inactiveColors.includes(activity.color)
-                        })}
-                        onClick={() => {
-                            setInactiveColors(inactiveColors.includes(activity.color)
-                                ? inactiveColors.filter(color => color !== activity.color)
-                                : [...inactiveColors, activity.color]);
-                        }}/>)}
+            <div className="flex justify-between px-4">
+                <div className="text-xs">
+                    {summedTime}
+                </div>
+                <div className="flex items-center gap-4">
+                    <ArrowsIn onClick={onExpandViewClick}/>
+                    <ChartPieSlice onClick={onChangeView}/>
+                </div>
             </div>
         </div>
     );

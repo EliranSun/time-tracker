@@ -1,5 +1,4 @@
 import {useContext, useEffect, useMemo, useState} from "react";
-import {useTimeSwipe} from "../../hooks/useTimeSwipe";
 import {ActivitiesContext} from "../../context/ActivitiesContext";
 import {getAllDocsInActivity} from "../../utils/db";
 import {formatTimestamp} from "../../utils/time";
@@ -53,23 +52,16 @@ export const StatsView = ({activities}) => {
     const [dateFrame, setDateFrame] = useState(Timeframes.DAY);
     const [isExpanded, setIsExpanded] = useState(false);
     const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
-    const [shouldFilterSleep, setShouldFilterSleep] = useState(false);
     const {timeFrameName} = useTimeAndDateFrame(timeFrame, dateFrame);
     const [viewType, setViewType] = useState(ViewTypes.AGGREGATE);
+    const [inactiveColors, setInactiveColors] = useState([]);
 
     const {totalTime, sortedActivities, unsortedActivities} = useTotalTime({
         activities,
         allActivitiesData,
         dateFrame,
         timeFrame,
-        shouldFilterSleep
-    });
-
-    const swipeHandlers = useTimeSwipe((newDateFrame) => {
-        setDateFrame(newDateFrame);
-    }, (newTimeFrame) => {
-        setTimeFrame(newTimeFrame);
-        setDateFrame(Timeframes.DAY);
+        inactiveColors
     });
 
     useEffect(() => {
@@ -140,9 +132,9 @@ export const StatsView = ({activities}) => {
                     onExpandViewClick={() => setIsExpanded(!isExpanded)}
                     onChangeTimeFrame={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}
                     onChangeView={() => setViewType(ViewNav[viewType])}
-                    setShouldFilterSleep={setShouldFilterSleep}
-                    shouldFilterSleep={shouldFilterSleep}/>
-                <div className="overflow-y-auto h-[76vh]">
+                    inactiveColors={inactiveColors}
+                    setInactiveColors={setInactiveColors}/>
+                <div className="overflow-y-auto h-[73vh]">
                     <div className={classNames("flex-col w-screen justify-center px-2", {
                         "flex h-full": !isExpanded,
                         "h-screen": isExpanded,
