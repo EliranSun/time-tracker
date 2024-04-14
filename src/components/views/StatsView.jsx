@@ -62,8 +62,8 @@ export const StatsView = ({activities}) => {
                     setInactiveColors={setInactiveColors}/>
                 <div className="overflow-y-auto h-[73vh]">
                     <div className={classNames("flex-col w-screen justify-center px-2", {
-                        "flex flex-col h-fit": !isExpanded,
-                        "flex flex-col h-max": isExpanded,
+                        "flex flex-col": !isExpanded,
+                        "h-screen": isExpanded,
                     })}>
                         <TimeAndDateStats
                             items={items}
