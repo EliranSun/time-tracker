@@ -40,19 +40,28 @@ export const formatMonth = (dateFrame) => format(sub(new Date(), {months: dateFr
 
 export const formatYear = (dateFrame) => format(sub(new Date(), {years: dateFrame}), "yyyy");
 
-export const getTimeString = (activityTotalTime, timeFrame = Timeframes.DAY) => {
+export const getTimeString = (activityTotalTime) => {
     const hours = (activityTotalTime / 1000 / 60 / 60);
     const minutes = (activityTotalTime / 1000 / 60 % 60); // get the remainder of the hours
 
-    const roundedHours = Math.round(hours);
+    const roundedHours = Math.floor(hours);
     const roundedMinutes = Math.round(round(minutes, -1)); // round to the nearest 10
+
+    if (activityTotalTime === 0) {
+        return "";
+    }
+
     if (roundedHours === 0) {
         return `<1h`;
     }
 
-    if (roundedMinutes === 0 || roundedMinutes === 60) {
-        return `${roundedHours}h`;
+    if (roundedMinutes === 60) {
+        return `${roundedHours + 1}h`;
     }
     
+    if (roundedMinutes === 0) {
+        return `${roundedHours}h`;
+    }
+
     return `${roundedHours}h${roundedMinutes}m`;
 };
