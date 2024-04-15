@@ -1,38 +1,29 @@
 import {
-    CaretDown,
-    CaretUp,
-    MoonStars,
-    ArrowsIn,
-    ArrowsOut,
+    List,
+    Unite,
     ChartPieSlice
 } from "@phosphor-icons/react";
 import {Activities} from "../../constants/activities";
-import {useState} from "react";
 import classNames from "classnames";
+import {ViewTypes} from "../../constants/views";
 
-const FilterSleepCheckbox = ({setShouldFilterSleep, shouldFilterSleep}) => {
-    return (
-        <div className="flex items-center gap-2">
-            <input
-                type="checkbox"
-                onChange={() => setShouldFilterSleep(!shouldFilterSleep)}
-                checked={!shouldFilterSleep}/>
-            <MoonStars size={20}/>
-        </div>
-    );
-};
+
+const ViewIcon = {
+    [ViewTypes.AGGREGATE]: Unite,
+    [ViewTypes.DETAIL]: List,
+    [ViewTypes.PIECHART]: ChartPieSlice,
+}
 
 export const StatsViewHeader = ({
-    timeFrameName,
-    summedTime,
-    dateFrame,
-    onChangeTimeFrame,
-    onChangeView,
-    isExpanded,
-    onExpandViewClick,
-    inactiveColors,
-    setInactiveColors,
-}) => {
+                                    timeFrameName,
+                                    summedTime,
+                                    onChangeView,
+                                    inactiveColors,
+                                    setInactiveColors,
+                                    viewName,
+                                }) => {
+
+    const Icon = ViewIcon[viewName];
 
     return (
         <div className="text-black dark:text-white">
@@ -42,22 +33,22 @@ export const StatsViewHeader = ({
                 </h1>
                 <div className="flex">
                     {Activities.map(activity => {
-            const Icon = activity.icon;
-            return (
-                <span
-                    style={{backgroundColor: activity.color}}
-                    className={classNames("w-5 h-5 flex items-center justify-center", {
-                        "grayscale": inactiveColors.includes(activity.color),
-                    })}
-                    onClick={() => {
-                        setInactiveColors(inactiveColors.includes(activity.color)
-                                          ? inactiveColors.filter(color => color !== activity.color)
-                                          : [...inactiveColors, activity.color]);
-                    }}>
+                        const Icon = activity.icon;
+                        return (
+                            <span
+                                style={{backgroundColor: activity.color}}
+                                className={classNames("w-5 h-5 flex items-center justify-center", {
+                                    "grayscale": inactiveColors.includes(activity.color),
+                                })}
+                                onClick={() => {
+                                    setInactiveColors(inactiveColors.includes(activity.color)
+                                        ? inactiveColors.filter(color => color !== activity.color)
+                                        : [...inactiveColors, activity.color]);
+                                }}>
                     <Icon/>
                 </span>
-            );
-        })}
+                        );
+                    })}
                 </div>
             </div>
             <div className="flex justify-between px-4">
@@ -65,7 +56,7 @@ export const StatsViewHeader = ({
                     {summedTime}
                 </div>
                 <div className="flex items-center gap-4">
-                    <ChartPieSlice onClick={onChangeView}/>
+                    <Icon onClick={onChangeView}/>
                 </div>
             </div>
         </div>

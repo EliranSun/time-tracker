@@ -38,27 +38,31 @@ export const formatWeek = (dateFrame) => {
 export const formatMonth = (dateFrame) => format(sub(new Date(), {months: dateFrame}), "MMMM");
 export const formatYear = (dateFrame) => format(sub(new Date(), {years: dateFrame}), "yyyy");
 export const getTimeString = (hours, minutes, timeFrame = Timeframes.DAY) => {
-    const days = Math.floor(hours / 24);
-    let remainingHours = hours % 24;
-    let remainingMinutes = round(minutes % 60, -1);
+    // const days = Math.floor(hours / 24);
+    // let remainingHours = hours % 24;
+    // let remainingMinutes = round(minutes % 60, -1);
+    //
+    // const daysString = days ? `${days}d` : "";
+    // const minutesString = remainingMinutes ? `${remainingMinutes}m` : "";
+    // let hoursString = remainingHours ? `${remainingHours}h` : "";
+    //
+    // if (timeFrame < Timeframes.MONTH) {
+    //     return `${daysString}${hoursString}${minutesString}`;
+    // }
+    //
+    // if (remainingMinutes > 30) {
+    //     remainingHours++;
+    // }
+    //
+    // hoursString = remainingHours ? `${remainingHours}h` : "";
 
-    const daysString = days ? `${days}d` : "";
-    const minutesString = remainingMinutes ? `${remainingMinutes}m` : "";
-    let hoursString = remainingHours ? `${remainingHours}h` : "";
-
-    if (timeFrame < Timeframes.MONTH) {
-        return `${daysString}${hoursString}${minutesString}`;
-    }
-
-    if (remainingMinutes > 30) {
-        remainingHours++;
-    }
-
-    hoursString = remainingHours ? `${remainingHours}h` : "";
-
-    if (!hoursString && !daysString) {
+    const roundedHours = Math.round(hours);
+    const roundedMinutes = Math.round(round(minutes, -1));
+    if (roundedHours === 0) {
         return `<1h`;
     }
+    //
+    // return `${daysString}${hoursString}`;
 
-    return `${daysString}${hoursString}`;
+    return `${roundedHours}h${roundedMinutes}m`;
 };
