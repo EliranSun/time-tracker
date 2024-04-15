@@ -12,9 +12,7 @@ export const ActivityTotalTime = ({
                                       isLast,
                                       isFirst
                                   }) => {
-    const hours = (activityTotalTime / 1000 / 60 / 60);
-    const minutes = (activityTotalTime / 1000 / 60 % 60);
-    const timeString = getTimeString(hours, minutes, timeFrame);
+    const timeString = getTimeString(activityTotalTime, timeFrame);
 
     const Icon = activity.icon;
     const onClick = () => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`);
