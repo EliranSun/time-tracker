@@ -3,6 +3,8 @@ import {ActivitiesPieChart} from "./ActivitiesPieChart";
 import {Activities} from "../../constants/activities";
 import {ActivityTotalTime} from "../molecules/ActivityTotalTime";
 
+const MAX_ACTIVITY_HEIGHT = 200;
+
 export const TimeAndDateStats = ({items = [], sortedActivities = [], timeFrame, totalTime, type}) => {
     if (items.length === 0) {
         return (
@@ -17,7 +19,10 @@ export const TimeAndDateStats = ({items = [], sortedActivities = [], timeFrame, 
         return <ActivitiesPieChart activities={sortedActivities}/>;
     }
 
-    return items.map((item, index) => {
+    return (
+        <div>
+        {items.length * MAX_ACTIVITY_HEIGHT}
+    {items.map((item, index) => {
         let activity;
         let activityTotalTime;
 
@@ -36,9 +41,12 @@ export const TimeAndDateStats = ({items = [], sortedActivities = [], timeFrame, 
                 activityTotalTime={activityTotalTime}
                 timeFrame={timeFrame}
                 totalTime={totalTime}
+                totalHeight={items.length * MAX_ACTIVITY_HEIGHT}
                 activity={activity}
                 isLast={index === items.length - 1}
                 isFirst={index === 0}/>
         )
-    });
+    })}
+        </div>
+        );
 }

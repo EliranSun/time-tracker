@@ -13,10 +13,11 @@ import {DateNavigation} from "../atoms/DateNavigation";
 import {NavigationButton} from "../atoms/NavigationButton";
 import {TimeAndDateStats} from "../organisms/TimeAndDateStats";
 
+const MIN_ACTIVITY_HEIGHT = 20;
+
 export const StatsView = ({activities}) => {
     const [timeFrame, setTimeFrame] = useState(0);
     const [dateFrame, setDateFrame] = useState(Timeframes.DAY);
-    const [isExpanded, setIsExpanded] = useState(false);
     const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
     const {timeFrameName} = useTimeAndDateFrame(timeFrame, dateFrame);
     const [viewType, setViewType] = useState(ViewTypes.AGGREGATE);
@@ -42,6 +43,7 @@ export const StatsView = ({activities}) => {
         return formatTimestamp(totalTimestamp);
     }, [sortedActivities]);
 
+    const isExpanded = ViewNav[viewType] === ViewNav[ViewTypes.DETAIL];
     const dateFrameName = Object.entries(Timeframes).find(([_key, value]) => value === timeFrame)[0];
     const items = useMemo(() => {
         return viewType === ViewTypes.AGGREGATE ? sortedActivities : unsortedActivities;
@@ -55,14 +57,18 @@ export const StatsView = ({activities}) => {
                     summedTime={summedTime}
                     timeFrameName={timeFrameName}
                     isExpanded={isExpanded}
-                    onExpandViewClick={() => setIsExpanded(!isExpanded)}
                     onChangeTimeFrame={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}
                     onChangeView={() => setViewType(ViewNav[viewType])}
                     inactiveColors={inactiveColors}
                     setInactiveColors={setInactiveColors}/>
-                <div className="overflow-y-auto h-[73vh]">
+                <div 
+                    style={{ 
+                        height: isExpanded 
+                            ? items * MIN_ACTIVITY_HEIGHT + "px"
+                            : "73vh" }}
+                    className="overflow-y-auto">
                     <div className={classNames("flex-col w-screen justify-center px-2", {
-                        "flex flex-col": !isExpanded,
+                        "flex h-full": !isExpanded,
                         "h-screen": isExpanded,
                     })}>
                         <TimeAndDateStats
@@ -80,7 +86,7 @@ export const StatsView = ({activities}) => {
                     <DateNavigation
                         value={dateFrameName}
                         onClick={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}
-                    />
+                        />
                     <NavigationButton onClick={() => setDateFrame(prev => prev - 1)}>
                         <ArrowFatRight/>
                     </NavigationButton>

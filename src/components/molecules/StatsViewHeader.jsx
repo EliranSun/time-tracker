@@ -65,9 +65,6 @@ export const StatsViewHeader = ({
                     {summedTime}
                 </div>
                 <div className="flex items-center gap-4">
-                    {isExpanded 
-                        ? <ArrowsOut onClick={onExpandViewClick}/>
-                        : <ArrowsIn onClick={onExpandViewClick}/>}
                     <ChartPieSlice onClick={onChangeView}/>
                 </div>
             </div>
