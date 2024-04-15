@@ -1,4 +1,5 @@
 import {getTimeString} from "./time";
+import {Timeframes} from "../constants/time";
 
 const ONE_MINUTE = 1000 * 60;
 const ONE_HOUR = ONE_MINUTE * 60;
@@ -40,9 +41,14 @@ describe('Time Util', () => {
             expect(getTimeString(activityTotalTime)).toBe("1h");
         });
 
-        it("Should return <1h if activityTotalTime is 50 minutes", () => {
+        it("Should return <1h if activityTotalTime is 50 minutes and time frame is bigger than a day", () => {
             const activityTotalTime = ONE_MINUTE * 50;
-            expect(getTimeString(activityTotalTime)).toBe("<1h");
+            expect(getTimeString(activityTotalTime, Timeframes.WEEK)).toBe("<1h");
+        });
+
+        it("Should return 50m if activityTotalTime is 50 minutes and time frame is of day", () => {
+            const activityTotalTime = ONE_MINUTE * 50;
+            expect(getTimeString(activityTotalTime)).toBe("50m");
         });
 
         it("Should return empty string if activityTotalTime is 0", () => {

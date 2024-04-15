@@ -40,7 +40,7 @@ export const formatMonth = (dateFrame) => format(sub(new Date(), {months: dateFr
 
 export const formatYear = (dateFrame) => format(sub(new Date(), {years: dateFrame}), "yyyy");
 
-export const getTimeString = (activityTotalTime) => {
+export const getTimeString = (activityTotalTime, timeFrame = Timeframes.DAY) => {
     const hours = (activityTotalTime / 1000 / 60 / 60);
     const minutes = (activityTotalTime / 1000 / 60 % 60); // get the remainder of the hours
 
@@ -52,13 +52,17 @@ export const getTimeString = (activityTotalTime) => {
     }
 
     if (roundedHours === 0) {
-        return `<1h`;
+        if (timeFrame > Timeframes.DAY) {
+            return `<1h`;
+        }
+
+        return `${roundedMinutes}m`;
     }
 
     if (roundedMinutes === 60) {
         return `${roundedHours + 1}h`;
     }
-    
+
     if (roundedMinutes === 0) {
         return `${roundedHours}h`;
     }
