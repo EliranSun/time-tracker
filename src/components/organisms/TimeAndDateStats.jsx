@@ -3,9 +3,18 @@ import {ActivitiesPieChart} from "./ActivitiesPieChart";
 import {Activities} from "../../constants/activities";
 import {ActivityTotalTime} from "../molecules/ActivityTotalTime";
 
-const MAX_ACTIVITY_HEIGHT = 200;
+const MARGINS = 16;
+const MAX_ACTIVITY_HEIGHT = 150;
 
-export const TimeAndDateStats = ({items = [], sortedActivities = [], timeFrame, totalTime, type}) => {
+export const TimeAndDateStats = ({
+                                     fitScreen,
+                                     totalHeight = 0,
+                                     items = [],
+                                     sortedActivities = [],
+                                     timeFrame,
+                                     totalTime,
+                                     type
+                                 }) => {
     if (items.length === 0) {
         return (
             <div className="font-mono text-center text-3xl">
@@ -21,32 +30,35 @@ export const TimeAndDateStats = ({items = [], sortedActivities = [], timeFrame, 
 
     return (
         <div>
-        {items.length * MAX_ACTIVITY_HEIGHT}
-    {items.map((item, index) => {
-        let activity;
-        let activityTotalTime;
+            {items.map((item, index) => {
+                let activity;
+                let activityTotalTime;
 
-        if (type === ViewTypes.DETAIL) {
-            activity = Activities.find(activity => activity.name === item.name);
-            activity = {...activity, ...item};
-            activityTotalTime = activity.end - activity.start;
-        } else {
-            activity = item.activity;
-            activityTotalTime = item.totalTime;
-        }
+                if (type === ViewTypes.DETAIL) {
+                    activity = Activities.find(activity => activity.name === item.name);
+                    activity = {...activity, ...item};
+                    activityTotalTime = activity.end - activity.start;
+                } else {
+                    activity = item.activity;
+                    activityTotalTime = item.totalTime;
+                }
 
-        return (
-            <ActivityTotalTime
-                key={activity.name + index}
-                activityTotalTime={activityTotalTime}
-                timeFrame={timeFrame}
-                totalTime={totalTime}
-                totalHeight={items.length * MAX_ACTIVITY_HEIGHT}
-                activity={activity}
-                isLast={index === items.length - 1}
-                isFirst={index === 0}/>
-        )
-    })}
+                return (
+                    <div className="relative" key={activity.name + index}>
+                        <ActivityTotalTime
+                            activity={activity}
+                            timeFrame={timeFrame}
+                            isFirst={index === 0}
+                            isLast={index === items.length - 1}
+                            activityTotalTime={activityTotalTime}
+                            height={
+                                fitScreen
+                                    ? activityTotalTime / totalTime * (totalHeight - MARGINS * items.length)
+                                    : activityTotalTime / totalTime * items.length * MAX_ACTIVITY_HEIGHT
+                            }/>
+                    </div>
+                )
+            })}
         </div>
-        );
+    );
 }

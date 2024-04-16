@@ -25,6 +25,7 @@ export const formatTimestamp = (timestampDiff) => {
 
     return hoursString + minutesString + secondsString;
 };
+
 export const formatDay = (dateFrame) => format(sub(new Date(), {days: dateFrame}), "EEEE");
 
 export const formatWeek = (dateFrame) => {
@@ -36,29 +37,35 @@ export const formatWeek = (dateFrame) => {
 };
 
 export const formatMonth = (dateFrame) => format(sub(new Date(), {months: dateFrame}), "MMMM");
+
 export const formatYear = (dateFrame) => format(sub(new Date(), {years: dateFrame}), "yyyy");
-export const getTimeString = (hours, minutes, timeFrame = Timeframes.DAY) => {
-    const days = Math.floor(hours / 24);
-    let remainingHours = hours % 24;
-    let remainingMinutes = round(minutes % 60, -1);
 
-    const daysString = days ? `${days}d` : "";
-    const minutesString = remainingMinutes ? `${remainingMinutes}m` : "";
-    let hoursString = remainingHours ? `${remainingHours}h` : "";
+export const getTimeString = (activityTotalTime, timeFrame = Timeframes.DAY) => {
+    const hours = (activityTotalTime / 1000 / 60 / 60);
+    const minutes = (activityTotalTime / 1000 / 60 % 60); // get the remainder of the hours
 
-    if (timeFrame < Timeframes.MONTH) {
-        return `${daysString}${hoursString}${minutesString}`;
+    const roundedHours = Math.floor(hours);
+    const roundedMinutes = Math.round(round(minutes, -1)); // round to the nearest 10
+
+    if (activityTotalTime === 0) {
+        return "";
     }
 
-    if (remainingMinutes > 30) {
-        remainingHours++;
+    if (roundedHours === 0) {
+        if (timeFrame > Timeframes.DAY) {
+            return `<1h`;
+        }
+
+        return `${roundedMinutes}m`;
     }
 
-    hoursString = remainingHours ? `${remainingHours}h` : "";
-
-    if (!hoursString && !daysString) {
-        return `<1h`;
+    if (roundedMinutes === 60) {
+        return `${roundedHours + 1}h`;
     }
 
-    return `${daysString}${hoursString}`;
+    if (roundedMinutes === 0) {
+        return `${roundedHours}h`;
+    }
+
+    return `${roundedHours}h${roundedMinutes}m`;
 };
