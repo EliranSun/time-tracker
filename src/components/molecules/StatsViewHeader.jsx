@@ -41,7 +41,7 @@ export const StatsViewHeader = ({
                     {timeFrameName.toUpperCase()}
                 </h1>
                 <div className="flex">
-                    {Activities.map(activity => {
+                    {Activities.sort((a,b) => a.order - b.order).map(activity => {
             const Icon = activity.icon;
             return (
                 <span
