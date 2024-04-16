@@ -32,7 +32,6 @@ export const StatsViewHeader = ({
                     {timeFrameName.toUpperCase()}
                 </h1>
                 <div className="flex">
-<<<<<<< HEAD
                     {Activities.sort((a,b) => a.order - b.order).map(activity => {
             const Icon = activity.icon;
             return (
@@ -46,21 +45,6 @@ export const StatsViewHeader = ({
                                           ? inactiveColors.filter(color => color !== activity.color)
                                           : [...inactiveColors, activity.color]);
                     }}>
-=======
-                    {Activities.map(activity => {
-                        const Icon = activity.icon;
-                        return (
-                            <span
-                                style={{backgroundColor: activity.color}}
-                                className={classNames("w-5 h-5 flex items-center justify-center", {
-                                    "grayscale": inactiveColors.includes(activity.color),
-                                })}
-                                onClick={() => {
-                                    setInactiveColors(inactiveColors.includes(activity.color)
-                                        ? inactiveColors.filter(color => color !== activity.color)
-                                        : [...inactiveColors, activity.color]);
-                                }}>
->>>>>>> e2d7b2c2cf900da2cc4313a75a4b79e5d3c9b0cf
                     <Icon/>
                 </span>
                         );
