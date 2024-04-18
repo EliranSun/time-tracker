@@ -2,39 +2,43 @@ import {getTimeString} from "../../utils/time";
 import classNames from "classnames";
 import {readableColor} from 'polished';
 
-const MIN_ACTIVITY_HEIGHT = 20;
-
+// TODO: Rename. something with color? maybe ActivityColorTotalTime
 export const ActivityTotalTime = ({
-                                      activityTotalTime,
-                                      height = 0,
-                                      timeFrame,
-                                      activity,
-                                      isLast,
-                                      isFirst
-                                  }) => {
-    const timeString = getTimeString(activityTotalTime, timeFrame);
-
-    const Icon = activity.icon;
-    const onClick = () => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`);
-    const textColor = readableColor(activity.color);
-    const dateString = new Date(activity.start).toLocaleDateString("he-IL");
-    const dateTimeString = new Date(activity.start).toLocaleTimeString("he-IL", {
+    totalTime,
+    height = 0,
+    timeFrame,
+    icon: Icon,
+    start,
+    end,
+    name,
+    color,
+    isBordered,
+}) => {
+    const timeString = getTimeString(totalTime, timeFrame);
+    const onClick = () => window.history.pushState({}, "", `/stats/activity/${name.toLowerCase()}`);
+    const textColor = readableColor(color);
+    const dateString = start ? new Date(start).toLocaleDateString("en-IL", {
+        weekday: "short",
+        month: "numeric",
+        day: "numeric",
         hour: "2-digit",
         minute: "2-digit"
-    });
+    }) : "";
+    const dateTimeString = end ? new Date(end).toLocaleTimeString("he-IL", {
+        hour: "2-digit",
+        minute: "2-digit"
+    }) : "";
 
     return (
         <div
             className={classNames({
-                // "shrink": true,
                 "flex items-center justify-between text-lg min-h-12 py-4 px-12 font-mono": true,
-                "rounded-b-3xl": isLast,
-                "rounded-t-3xl": isFirst,
+                "border-b border-black": isBordered,
             })}
             style={{
+                height,
                 color: textColor,
-                backgroundColor: activity.color,
-                height
+                backgroundColor: color,
             }}>
             <div className="flex items-center gap-1">
                 <Icon onClick={onClick}/>
@@ -43,9 +47,9 @@ export const ActivityTotalTime = ({
                 </div>
             </div>
 
-            {dateString.toString() !== "Invalid Date" ?
+            {(dateString.toString() !== "Invalid Date" && dateTimeString.toString() !== "") ?
                 <div className="text-xs">
-                    {dateString}, {dateTimeString}
+                    {dateString}-{dateTimeString}
                 </div> : ""}
         </div>
     );

@@ -1,4 +1,4 @@
-import {ChartBar, House, Lock, LockOpen, YinYang, Coffee, ClockCounterClockwise} from "@phosphor-icons/react";
+import {ChartBar, House, Lock, LockOpen, YinYang, ClockCounterClockwise, CalendarDots} from "@phosphor-icons/react";
 import classNames from "classnames";
 import {useMemo} from "react";
 import {Views} from "../App";
@@ -13,15 +13,15 @@ const NavbarStyle = ({children}) => {
 };
 
 export const Navbar = ({
-                           activity,
-                           view,
-                           setView,
-                           isLocked,
-                           currentActivity = {},
-                           onZenMode,
-                           isZenMode,
-                           onEntryHistoryClick
-                       }) => {
+    activity,
+    view,
+    setView,
+    isLocked,
+    currentActivity = {},
+    onZenMode,
+    isZenMode,
+    onEntryHistoryClick
+}) => {
     const LockIcon = useMemo(() => {
         return isLocked ? Lock : LockOpen;
     }, [isLocked]);
@@ -54,9 +54,10 @@ export const Navbar = ({
                     }}/>
                 <YinYang size={32} onClick={onZenMode}/>
                 <ClockCounterClockwise size={32} onClick={onEntryHistoryClick}/>
-                <Coffee
+                <CalendarDots
                     size={32}
-                    onClick={() => window.history.pushState({}, "", "/gravity")}
+                    // onClick={() => window.history.pushState({}, "", "/gravity")}
+                    onClick={() => window.history.pushState({}, "", `/activity`)}
                     className="cursor-pointer"/>
             </NavbarStyle>
 

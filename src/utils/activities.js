@@ -1,5 +1,8 @@
 import {isYesterday, subDays, isSameDay} from "date-fns";
 
+const ONE_DAY = 24 * 60 * 60 * 1000;
+const TWO_DAYS = 2 * ONE_DAY;
+
 export const sortActivitiesByOrder = (data, activities) => {
     return data.sort((a, b) => {
         const aOrder = activities.find(activity => activity.name === a.activity.name).order;
@@ -8,9 +11,6 @@ export const sortActivitiesByOrder = (data, activities) => {
         return aOrder - bOrder;
     });
 };
-
-const ONE_DAY = 24 * 60 * 60 * 1000;
-const TWO_DAYS = 2 * ONE_DAY;
 
 export const calculateStreak = (activities = []) => {
     const sortedByTime = activities

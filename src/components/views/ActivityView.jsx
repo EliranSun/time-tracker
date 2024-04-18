@@ -11,15 +11,15 @@ import {ActivitiesEntriesView} from "./ActivitiesEntriesView";
 import {readableColor} from 'polished';
 
 export const ActivityView = ({
-                                 currentActivity,
-                                 onActivityStart,
-                                 onActivityEnd,
-                                 activity,
-                                 isZenMode,
-                                 setActivePage,
-                                 isEditEntryView,
-                                 setIsEditEntryView
-                             }) => {
+    currentActivity,
+    onActivityStart,
+    onActivityEnd,
+    activity,
+    isZenMode,
+    setActivePage,
+    isEditEntryView,
+    setIsEditEntryView
+}) => {
     const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
@@ -115,7 +115,7 @@ export const ActivityView = ({
         <>
             <div {...swipeHandlers}>
                 <div
-                    className="fixed top-0 left-0 w-screen h-screen -z-10"
+                    className="top-0 left-0"
                     onKeyDown={(event) => {
                         const isEnterKey = event.key === "Enter";
                         if (!isEnterKey)
