@@ -6,7 +6,7 @@ import {
 import {Activities} from "../../constants/activities";
 import classNames from "classnames";
 import {ViewTypes} from "../../constants/views";
-
+import {useMemo} from "react";
 
 const ViewIcon = {
     [ViewTypes.AGGREGATE]: Unite,
@@ -15,15 +15,29 @@ const ViewIcon = {
 }
 
 export const StatsViewHeader = ({
-                                    timeFrameName,
-                                    summedTime,
-                                    onChangeView,
-                                    inactiveColors,
-                                    setInactiveColors,
-                                    viewName,
-                                }) => {
-
+    timeFrameName,
+    summedTime,
+    onChangeView,
+    inactiveColors,
+    setInactiveColors,
+    viewName,
+    items = [],
+}) => {
     const Icon = ViewIcon[viewName];
+    const rainbowFilterIcons = useMemo(() => {
+        return [...Activities]
+            .sort((a,b) => a.order - b.order)
+            .filter(activity => {
+                if (items.length === 0) 
+                    return false;
+
+                const isActivityInScope = 
+                    items.find(item => 
+                        item.activity?.name?.toLowerCase() === activity.name?.toLowerCase());
+
+                return isActivityInScope;
+            });
+    }, [inactiveColors]);
 
     return (
         <div className="text-black dark:text-white">
@@ -32,7 +46,7 @@ export const StatsViewHeader = ({
                     {timeFrameName.toUpperCase()}
                 </h1>
                 <div className="flex">
-                    {[...Activities].sort((a,b) => a.order - b.order).map(activity => {
+                    {rainbowFilterIcons.map(activity => {
             const Icon = activity.icon;
             return (
                 <span
@@ -47,8 +61,8 @@ export const StatsViewHeader = ({
                     }}>
                     <Icon/>
                 </span>
-                        );
-                    })}
+            );
+        })}
                 </div>
             </div>
             <div className="flex justify-between px-4">

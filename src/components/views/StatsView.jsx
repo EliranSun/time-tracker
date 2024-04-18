@@ -27,6 +27,7 @@ export const StatsView = ({activities}) => {
     const {timeFrameName} = useTimeAndDateFrame(timeFrame, dateFrame);
     const [viewType, setViewType] = useState(ViewTypes.AGGREGATE);
     const [inactiveColors, setInactiveColors] = useState([]);
+// TODO: logic about sorted/unsorted should move inside this hook and the component should simply get "items"    
     const {totalTime, sortedActivities, unsortedActivities} = useTotalTime({
         activities,
         allActivitiesData,
@@ -65,6 +66,7 @@ export const StatsView = ({activities}) => {
                     summedTime={summedTime}
                     timeFrameName={timeFrameName}
                     viewName={viewType}
+                    items={items}
                     onChangeView={() => setViewType(ViewNav[viewType])}
                     inactiveColors={inactiveColors}
                     setInactiveColors={setInactiveColors}/>
