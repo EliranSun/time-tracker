@@ -71,8 +71,7 @@ export const getAllDocsInActivity = async (activityName) => {
     const data = [];
 
     if (localStorage.getItem('mock') === 'true' || process.env.REACT_APP_ENABLE_MOCK === "true") {
-        const activity = allActivitiesMock.find(activity => activity.find(a => a.name === activityName));
-        return activity;
+        return allActivitiesMock.find(activity => activity.find(a => a.name === activityName));
     }
 
     // TODO: This is O(n) and should be O(1)

@@ -1,7 +1,7 @@
 import './App.css';
 import {useEffect, useState} from 'react';
 import {ActivityView} from "./components/views/ActivityView";
-import {StatsView} from "./components/views/StatsView";
+import {ActivitiesStatisticsPage} from "./components/views/ActivitiesStatisticsPage";
 import {useCounter} from "./hooks/useCounter";
 import {Activities, PageMazeMap} from "./constants/activities";
 import {Navbar} from "./components/Navbar";
@@ -128,7 +128,7 @@ function App() {
                             }}/>
                     </div>) : null}
                 {view === Views.STATS ?
-                    <StatsView
+                    <ActivitiesStatisticsPage
                         activities={Activities}
                         onChangePage={() => setView(Views.ACTIVITIES)}/> : null}
                 {view === Views.ACTIVITY ? <ActivityCalendarView isZenMode={isZenMode} activity={activity}/> : null}
