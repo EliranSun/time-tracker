@@ -16,7 +16,6 @@ export const ActivitiesStatisticsPage = ({activities}) => {
     const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
     const {timeFrameName} = useTimeAndDateFrame(timeFrame, dateFrame);
     const [viewName, setViewName] = useState(ViewTypes.AGGREGATE);
-    const [inactiveColors, setInactiveColors] = useState([]);
 
     useEffect(() => {
         Promise
@@ -25,7 +24,7 @@ export const ActivitiesStatisticsPage = ({activities}) => {
                 setAllActivitiesData(results);
             });
     }, []);
-    
+
     return (
         <>
             <div className="relative">
@@ -33,9 +32,7 @@ export const ActivitiesStatisticsPage = ({activities}) => {
                     timeFrameName={timeFrameName}
                     viewName={viewName}
                     items={allActivitiesData}
-                    onChangeView={() => setViewName(ViewNav[viewName])}
-                    inactiveColors={inactiveColors}
-                    setInactiveColors={setInactiveColors}/>
+                    onChangeView={() => setViewName(ViewNav[viewName])}/>
                 <ActivitiesStatisticsView
                     items={allActivitiesData}
                     timeFrame={timeFrame}
@@ -46,8 +43,7 @@ export const ActivitiesStatisticsPage = ({activities}) => {
                     </NavigationButton>
                     <DateNavigation
                         value={Object.entries(Timeframes).find(([_key, value]) => value === timeFrame)[0]}
-                        onClick={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}
-                    />
+                        onClick={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}/>
                     <NavigationButton onClick={() => setDateFrame(prev => prev - 1)}>
                         <ArrowFatRight/>
                     </NavigationButton>

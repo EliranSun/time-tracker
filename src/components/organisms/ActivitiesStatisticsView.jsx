@@ -2,6 +2,7 @@ import {ViewTypes} from "../../constants/views";
 import {ActivitiesPieChart} from "./ActivitiesPieChart";
 import {ActivityTotalTime} from "../molecules/ActivityTotalTime";
 import {useActivitiesByColorOrder, useActivitiesByTime, useTotalTime} from "../../hooks/useActivitiesByView";
+import {ActivitiesRainbowFilter} from "../molecules/ActivitiesRainbowFilter";
 
 const MARGINS = 16;
 const MAX_ACTIVITY_HEIGHT = 150;
@@ -18,22 +19,25 @@ const SortedByTimeActivitiesView = ({data, dateFrame, timeFrame}) => {
     const totalHeight = items * MIN_ACTIVITY_HEIGHT;
 
     return (
-        <div
-            style={{height: totalHeight + "px"}}
-            className="overflow-y-auto flex-col w-screen justify-start px-2 rounded-2xl">
-            {items.map((item, index) => {
-                const activityTotalTime = item.end - item.start;
+        <>
+            <ActivitiesRainbowFilter items={items}/>
+            <div
+                style={{height: totalHeight + "px"}}
+                className="overflow-y-auto flex-col w-screen justify-start px-2 rounded-2xl">
+                {items.map((item, index) => {
+                    const activityTotalTime = item.end - item.start;
 
-                return (
-                    <ActivityTotalTime
-                        key={item.name + index}
-                        activity={item}
-                        timeFrame={timeFrame}
-                        activityTotalTime={activityTotalTime}
-                        height={activityTotalTime / totalTime * items.length * MAX_ACTIVITY_HEIGHT}/>
-                );
-            })}
-        </div>
+                    return (
+                        <ActivityTotalTime
+                            key={item.name + index}
+                            activity={item}
+                            timeFrame={timeFrame}
+                            activityTotalTime={activityTotalTime}
+                            height={activityTotalTime / totalTime * items.length * MAX_ACTIVITY_HEIGHT}/>
+                    );
+                })}
+            </div>
+        </>
     )
 };
 
@@ -43,20 +47,23 @@ const SortedByColorActivitiesView = ({data, dateFrame, timeFrame}) => {
     const totalHeight = window.innerHeight - NAV_BAR_HEIGHT - HEADER_HEIGHT - BOTTOM_MARGIN;
 
     return (
-        <div
-            style={{height: totalHeight + "px"}}
-            className="flex flex-col w-screen justify-start px-2 rounded-2xl">
-            {items.map((item, index) => {
-                return (
-                    <ActivityTotalTime
-                        key={item.name + index}
-                        activity={item}
-                        timeFrame={timeFrame}
-                        activityTotalTime={item.totalTime}
-                        height={item.totalTime / totalTime * (totalHeight - MARGINS * items.length)}/>
-                );
-            })}
-        </div>
+        <>
+            <ActivitiesRainbowFilter items={items}/>
+            <div
+                style={{height: totalHeight + "px"}}
+                className="flex flex-col w-screen justify-start px-2 rounded-2xl">
+                {items.map((item, index) => {
+                    return (
+                        <ActivityTotalTime
+                            key={item.name + index}
+                            activity={item}
+                            timeFrame={timeFrame}
+                            activityTotalTime={item.totalTime}
+                            height={item.totalTime / totalTime * (totalHeight - MARGINS * items.length)}/>
+                    );
+                })}
+            </div>
+        </>
     )
 };
 
