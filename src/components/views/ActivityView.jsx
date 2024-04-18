@@ -125,7 +125,8 @@ export const ActivityView = ({
                     }}
                     style={{
                         color: textColor,
-                        backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""
+                        // backgroundColor: currentActivity.name === activity.name ? `${activity.color}` : ""
+                        // backgroundColor: activity.color
                     }}/>
                 <div
                     onDoubleClick={activitySwitch}
