@@ -1,8 +1,4 @@
-import {
-    List,
-    Unite,
-    ChartPieSlice
-} from "@phosphor-icons/react";
+import {ChartPieSlice, List, Unite} from "@phosphor-icons/react";
 import {ViewTypes} from "../../constants/views";
 import {useTimeSum} from "../../hooks/useActivitiesByView";
 
@@ -13,11 +9,11 @@ const ViewIcon = {
 }
 
 export const StatsViewHeader = ({
-                                    timeFrameName,
-                                    onChangeView,
-                                    viewName,
-                                    items = [],
-                                }) => {
+    timeFrameName,
+    onChangeView,
+    viewName,
+    items = [],
+}) => {
     const summedTime = useTimeSum(items);
     const Icon = ViewIcon[viewName];
 

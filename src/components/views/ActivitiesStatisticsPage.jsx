@@ -36,6 +36,7 @@ export const ActivitiesStatisticsPage = ({activities}) => {
                 <ActivitiesStatisticsView
                     items={allActivitiesData}
                     timeFrame={timeFrame}
+                    dateFrame={dateFrame}
                     viewName={viewName}/>
                 <div className="flex justify-between items-center">
                     <NavigationButton onClick={() => setDateFrame(prev => prev + 1)}>

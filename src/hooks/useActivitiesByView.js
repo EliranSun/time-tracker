@@ -46,7 +46,8 @@ const getCompletedItemsInActivityInScope = (allActivityData = [], dateFrame, tim
 export function useActivitiesByColorOrder({allActivitiesData, dateFrame, timeFrame}) {
     return useMemo(() => {
         const data = [];
-        const activity = Activities.find(activity => activity.name === allActivitiesData[0].name);
+        const flattenedActivities = allActivitiesData.flat();
+        const activity = Activities.find(activity => activity.name === flattenedActivities[0].name);
 
         for (const activityData of allActivitiesData) {
             const completedItems = getCompletedItemsInActivityInScope(activityData, dateFrame, timeFrame);
@@ -69,11 +70,16 @@ export function useActivitiesByTime({allActivitiesData, dateFrame, timeFrame}) {
         const data = [];
 
         for (const activityData of allActivitiesData) {
+            // all X activity items
             const completedItems = getCompletedItemsInActivityInScope(activityData, dateFrame, timeFrame);
-            data.push([...data, ...completedItems]);
+            data.push({
+                data: completedItems,
+                activity: Activities.find(activity => activity.name === activityData[0].name),
+                totalTime: completedItems.reduce((acc, item) => acc + item.end - item.start, 0),
+            });
         }
 
-        return data.sort((a, b) => a.start - b.start);
+        return data.filter(Boolean).sort((a, b) => a.start - b.start);
     }, [allActivitiesData, dateFrame, timeFrame]);
 }
 
@@ -82,10 +88,23 @@ export function useActivitiesByTime({allActivitiesData, dateFrame, timeFrame}) {
 //      [{ name: "Games", start: 0, end: 0 }, { name: "Games", start: 0, end: 0 }],
 //      [...],
 // ]
-export function useTotalTime(data = []) {
+export function useTotalTime({data = [], dateframe, timeframe}) {
     return useMemo(() => {
-        return data.reduce((dataAcc, item) => item.reduce((acc, curr) => acc + curr.end - curr.start, 0) + dataAcc, 0);
-    }, [data]);
+        let totalTime = 0;
+
+        for (const activity of data) {
+            const completedItems = getCompletedItemsInActivityInScope(activity, dateframe, timeframe);
+
+            for (const item of completedItems) {
+                if (item.end === 0 || !item.end || item.end < item.start || item.start === 0 || !item.start)
+                    continue;
+
+                totalTime += item.end - item.start;
+            }
+        }
+
+        return totalTime;
+    }, [data, dateframe, timeframe]);
 }
 
 export function useTimeSum(items) {

@@ -16,7 +16,7 @@ export const ActivitiesRainbowFilter = ({items = []}) => {
     }, [inactiveColors]);
 
     return (
-        <div className="flex">
+        <div className="absolute top-0 right-5 flex justify-center my-2">
             {rainbowFilterIcons.map(activity => {
                 const Icon = activity.icon;
                 return (

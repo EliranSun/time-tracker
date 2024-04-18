@@ -15,25 +15,31 @@ const BOTTOM_MARGIN = 24 + STATS_NAVIGATION_HEIGHT;
 
 const SortedByTimeActivitiesView = ({data, dateFrame, timeFrame}) => {
     const items = useActivitiesByTime({allActivitiesData: data, dateFrame, timeFrame});
-    const totalTime = useTotalTime(data);
+    const totalTime = useTotalTime({data, dateframe: dateFrame, timeframe: timeFrame});
     const totalHeight = items * MIN_ACTIVITY_HEIGHT;
+    console.log({items});
 
     return (
         <>
             <ActivitiesRainbowFilter items={items}/>
             <div
                 style={{height: totalHeight + "px"}}
-                className="overflow-y-auto flex-col w-screen justify-start px-2 rounded-2xl">
+                className="overflow-y-auto flex-col w-screen justify-start px-2 rounded-3xl">
                 {items.map((item, index) => {
-                    const activityTotalTime = item.end - item.start;
+                    const {activity, data, totalTime: thisActivityItemsTotalTime} = item;
+                    // const activityTotalTime = item.end - item.start;
 
                     return (
                         <ActivityTotalTime
                             key={item.name + index}
-                            activity={item}
                             timeFrame={timeFrame}
-                            activityTotalTime={activityTotalTime}
-                            height={activityTotalTime / totalTime * items.length * MAX_ACTIVITY_HEIGHT}/>
+                            name={activity.name}
+                            icon={activity.icon}
+                            color={activity.color}
+                            start={item.start}
+                            end={item.end}
+                            totalTime={thisActivityItemsTotalTime}
+                            height={thisActivityItemsTotalTime / totalTime * items.length * MAX_ACTIVITY_HEIGHT}/>
                     );
                 })}
             </div>
@@ -43,7 +49,7 @@ const SortedByTimeActivitiesView = ({data, dateFrame, timeFrame}) => {
 
 const SortedByColorActivitiesView = ({data, dateFrame, timeFrame}) => {
     const items = useActivitiesByColorOrder({allActivitiesData: data, dateFrame, timeFrame});
-    const totalTime = useTotalTime(data);
+    const totalTime = useTotalTime({data, dateframe: dateFrame, timeframe: timeFrame});
     const totalHeight = window.innerHeight - NAV_BAR_HEIGHT - HEADER_HEIGHT - BOTTOM_MARGIN;
 
     return (
@@ -51,23 +57,26 @@ const SortedByColorActivitiesView = ({data, dateFrame, timeFrame}) => {
             <ActivitiesRainbowFilter items={items}/>
             <div
                 style={{height: totalHeight + "px"}}
-                className="flex flex-col w-screen justify-start px-2 rounded-2xl">
-                {items.map((item, index) => {
+                className="flex flex-col w-screen justify-start px-2 rounded-3xl">
+                {items.map((({activity, data, totalTime: thisActivityItemsTotalTime}, index) => {
                     return (
                         <ActivityTotalTime
-                            key={item.name + index}
-                            activity={item}
                             timeFrame={timeFrame}
-                            activityTotalTime={item.totalTime}
-                            height={item.totalTime / totalTime * (totalHeight - MARGINS * items.length)}/>
+                            key={activity.name + index}
+                            name={activity.name}
+                            icon={activity.icon}
+                            color={activity.color}
+                            totalTime={thisActivityItemsTotalTime}
+                            height={thisActivityItemsTotalTime / totalTime * (totalHeight - MARGINS * items.length)}
+                        />
                     );
-                })}
+                }))}
             </div>
         </>
     )
 };
 
-export const ActivitiesStatisticsView = ({items = [], timeFrame, viewName}) => {
+export const ActivitiesStatisticsView = ({items = [], timeFrame, dateFrame, viewName}) => {
     if (items.length === 0) {
         return (
             <div className="font-mono text-center text-3xl">
@@ -82,10 +91,10 @@ export const ActivitiesStatisticsView = ({items = [], timeFrame, viewName}) => {
             return <ActivitiesPieChart activities={items}/>;
 
         case ViewTypes.DETAIL:
-            return <SortedByTimeActivitiesView data={items} dateFrame={timeFrame} timeFrame={timeFrame}/>;
+            return <SortedByTimeActivitiesView data={items} dateFrame={dateFrame} timeFrame={timeFrame}/>;
 
         default:
         case ViewTypes.AGGREGATE:
-            return <SortedByColorActivitiesView data={items} dateFrame={timeFrame} timeFrame={timeFrame}/>;
+            return <SortedByColorActivitiesView data={items} dateFrame={dateFrame} timeFrame={timeFrame}/>;
     }
 }
