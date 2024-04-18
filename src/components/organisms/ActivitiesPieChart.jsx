@@ -1,6 +1,7 @@
 import {PieChart, Pie, Cell, ResponsiveContainer} from 'recharts';
 import {useMemo, useState} from "react";
 import {Activities} from "../../constants/activities";
+import {ActivitiesRainbowFilter} from "../molecules/ActivitiesRainbowFilter";
 
 const mockData = [
     {name: 'Group A', value: 400, color: "red"},
@@ -29,7 +30,7 @@ const CustomLabel = ({cx, cy, midAngle, innerRadius, outerRadius, payload}) => {
 
 export const ActivitiesPieChart = ({activities = []}) => {
     const [isFullView, setIsFullView] = useState(false);
-    
+
     const data = useMemo(() => {
         return activities.map(item => ({
             name: item.activity.name,
@@ -42,28 +43,32 @@ export const ActivitiesPieChart = ({activities = []}) => {
     const outerRadius = window.innerWidth / 3;
 
     return (
-        <div className="flex flex-col justify-center gap-16">
-            <PieChart
-                width={window.innerWidth} height={window.innerHeight / 2}>
-                <Pie
-                    dataKey="value"
-                    startAngle={0}
-                    endAngle={isFullView ? 360 : 180}
-                    data={data}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={outerRadius}
-                    label={CustomLabel}
-                    labelLine={false}
-                    fill="#8884d8"
-                >
-                    {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color}/>
-                    ))}
-                </Pie>
-            </PieChart>
+        <>
+            <ActivitiesRainbowFilter items={activities}/>
+            <div className="flex flex-col justify-center gap-16">
+                <PieChart
+                    width={window.innerWidth} height={window.innerHeight / 2}>
+                    <Pie
+                        dataKey="value"
+                        startAngle={0}
+                        endAngle={isFullView ? 360 : 180}
+                        data={data}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={outerRadius}
+                        label={CustomLabel}
+                        labelLine={false}
+                        fill="#8884d8"
+                    >
+                        {data.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color}/>
+                        ))}
+                    </Pie>
+                </PieChart>
                 <button onClick={(e) => setIsFullView(!isFullView)}>
-            toggle full view</button>
-        </div>
+                    toggle full view
+                </button>
+            </div>
+        </>
     );
 }
