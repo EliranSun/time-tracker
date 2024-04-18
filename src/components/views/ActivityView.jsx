@@ -1,14 +1,14 @@
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import classNames from "classnames";
-import {Block} from "../Block";
-import {addActivityData, getRefByPath, updateActivityData} from "../../utils/db";
-import {getAppBackgroundColor, replaceMetaThemeColor} from "../../utils/colors";
-import {useActivityData} from "../../hooks/useActivityData";
-import {Counter} from "../Counter";
-import {usePageSwipe} from "../../hooks/usePageSwipe";
-import {ActivityDataSection} from "../organisms/ActivityDataSection";
-import {ActivitiesEntriesView} from "./ActivitiesEntriesView";
-import {readableColor} from 'polished';
+import { Block } from "../Block";
+import { addActivityData, getRefByPath, updateActivityData } from "../../utils/db";
+import { getAppBackgroundColor, replaceMetaThemeColor } from "../../utils/colors";
+import { useActivityData } from "../../hooks/useActivityData";
+import { Counter } from "../Counter";
+import { usePageSwipe } from "../../hooks/usePageSwipe";
+import { ActivityDataSection } from "../organisms/ActivityDataSection";
+import { ActivitiesEntriesView } from "./ActivitiesEntriesView";
+import { readableColor } from 'polished';
 
 export const ActivityView = ({
     currentActivity,
@@ -115,7 +115,7 @@ export const ActivityView = ({
         <>
             <div {...swipeHandlers}>
                 <div
-                    className="top-0 left-0"
+                    className="fixed w-screen h-screen top-0 left-0 -z-10"
                     onKeyDown={(event) => {
                         const isEnterKey = event.key === "Enter";
                         if (!isEnterKey)
