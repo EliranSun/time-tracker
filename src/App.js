@@ -10,6 +10,7 @@ import {getAppBackgroundColor, replaceMetaThemeColor} from "./utils/colors";
 import {ActivitiesProvider} from "./context/ActivitiesContext";
 import {ActivityCalendarView} from "./components/views/ActivityCalendarView";
 import GravitySimulationView from "./components/views/GravitySimulationView";
+import {ActivitiesFilterProvider} from "./context/ActivitiesFilterContext";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }}
 export const Views = {
@@ -28,7 +29,6 @@ function App() {
     const [isEditEntryView, setIsEditEntryView] = useState(false);
 
     useEffect(() => {
-        console.log(document.location.pathname);
         switch (true) {
             default:
             case document.location.pathname === "/":
@@ -102,10 +102,10 @@ function App() {
 
     return (
         <ActivitiesProvider>
-            <section className="overflow-hidden fixed top-0 left-0">
+            <section className="overflow-hidden top-0 left-0 text-black dark:text-white">
                 {view === Views.GRAVITY ? <GravitySimulationView/> : null}
                 {view === Views.ACTIVITIES ? (
-                    <div className="w-screen h-screen m-auto flex flex-col items-center justify-center">
+                    <div className="w-screen h-[89vh] m-auto flex flex-col items-center justify-center">
                         <ActivitiesDungeonMap
                             isZenMode={isZenMode}
                             activePage={activePage}/>
@@ -128,10 +128,13 @@ function App() {
                             }}/>
                     </div>) : null}
                 {view === Views.STATS ?
-                    <ActivitiesStatisticsPage
-                        activities={Activities}
-                        onChangePage={() => setView(Views.ACTIVITIES)}/> : null}
-                {view === Views.ACTIVITY ? <ActivityCalendarView isZenMode={isZenMode} activity={activity}/> : null}
+                    <ActivitiesFilterProvider>
+                        <ActivitiesStatisticsPage
+                            activities={Activities}
+                            onChangePage={() => setView(Views.ACTIVITIES)}/>
+                    </ActivitiesFilterProvider> : null}
+                {view === Views.ACTIVITY
+                    ? <ActivityCalendarView isZenMode={isZenMode} activity={activity}/> : null}
                 <Navbar
                     activity={activity}
                     view={view}

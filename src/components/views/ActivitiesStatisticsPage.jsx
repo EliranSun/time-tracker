@@ -1,53 +1,48 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import {ActivitiesContext} from "../../context/ActivitiesContext";
-import {getAllDocsInActivity} from "../../utils/db";
 import {useTimeAndDateFrame} from "../../hooks/useTimeAndDateFrame";
 import {Timeframes} from "../../constants/time";
 import {StatsViewHeader} from "../molecules/StatsViewHeader";
 import {ArrowFatLeft, ArrowFatRight} from "@phosphor-icons/react";
-import {ViewNav, ViewTypes} from "../../constants/views";
+import {ViewTypes} from "../../constants/views";
 import {DateNavigation} from "../atoms/DateNavigation";
 import {NavigationButton} from "../atoms/NavigationButton";
 import {ActivitiesStatisticsView} from "../organisms/ActivitiesStatisticsView";
+import {useTimeSum} from "../../hooks/useActivitiesByView";
 
-export const ActivitiesStatisticsPage = ({activities}) => {
+export const ActivitiesStatisticsPage = () => {
     const [timeFrame, setTimeFrame] = useState(0);
     const [dateFrame, setDateFrame] = useState(Timeframes.DAY);
-    const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
+    const [allActivitiesData] = useContext(ActivitiesContext);
     const {timeFrameName} = useTimeAndDateFrame(timeFrame, dateFrame);
     const [viewName, setViewName] = useState(ViewTypes.AGGREGATE);
-
-    useEffect(() => {
-        Promise
-            .all(activities.map(activity => getAllDocsInActivity(activity.name)))
-            .then(results => {
-                setAllActivitiesData(results);
-            });
-    }, []);
+    const totalTime = useTimeSum({data: allActivitiesData, timeFrame, dateFrame});
 
     return (
         <>
-            <div className="relative">
+            <div className="relative w-screen">
                 <StatsViewHeader
                     timeFrameName={timeFrameName}
                     viewName={viewName}
-                    items={allActivitiesData}
-                    onChangeView={() => setViewName(ViewNav[viewName])}/>
-                <ActivitiesStatisticsView
-                    items={allActivitiesData}
-                    timeFrame={timeFrame}
-                    dateFrame={dateFrame}
-                    viewName={viewName}/>
-                <div className="flex justify-between items-center">
-                    <NavigationButton onClick={() => setDateFrame(prev => prev + 1)}>
-                        <ArrowFatLeft/>
-                    </NavigationButton>
-                    <DateNavigation
-                        value={Object.entries(Timeframes).find(([_key, value]) => value === timeFrame)[0]}
-                        onClick={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}/>
-                    <NavigationButton onClick={() => setDateFrame(prev => prev - 1)}>
-                        <ArrowFatRight/>
-                    </NavigationButton>
+                    totalTime={totalTime}
+                    onChangeView={setViewName}/>
+                <div className="h-[79vh] flex flex-col justify-between">
+                    <ActivitiesStatisticsView
+                        items={allActivitiesData}
+                        timeFrame={timeFrame}
+                        dateFrame={dateFrame}
+                        viewName={viewName}/>
+                    <div className="flex justify-between items-center">
+                        <NavigationButton onClick={() => setDateFrame(prev => prev + 1)}>
+                            <ArrowFatLeft/>
+                        </NavigationButton>
+                        <DateNavigation
+                            value={Object.entries(Timeframes).find(([_key, value]) => value === timeFrame)[0]}
+                            onClick={() => setTimeFrame(prev => prev + 1 > Object.values(Timeframes).length - 1 ? 0 : prev + 1)}/>
+                        <NavigationButton onClick={() => setDateFrame(prev => prev - 1)}>
+                            <ArrowFatRight/>
+                        </NavigationButton>
+                    </div>
                 </div>
             </div>
         </>

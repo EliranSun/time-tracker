@@ -1,7 +1,9 @@
-import {PieChart, Pie, Cell, ResponsiveContainer} from 'recharts';
-import {useMemo, useState} from "react";
-import {Activities} from "../../constants/activities";
+import {PieChart, Pie, Cell} from 'recharts';
+import {useContext, useMemo, useState} from "react";
 import {ActivitiesRainbowFilter} from "../molecules/ActivitiesRainbowFilter";
+import {useActivitiesByColorOrder} from "../../hooks/useActivitiesByView";
+import {Skull} from "@phosphor-icons/react";
+import {ActivitiesFilterContext} from "../../context/ActivitiesFilterContext";
 
 const mockData = [
     {name: 'Group A', value: 400, color: "red"},
@@ -22,30 +24,38 @@ const CustomLabel = ({cx, cy, midAngle, innerRadius, outerRadius, payload}) => {
 
     return (
         <text x={x} y={y} fill={payload.color} textAnchor="middle" dominantBaseline="central">
-            <tspan x={x} alignmentBaseline="middle">{payload.name.slice(0, 3)} {payload.value}h</tspan>
-            {/*<tspan x={x} y={y + 20}>{payload.value}</tspan>*/}
+            <tspan x={x} alignmentBaseline="middle">{payload.value}h</tspan>
         </text>
     );
 };
 
-export const ActivitiesPieChart = ({activities = []}) => {
+
+// the gap from the center of the pie chart to the outer edge
+const outerRadius = window.innerWidth / 3;
+
+export const ActivitiesPieChart = ({activities = [], dateFrame, timeFrame}) => {
+    const items = useActivitiesByColorOrder({allActivitiesData: activities, dateFrame, timeFrame});
     const [isFullView, setIsFullView] = useState(false);
+    const [filters] = useContext(ActivitiesFilterContext);
 
     const data = useMemo(() => {
-        return activities.map(item => ({
-            name: item.activity.name,
-            value: Math.round(item.totalTime / 60 / 60 / 1000),
-            color: item.activity.color,
-        }));
-    }, [activities]);
-
-    // the gap from the center of the pie chart to the outer edge
-    const outerRadius = window.innerWidth / 3;
-
+        return items
+            .filter(({activity}) => {
+                return !filters.includes(activity.name);
+            })
+            .map(item => ({
+                name: item.activity.name,
+                value: Math.round(item.totalTime / 60 / 60 / 1000),
+                color: item.activity.color,
+            }));
+    }, [items, filters]);
+    
     return (
         <>
-            <ActivitiesRainbowFilter items={activities}/>
-            <div className="flex flex-col justify-center gap-16">
+            <ActivitiesRainbowFilter items={items}/>
+            <div
+                onClick={() => setIsFullView(!isFullView)}
+                className="flex flex-col justify-center gap-16 h-full">
                 <PieChart
                     width={window.innerWidth} height={window.innerHeight / 2}>
                     <Pie
@@ -65,9 +75,6 @@ export const ActivitiesPieChart = ({activities = []}) => {
                         ))}
                     </Pie>
                 </PieChart>
-                <button onClick={(e) => setIsFullView(!isFullView)}>
-                    toggle full view
-                </button>
             </div>
         </>
     );

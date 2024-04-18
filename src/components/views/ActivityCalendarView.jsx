@@ -41,7 +41,8 @@ const Weekdays = [
 export const ActivityCalendarView = ({activity, isZenMode}) => {
     const [dateIndex, setDateIndex] = useState(0);
     const swipeHandlers = useTimeSwipe(setDateIndex);
-    const [allActivitiesData, setAllActivitiesData] = useContext(ActivitiesContext);
+    const [allActivitiesData] = useContext(ActivitiesContext);
+
     const activityData = useMemo(() => {
         if (allActivitiesData.length === 0) {
             return {};
@@ -106,16 +107,6 @@ export const ActivityCalendarView = ({activity, isZenMode}) => {
         return `${hours}h`;
     };
 
-    useEffect(() => {
-        if (allActivitiesData.length === 0) {
-            getAllDocsInActivity(activity.name)
-                .then(results => {
-                    setAllActivitiesData([results]);
-                });
-        }
-    }, [allActivitiesData]);
-
-    console.log({activityData, allActivitiesData});
     const formattedActivityName = useMemo(() => {
         return activity.name.toUpperCase();
     }, [activity.name]);

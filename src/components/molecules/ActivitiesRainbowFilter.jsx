@@ -1,9 +1,12 @@
 import classNames from "classnames";
-import {useMemo, useState} from "react";
+import {useMemo} from "react";
 import {Activities} from "../../constants/activities";
+import {useContext} from "react";
+import {ActivitiesFilterContext} from "../../context/ActivitiesFilterContext";
 
 export const ActivitiesRainbowFilter = ({items = []}) => {
-    const [inactiveColors, setInactiveColors] = useState([]);
+    const [filters, setFilters] = useContext(ActivitiesFilterContext);
+
     const rainbowFilterIcons = useMemo(() => {
         return [...Activities]
             .sort((a, b) => a.order - b.order)
@@ -13,22 +16,23 @@ export const ActivitiesRainbowFilter = ({items = []}) => {
 
                 return items.find(item => item.activity?.name?.toLowerCase() === activity.name?.toLowerCase());
             });
-    }, [inactiveColors]);
+    }, [items]);
 
     return (
-        <div className="absolute top-0 right-5 flex justify-center my-2">
+        <div className="absolute top-3 right-3 flex justify-center">
             {rainbowFilterIcons.map(activity => {
                 const Icon = activity.icon;
                 return (
                     <span
+                        key={activity.name}
                         style={{backgroundColor: activity.color}}
-                        className={classNames("w-5 h-5 flex items-center justify-center", {
-                            "grayscale": inactiveColors.includes(activity.color),
+                        className={classNames("size-6 flex items-center justify-center", {
+                            "grayscale opacity-30": filters.includes(activity.name),
                         })}
                         onClick={() => {
-                            setInactiveColors(inactiveColors.includes(activity.color)
-                                ? inactiveColors.filter(color => color !== activity.color)
-                                : [...inactiveColors, activity.color]);
+                            setFilters(filters.includes(activity.name)
+                                ? filters.filter(name => name !== activity.name)
+                                : [...filters, activity.name]);
                         }}>
                     <Icon/>
                 </span>

@@ -1,7 +1,9 @@
-export const NavigationButton = ({children, ...rest}) => {
+import classNames from "classnames";
+
+export const NavigationButton = ({children, className, ...rest}) => {
     return (
         <div
-            className="bg-white dark:bg-black dark:text-white dark:border dark:border-white rounded-full m-4 p-3 shadow" {...rest}>
+            className={classNames("text-black dark:text-white bg-white dark:bg-black rounded-full m-4 p-3 shadow", className)} {...rest}>
             {children}
         </div>
     );

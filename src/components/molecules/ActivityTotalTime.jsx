@@ -12,11 +12,18 @@ export const ActivityTotalTime = ({
     end,
     name,
     color,
+    isBordered,
 }) => {
     const timeString = getTimeString(totalTime, timeFrame);
     const onClick = () => window.history.pushState({}, "", `/stats/activity/${name.toLowerCase()}`);
     const textColor = readableColor(color);
-    const dateString = start ? new Date(start).toLocaleDateString("he-IL") : "";
+    const dateString = start ? new Date(start).toLocaleDateString("en-IL", {
+        weekday: "short",
+        month: "numeric",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    }) : "";
     const dateTimeString = end ? new Date(end).toLocaleTimeString("he-IL", {
         hour: "2-digit",
         minute: "2-digit"
@@ -26,6 +33,7 @@ export const ActivityTotalTime = ({
         <div
             className={classNames({
                 "flex items-center justify-between text-lg min-h-12 py-4 px-12 font-mono": true,
+                "border-b border-black": isBordered,
             })}
             style={{
                 height,
@@ -41,7 +49,7 @@ export const ActivityTotalTime = ({
 
             {(dateString.toString() !== "Invalid Date" && dateTimeString.toString() !== "") ?
                 <div className="text-xs">
-                    {dateString}, {dateTimeString}
+                    {dateString}-{dateTimeString}
                 </div> : ""}
         </div>
     );

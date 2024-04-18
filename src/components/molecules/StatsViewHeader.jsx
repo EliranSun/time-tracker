@@ -1,35 +1,35 @@
-import {ChartPieSlice, List, Unite} from "@phosphor-icons/react";
+import {ChartPieSlice, Notepad, Unite} from "@phosphor-icons/react";
 import {ViewTypes} from "../../constants/views";
-import {useTimeSum} from "../../hooks/useActivitiesByView";
-
-const ViewIcon = {
-    [ViewTypes.AGGREGATE]: Unite,
-    [ViewTypes.DETAIL]: List,
-    [ViewTypes.PIECHART]: ChartPieSlice,
-}
 
 export const StatsViewHeader = ({
     timeFrameName,
-    onChangeView,
     viewName,
-    items = [],
+    onChangeView,
+    totalTime = 0,
+    highlightedViewColor = "gold"
 }) => {
-    const summedTime = useTimeSum(items);
-    const Icon = ViewIcon[viewName];
 
     return (
         <div className="text-black dark:text-white">
-            <div className="px-4 pt-2 pb-4 flex items-center justify-between">
+            <div className="px-4 pt-2 pb-4 flex items-center gap-2">
                 <h1 className="text-2xl font-mono">
                     {timeFrameName.toUpperCase()}
-                </h1>
-            </div>
-            <div className="flex justify-between px-4">
+                </h1>-
                 <div className="text-xs">
-                    {summedTime}
+                    {totalTime}
                 </div>
-                <div className="flex items-center gap-4">
-                    <Icon onClick={onChangeView}/>
+            </div>
+            <div className="flex justify-center items-center px-4">
+                <div className="flex items-center gap-4 my-2 text-black dark:text-white">
+                    <Unite
+                        color={viewName === ViewTypes.AGGREGATE ? highlightedViewColor : "currentColor"}
+                        onClick={() => onChangeView(ViewTypes.AGGREGATE)}/>
+                    <Notepad
+                        color={viewName === ViewTypes.DETAIL ? highlightedViewColor : "currentColor"}
+                        onClick={() => onChangeView(ViewTypes.DETAIL)}/>
+                    <ChartPieSlice
+                        color={viewName === ViewTypes.PIE ? highlightedViewColor : "currentColor"}
+                        onClick={() => onChangeView(ViewTypes.PIE)}/>
                 </div>
             </div>
         </div>
