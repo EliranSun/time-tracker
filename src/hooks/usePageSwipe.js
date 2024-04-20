@@ -14,15 +14,18 @@ const swipeAction = (action, onSwipe) => {
     onSwipe(prevPage => PageMazeMap[upperFirst(prevPage)][action]);
 };
 export const usePageSwipe = ({
-                                 onSwipe = noop,
-                                 onEntryToggle,
-                                 isDisabled = false
-                             }) => {
+    onSwipe = noop,
+    onEntryToggle,
+    isDisabled = false
+}) => {
     const handlers = useSwipeable({
         onSwipedLeft: () => swipeAction(Actions.Left, onSwipe),
         onSwipedRight: () => swipeAction(Actions.Right, onSwipe),
         onSwipedUp: () => swipeAction(Actions.Up, onSwipe),
         onSwipedDown: () => swipeAction(Actions.Down, onSwipe),
+        // onTap: (event) => {
+        //     alert("TAP");
+        // },
         preventScrollOnSwipe: isDisabled,
         trackTouch: !isDisabled,
         trackMouse: !isDisabled,

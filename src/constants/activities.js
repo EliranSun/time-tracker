@@ -20,7 +20,7 @@ import {
     Users
 } from "@phosphor-icons/react";
 
-const Colors = {
+export const Colors = {
     IMPERIAL_RED: "#f94144",
     ORANGE: "#f3722c",
     CARROT_ORANGE: "#F8961E",
