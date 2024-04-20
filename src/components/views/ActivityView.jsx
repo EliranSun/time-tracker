@@ -160,20 +160,10 @@ export const ActivityView = ({
                     key={activity.name}>
                     <div className="flex flex-col items-center">
                         {isLoading
-                            ? <span>
-                                <svg style={{height: 0, width: 0}}>
-                                    <defs>
-                                        <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            {Object.values(Colors).map((color, index) => (
-                                                <stop key={index}
-                                                      offset={`${index * 100 / 12}%`}
-                                                      stopColor={color}/>
-                                            ))}
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
-                                <Spinner size={80} style={{fill: 'url(#iconGradient)'}} className="animate-spin"/>
-                            </span>
+                            ? <Spinner
+                                color={activity.color}
+                                size={80}
+                                className="animate-spin"/>
                             : <Icon
                                 onClick={() => setIsAddEntryView(!isAddEntryView)}
                                 size={80}/>}
