@@ -18,7 +18,7 @@ export const LastWeekDataStrip = ({activity, data}) => {
 
     return (
         <div
-            className="w-full flex justify-center w-fit items-end m-auto text-center h-28 border border-gray-200">
+            className="w-full flex justify-center w-fit items-end m-auto text-center h-28">
             {lastWeekData.data.map((item) => {
                 const measure = item.measure || 0;
                 return (
