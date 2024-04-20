@@ -38,7 +38,8 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
                     <span style={{color: activity.color}}>{entries[0].name}</span>{" "}
                     Entr{entries.length > 1 ? "ies" : "y"}
                 </h1>
-                <div className="overflow-y-auto overflow-x-hidden h-full flex flex-col gap-2">
+                <div
+                    className="overflow-y-auto overflow-x-hidden h-full w-full flex items-center text-center flex-col gap-2">
                     {filtered.map(entry => {
                         return (
                             <EditableDateTimeEntry

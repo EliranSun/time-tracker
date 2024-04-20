@@ -133,68 +133,71 @@ export const ActivityView = ({
         isDisabled: isAddEntryView || isEditEntryView
     });
     return (
-        <div
-            {...swipeHandlers}
-            className="m-auto mt-20 select-none"
-            onDoubleClick={() => {
-                console.log('double click');
-                activityToggle();
-            }}
-            onKeyDown={(event) => {
-                const isEnterKey = event.key === "Enter";
-                if (!isEnterKey)
-                    return;
+        <>
+            <div
+                {...swipeHandlers}
+                className="m-auto mt-28 select-none"
+                onDoubleClick={() => {
+                    console.log('double click');
+                    activityToggle();
+                }}
+                onKeyDown={(event) => {
+                    const isEnterKey = event.key === "Enter";
+                    if (!isEnterKey)
+                        return;
 
-                activityToggle();
-            }}>
-            <ActivitiesDungeonMap
-                isZenMode={isZenMode}
-                activePage={activePage}/>
-            <ColorOverlay
-                activity={activity}
-                currentActivity={currentActivity}
-                activitySwitch={activityToggle}
-                textColor={textColor}/>
-            <div className="flex items-center flex-wrap gap-1 mt-12">
-                <Block
-                    key={activity.name}>
-                    <div className="flex flex-col items-center">
-                        {isLoading
-                            ? <Spinner
-                                color={activity.color}
-                                size={80}
-                                className="animate-spin"/>
-                            : <Icon
-                                onClick={() => setIsAddEntryView(!isAddEntryView)}
-                                size={80}/>}
-                        <p
-                            className={classNames("font-extralight tracking-wide min-h-sm:text-base text-8xl")}>
-                            {activity.name}
-                        </p>
-                        <Counter
-                            isActive={currentActivity.name === activity.name}
-                            lastStartTime={lastStartTime}
-                            isZenMode={isZenMode}/>
-                    </div>
-                    <ActivitiesEntriesView
-                        isOpen={isAddEntryView}
-                        onClose={() => setIsAddEntryView(false)}
-                        entries={[{
-                            start: new Date().getTime() - 60 * 60 * 1000,
-                            end: new Date().getTime(),
-                            name: activity.name,
-                        }]}/>
-                    {(isZenMode || isAddEntryView) ? null : (
-                        <div className="my-2 flex flex-col justify-between">
-                            <ActivityDataSection
-                                isEditEntryView={isEditEntryView}
-                                setIsEditEntryView={setIsEditEntryView}
-                                activitiesData={activitiesData}
-                                activity={activity}/>
+                    activityToggle();
+                }}>
+                <ActivitiesDungeonMap
+                    isZenMode={isZenMode}
+                    activePage={activePage}/>
+                <ColorOverlay
+                    activity={activity}
+                    currentActivity={currentActivity}
+                    activitySwitch={activityToggle}
+                    textColor={textColor}/>
+                <div className="flex items-center flex-wrap gap-1 mt-10">
+                    <Block
+                        key={activity.name}>
+                        <div className="flex flex-col items-center">
+                            {isLoading
+                                ? <Spinner
+                                    color={activity.color}
+                                    size={80}
+                                    className="animate-spin"/>
+                                : <Icon
+                                    onClick={() => setIsAddEntryView(!isAddEntryView)}
+                                    size={80}/>}
+                            <p
+                                className={classNames("font-extralight tracking-wide min-h-sm:text-base text-8xl")}>
+                                {activity.name}
+                            </p>
+                            <Counter
+                                isActive={currentActivity.name === activity.name}
+                                lastStartTime={lastStartTime}
+                                isZenMode={isZenMode}/>
                         </div>
-                    )}
-                </Block>
+                        {(isZenMode || isAddEntryView) ? null : (
+                            <div className="my-2 flex flex-col justify-between">
+                                <ActivityDataSection
+                                    isEditEntryView={isEditEntryView}
+                                    setIsEditEntryView={setIsEditEntryView}
+                                    activitiesData={activitiesData}
+                                    activity={activity}/>
+                            </div>
+                        )}
+                    </Block>
+                </div>
             </div>
-        </div>
+
+            <ActivitiesEntriesView
+                isOpen={isAddEntryView}
+                onClose={() => setIsAddEntryView(false)}
+                entries={[{
+                    start: new Date().getTime() - 60 * 60 * 1000,
+                    end: new Date().getTime(),
+                    name: activity.name,
+                }]}/>
+        </>
     );
 };
