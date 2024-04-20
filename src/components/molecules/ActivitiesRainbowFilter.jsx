@@ -19,14 +19,14 @@ export const ActivitiesRainbowFilter = ({items = []}) => {
     }, [items]);
 
     return (
-        <div className="absolute top-3 right-3 flex justify-center">
+        <div className="flex justify-center">
             {rainbowFilterIcons.map(activity => {
                 const Icon = activity.icon;
                 return (
                     <span
                         key={activity.name}
                         style={{backgroundColor: activity.color}}
-                        className={classNames("size-6 flex items-center justify-center", {
+                        className={classNames("size-8 flex items-center justify-center", {
                             "grayscale opacity-30": filters.includes(activity.name),
                         })}
                         onClick={() => {

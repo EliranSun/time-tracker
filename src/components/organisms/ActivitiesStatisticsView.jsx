@@ -13,12 +13,13 @@ export const ActivitiesStatisticsView = ({items = [], timeFrame, dateFrame, view
     }
 
     switch (viewName) {
-        case ViewTypes.PIE:
+        default:
+        case ViewTypes.AGGREGATE:
             return (
-                <ActivitiesPieChart
+                <AggregatedActivities
+                    data={items}
                     dateFrame={dateFrame}
-                    timeFrame={timeFrame}
-                    activities={items}/>
+                    timeFrame={timeFrame}/>
             );
 
         case ViewTypes.DETAIL:
@@ -29,13 +30,12 @@ export const ActivitiesStatisticsView = ({items = [], timeFrame, dateFrame, view
                     timeFrame={timeFrame}/>
             );
 
-        default:
-        case ViewTypes.AGGREGATE:
+        case ViewTypes.PIE:
             return (
-                <AggregatedActivities
-                    data={items}
+                <ActivitiesPieChart
                     dateFrame={dateFrame}
-                    timeFrame={timeFrame}/>
+                    timeFrame={timeFrame}
+                    activities={items}/>
             );
     }
 }

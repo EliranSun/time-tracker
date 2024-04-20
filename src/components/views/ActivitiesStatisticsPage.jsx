@@ -26,7 +26,7 @@ export const ActivitiesStatisticsPage = () => {
                     viewName={viewName}
                     totalTime={totalTime}
                     onChangeView={setViewName}/>
-                <div className="h-[79vh] flex flex-col justify-between">
+                <div className="h-[84vh] flex flex-col justify-between">
                     <ActivitiesStatisticsView
                         items={allActivitiesData}
                         timeFrame={timeFrame}

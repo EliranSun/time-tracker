@@ -10,8 +10,8 @@ export const StatsViewHeader = ({
 }) => {
 
     return (
-        <div className="text-black dark:text-white">
-            <div className="px-4 pt-2 pb-4 flex items-center gap-2">
+        <div className="text-black dark:text-white my-2 flex justify-between items-center px-4">
+            <div className="flex items-center gap-2">
                 <h1 className="text-2xl font-mono">
                     {timeFrameName.toUpperCase()}
                 </h1>-
@@ -19,7 +19,7 @@ export const StatsViewHeader = ({
                     {totalTime}
                 </div>
             </div>
-            <div className="flex justify-center items-center px-4">
+            <div className="flex justify-center items-center">
                 <div className="flex items-center gap-4 my-2 text-black dark:text-white">
                     <Unite
                         color={viewName === ViewTypes.AGGREGATE ? highlightedViewColor : "currentColor"}

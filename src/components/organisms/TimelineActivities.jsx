@@ -17,7 +17,9 @@ export const TimelineActivities = ({data, dateFrame, timeFrame}) => {
 
     return (
         <>
-            <ActivitiesRainbowFilter items={items}/>
+            <div className="mb-2">
+                <ActivitiesRainbowFilter items={items}/>
+            </div>
             <ActivitiesCardContainer maxHeight={HEIGHT_BY_WINDOW}>
                 {items
                     .filter(({activity}) => {

@@ -18,7 +18,9 @@ export const AggregatedActivities = ({data, dateFrame, timeFrame}) => {
 
     return (
         <>
-            <ActivitiesRainbowFilter items={items}/>
+            <div className="mb-2">
+                <ActivitiesRainbowFilter items={items}/>
+            </div>
             <ActivitiesCardContainer isFit>
                 {items
                     .filter(({activity}) => {
