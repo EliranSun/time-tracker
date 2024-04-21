@@ -209,7 +209,7 @@ export const ActivityView = ({
                             <p
                                 style={{
                                     fontSize: isZenMode ? dynamicSize.fontSize : "6rem",
-                                    lineHeight: isZenMode ? dynamicSize.lineHeight : "240px",
+                                    lineHeight: isZenMode ? dynamicSize.lineHeight : "100px",
                                 }}
                                 className={classNames("font-extralight  min-h-sm:text-base break-words w-96 text-ellipsis text-center overflow-hidden", {
                                     "font-mono tracking-tighter font-extrabold": isZenMode,
