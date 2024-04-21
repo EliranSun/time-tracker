@@ -103,7 +103,9 @@ function App() {
     return (
         <ActivitiesProvider>
             <section
-                style={{backgroundColor: getAppBackgroundColor()}}
+                style={{backgroundColor: currentActivity.name === activity.name
+                    ? `${activity.color}`
+                    : getAppBackgroundColor()}}
                 className="overflow-hidden top-0 left-0 text-black dark:text-white">
                 {view === Views.GRAVITY ? <GravitySimulationView/> : null}
                 {view === Views.ACTIVITIES ? (
