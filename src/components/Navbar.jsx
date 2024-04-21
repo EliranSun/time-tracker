@@ -6,7 +6,7 @@ import {Views} from "../App";
 const NavbarStyle = ({children}) => {
     return (
         <div
-            className="fixed w-fit inset-x-0 m-auto bottom-6 flex items-center justify-center border-t border-gray-300/50 gap-10 py-4 px-8">
+            className="fixed w-fit z-20 inset-x-0 m-auto bottom-6 flex items-center justify-center border-t border-gray-300/50 gap-10 py-4 px-8">
             {children}
         </div>
     );
@@ -56,15 +56,14 @@ export const Navbar = ({
                 <ClockCounterClockwise size={32} onClick={onEntryHistoryClick}/>
                 <CalendarDots
                     size={32}
-                    // onClick={() => window.history.pushState({}, "", "/gravity")}
-                    onClick={() => window.history.pushState({}, "", `/activity`)}
+                    onClick={() => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`)}
                     className="cursor-pointer"/>
             </NavbarStyle>
 
             {view !== Views.STATS
                 ? <div
                     className={classNames({
-                        "absolute top-5 right-5": true,
+                        "absolute z-20 top-5 right-5": true,
                         "w-fit flex items-center justify-center gap-2": true,
                         "py-2 px-4 rounded-2xl": true,
                     })}

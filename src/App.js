@@ -29,6 +29,12 @@ function App() {
     const [isEditEntryView, setIsEditEntryView] = useState(false);
 
     useEffect(() => {
+        // Set the theme color to the default. 
+        // This is necessary because there's no meta on the index.html (to enable the dynamity)
+        replaceMetaThemeColor(getAppBackgroundColor());
+    }, []);
+
+    useEffect(() => {
         switch (true) {
             default:
             case document.location.pathname === "/":
@@ -57,25 +63,25 @@ function App() {
 
             if (path === "/") {
                 setView(Views.ACTIVITIES);
-                replaceMetaThemeColor(getAppBackgroundColor());
             }
 
             if (path === "/stats") {
                 setView(Views.STATS);
-                replaceMetaThemeColor(getAppBackgroundColor());
             }
 
             if (path.includes("/stats/activity")) {
                 setView(Views.ACTIVITY);
                 setActivePage(path.split("/").pop());
-                replaceMetaThemeColor(getAppBackgroundColor());
             }
+
+            replaceMetaThemeColor(getAppBackgroundColor());
         });
 
         window.history.pushState = new Proxy(window.history.pushState, {
             apply: (target, thisArg, argArray) => {
                 // trigger here what you need
                 const path = argArray[2];
+
                 if (path === "/gravity") {
                     setView(Views.GRAVITY);
                 }
@@ -102,11 +108,7 @@ function App() {
 
     return (
         <ActivitiesProvider>
-            <section
-                style={{backgroundColor: currentActivity.name === activity.name
-                    ? `${activity.color}`
-                    : getAppBackgroundColor()}}
-                className="overflow-hidden top-0 left-0 text-black dark:text-white">
+            <section className="overflow-hidden text-black dark:text-white">
                 {view === Views.GRAVITY ? <GravitySimulationView/> : null}
                 {view === Views.ACTIVITIES ? (
                     <div className="m-auto flex flex-col items-center justify-start">
@@ -121,7 +123,6 @@ function App() {
                             setIsEditEntryView={setIsEditEntryView}
                             currentActivity={currentActivity}
                             onActivityStart={newActivity => {
-                                console.log({newActivity});
                                 setIsLocked(true);
                                 setCurrentActivity(newActivity);
                             }}
@@ -135,7 +136,8 @@ function App() {
                         <ActivitiesStatisticsPage
                             activities={Activities}
                             onChangePage={() => setView(Views.ACTIVITIES)}/>
-                    </ActivitiesFilterProvider> : null}
+                    </ActivitiesFilterProvider>
+                    : null}
                 {view === Views.ACTIVITY
                     ? <ActivityCalendarView isZenMode={isZenMode} activity={activity}/> : null}
                 <Navbar

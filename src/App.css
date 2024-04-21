@@ -1,12 +1,12 @@
 body, html {
-    /*background-color: #ededed;*/
+    background-color: #ededed;
     overflow: hidden;
 }
 
 /* dark mode */
 @media (prefers-color-scheme: dark) {
     body, html {
-        /*background-color: #282c34;*/
+        background-color: #282c34;
     }
 }
 

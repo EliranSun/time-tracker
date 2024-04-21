@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import classNames from "classnames";
 import {Block} from "../Block";
 import {addActivityData, getRefByPath, updateActivityData} from "../../utils/db";
@@ -10,13 +10,12 @@ import {ActivityDataSection} from "../organisms/ActivityDataSection";
 import {ActivitiesEntriesView} from "./ActivitiesEntriesView";
 import {readableColor} from 'polished';
 import {ActivitiesDungeonMap} from "../ActivitiesDungeonMap";
-import {Spinner, SpinnerBall} from "@phosphor-icons/react";
-import {Colors} from "../../constants/activities";
+import {Spinner} from "@phosphor-icons/react";
 
 const ColorOverlay = ({activity, currentActivity}) => {
     return (
         <div
-            className="fixed w-screen h-screen top-0 left-0 -z-10 flex items-center justify-center"
+            className="fixed w-screen h-screen top-0 left-0 z-10 flex items-center justify-center"
             style={{
                 backgroundColor: currentActivity.name === activity.name
                     ? `${activity.color}`
@@ -46,22 +45,18 @@ export const ActivityView = ({
 
     useEffect(() => {
         if (!currentActivity.name || currentActivity.name !== activity.name) {
+            // swiping out of the activity
             replaceMetaThemeColor(getAppBackgroundColor());
             return;
         }
 
         if (currentActivity.start > 0 && currentActivity.end === 0) {
+            // swiping into the activity
             replaceMetaThemeColor(activity.color);
             setLastStartTime(currentActivity.start);
             setRefPath(currentActivity.refPath);
         }
     }, [activity.name, currentActivity]);
-
-    useEffect(() => {
-        // Set the theme color to the default. 
-        // This is necessary because there's no meta on the index.html (to enable the dynamity)
-        replaceMetaThemeColor(getAppBackgroundColor());
-    }, []);
 
     const Icon = activity?.icon || (() => null);
 
@@ -132,15 +127,56 @@ export const ActivityView = ({
         onEntryToggle: activityToggle,
         isDisabled: isAddEntryView || isEditEntryView
     });
+
+    const dynamicSize = useMemo(() => {
+        const length = activity.name.length;
+        let fontSize = "9rem";
+        let lineHeight = "120px";
+
+        if (length >= 2) {
+            fontSize = "22rem";
+            lineHeight = "280px";
+        }
+
+        if (length === 3) {
+            fontSize = "21rem";
+            lineHeight = "250px";
+        }
+
+        if (length === 4) {
+            fontSize = "20rem";
+            lineHeight = "240px";
+        }
+
+        if (length === 5) {
+            fontSize = "14rem";
+            lineHeight = "190px";
+        }
+
+        if (length === 6) {
+            fontSize = "12rem";
+            lineHeight = "160px";
+        }
+
+        if (length >= 7) {
+            fontSize = "10rem";
+            lineHeight = "130px";
+        }
+
+        return {
+            fontSize,
+            lineHeight
+        }
+    }, [activity.name]);
+
     return (
         <>
             <div
                 {...swipeHandlers}
-                className="m-auto mt-28 select-none"
-                onDoubleClick={() => {
-                    console.log('double click');
-                    activityToggle();
-                }}
+                className={classNames("m-auto mt-28 select-none", {
+                    "mt-0 h-[90vh] flex items-center justify-center": isZenMode,
+                })}
+                onDoubleClick={activityToggle}
                 onKeyDown={(event) => {
                     const isEnterKey = event.key === "Enter";
                     if (!isEnterKey)
@@ -156,7 +192,9 @@ export const ActivityView = ({
                     currentActivity={currentActivity}
                     activitySwitch={activityToggle}
                     textColor={textColor}/>
-                <div className="flex items-center flex-wrap gap-1 mt-10">
+                <div className={classNames("w-full relative z-20 flex items-center flex-wrap gap-1 mt-10", {
+                    "mt-0": isZenMode,
+                })}>
                     <Block
                         key={activity.name}>
                         <div className="flex flex-col items-center">
@@ -167,10 +205,19 @@ export const ActivityView = ({
                                     className="animate-spin"/>
                                 : <Icon
                                     onClick={() => setIsAddEntryView(!isAddEntryView)}
-                                    size={80}/>}
+                                    size={isZenMode ? 100 : 80}/>}
                             <p
-                                className={classNames("font-extralight tracking-wide min-h-sm:text-base text-8xl")}>
-                                {activity.name}
+                                style={{
+                                    fontSize: isZenMode ? dynamicSize.fontSize : "6rem",
+                                    lineHeight: isZenMode ? dynamicSize.lineHeight : "240px",
+                                }}
+                                className={classNames("font-extralight  min-h-sm:text-base break-words w-96 text-ellipsis text-center overflow-hidden", {
+                                    "font-mono tracking-tighter font-extrabold": isZenMode,
+                                    "tracking-wide leading-normal": !isZenMode
+                                })}>
+                                {isZenMode
+                                    ? activity.name.toUpperCase()
+                                    : activity.name}
                             </p>
                             <Counter
                                 isActive={currentActivity.name === activity.name}
@@ -189,7 +236,6 @@ export const ActivityView = ({
                     </Block>
                 </div>
             </div>
-
             <ActivitiesEntriesView
                 isOpen={isAddEntryView}
                 onClose={() => setIsAddEntryView(false)}
