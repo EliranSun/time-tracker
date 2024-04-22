@@ -44,13 +44,15 @@ export const calculateStreak = (activities = []) => {
 
         if (isToday(lastActivity.end)) {
             streak++;
+            continue;
         }
 
-        if (!isSameDay(nextActivity, previousDayActivity)) {
-            break;
+        if (isSameDay(nextActivity, previousDayActivity)) {
+            streak++;
+            continue;
         }
 
-        streak++;
+        break;
     }
 
     // for (let i = 0; i < activitiesPerDayByTime.length; i++) {
