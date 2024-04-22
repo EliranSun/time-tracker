@@ -3,9 +3,7 @@ import {X} from "@phosphor-icons/react";
 import {EditableDateTimeEntry} from "../EditableDateTimeEntry";
 import {Button} from "../atoms/Button";
 import {useMemo} from "react";
-import {Activities} from "../../constants/activities";
-
-const ONE_MINUTE = 1 * 60 * 1000;
+import {Activities, ACTIVITY_MINIMUM_TIME} from "../../constants/activities";
 
 export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = noop}) => {
     const filtered = useMemo(() => {
@@ -13,7 +11,7 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
             .filter(item =>
                 item.end > 0 &&
                 item.start > 0 &&
-                item.end - item.start > ONE_MINUTE)
+                item.end - item.start > ACTIVITY_MINIMUM_TIME)
             .sort((a, b) => b.end - a.end);
     }, [entries]);
 

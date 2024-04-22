@@ -1,11 +1,7 @@
-import {useEffect, useMemo, useState} from "react";
+import {useMemo} from "react";
 import {add, isThisMonth, isThisWeek, isThisYear, isToday} from "date-fns";
-import {sortActivitiesByOrder} from "../utils/activities";
-import {ViewTypes} from "../constants/views";
-import {Activities} from "../constants/activities";
+import {Activities, ACTIVITY_MINIMUM_TIME} from "../constants/activities";
 import {formatTimestamp} from "../utils/time";
-
-const ACTIVITY_MIN_TIME = 2 * 60 * 1000;
 
 const getCompletedItemsInActivityInScope = (allActivityData = [], dateFrame, timeFrame) => {
     // allActivitiesData = [
@@ -14,7 +10,7 @@ const getCompletedItemsInActivityInScope = (allActivityData = [], dateFrame, tim
     //      [...],
     // ]
     return allActivityData.filter(item => {
-        const isTimeBelowMinimum = item.end - item.start < ACTIVITY_MIN_TIME;
+        const isTimeBelowMinimum = item.end - item.start < ACTIVITY_MINIMUM_TIME;
 
         if (item.end === 0 || !item.end || isTimeBelowMinimum)
             return false;

@@ -20,6 +20,8 @@ import {
     Users
 } from "@phosphor-icons/react";
 
+export const ACTIVITY_MINIMUM_TIME = 2 * 60 * 1000;
+
 export const Colors = {
     IMPERIAL_RED: "#f94144",
     ORANGE: "#f3722c",

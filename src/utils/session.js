@@ -111,7 +111,7 @@ export const getLastSession = (name = "", data = []) => {
     }
 
     const lastSession = data
-        .filter(item => item.end > 0 && item.end - item.start > 60 * 1000)
+        .filter(item => item.end > 0 && item.end - item.start > ACTIVITY_MINIMUM_TIME)
         .sort((a, b) => b.start - a.start)
         ?.at(0);
     const start = lastSession?.start;

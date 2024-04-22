@@ -1,8 +1,5 @@
-import {isYesterday, subDays, differenceInDays, isSameDay, isToday} from "date-fns";
-
-const ONE_DAY = 24 * 60 * 60 * 1000;
-const TWO_DAYS = 2 * ONE_DAY;
-const ONE_MINUTE = 60 * 1000;
+import {differenceInDays, isSameDay, isToday} from "date-fns";
+import {ACTIVITY_MINIMUM_TIME} from "../constants/activities";
 
 export const sortActivitiesByOrder = (data, activities) => {
     return data.sort((a, b) => {
@@ -21,7 +18,7 @@ export const calculateStreak = (activities = []) => {
             return (
                 activity.end > 0 &&
                 activity.start > 0 &&
-                Math.abs(activity.end - activity.start) > ONE_MINUTE
+                Math.abs(activity.end - activity.start) > ACTIVITY_MINIMUM_TIME
             );
         })
         .forEach(activity => {
