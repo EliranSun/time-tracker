@@ -1,5 +1,6 @@
 import {differenceInDays, isSameDay, isToday} from "date-fns";
 import {ACTIVITY_MINIMUM_TIME} from "../constants/activities";
+import {formatDuration} from "./session";
 
 export const sortActivitiesByOrder = (data, activities) => {
     return data.sort((a, b) => {
@@ -26,6 +27,7 @@ export const calculateStreak = (activities = []) => {
                 activitiesPerDayByTime.push({
                     ...activity,
                     formattedDay: new Date(activity.end).toLocaleDateString("en-US"),
+                    totalTime: formatDuration(activity.end - activity.start)
                 });
             }
         });
