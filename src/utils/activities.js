@@ -58,7 +58,7 @@ export const calculateStreak = (activities = []) => {
         if (previousActivity) {
             const diff = differenceInDays(previousActivity.end, thisActivity.end);
             console.log({previousActivity, thisActivity, diff});
-            if (diff > 1) {
+            if (diff > 0) {
                 break;
             }
         }
