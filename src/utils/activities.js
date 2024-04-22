@@ -13,17 +13,40 @@ export const sortActivitiesByOrder = (data, activities) => {
 };
 
 export const calculateStreak = (activities = []) => {
-    const sortedByTime = activities
+    const activitiesPerDayByTime = [];
+        
+        activities
         .filter(activity => activity.end > 0 && activity.start > 0)
-        .sort((a, b) => b.start - a.start);
+        .sort((a, b) => b.start - a.start)
+        .forEach(activity => {
+            if (!activitiesPerDayByTime.find(item => isSameDay(item.end, activity.end))) {
+                activitiesPerDayByTime.push(activity);
+                }
+            });
 
     let streak = 0;
+    
+    if (activitiesPerDayByTime.length === 0) {
+        return 0;
+        }
 
-    for (let i = sortedByTime.length; i <= 0; i--) {
-        const currentActivity = sortedByTime[i];
-        if (!isToday(currentActivity.end)) {
+    for (let i = activitiesPerDayByTime.length - 1; i <= 0; i--) {
+        
+        const currentActivity = activitiesPerDayByTime[i];
+
+        if (isToday(currentActivity.end)) {
+            streak++;
+            }
+            
+        if (!isYesterday(currentActivity.end)) {
             break;
-      }
+        }
+
+        if (!activitiesPerDayByTime[i + 1].end || !currentActivity.end) {
+            break;
+            }
+
+        streak++
     }
     
     return streak;
