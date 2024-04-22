@@ -43,15 +43,15 @@ export const calculateStreak = (activities = []) => {
         return 0;
     }
 
-    if (activities.length === 1) {
-        if (isToday(activities[0].end)) {
+    if (activitiesPerDayByTime.length === 1) {
+        if (isToday(activitiesPerDayByTime[0].end)) {
             return 1;
         }
 
         return 0;
     }
 
-    if (!isToday(activities[0].end) && !isYesterday(activities[0].end)) {
+    if (!isToday(activitiesPerDayByTime[0].end) && !isYesterday(activitiesPerDayByTime[0].end)) {
         // streak is broken since the last activity is not today or yesterday
         return 0;
     }
