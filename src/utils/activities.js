@@ -35,48 +35,27 @@ export const calculateStreak = (activities = []) => {
         return 0;
     }
 
-    for (let i = 0; i < activitiesPerDayByTime.length; i++) {
-        const lastActivity = activitiesPerDayByTime[i];
-        const previousDayActivity = subDays(lastActivity.end, 1);
-        const nextActivity = activitiesPerDayByTime[i + 1];
-
-        console.log({lastActivity, nextActivity, previousDayActivity});
-
-        if (isToday(lastActivity.end)) {
-            streak++;
-            continue;
+    if (activities.length === 1) {
+        if (isToday(activities[0].end)) {
+            return 1;
         }
 
-        if (isSameDay(nextActivity, previousDayActivity)) {
-            streak++;
-            continue;
-        }
-
-        break;
+        return 0;
     }
 
-    // for (let i = 0; i < activitiesPerDayByTime.length; i++) {
-    //     const currentActivity = activitiesPerDayByTime[i];
-    //     const nextActivity = activitiesPerDayByTime[i + 1];
-    //
-    //     if (!nextActivity) {
-    //         if (isYesterday(currentActivity.end) || isToday(currentActivity.end)) {
-    //             streak++;
-    //             console.log("no next activity (last?) but activity is today/yesterday", {currentActivity, streak});
-    //         }
-    //
-    //         console.log("no next activity (last?)", {currentActivity, streak});
-    //         break;
-    //     }
-    //
-    //     if (differenceInDays(currentActivity.end, nextActivity.end) > 1) {
-    //         console.log("gap was more then a day", {nextActivity, currentActivity, streak});
-    //         break;
-    //     }
-    //
-    //     streak++
-    //     console.log("gap was less or equal then a day", {nextActivity, currentActivity, streak});
-    // }
+    for (let i = 0; i < activitiesPerDayByTime.length; i++) {
+        const thisActivity = activitiesPerDayByTime[i];
+        const previousActivity = activitiesPerDayByTime[i - 1];
+
+        if (previousActivity) {
+            const diff = differenceInDays(previousActivity.end, thisActivity.end);
+            if (diff > 1) {
+                break;
+            }
+        }
+        
+        streak++;
+    }
 
     return streak;
 }
