@@ -41,6 +41,7 @@ export const calculateStreak = (activities = []) => {
 
         if (!previousActivity) {
             if (isToday(currentActivity.end) || isYesterday(currentActivity.end)) {
+                console.log("activity is today or yesterday", {currentActivity, streak});
                 streak++;
             }
             continue;
@@ -50,6 +51,7 @@ export const calculateStreak = (activities = []) => {
             break;
         }
 
+        console.log("gap was less or equal then a day", {previousActivity, currentActivity, streak});
         streak++
     }
 
