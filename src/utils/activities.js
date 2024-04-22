@@ -1,4 +1,4 @@
-import {differenceInDays, isSameDay, isToday} from "date-fns";
+import {differenceInDays, isSameDay, isToday, isYesterday} from "date-fns";
 import {ACTIVITY_MINIMUM_TIME} from "../constants/activities";
 import {formatDuration} from "./session";
 
@@ -48,6 +48,11 @@ export const calculateStreak = (activities = []) => {
             return 1;
         }
 
+        return 0;
+    }
+
+    if (!isToday(activities[0].end) && !isYesterday(activities[0].end)) {
+        // streak is broken since the last activity is not today or yesterday
         return 0;
     }
 
