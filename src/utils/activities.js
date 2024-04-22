@@ -56,7 +56,7 @@ export const calculateStreak = (activities = []) => {
         const previousActivity = activitiesPerDayByTime[i - 1];
 
         if (previousActivity) {
-            const diff = (thisActivity.end - previousActivity.end) / (1000 * 60 * 60 * 24);
+            const diff = Math.abs(thisActivity.end - previousActivity.end) / (1000 * 60 * 60 * 24);
             console.log({previousActivity, thisActivity, diff});
             if (diff > 1) {
                 break;
