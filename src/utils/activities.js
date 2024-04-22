@@ -1,4 +1,4 @@
-import {isYesterday, subDays, isToday, isSameDay} from "date-fns";
+import {isYesterday, subDays, differenceInDays, isSameDay, isToday} from "date-fns";
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 const TWO_DAYS = 2 * ONE_DAY;
@@ -13,41 +13,45 @@ export const sortActivitiesByOrder = (data, activities) => {
 };
 
 export const calculateStreak = (activities = []) => {
-    const activitiesPerDayByTime = [];
-        
-        activities
+    let activitiesPerDayByTime = [];
+
+    activities
         .filter(activity => activity.end > 0 && activity.start > 0)
-        .sort((a, b) => b.start - a.start)
         .forEach(activity => {
             if (!activitiesPerDayByTime.find(item => isSameDay(item.end, activity.end))) {
-                activitiesPerDayByTime.push(activity);
-                }
-            });
+                activitiesPerDayByTime.push({
+                    ...activity,
+                    formattedDay: new Date(activity.end).toLocaleDateString("en-US"),
+                });
+            }
+        });
 
     let streak = 0;
-    
+
+    // last activity first, loop is not reversed
+    activitiesPerDayByTime.sort((a, b) => b.end - a.end);
+
     if (activitiesPerDayByTime.length === 0) {
         return 0;
-        }
+    }
 
-    for (let i = activitiesPerDayByTime.length - 1; i <= 0; i--) {
-        
+    for (let i = 0; i < activitiesPerDayByTime.length; i++) {
+        const previousActivity = activitiesPerDayByTime[i - 1];
         const currentActivity = activitiesPerDayByTime[i];
 
-        if (isToday(currentActivity.end)) {
-            streak++;
+        if (!previousActivity) {
+            if (isToday(currentActivity.end) || isYesterday(currentActivity.end)) {
+                streak++;
             }
-            
-        if (!isYesterday(currentActivity.end)) {
-            break;
+            continue;
         }
 
-        if (!activitiesPerDayByTime[i + 1].end || !currentActivity.end) {
+        if (differenceInDays(previousActivity.end, currentActivity.end) > 1) {
             break;
-            }
+        }
 
         streak++
     }
-    
+
     return streak;
 }
