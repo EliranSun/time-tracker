@@ -58,7 +58,7 @@ export const calculateStreak = (activities = []) => {
         if (previousActivity) {
             const diff = (thisActivity.end - previousActivity.end) / (1000 * 60 * 60 * 24);
             console.log({previousActivity, thisActivity, diff});
-            if (diff > 0) {
+            if (diff > 1) {
                 break;
             }
         }
