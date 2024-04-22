@@ -1,6 +1,6 @@
 import {addDays, isSameDay, startOfWeek} from "date-fns";
-import {formatTimestamp} from "./time";
 import {round} from 'lodash';
+import {ACTIVITY_MINIMUM_TIME} from "../constants/activities";
 
 export const getLastWeekData = (name, data) => {
     const activityData = data;
