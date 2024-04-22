@@ -31,6 +31,8 @@ export const calculateStreak = (activities = []) => {
     // last activity first, loop is not reversed
     activitiesPerDayByTime.sort((a, b) => b.end - a.end);
 
+    console.log({activitiesPerDayByTime});
+    
     if (activitiesPerDayByTime.length === 0) {
         return 0;
     }
@@ -53,7 +55,7 @@ export const calculateStreak = (activities = []) => {
                 break;
             }
         }
-        
+
         streak++;
     }
 
