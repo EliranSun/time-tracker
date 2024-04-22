@@ -36,24 +36,45 @@ export const calculateStreak = (activities = []) => {
     }
 
     for (let i = 0; i < activitiesPerDayByTime.length; i++) {
-        const previousActivity = activitiesPerDayByTime[i - 1];
-        const currentActivity = activitiesPerDayByTime[i];
+        const lastActivity = activitiesPerDayByTime[i];
+        const previousDayActivity = subDays(lastActivity.end, 1);
+        const nextActivity = activitiesPerDayByTime[i + 1];
 
-        if (!previousActivity) {
-            if (isToday(currentActivity.end) || isYesterday(currentActivity.end)) {
-                console.log("activity is today or yesterday", {currentActivity, streak});
-                streak++;
-            }
-            continue;
+        console.log({lastActivity, nextActivity, previousDayActivity});
+
+        if (isToday(lastActivity.end)) {
+            streak++;
         }
 
-        if (differenceInDays(previousActivity.end, currentActivity.end) > 1) {
+        if (!isSameDay(nextActivity, previousDayActivity)) {
             break;
         }
 
-        console.log("gap was less or equal then a day", {previousActivity, currentActivity, streak});
-        streak++
+        streak++;
     }
+
+    // for (let i = 0; i < activitiesPerDayByTime.length; i++) {
+    //     const currentActivity = activitiesPerDayByTime[i];
+    //     const nextActivity = activitiesPerDayByTime[i + 1];
+    //
+    //     if (!nextActivity) {
+    //         if (isYesterday(currentActivity.end) || isToday(currentActivity.end)) {
+    //             streak++;
+    //             console.log("no next activity (last?) but activity is today/yesterday", {currentActivity, streak});
+    //         }
+    //
+    //         console.log("no next activity (last?)", {currentActivity, streak});
+    //         break;
+    //     }
+    //
+    //     if (differenceInDays(currentActivity.end, nextActivity.end) > 1) {
+    //         console.log("gap was more then a day", {nextActivity, currentActivity, streak});
+    //         break;
+    //     }
+    //
+    //     streak++
+    //     console.log("gap was less or equal then a day", {nextActivity, currentActivity, streak});
+    // }
 
     return streak;
 }
