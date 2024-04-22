@@ -2,6 +2,7 @@ import {isYesterday, subDays, differenceInDays, isSameDay, isToday} from "date-f
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 const TWO_DAYS = 2 * ONE_DAY;
+const ONE_MINUTE = 60 * 1000;
 
 export const sortActivitiesByOrder = (data, activities) => {
     return data.sort((a, b) => {
@@ -16,7 +17,13 @@ export const calculateStreak = (activities = []) => {
     let activitiesPerDayByTime = [];
 
     activities
-        .filter(activity => activity.end > 0 && activity.start > 0)
+        .filter(activity => {
+            return (
+                activity.end > 0 &&
+                activity.start > 0 &&
+                Math.abs(activity.end - activity.start) > ONE_MINUTE
+            );
+        })
         .forEach(activity => {
             if (!activitiesPerDayByTime.find(item => isSameDay(item.end, activity.end))) {
                 activitiesPerDayByTime.push({
@@ -32,7 +39,7 @@ export const calculateStreak = (activities = []) => {
     activitiesPerDayByTime.sort((a, b) => b.end - a.end);
 
     console.log({activitiesPerDayByTime});
-    
+
     if (activitiesPerDayByTime.length === 0) {
         return 0;
     }
