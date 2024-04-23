@@ -208,9 +208,9 @@ export const ActivityView = ({
                                 : <Icon
                                     onClick={() => setIsAddEntryView(!isAddEntryView)}
                                     size={80}/>}
-                            <p className={classNames("break-words  w-96 text-center overflow-hidden", {
+                            <p className={classNames("break-words w-96 text-center overflow-hidden", {
                                 "font-mono tracking-tighter font-extrabold h-full text-8xl mb-10": isZenMode,
-                                "tracking-wide font-extralight h-fit text-8xl": !isZenMode
+                                "tracking-wide leading-snug font-extralight h-fit text-8xl": !isZenMode
                             })}>
                                 {isZenMode
                                     ? activity.name.toUpperCase()
