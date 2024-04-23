@@ -210,12 +210,12 @@ export const ActivityView = ({
                                     size={isZenMode ? 100 : 80}/>}
                             <p style={{
                                 // the shorter the length, the bigger the font size
-                                fontSize: isZenMode ? activity.name.length * 2 + "rem" : "6rem",
-                                lineHeight: isZenMode ? activity.name.length * 1.5 + "rem" : "8rem",
+                                fontSize: isZenMode ? 1 / activity.name.length * 45 + "rem" : "6rem",
+                                lineHeight: isZenMode ? 1 / activity.name.length * 50 + "rem" : "8rem",
                             }}
                                className={classNames("break-words w-96 text-center overflow-hidden", {
                                    "font-mono tracking-tighter font-extrabold h-full": isZenMode,
-                                   "tracking-wide leading-normal font-extralight h-fit": !isZenMode
+                                   "tracking-wide font-extralight h-fit": !isZenMode
                                })}>
                                 {isZenMode
                                     ? activity.name.toUpperCase()

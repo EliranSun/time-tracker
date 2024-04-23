@@ -3,8 +3,14 @@ import {formatCounter} from "../utils/counter";
 
 export const Counter = ({isActive, lastStartTime, isZenMode}) => {
     return (
-        <p className={classNames("font-mono", isZenMode ? "text-7xl" : "text-6xl")}>
-            {isActive ? formatCounter(lastStartTime || 0) : "00:00:00"}
+        <p className={classNames("font-mono", isZenMode ? "flex flex-col text-[18rem] leading-[13rem]" : "text-6xl")}>
+            {formatCounter(lastStartTime || 0).split(":").map((time, index) => {
+                return (
+                    <span key={index}>
+                        {time}
+                    </span>
+                )
+            })}
         </p>
     )
 };
