@@ -173,8 +173,9 @@ export const ActivityView = ({
         <>
             <div
                 {...swipeHandlers}
-                className={classNames("m-auto mt-28 select-none", {
-                    "mt-0 h-[90vh] flex items-center justify-center": isZenMode,
+                className={classNames("select-none", {
+                    "mt-0 h-[90vh] flex items-start justify-center": isZenMode,
+                    "mt-28 m-auto": !isZenMode
                 })}
                 onDoubleClick={activityToggle}
                 onKeyDown={(event) => {
@@ -192,8 +193,9 @@ export const ActivityView = ({
                     currentActivity={currentActivity}
                     activitySwitch={activityToggle}
                     textColor={textColor}/>
-                <div className={classNames("w-full relative z-20 flex items-center flex-wrap gap-1 mt-10", {
-                    "mt-0": isZenMode,
+                <div className={classNames("w-full relative z-20 flex flex-wrap gap-1", {
+                    "mt-0 items-start": isZenMode,
+                    "mt-10 items-center": !isZenMode
                 })}>
                     <Block
                         key={activity.name}>
@@ -206,15 +208,15 @@ export const ActivityView = ({
                                 : <Icon
                                     onClick={() => setIsAddEntryView(!isAddEntryView)}
                                     size={isZenMode ? 100 : 80}/>}
-                            <p
-                                style={{
-                                    fontSize: isZenMode ? dynamicSize.fontSize : "6rem",
-                                    lineHeight: isZenMode ? dynamicSize.lineHeight : "100px",
-                                }}
-                                className={classNames("font-extralight  min-h-sm:text-base break-words w-96 text-ellipsis text-center overflow-hidden", {
-                                    "font-mono tracking-tighter font-extrabold": isZenMode,
-                                    "tracking-wide leading-normal": !isZenMode
-                                })}>
+                            <p style={{
+                                // the shorter the length, the bigger the font size
+                                fontSize: isZenMode ? activity.name.length * 2 + "rem" : "6rem",
+                                lineHeight: isZenMode ? activity.name.length * 1.5 + "rem" : "8rem",
+                            }}
+                               className={classNames("break-words w-96 text-center overflow-hidden", {
+                                   "font-mono tracking-tighter font-extrabold h-full": isZenMode,
+                                   "tracking-wide leading-normal font-extralight h-fit": !isZenMode
+                               })}>
                                 {isZenMode
                                     ? activity.name.toUpperCase()
                                     : activity.name}

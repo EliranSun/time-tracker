@@ -43,6 +43,7 @@ export const calculateStreak = (activities = []) => {
         return 0;
     }
 
+    // maybe not needed
     if (activitiesPerDayByTime.length === 1) {
         if (isToday(activitiesPerDayByTime[0].end)) {
             return 1;
@@ -56,15 +57,19 @@ export const calculateStreak = (activities = []) => {
         return 0;
     }
 
+    //[20, 10, 9, 8]
     for (let i = 0; i < activitiesPerDayByTime.length; i++) {
         const thisActivity = activitiesPerDayByTime[i];
         const previousActivity = activitiesPerDayByTime[i - 1];
 
         if (previousActivity) {
-            const diff = Math.round(Math.abs(thisActivity.end - previousActivity.end) / (1000 * 60 * 60 * 24));
-            console.log({previousActivity, thisActivity, diff});
-            
-            if (diff >= 2) {
+            new Date(thisActivity.end).getDay();
+
+            // const diffInDays = Math.round(Math.abs(thisActivity.end - previousActivity.end) / (1000 * 60 * 60 * 24));
+            const diffInDays = differenceInDays(thisActivity.end, previousActivity.end);
+            console.log({previousActivity, thisActivity, diffInDays});
+
+            if (diffInDays > 1) {
                 break;
             }
         }
