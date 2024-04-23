@@ -46,7 +46,7 @@ export const calculateStreak = (activities = []) => {
         return 0;
     }
 
-    // this is true
+    // reaching here means the last activity is today or yesterday, which counts as 1 streak
     let streak = 1;
 
     for (let i = 1; i < activitiesPerDayByTime.length; i++) {
