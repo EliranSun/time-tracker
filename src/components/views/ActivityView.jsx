@@ -207,16 +207,11 @@ export const ActivityView = ({
                                     className="animate-spin"/>
                                 : <Icon
                                     onClick={() => setIsAddEntryView(!isAddEntryView)}
-                                    size={isZenMode ? 100 : 80}/>}
-                            <p style={{
-                                // the shorter the length, the bigger the font size
-                                fontSize: isZenMode ? 1 / activity.name.length * 45 + "rem" : "6rem",
-                                lineHeight: isZenMode ? 1 / activity.name.length * 50 + "rem" : "8rem",
-                            }}
-                               className={classNames("break-words w-96 text-center overflow-hidden", {
-                                   "font-mono tracking-tighter font-extrabold h-full": isZenMode,
-                                   "tracking-wide font-extralight h-fit": !isZenMode
-                               })}>
+                                    size={80}/>}
+                            <p className={classNames("break-words  w-96 text-center overflow-hidden", {
+                                "font-mono tracking-tighter font-extrabold h-full text-8xl mb-10": isZenMode,
+                                "tracking-wide font-extralight h-fit text-8xl": !isZenMode
+                            })}>
                                 {isZenMode
                                     ? activity.name.toUpperCase()
                                     : activity.name}
