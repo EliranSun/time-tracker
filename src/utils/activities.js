@@ -1,4 +1,4 @@
-import {differenceInDays, isSameDay, isToday, isYesterday} from "date-fns";
+import {differenceInDays, format, isSameDay, isToday, isYesterday} from "date-fns";
 import {ACTIVITY_MINIMUM_TIME} from "../constants/activities";
 import {formatDuration} from "./session";
 
@@ -63,11 +63,13 @@ export const calculateStreak = (activities = []) => {
         const previousActivity = activitiesPerDayByTime[i - 1];
 
         if (previousActivity) {
-            new Date(thisActivity.end).getDay();
+            const a = format(new Date(thisActivity.end), "yyyy-mm-dd");
+            const b = format(new Date(previousActivity.end), "yyyy-mm-dd");
 
             // const diffInDays = Math.round(Math.abs(thisActivity.end - previousActivity.end) / (1000 * 60 * 60 * 24));
-            const diffInDays = differenceInDays(thisActivity.end, previousActivity.end);
-            console.log({previousActivity, thisActivity, diffInDays});
+            const diffInDays = differenceInDays(a, b);
+
+            console.log({previousActivity, thisActivity, diffInDays, a, b});
 
             if (diffInDays > 1) {
                 break;
