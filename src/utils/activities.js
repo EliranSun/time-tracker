@@ -32,8 +32,6 @@ export const calculateStreak = (activities = []) => {
             }
         });
 
-    let streak = 0;
-
     // last activity first, loop is not reversed
     activitiesPerDayByTime.sort((a, b) => b.end - a.end);
 
@@ -42,22 +40,24 @@ export const calculateStreak = (activities = []) => {
     }
 
     const lastActivity = activitiesPerDayByTime[0].end;
+
+    // streak is broken since the last activity is not today or yesterday
     if (!isToday(lastActivity) && !isYesterday(lastActivity)) {
-        // streak is broken since the last activity is not today or yesterday
         return 0;
     }
 
-    for (let i = 0; i < activitiesPerDayByTime.length; i++) {
-        if (i > 0) {
-            const previousDate = format(new Date(activitiesPerDayByTime[i - 1].end), "MM-dd-yyyy");
-            const currentDate = format(new Date(activitiesPerDayByTime[i].end), "MM-dd-yyyy");
+    // this is true
+    let streak = 1;
 
-            if (differenceInDays(previousDate, currentDate) > 1) {
-                break;
-            }
+    for (let i = 1; i < activitiesPerDayByTime.length; i++) {
+        const previousDate = format(new Date(activitiesPerDayByTime[i - 1].end), "MM-dd-yyyy");
+        const currentDate = format(new Date(activitiesPerDayByTime[i].end), "MM-dd-yyyy");
+
+        if (differenceInDays(previousDate, currentDate) === 1) {
+            streak++;
+        } else {
+            break;
         }
-
-        streak++;
     }
 
     return streak;
