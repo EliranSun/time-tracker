@@ -1,4 +1,4 @@
-import {differenceInDays, format, isSameDay, isToday, isYesterday} from "date-fns";
+import {differenceInCalendarDays, differenceInDays, format, isSameDay, isToday, isYesterday} from "date-fns";
 import {ACTIVITY_MINIMUM_TIME} from "../constants/activities";
 import {formatDuration} from "./session";
 
@@ -50,10 +50,10 @@ export const calculateStreak = (activities = []) => {
     let streak = 1;
 
     for (let i = 1; i < activitiesPerDayByTime.length; i++) {
-        const previousDate = format(new Date(activitiesPerDayByTime[i - 1].end), "MM-dd-yyyy");
-        const currentDate = format(new Date(activitiesPerDayByTime[i].end), "MM-dd-yyyy");
+        const currentDay = activitiesPerDayByTime[i].end;
+        const previousDay = activitiesPerDayByTime[i - 1].end;
 
-        if (differenceInDays(previousDate, currentDate) === 1) {
+        if (differenceInCalendarDays(previousDay, currentDay) === 1) {
             streak++;
         } else {
             break;
