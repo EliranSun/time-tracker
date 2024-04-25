@@ -5,8 +5,6 @@ import {ActivitiesStatisticsPage} from "./components/views/ActivitiesStatisticsP
 import {useCounter} from "./hooks/useCounter";
 import {Activities, PageMazeMap} from "./constants/activities";
 import {Navbar} from "./components/Navbar";
-import {ActivitiesDungeonMap} from "./components/ActivitiesDungeonMap";
-import {getAppBackgroundColor, replaceMetaThemeColor} from "./utils/colors";
 import {ActivitiesProvider} from "./context/ActivitiesContext";
 import {ActivityCalendarView} from "./components/views/ActivityCalendarView";
 import GravitySimulationView from "./components/views/GravitySimulationView";
@@ -14,11 +12,14 @@ import {ActivitiesFilterProvider} from "./context/ActivitiesFilterContext";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }}
 export const Views = {
-    ACTIVITIES: "activities", STATS: "stats", ACTIVITY: "activity", GRAVITY: "gravity"
+    HOMEPAGE: "activities",
+    STATS: "stats",
+    ACTIVITY: "activity",
+    GRAVITY: "gravity"
 }
 
 function App() {
-    const [view, setView] = useState(Views.ACTIVITIES);
+    const [view, setView] = useState(Views.HOMEPAGE);
     // TODO: zen mode should be in context
     const [isZenMode, setIsZenMode] = useState(false);
     const [currentActivity, setCurrentActivity] = useState(JSON.parse(localStorage.getItem('currentActivity')) || {});
@@ -29,16 +30,10 @@ function App() {
     const [isEditEntryView, setIsEditEntryView] = useState(false);
 
     useEffect(() => {
-        // Set the theme color to the default. 
-        // This is necessary because there's no meta on the index.html (to enable the dynamity)
-        replaceMetaThemeColor(getAppBackgroundColor());
-    }, []);
-
-    useEffect(() => {
         switch (true) {
             default:
             case document.location.pathname === "/":
-                setView(Views.ACTIVITIES);
+                setView(Views.HOMEPAGE);
                 break;
 
             case document.location.pathname === "/stats":
@@ -62,7 +57,7 @@ function App() {
             }
 
             if (path === "/") {
-                setView(Views.ACTIVITIES);
+                setView(Views.HOMEPAGE);
             }
 
             if (path === "/stats") {
@@ -73,8 +68,6 @@ function App() {
                 setView(Views.ACTIVITY);
                 setActivePage(path.split("/").pop());
             }
-
-            replaceMetaThemeColor(getAppBackgroundColor());
         });
 
         window.history.pushState = new Proxy(window.history.pushState, {
@@ -89,18 +82,16 @@ function App() {
                 if (path.includes("/stats/activity")) {
                     setView(Views.ACTIVITY);
                     setActivePage(path.split("/").pop());
-                    replaceMetaThemeColor(getAppBackgroundColor());
                 }
 
                 if (path === "/") {
-                    setView(Views.ACTIVITIES);
-                    replaceMetaThemeColor(getAppBackgroundColor());
+                    setView(Views.HOMEPAGE);
                 }
 
                 if (path === "/stats") {
                     setView(Views.STATS);
-                    replaceMetaThemeColor(getAppBackgroundColor());
                 }
+                
                 return target.apply(thisArg, argArray);
             },
         });
@@ -110,7 +101,7 @@ function App() {
         <ActivitiesProvider>
             <section className="overflow-hidden text-black dark:text-white">
                 {view === Views.GRAVITY ? <GravitySimulationView/> : null}
-                {view === Views.ACTIVITIES ? (
+                {view === Views.HOMEPAGE ? (
                     <div className="m-auto flex flex-col items-center justify-start">
                         <ActivityView
                             activity={activity}
@@ -135,7 +126,7 @@ function App() {
                     <ActivitiesFilterProvider>
                         <ActivitiesStatisticsPage
                             activities={Activities}
-                            onChangePage={() => setView(Views.ACTIVITIES)}/>
+                            onChangePage={() => setView(Views.HOMEPAGE)}/>
                     </ActivitiesFilterProvider>
                     : null}
                 {view === Views.ACTIVITY

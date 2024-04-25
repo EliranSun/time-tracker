@@ -1,28 +1,19 @@
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import classNames from "classnames";
 import {Block} from "../Block";
-import {addActivityData, getRefByPath, updateActivityData} from "../../utils/db";
 import {getAppBackgroundColor, replaceMetaThemeColor} from "../../utils/colors";
 import {useActivityData} from "../../hooks/useActivityData";
-import {Counter} from "../Counter";
+import {StartTimeCounter} from "../StartTimeCounter";
 import {usePageSwipe} from "../../hooks/usePageSwipe";
 import {ActivityDataSection} from "../organisms/ActivityDataSection";
 import {ActivitiesEntriesView} from "./ActivitiesEntriesView";
 import {readableColor} from 'polished';
 import {ActivitiesDungeonMap} from "../ActivitiesDungeonMap";
 import {Spinner} from "@phosphor-icons/react";
+import {useTimers} from "../../hooks/useTimers";
+import {BackgroundColorOverlay} from "../atoms/BackgroundColorOverlay";
 
-const ColorOverlay = ({activity, currentActivity}) => {
-    return (
-        <div
-            className="fixed w-screen h-screen top-0 left-0 z-10 flex items-center justify-center"
-            style={{
-                backgroundColor: currentActivity.name === activity.name
-                    ? `${activity.color}`
-                    : getAppBackgroundColor()
-            }}/>
-    );
-};
+const TEN_MINUTES = 10 * 60 * 1000;
 
 export const ActivityView = ({
     currentActivity,
@@ -35,13 +26,25 @@ export const ActivityView = ({
     setIsEditEntryView,
     activePage
 }) => {
-    const [refPath, setRefPath] = useState("");
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
-    const [updateCount, setUpdateCount] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
-    const activitiesData = useActivityData(activity.name, updateCount);
     const textColor = readableColor(currentActivity.name === activity.name ? activity.color : getAppBackgroundColor());
+    const {toggle, count, isLoading, setRefPath} = useTimers({
+        activity,
+        currentActivity,
+        onActivityStart,
+        onActivityEnd,
+    });
+    const activitiesData = useActivityData({name: activity.name, dependencies: [count]});
+
+    useEffect(() => {
+        const isCurrentActivityCounterActive = currentActivity.name !== activity.name;
+        replaceMetaThemeColor(isCurrentActivityCounterActive ? activity.color : getAppBackgroundColor());
+
+        return () => {
+            replaceMetaThemeColor(getAppBackgroundColor());
+        }
+    }, []);
 
     useEffect(() => {
         if (!currentActivity.name || currentActivity.name !== activity.name) {
@@ -60,114 +63,11 @@ export const ActivityView = ({
 
     const Icon = activity?.icon || (() => null);
 
-    const onStartTick = useCallback((startTime) => {
-        setIsAddEntryView(false);
-        setLastStartTime(startTime);
-        setIsLoading(true);
-
-        addActivityData({
-            name: activity.name,
-            start: startTime,
-            end: 0
-        }).then(ref => {
-            const refPath = ref.path;
-            const data = {
-                name: activity.name,
-                color: activity.color,
-                start: startTime,
-                end: 0,
-                refPath
-            };
-            localStorage.setItem('currentActivity', JSON.stringify(data));
-            onActivityStart(data);
-            replaceMetaThemeColor(activity.color);
-            setIsLoading(false);
-            setRefPath(refPath);
-        }).catch(error => {
-            alert(`Error adding data: ${error.message}`);
-            setIsLoading(false);
-        });
-    }, [activity]);
-
-    const onStopTick = useCallback(() => {
-        onActivityEnd();
-        replaceMetaThemeColor(getAppBackgroundColor());
-
-        setLastStartTime(null);
-        localStorage.removeItem('currentActivity');
-
-        const ref = getRefByPath(refPath);
-
-        updateActivityData(ref, {
-            name: activity.name,
-            end: new Date().getTime()
-        })
-            .then(() => setUpdateCount(prev => prev + 1))
-            .catch(error => {
-                alert(`Error updating data: ${error.message}`);
-            })
-    }, [activity.name, refPath]);
-
-    const activityToggle = useCallback(() => {
-        const shouldStartTick = !currentActivity.name;
-        const shouldStopTick = currentActivity.name === activity.name;
-
-        if (shouldStartTick) {
-            onStartTick(new Date().getTime());
-            return;
-        }
-
-        if (shouldStopTick) {
-            onStopTick();
-        }
-    }, [currentActivity.name, activity.name]);
-
     const swipeHandlers = usePageSwipe({
         onSwipe: setActivePage,
-        onEntryToggle: activityToggle,
+        onEntryToggle: toggle,
         isDisabled: isAddEntryView || isEditEntryView
     });
-
-    const dynamicSize = useMemo(() => {
-        const length = activity.name.length;
-        let fontSize = "9rem";
-        let lineHeight = "120px";
-
-        if (length >= 2) {
-            fontSize = "22rem";
-            lineHeight = "280px";
-        }
-
-        if (length === 3) {
-            fontSize = "21rem";
-            lineHeight = "250px";
-        }
-
-        if (length === 4) {
-            fontSize = "20rem";
-            lineHeight = "240px";
-        }
-
-        if (length === 5) {
-            fontSize = "14rem";
-            lineHeight = "190px";
-        }
-
-        if (length === 6) {
-            fontSize = "12rem";
-            lineHeight = "160px";
-        }
-
-        if (length >= 7) {
-            fontSize = "10rem";
-            lineHeight = "130px";
-        }
-
-        return {
-            fontSize,
-            lineHeight
-        }
-    }, [activity.name]);
 
     return (
         <>
@@ -177,28 +77,28 @@ export const ActivityView = ({
                     "mt-0 h-[90vh] flex items-start justify-center": isZenMode,
                     "mt-28 m-auto": !isZenMode
                 })}
-                onDoubleClick={activityToggle}
+                onDoubleClick={toggle}
                 onKeyDown={(event) => {
                     const isEnterKey = event.key === "Enter";
                     if (!isEnterKey)
                         return;
 
-                    activityToggle();
+                    console.log("Toggle");
+                    toggle();
                 }}>
                 <ActivitiesDungeonMap
                     isZenMode={isZenMode}
                     activePage={activePage}/>
-                <ColorOverlay
+                <BackgroundColorOverlay
                     activity={activity}
                     currentActivity={currentActivity}
-                    activitySwitch={activityToggle}
+                    activitySwitch={toggle}
                     textColor={textColor}/>
                 <div className={classNames("w-full relative z-20 flex flex-wrap gap-1", {
                     "mt-0 items-start": isZenMode,
                     "mt-10 items-center": !isZenMode
                 })}>
-                    <Block
-                        key={activity.name}>
+                    <Block key={activity.name}>
                         <div className="flex flex-col items-center">
                             {isLoading
                                 ? <Spinner
@@ -216,9 +116,8 @@ export const ActivityView = ({
                                     ? activity.name.toUpperCase()
                                     : activity.name}
                             </p>
-                            <Counter
-                                isActive={currentActivity.name === activity.name}
-                                lastStartTime={lastStartTime}
+                            <StartTimeCounter
+                                startTime={currentActivity.name === activity.name ? lastStartTime : 0}
                                 isZenMode={isZenMode}/>
                         </div>
                         {(isZenMode || isAddEntryView) ? null : (
@@ -237,9 +136,9 @@ export const ActivityView = ({
                 isOpen={isAddEntryView}
                 onClose={() => setIsAddEntryView(false)}
                 entries={[{
-                    start: new Date().getTime() - 60 * 60 * 1000,
-                    end: new Date().getTime(),
                     name: activity.name,
+                    end: new Date().getTime(),
+                    start: new Date().getTime() - TEN_MINUTES,
                 }]}/>
         </>
     );

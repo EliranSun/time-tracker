@@ -1,4 +1,4 @@
-export const formatCounter = (lastTime) => {
+export const formatCountSince = (lastTime) => {
     const counter = parseInt((new Date().getTime() - lastTime) / 1000);
     const hours = Math.floor(counter / 3600);
     const minutes = Math.floor((counter - hours * 3600) / 60);

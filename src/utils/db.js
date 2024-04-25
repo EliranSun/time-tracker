@@ -33,6 +33,11 @@ export const addActivityData = async (activity) => {
     return await addDoc(collection(db, `activities/${activity.name}/data`), activity);
 };
 export const updateActivityData = async (ref, activity) => {
+    if (process.env.REACT_APP_ENABLE_MOCK === "true") {
+        console.warn("updateActivityData - mock enabled");
+        return;
+    }
+    
     return await updateDoc(ref, activity);
 }
 export const setCurrentActivityDoc = async (activity) => {

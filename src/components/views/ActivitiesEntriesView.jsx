@@ -5,6 +5,20 @@ import {Button} from "../atoms/Button";
 import {useMemo} from "react";
 import {Activities, ACTIVITY_MINIMUM_TIME} from "../../constants/activities";
 
+const Dialog = ({children}) => {
+    return (
+        <dialog
+            open={true}
+            className="backdrop-blur-xl fixed z-30 flex pt-10 bg-transparent justify-center w-screen h-screen top-0"
+            onClick={(event) => {
+                event.stopPropagation();
+                event.preventDefault();
+            }}>
+            {children}
+        </dialog>
+    )
+};
+
 export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = noop}) => {
     const filtered = useMemo(() => {
         return entries
@@ -21,14 +35,16 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
 
     const activity = Activities.find(activity => activity.name === entries[0].name);
 
+    if (entries.length === 0) {
+        return (
+            <Dialog>
+                No entries found.
+            </Dialog>
+        );
+    }
+
     return (
-        <dialog
-            open={true}
-            className="backdrop-blur-xl fixed z-30 flex pt-10 bg-transparent justify-center w-screen h-screen top-0"
-            onClick={(event) => {
-                event.stopPropagation();
-                event.preventDefault();
-            }}>
+        <Dialog>
             <div
                 className="flex items-start flex-col gap-8 font-mono justify-center h-[72vh] rounded-xl">
                 <h1 className="text-3xl dark:text-white">
@@ -60,6 +76,6 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
                         className="dark:text-white hover:text-black"/>
                 </Button>
             </div>
-        </dialog>
+        </Dialog>
     );
 };

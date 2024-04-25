@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { formatCounter } from "../utils/counter";
+import {useEffect, useState} from "react";
+import {formatCountSince} from "../utils/counter";
 
 export const useCounter = (activityName) => {
     const [counter, setCounter] = useState(0);

@@ -52,28 +52,34 @@ export const Navbar = ({
                         window.history.pushState({}, "", page);
                         setView(view === Views.STATS ? Views.ACTIVITY : Views.STATS);
                     }}/>
-                <YinYang size={32} onClick={onZenMode}/>
-                <ClockCounterClockwise size={32} onClick={onEntryHistoryClick}/>
                 <CalendarDots
                     size={32}
                     onClick={() => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`)}
                     className="cursor-pointer"/>
             </NavbarStyle>
 
-            {view !== Views.STATS
+            {view === Views.HOMEPAGE
                 ? <div
                     className={classNames({
-                        "absolute z-20 top-5 right-5": true,
-                        "w-fit flex items-center justify-center gap-2": true,
-                        "py-2 px-4 rounded-2xl": true,
-                    })}
-                    style={{
-                        backgroundColor: hasBackgroundActivity
-                            ? currentActivity.color
-                            : "transparent"
-                    }}>
-                    <LockIcon size={32} className="cursor-pointer"/>
-                    <span className="text-sm">{hasBackgroundActivity ? `${currentActivity.name}` : ""}</span>
+                        "absolute z-10 top-5": true,
+                        "w-full flex justify-between px-4": true,
+                    })}>
+                    <div
+                        className={classNames({
+                            "flex p-2 rounded-2xl items-center justify-center gap-2": true,
+                        })}
+                        style={{
+                            backgroundColor: hasBackgroundActivity
+                                ? currentActivity.color
+                                : "transparent"
+                        }}>
+                        <LockIcon size={32} className="cursor-pointer"/>
+                        <span className="text-sm">{hasBackgroundActivity ? `${currentActivity.name}` : ""}</span>
+                    </div>
+                    <div className="flex gap-4">
+                        <ClockCounterClockwise size={32} onClick={onEntryHistoryClick}/>
+                        <YinYang size={32} onClick={onZenMode}/>
+                    </div>
                 </div> : null}
         </>
     );
