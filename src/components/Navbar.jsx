@@ -1,7 +1,8 @@
 import {ChartBar, House, Lock, LockOpen, YinYang, ClockCounterClockwise, CalendarDots} from "@phosphor-icons/react";
 import classNames from "classnames";
 import {useMemo} from "react";
-import {Views} from "../App";
+
+import {Views} from "./views/ActivitiesApp";
 
 const NavbarStyle = ({children}) => {
     return (

@@ -1,5 +1,5 @@
 import {useSwipeable} from "react-swipeable";
-import {PageMazeMap} from "../constants/activities";
+import {ActivitiesColorsMazeMap, Colors} from "../constants/activities";
 import {useEffect} from "react";
 import {noop, upperFirst} from "lodash";
 
@@ -11,11 +11,21 @@ const Actions = {
 };
 
 const swipeAction = (action, onSwipe) => {
-    onSwipe(prevPage => PageMazeMap[upperFirst(prevPage)][action]);
+    onSwipe(prevPage => {
+        const nextPage = ActivitiesColorsMazeMap[prevPage][action];
+        console.log({nextPage});
+        const colorPage = Colors[nextPage];
+
+        if (colorPage.isBlocked) {
+            return prevPage;
+        }
+
+        return nextPage;
+    });
 };
 export const usePageSwipe = ({
     onSwipe = noop,
-    onEntryToggle,
+    onEntryToggle = noop,
     isDisabled = false
 }) => {
     const handlers = useSwipeable({
@@ -23,9 +33,6 @@ export const usePageSwipe = ({
         onSwipedRight: () => swipeAction(Actions.Right, onSwipe),
         onSwipedUp: () => swipeAction(Actions.Up, onSwipe),
         onSwipedDown: () => swipeAction(Actions.Down, onSwipe),
-        // onTap: (event) => {
-        //     alert("TAP");
-        // },
         preventScrollOnSwipe: isDisabled,
         trackTouch: !isDisabled,
         trackMouse: !isDisabled,
