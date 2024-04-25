@@ -91,7 +91,7 @@ function App() {
                 if (path === "/stats") {
                     setView(Views.STATS);
                 }
-                
+
                 return target.apply(thisArg, argArray);
             },
         });
@@ -99,6 +99,7 @@ function App() {
 
     return (
         <ActivitiesProvider>
+            <div id="dialog-root"/>
             <section className="overflow-hidden text-black dark:text-white">
                 {view === Views.GRAVITY ? <GravitySimulationView/> : null}
                 {view === Views.HOMEPAGE ? (
@@ -131,18 +132,18 @@ function App() {
                     : null}
                 {view === Views.ACTIVITY
                     ? <ActivityCalendarView isZenMode={isZenMode} activity={activity}/> : null}
-                <Navbar
-                    activity={activity}
-                    view={view}
-                    setView={setView}
-                    isLocked={isLocked}
-                    isZenMode={isZenMode}
-                    setIsLocked={setIsLocked}
-                    onZenMode={() => setIsZenMode(prev => !prev)}
-                    currentActivity={currentActivity}
-                    onEntryHistoryClick={() => setIsEditEntryView(true)}
-                />
             </section>
+            <Navbar
+                activity={activity}
+                view={view}
+                setView={setView}
+                isLocked={isLocked}
+                isZenMode={isZenMode}
+                setIsLocked={setIsLocked}
+                onZenMode={() => setIsZenMode(prev => !prev)}
+                currentActivity={currentActivity}
+                onEntryHistoryClick={() => setIsEditEntryView(true)}
+            />
         </ActivitiesProvider>
     )
 }

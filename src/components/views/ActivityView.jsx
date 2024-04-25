@@ -110,7 +110,7 @@ export const ActivityView = ({
                                     size={80}/>}
                             <p className={classNames("break-words w-96 text-center overflow-hidden", {
                                 "font-mono tracking-tighter font-extrabold h-full text-7xl mb-10": isZenMode,
-                                "tracking-wide leading-snug font-extralight h-fit text-8xl": !isZenMode
+                                "tracking-wide leading-tight font-extralight h-fit text-8xl": !isZenMode
                             })}>
                                 {isZenMode
                                     ? activity.name.toUpperCase()
@@ -121,7 +121,7 @@ export const ActivityView = ({
                                 isZenMode={isZenMode}/>
                         </div>
                         {(isZenMode || isAddEntryView) ? null : (
-                            <div className="my-2 flex flex-col justify-between">
+                            <div className="my-4 flex flex-col justify-between">
                                 <ActivityDataSection
                                     isEditEntryView={isEditEntryView}
                                     setIsEditEntryView={setIsEditEntryView}

@@ -42,26 +42,23 @@ export const EditableDateTimeEntry = ({id, activityName, start, end, isListView 
 
     return (
         <>
-            <div className={classNames("w-full text-black dark:text-white h-full", {
-                "flex gap-4 items-center": isListView,
+            <div className={classNames("w-full text-black dark:text-white", {
+                "flex gap-4": isListView,
             })}>
                 <div
                     className={classNames("flex items-center justify-between", {
                         "flex-col gap-4 mb-16 w-full": !isListView,
-                        "flex-row gap-4 justify-between px-5 py-4 w-80 bg-black/20": isListView,
+                        "flex-col gap-2 w-full bg-black/20 p-4": isListView,
                     })}>
-                    <div className="flex flex-col gap-4">
-                        <div className="flex flex-col">
-                            <span className="text-[9px] opacity-70">{formatDistanceToNow(start)} ago</span>
-                            <input
-                                type="date"
-                                className="bg-transparent text-sm"
-                                onChange={event => setStartDate(event.target.value)}
-                                defaultValue={startDate}/>
-                        </div>
+                    <div className="w-full justify-between flex gap-2">
+                        <input
+                            type="date"
+                            className="bg-transparent text-3xl"
+                            onChange={event => setStartDate(event.target.value)}
+                            defaultValue={startDate}/>
                         <input
                             type="time"
-                            className={classNames("bg-transparent", {"text-6xl": !isListView, "text-2xl": isListView})}
+                            className={classNames("bg-transparent", {"text-6xl": !isListView, "text-3xl": isListView})}
                             defaultValue={startTime}
                             onChange={event => setStartTime(event.target.value)}
                             onBlur={() => {
@@ -78,21 +75,18 @@ export const EditableDateTimeEntry = ({id, activityName, start, end, isListView 
                                 updateActivity(newStartTimestamp, end);
                             }}/>
                     </div>
-                    {isListView
-                        ? <ArrowRight size={15} className="dark:text-white"/>
-                        : <ArrowDown size={42} className="dark:text-white"/>}
-                    <div className="flex flex-col gap-4">
-                        <div className="flex flex-col">
-                            <span className="text-[9px] opacity-70">{formatDistanceToNow(end)} ago</span>
-                            <input
-                                type="date"
-                                className="bg-transparent text-sm"
-                                onChange={event => setEndDate(event.target.value)}
-                                defaultValue={endDate}/>
-                        </div>
+                    {/*{isListView*/}
+                    {/*    ? <ArrowRight size={30}/>*/}
+                    {/*    : <ArrowDown size={42}/>}*/}
+                    <div className="w-full justify-between flex gap-4">
+                        <input
+                            type="date"
+                            className="bg-transparent text-3xl"
+                            onChange={event => setEndDate(event.target.value)}
+                            defaultValue={endDate}/>
                         <input
                             type="time"
-                            className={classNames("bg-transparent", {"text-6xl": !isListView, "text-2xl": isListView})}
+                            className={classNames("bg-transparent", {"text-6xl": !isListView, "text-3xl": isListView})}
                             defaultValue={endTime}
                             onChange={event => setEndTime(event.target.value)}
                             onBlur={() => {
@@ -111,11 +105,11 @@ export const EditableDateTimeEntry = ({id, activityName, start, end, isListView 
                         />
                     </div>
                 </div>
-                <div className={classNames({"text-3xl mb-16": !isListView, "text-xl": isListView})}>
-                    {durationTimeString}~
-                </div>
+                {/*<div className={classNames({"text-3xl mb-16": !isListView, "text-xl": isListView})}>*/}
+                {/*    {durationTimeString}~*/}
+                {/*</div>*/}
                 {id ? null :
-                    <div className="z-10 absolute flex justify-center items-center bottom-16 left-16">
+                    <div className="z-40 absolute flex justify-center items-center bottom-16 left-16">
                         <Button>
                             <Check
                                 size={52}
