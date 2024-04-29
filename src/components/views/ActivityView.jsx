@@ -29,7 +29,7 @@ export const ActivityView = ({
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
     const textColor = readableColor(currentActivity.name === activity.name ? activity.color : getAppBackgroundColor());
-    const {toggle, count, isLoading, setRefPath} = useTimers({
+    const {logs, toggle, count, isLoading, setRefPath} = useTimers({
         activity,
         currentActivity,
         onActivityStart,
@@ -86,6 +86,9 @@ export const ActivityView = ({
                     console.log("Toggle");
                     toggle();
                 }}>
+                <button onClick={() => alert(JSON.stringify(logs))}>
+                    logs
+                </button>
                 <ActivitiesDungeonMap
                     isZenMode={isZenMode}
                     activePage={activePage}/>
