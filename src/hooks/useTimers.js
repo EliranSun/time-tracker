@@ -30,7 +30,7 @@ export const useTimers = ({activity, currentActivity, onActivityStart, onActivit
             replaceMetaThemeColor(activity.color);
             setIsLoading(false);
             setRefPath(refPath);
-                    setLogs(prev => [...prev, { m: "onStartTick", ref, data }]);
+                    setLogs(prev => [...prev, { m: "onStartTick", data }]);
         }).catch(error => {
             alert(`Error adding data: ${error.message}`);
             setIsLoading(false);
@@ -45,7 +45,7 @@ export const useTimers = ({activity, currentActivity, onActivityStart, onActivit
         localStorage.removeItem('currentActivity');
 
         const ref = getRefByPath(refPath);
-        setLogs(prev => [...prev, { m: "onEndTick", ref, refPath, activity }]);
+        setLogs(prev => [...prev, { m: "onEndTick", refPath, activity }]);
         updateActivityData(ref, {
             name: activity.name,
             end: new Date().getTime()
