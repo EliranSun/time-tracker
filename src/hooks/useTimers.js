@@ -53,9 +53,9 @@ export const useTimers = ({activity, currentActivity, onActivityStart, onActivit
         const endTime = new Date().getTime();
                 setLogs(prev => [...prev, { m: "onEndTick", refPath, activity, storedActivity, endTime }]);
                 
-        if (!refPath) {
-            setLogs(prev => [...prev, { m: "error, no ref path found" }]);
-            alert(`No ref path found: ${refPath}. aborting update`);
+        if (!ref) {
+            setLogs(prev => [...prev, { m: "error, no ref found" }]);
+            alert(`No ref found: ${ref}. aborting update`);
             return;
         }
 
