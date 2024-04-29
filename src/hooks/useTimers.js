@@ -6,10 +6,12 @@ export const useTimers = ({activity, currentActivity, onActivityStart, onActivit
     const [refPath, setRefPath] = useState("");
     const [updateCount, setUpdateCount] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-
+    const [logs, setLogs] = useState([]);
+    
     const onStartTick = useCallback((startTime) => {
         setIsLoading(true);
-
+        setLogs(prev => [...prev, { m: "onStartTick" }]);
+        
         addActivityData({
             name: activity.name,
             start: startTime,
@@ -28,9 +30,11 @@ export const useTimers = ({activity, currentActivity, onActivityStart, onActivit
             replaceMetaThemeColor(activity.color);
             setIsLoading(false);
             setRefPath(refPath);
+                    setLogs(prev => [...prev, { m: "onStartTick", ref, data }]);
         }).catch(error => {
             alert(`Error adding data: ${error.message}`);
             setIsLoading(false);
+                    setLogs(prev => [...prev, { m: "error", error }]);
         });
     }, [activity]);
 
@@ -41,13 +45,14 @@ export const useTimers = ({activity, currentActivity, onActivityStart, onActivit
         localStorage.removeItem('currentActivity');
 
         const ref = getRefByPath(refPath);
-
+        setLogs(prev => [...prev, { m: "onEndTick", ref, refPath, activity }]);
         updateActivityData(ref, {
             name: activity.name,
             end: new Date().getTime()
         })
             .then(() => setUpdateCount(prev => prev + 1))
             .catch(error => {
+                        setLogs(prev => [...prev, { m: "error", error }]);
                 alert(`Error updating data: ${error.message}`);
             })
     }, [activity.name, refPath]);
