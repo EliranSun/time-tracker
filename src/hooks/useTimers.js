@@ -76,5 +76,6 @@ export const useTimers = ({activity, currentActivity, onActivityStart, onActivit
         toggle: activityToggle,
         count: updateCount,
         isLoading,
+        logs
     };
 }
