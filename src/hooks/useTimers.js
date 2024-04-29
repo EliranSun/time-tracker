@@ -45,10 +45,11 @@ export const useTimers = ({activity, currentActivity, onActivityStart, onActivit
         localStorage.removeItem('currentActivity');
 
         const ref = getRefByPath(refPath);
-        setLogs(prev => [...prev, { m: "onEndTick", refPath, activity }]);
+        const endTime = new Date().getTime();
+        setLogs(prev => [...prev, { m: "onEndTick", refPath, activity, endTime }]);
         updateActivityData(ref, {
             name: activity.name,
-            end: new Date().getTime()
+            end: endTime
         })
             .then(() => setUpdateCount(prev => prev + 1))
             .catch(error => {
