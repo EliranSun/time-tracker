@@ -86,7 +86,9 @@ export const ActivityView = ({
                     console.log("Toggle");
                     toggle();
                 }}>
-                <button onClick={() => alert(JSON.stringify(logs))}>
+                <button 
+                    className="fixed z-20 top-0 inset-x-0"
+                    onClick={() => alert(JSON.stringify(logs))}>
                     logs
                 </button>
                 <ActivitiesDungeonMap
