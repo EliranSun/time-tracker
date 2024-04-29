@@ -41,19 +41,34 @@ export const useTimers = ({activity, currentActivity, onActivityStart, onActivit
     const onStopTick = useCallback(() => {
         onActivityEnd();
         replaceMetaThemeColor(getAppBackgroundColor());
-
-        localStorage.removeItem('currentActivity');
-
-        const ref = getRefByPath(refPath);
+        
+        let storedActivity = {};
+        try {
+            storedActivity = JSON.parse(localStorage.getItem("currentActivity"));
+        } catch (error) {
+            setLogs(prev => [...prev, { m: "error", error }]);
+        }
+        
+        const ref = getRefByPath(refPath || storedActivity.refPath);
         const endTime = new Date().getTime();
-        setLogs(prev => [...prev, { m: "onEndTick", refPath, activity, endTime }]);
+                setLogs(prev => [...prev, { m: "onEndTick", refPath, activity, storedActivity, endTime }]);
+                
+        if (!refPath) {
+            setLogs(prev => [...prev, { m: "error", "no ref path found" }]);
+            alert(`No ref path found: ${refPath}. aborting update`);
+            return;
+        }
+
         updateActivityData(ref, {
             name: activity.name,
             end: endTime
         })
-            .then(() => setUpdateCount(prev => prev + 1))
+            .then(() => {
+                setUpdateCount(prev => prev + 1);
+                localStorage.removeItem('currentActivity');
+            })
             .catch(error => {
-                        setLogs(prev => [...prev, { m: "error", error }]);
+                setLogs(prev => [...prev, { m: "error", error }]);
                 alert(`Error updating data: ${error.message}`);
             })
     }, [activity.name, refPath]);
