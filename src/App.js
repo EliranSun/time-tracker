@@ -101,7 +101,8 @@ function App() {
         <ActivitiesProvider>
             <div id="dialog-root"/>
             <section className="overflow-hidden text-black dark:text-white">
-                {view === Views.GRAVITY ? <GravitySimulationView/> : null}
+                {view === Views.GRAVITY 
+                    ? <GravitySimulationView counter={counter}/> : null}
                 {view === Views.HOMEPAGE ? (
                     <div className="m-auto flex flex-col items-center justify-start">
                         <ActivityView
