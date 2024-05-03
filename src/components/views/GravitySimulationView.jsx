@@ -1,7 +1,7 @@
 import React, {useRef, useCallback} from 'react';
 import Matter from 'matter-js';
 
-const GravitySimulation = () => {
+const GravitySimulation = ({ counter }) => {
     // Ref for the container to add the divs
     const sceneRef = useRef(null);
     const engineRef = useRef(Matter.Engine.create());
