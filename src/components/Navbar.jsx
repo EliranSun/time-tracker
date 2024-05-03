@@ -1,4 +1,13 @@
-import {ChartBar, House, Lock, LockOpen, YinYang, ClockCounterClockwise, CalendarDots} from "@phosphor-icons/react";
+import {
+    ChartBar,
+    House,
+    Lock,
+    LockOpen,
+    YinYang,
+    ClockCounterClockwise,
+    CalendarDots,
+    HourglassHigh
+} from "@phosphor-icons/react";
 import classNames from "classnames";
 import {useMemo} from "react";
 import {Views} from "../App";
@@ -112,6 +121,10 @@ export const Navbar = ({
                 <CalendarDots
                     size={32}
                     onClick={() => window.history.pushState({}, "", `/stats/activity/${activity.name.toLowerCase()}`)}
+                    className="cursor-pointer"/>
+                <HourglassHigh
+                    size={32}
+                    onClick={() => window.history.pushState({}, "", "/gravity")}
                     className="cursor-pointer"/>
             </NavbarStyle>
         </>
