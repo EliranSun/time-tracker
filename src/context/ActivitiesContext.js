@@ -1,7 +1,6 @@
-import {createContext, useEffect, useState} from "react";
+import {createContext, useEffect, useState, useCallback} from "react";
 import {getAllDocsInActivity} from "../utils/db";
 import {Activities} from "../constants/activities";
-import {noop} from "lodash";
 
 export const ActivitiesContext = createContext(
     {
@@ -11,15 +10,17 @@ export const ActivitiesContext = createContext(
 
 export const ActivitiesProvider = ({children}) => {
     const [activities, setAllActivities] = useState([]);
-    const fetch = noop;
-
-    useEffect(() => {
+    const fetch = useCallback(() => {
         Promise
             .all(Activities.map(activity => getAllDocsInActivity(activity.name)))
             .then(results => {
                 setAllActivities(results);
             });
-    }, [fetch]);
+    }, []);
+
+    useEffect(() => {
+        fetch();
+    }, []);
 
     return (
         <ActivitiesContext.Provider value={{activities, fetch}}>
