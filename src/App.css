@@ -1,17 +1,4 @@
 body, html {
-    /*background-color: #ededed;*/
+    background-color: #282c34;
     overflow: hidden;
-}
-
-/* dark mode */
-@media (prefers-color-scheme: dark) {
-    body, html {
-        /*background-color: #282c34;*/
-    }
-}
-
-.text-rainbow-gradiant {
-    background: linear-gradient(90deg, #6ee7b7, #3b82f6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }

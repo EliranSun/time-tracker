@@ -66,14 +66,13 @@ export const useTimers = ({activity, currentActivity, onActivityStart, onActivit
             .then(() => {
                 setUpdateCount(prev => prev + 1);
                 localStorage.removeItem('currentActivity');
+                onActivityEnd();
+                replaceMetaThemeColor(getAppBackgroundColor());
+                fetch();
             })
             .catch(error => {
                 setLogs(prev => [...prev, {m: "error", error}]);
                 alert(`Error updating data: ${error.message}`);
-
-                onActivityEnd();
-                replaceMetaThemeColor(getAppBackgroundColor());
-                fetch();
             })
             .finally(() => {
                 setIsLoading(false);

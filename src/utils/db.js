@@ -32,10 +32,19 @@ export const db = getFirestore(app);
 export const addActivityData = async (activity) => {
     return await addDoc(collection(db, `activities/${activity.name}/data`), activity);
 };
+
+const mockTime = () => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, 1000);
+    });
+}
+
 export const updateActivityData = async (ref, activity) => {
     if (process.env.REACT_APP_ENABLE_MOCK === "true") {
         console.warn("updateActivityData - mock enabled");
-        return;
+        return await mockTime();
     }
 
     return await updateDoc(ref, activity);

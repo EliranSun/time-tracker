@@ -10,6 +10,7 @@ import {ActivityCalendarView} from "./components/views/ActivityCalendarView";
 import GravitySimulationView from "./components/views/GravitySimulationView";
 import {ActivitiesFilterProvider} from "./context/ActivitiesFilterContext";
 import {getAppBackgroundColor} from "./utils/colors";
+import {readableColor} from "polished";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }}
 export const Views = {
@@ -101,8 +102,11 @@ function App() {
     return (
         <ActivitiesProvider>
             <section
-                style={{backgroundColor: getAppBackgroundColor()}}
-                className="overflow-hidden text-black dark:text-white h-screen">
+                className="overflow-hidden text-black dark:text-white h-screen"
+                style={{
+                    color: readableColor(currentActivity.name === activity.name ? activity.color : getAppBackgroundColor()),
+                    backgroundColor: getAppBackgroundColor()
+                }}>
                 <div id="dialog-root"/>
                 {view === Views.GRAVITY
                     ? <GravitySimulationView counter={counter}/> : null}

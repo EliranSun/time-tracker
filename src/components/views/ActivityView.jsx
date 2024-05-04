@@ -78,19 +78,12 @@ export const ActivityView = ({
         <>
             <div
                 {...swipeHandlers}
+                onDoubleClick={toggle}
+                style={{color: textColor}}
                 className={classNames("select-none", {
                     "mt-0 h-[90vh] flex items-start justify-center": isZenMode,
                     "mt-28 m-auto": !isZenMode
-                })}
-                onDoubleClick={toggle}
-                onKeyDown={(event) => {
-                    const isEnterKey = event.key === "Enter";
-                    if (!isEnterKey)
-                        return;
-
-                    console.log("Toggle");
-                    toggle();
-                }}>
+                })}>
                 <button
                     className="fixed z-20 top-0 inset-x-0 text-xs"
                     onClick={() => alert(JSON.stringify(logs, null, 2))}>
@@ -112,16 +105,17 @@ export const ActivityView = ({
                         <div className="flex flex-col items-center">
                             {isLoading
                                 ? <Spinner
-                                    color={activity.color}
+                                    color={textColor}
                                     size={80}
                                     className="animate-spin"/>
                                 : <Icon
                                     onClick={() => setIsAddEntryView(!isAddEntryView)}
                                     size={80}/>}
-                            <p className={classNames("break-words w-96 text-center overflow-hidden", {
-                                "font-mono tracking-tighter font-extrabold h-full text-7xl mb-10": isZenMode,
-                                "tracking-wide leading-tight font-extralight h-fit text-8xl": !isZenMode
-                            })}>
+                            <p
+                                className={classNames("break-words w-96 text-center overflow-hidden", {
+                                    "font-mono tracking-tighter font-extrabold h-full text-7xl mb-10": isZenMode,
+                                    "tracking-wide leading-tight font-extralight h-fit text-8xl": !isZenMode
+                                })}>
                                 {isZenMode
                                     ? activity.name.toUpperCase()
                                     : activity.name}
