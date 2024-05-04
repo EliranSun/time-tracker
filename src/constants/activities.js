@@ -169,7 +169,7 @@ const ActivitiesEnum = {
     Read: "Read",
     OP: "OP",
     Media: "Media",
-    Sleep: "Sleep",
+    Spur: "Spur",
     Games: "Games",
     Gym: "Gym",
 }
@@ -178,7 +178,7 @@ export const PageMazeMap = {
     Unity: {
         Up: ActivitiesEnum.Atly,
         Down: ActivitiesEnum.Creative,
-        Left: ActivitiesEnum.Sleep,
+        Left: ActivitiesEnum.Spur,
         Right: ActivitiesEnum.Dates
     },
     Creative: {
@@ -215,7 +215,7 @@ export const PageMazeMap = {
         Up: ActivitiesEnum.OP,
         Down: ActivitiesEnum.Media,
         Left: ActivitiesEnum.Dates,
-        Right: ActivitiesEnum.Sleep,
+        Right: ActivitiesEnum.Spur,
     },
     OP: {
         Up: ActivitiesEnum.Media,
@@ -229,21 +229,21 @@ export const PageMazeMap = {
         Left: ActivitiesEnum.Pets,
         Right: ActivitiesEnum.Games,
     },
-    Sleep: {
+    Spur: {
         Up: ActivitiesEnum.Gym,
         Down: ActivitiesEnum.Games,
         Left: ActivitiesEnum.Read,
         Right: ActivitiesEnum.Unity,
     },
     Games: {
-        Up: ActivitiesEnum.Sleep,
+        Up: ActivitiesEnum.Spur,
         Down: ActivitiesEnum.Gym,
         Left: ActivitiesEnum.Media,
         Right: ActivitiesEnum.Creative,
     },
     Gym: {
         Up: ActivitiesEnum.Games,
-        Down: ActivitiesEnum.Sleep,
+        Down: ActivitiesEnum.Spur,
         Left: ActivitiesEnum.OP,
         Right: ActivitiesEnum.Atly,
     },
