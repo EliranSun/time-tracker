@@ -23,23 +23,69 @@ import {
 
 export const ACTIVITY_MINIMUM_TIME = 2 * 60 * 1000;
 
-export const Colors = {
-    IMPERIAL_RED: "#f94144",
-    ORANGE: "#f3722c",
-    CARROT_ORANGE: "#F8961E",
 
-    CORAL: "#FFB300",
-    SAFFRON: "#f9c74f",
-    PISTACHIO: "#90be6d",
-
-    ZOMP: "#43aa8b",
-    DARK_CYAN: "#4d908e",
-    DEEP_BLUE: "#277da1",
-
-    MOUNTBATTEN_PINK: "#9A7197",
-    PLUM: "#9B5094",
-    RED_VIOLET: "#C71585",
+export const ColorNames = {
+    IMPERIAL_RED: "IMPERIAL_RED",
+    ORANGE: "ORANGE",
+    CARROT_ORANGE: "CARROT_ORANGE",
+    SELECTIVE_YELLOW: "SELECTIVE_YELLOW",
+    SAFFRON: "SAFFRON",
+    PISTACHIO: "PISTACHIO",
+    ZOMP: "ZOMP",
+    DARK_CYAN: "DARK_CYAN",
+    DEEP_BLUE: "DEEP_BLUE",
+    MOUNTBATTEN_PINK: "MOUNTBATTEN_PINK",
+    PLUM: "PLUM",
+    RED_VIOLET: "RED_VIOLET",
 };
+
+export const Colors = {
+    [ColorNames.IMPERIAL_RED]: {value: "#f94144", order: 1, isBlocked: false},
+    [ColorNames.ORANGE]: {value: "#f3722c", order: 5, isBlocked: true},
+    [ColorNames.CARROT_ORANGE]: {value: "#F8961E", order: 9, isBlocked: true},
+    [ColorNames.SELECTIVE_YELLOW]: {
+        value: "#FFB300",
+        order: 2,
+        isBlocked: false,
+        tags: ["optimism", "creativity", "clarity", "attention", "energy"],
+    },
+    [ColorNames.SAFFRON]: {
+        value: "#f9c74f",
+        order: 6,
+        isBlocked: true,
+        tags: ["luxury", "wealth", "spirituality", "tradition"]
+    },
+    [ColorNames.PISTACHIO]: {
+        value: "#90be6d",
+        order: 10,
+        isBlocked: true,
+        tags: ["freshness", "imagination", "renewal", "balance"]
+    },
+    [ColorNames.ZOMP]: {
+        value: "#43aa8b",
+        order: 3,
+        isBlocked: false,
+        tags: ["calmness", "environment", "balance", "reliability"]
+    },
+    [ColorNames.DARK_CYAN]: {
+        value: "#4d908e",
+        order: 7,
+        isBlocked: true,
+        tags: ["calmness", "environment", "depth", "elegance"]
+    },
+    [ColorNames.DEEP_BLUE]: {
+        isBlocked: true, value: "#277da1", order: 11, tags: ["knowledge", "authority", "wisdom", "confidence"]
+    },
+    [ColorNames.MOUNTBATTEN_PINK]: {value: "#9A7197", order: 4, isBlocked: false},
+    [ColorNames.PLUM]: {value: "#9B5094", order: 8, isBlocked: true},
+    [ColorNames.RED_VIOLET]: {value: "#C71585", order: 12, isBlocked: true},
+};
+
+/*
+*   IMPERIAL_RED  |  CORAL    |  ZOMP     |  MOUNTBATTEN_PINK
+*   ORANGE        | SAFFRON   | DARK_CYAN | PLUM
+*   CARROT_ORANGE | PISTACHIO | DEEP_BLUE | RED_VIOLET
+* */
 
 const ActivityColors = {
     Unity: Colors.IMPERIAL_RED,
@@ -172,79 +218,80 @@ const ActivitiesEnum = {
     Spur: "Spur",
     Games: "Games",
     Gym: "Gym",
-}
+};
+
 // four directional "map"
-export const PageMazeMap = {
-    Unity: {
-        Up: ActivitiesEnum.Atly,
-        Down: ActivitiesEnum.Creative,
-        Left: ActivitiesEnum.Spur,
-        Right: ActivitiesEnum.Dates
+export const ActivitiesColorsMazeMap = {
+    [ColorNames.IMPERIAL_RED]: {
+        Up: ColorNames.CARROT_ORANGE,
+        Down: ColorNames.ORANGE,
+        Left: ColorNames.MOUNTBATTEN_PINK,
+        Right: ColorNames.SELECTIVE_YELLOW
     },
-    Creative: {
-        Up: ActivitiesEnum.Unity,
-        Down: ActivitiesEnum.Atly,
-        Left: ActivitiesEnum.Games,
-        Right: ActivitiesEnum.Pets
+    [ColorNames.ORANGE]: {
+        Up: ColorNames.IMPERIAL_RED,
+        Down: ColorNames.CARROT_ORANGE,
+        Left: ColorNames.PLUM,
+        Right: ColorNames.SAFFRON,
     },
-    Atly: {
-        Up: ActivitiesEnum.Creative,
-        Down: ActivitiesEnum.Unity,
-        Left: ActivitiesEnum.Gym,
-        Right: ActivitiesEnum.People
+    [ColorNames.CARROT_ORANGE]: {
+        Up: ColorNames.ORANGE,
+        Down: ColorNames.IMPERIAL_RED,
+        Left: ColorNames.RED_VIOLET,
+        Right: ColorNames.PISTACHIO,
     },
-    Dates: {
-        Up: ActivitiesEnum.People,
-        Down: ActivitiesEnum.Pets,
-        Left: ActivitiesEnum.Unity,
-        Right: ActivitiesEnum.Read,
+    [ColorNames.SELECTIVE_YELLOW]: {
+        Up: ColorNames.PISTACHIO,
+        Down: ColorNames.SAFFRON,
+        Left: ColorNames.IMPERIAL_RED,
+        Right: ColorNames.ZOMP,
     },
-    Pets: {
-        Up: ActivitiesEnum.Dates,
-        Down: ActivitiesEnum.People,
-        Left: ActivitiesEnum.Creative,
-        Right: ActivitiesEnum.Media,
+    [ColorNames.SAFFRON]: {
+        Up: ColorNames.SELECTIVE_YELLOW,
+        Down: ColorNames.PISTACHIO,
+        Left: ColorNames.ORANGE,
+        Right: ColorNames.DARK_CYAN,
     },
-    People: {
-        Up: ActivitiesEnum.Pets,
-        Down: ActivitiesEnum.Dates,
-        Left: ActivitiesEnum.Atly,
-        Right: ActivitiesEnum.OP,
+    [ColorNames.PISTACHIO]: {
+        Up: ColorNames.SAFFRON,
+        Down: ColorNames.SELECTIVE_YELLOW,
+        Left: ColorNames.CARROT_ORANGE,
+        Right: ColorNames.DEEP_BLUE,
     },
-    Read: {
-        Up: ActivitiesEnum.OP,
-        Down: ActivitiesEnum.Media,
-        Left: ActivitiesEnum.Dates,
-        Right: ActivitiesEnum.Spur,
+    [ColorNames.ZOMP]: {
+        Up: ColorNames.DEEP_BLUE,
+        Down: ColorNames.DARK_CYAN,
+        Left: ColorNames.SELECTIVE_YELLOW,
+        Right: ColorNames.MOUNTBATTEN_PINK,
     },
-    OP: {
-        Up: ActivitiesEnum.Media,
-        Down: ActivitiesEnum.Read,
-        Left: ActivitiesEnum.People,
-        Right: ActivitiesEnum.Gym,
+    [ColorNames.DARK_CYAN]: {
+        Up: ColorNames.ZOMP,
+        Down: ColorNames.DEEP_BLUE,
+        Left: ColorNames.SAFFRON,
+        Right: ColorNames.PLUM,
     },
-    Media: {
-        Up: ActivitiesEnum.Read,
-        Down: ActivitiesEnum.OP,
-        Left: ActivitiesEnum.Pets,
-        Right: ActivitiesEnum.Games,
+    [ColorNames.DEEP_BLUE]: {
+        Up: ColorNames.DARK_CYAN,
+        Down: ColorNames.ZOMP,
+        Left: ColorNames.PISTACHIO,
+        Right: ColorNames.RED_VIOLET,
     },
-    Spur: {
-        Up: ActivitiesEnum.Gym,
-        Down: ActivitiesEnum.Games,
-        Left: ActivitiesEnum.Read,
-        Right: ActivitiesEnum.Unity,
+    [ColorNames.MOUNTBATTEN_PINK]: {
+        Up: ColorNames.RED_VIOLET,
+        Down: ColorNames.PLUM,
+        Left: ColorNames.ZOMP,
+        Right: ColorNames.IMPERIAL_RED,
     },
-    Games: {
-        Up: ActivitiesEnum.Spur,
-        Down: ActivitiesEnum.Gym,
-        Left: ActivitiesEnum.Media,
-        Right: ActivitiesEnum.Creative,
+    [ColorNames.PLUM]: {
+        Up: ColorNames.MOUNTBATTEN_PINK,
+        Down: ColorNames.RED_VIOLET,
+        Left: ColorNames.DARK_CYAN,
+        Right: ColorNames.ORANGE,
     },
-    Gym: {
-        Up: ActivitiesEnum.Games,
-        Down: ActivitiesEnum.Spur,
-        Left: ActivitiesEnum.OP,
-        Right: ActivitiesEnum.Atly,
+    [ColorNames.RED_VIOLET]: {
+        Up: ColorNames.PLUM,
+        Down: ColorNames.MOUNTBATTEN_PINK,
+        Left: ColorNames.DEEP_BLUE,
+        Right: ColorNames.CARROT_ORANGE,
     },
 };

@@ -1,12 +1,13 @@
-import {Activities} from "../constants/activities";
+// import {Activities} from "../constants/activities";
 import classNames from "classnames";
 import {Icon} from "./Icon";
-import {useOldestActivity} from "../hooks/useOldestActivity";
+import {Wall} from "@phosphor-icons/react";
+// import {useOldestActivity} from "../hooks/useOldestActivity";
 
 const GOLD = "#FFBF00";
 
-export const ActivitiesDungeonMap = ({activePage, isZenMode}) => {
-    const oldestActivityName = useOldestActivity();
+export const ActivitiesDungeonMap = ({activePage, isZenMode, oldestActivityName, activities = []}) => {
+    // const oldestActivityName = useOldestActivity();
 
     if (isZenMode) {
         return null;
@@ -15,7 +16,7 @@ export const ActivitiesDungeonMap = ({activePage, isZenMode}) => {
     return (
         <div className="relative z-20 flex justify-center w-screen">
             <div className="grid grid-cols-4 grid-rows-3 gap-1">
-                {Activities.map(activity => {
+                {activities.map(activity => {
                     const isActive = activePage?.toLowerCase() === activity.name?.toLowerCase();
                     const isGolden = oldestActivityName === activity.name;
 
@@ -32,7 +33,7 @@ export const ActivitiesDungeonMap = ({activePage, isZenMode}) => {
                             <Icon
                                 color={isGolden ? GOLD : undefined}
                                 weight={isGolden ? "fill" : "regular"}
-                                name={activity.icon}/>
+                                name={activity.isBlocked ? Wall : activity.icon}/>
                         </span>
                     );
                 })}

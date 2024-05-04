@@ -14,7 +14,7 @@ import {
 import {initializeApp} from "firebase/app";
 import {Activities} from "../constants/activities";
 import allActivitiesMock from "../mocks/all-activities.json";
-import {flatten} from "lodash";
+import {getAuth, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -28,25 +28,43 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const auth = getAuth(app);
+
+export const signInWithGoogle = async () => {
+    const userCred = await signInWithPopup(auth, new GoogleAuthProvider())
+    return userCred.user;
+};
+
+// TODO: This is a global variable and should be refactored
+let userId;
+
+export const setUserDoc = async (user) => {
+    const userRef = doc(db, `users/${user.uid}`);
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+        userId = user.uid;
+        await setDoc(userRef, {
+            email: user.email,
+            name: user.displayName,
+            photoUrl: user.photoURL,
+            uid: user.uid,
+        });
+    }
+};
 
 export const addActivityData = async (activity) => {
-    return await addDoc(collection(db, `activities/${activity.name}/data`), activity);
+    return await addDoc(collection(db, `users/${userId}/activities/${activity.name}/data`), activity);
 };
 export const updateActivityData = async (ref, activity) => {
-    if (process.env.REACT_APP_ENABLE_MOCK === "true") {
-        console.warn("updateActivityData - mock enabled");
-        return;
-    }
-    
+    // if (process.env.REACT_APP_ENABLE_MOCK === "true") {
+    //     console.warn("updateActivityData - mock enabled");
+    //     return;
+    // }
+
     return await updateDoc(ref, activity);
-}
-export const setCurrentActivityDoc = async (activity) => {
-    return await setDoc(doc(db, 'currentActivity', 'activity'), activity);
 };
 
-export const getCurrentActivityDoc = () => {
-    return getDoc(doc(db, 'currentActivity', 'activity'));
-};
 
 export const getRefByPath = (path) => {
     return doc(db, path);
@@ -56,7 +74,7 @@ export async function getNewestInEachActivity() {
     const newestActivitiesData = [];
 
     for (const activity of Activities) {
-        const dataCollectionRef = collection(db, `activities/${activity.name}/data`);
+        const dataCollectionRef = collection(db, `users/${userId}/activities/${activity.name}/data`);
         const q = query(dataCollectionRef, orderBy("end", "desc"), limit(1));
         const dataSnapshot = await getDocs(q);
 
@@ -72,15 +90,26 @@ export async function getNewestInEachActivity() {
     return newestActivitiesData;
 }
 
+export const getUserActivities = async () => {
+    const activities = [];
+
+    const querySnapshot = await getDocs(collection(db, `users/${userId}/activities`));
+    querySnapshot.forEach((doc) => {
+        activities.push(doc.data());
+    });
+
+    return activities;
+};
+
 export const getAllDocsInActivity = async (activityName) => {
     const data = [];
 
-    if (localStorage.getItem('mock') === 'true' || process.env.REACT_APP_ENABLE_MOCK === "true") {
-        return allActivitiesMock.find(activity => activity.find(a => a.name === activityName));
-    }
+    // if (localStorage.getItem('mock') === 'true' || process.env.REACT_APP_ENABLE_MOCK === "true") {
+    //     return allActivitiesMock.find(activity => activity.find(a => a.name === activityName));
+    // }
 
     // TODO: This is O(n) and should be O(1)
-    const querySnapshot = await getDocs(collection(db, `activities/${activityName}/data`));
+    const querySnapshot = await getDocs(collection(db, `users/${userId}/activities/${activityName}/data`));
     console.warn("getAllDocsInActivity - expensive");
 
     querySnapshot.forEach((doc) => {
@@ -98,7 +127,7 @@ export const updateActivityTimeById = async (activityName, docId, data) => {
         throw new Error("missing data");
     }
 
-    return await updateDoc(doc(db, `activities/${activityName}/data/${docId}`), {
+    return await updateDoc(doc(db, `users/${userId}/activities/${activityName}/data/${docId}`), {
         start: data.start,
         end: data.end,
     });

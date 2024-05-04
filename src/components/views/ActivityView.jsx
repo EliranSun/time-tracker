@@ -1,8 +1,8 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 import classNames from "classnames";
 import {Block} from "../Block";
 import {getAppBackgroundColor, replaceMetaThemeColor} from "../../utils/colors";
-import {useActivityData} from "../../hooks/useActivityData";
+// import {useActivityData} from "../../hooks/useActivityData";
 import {StartTimeCounter} from "../StartTimeCounter";
 import {usePageSwipe} from "../../hooks/usePageSwipe";
 import {ActivityDataSection} from "../organisms/ActivityDataSection";
@@ -12,6 +12,7 @@ import {ActivitiesDungeonMap} from "../ActivitiesDungeonMap";
 import {Spinner} from "@phosphor-icons/react";
 import {useTimers} from "../../hooks/useTimers";
 import {BackgroundColorOverlay} from "../atoms/BackgroundColorOverlay";
+import {ActivitiesContext} from "../../context/ActivitiesContext";
 
 const TEN_MINUTES = 10 * 60 * 1000;
 
@@ -24,8 +25,9 @@ export const ActivityView = ({
     setActivePage,
     isEditEntryView,
     setIsEditEntryView,
-    activePage
+    activePage,
 }) => {
+    const [allActivities] = useContext(ActivitiesContext);
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
     const textColor = readableColor(currentActivity.name === activity.name ? activity.color : getAppBackgroundColor());
@@ -35,7 +37,15 @@ export const ActivityView = ({
         onActivityStart,
         onActivityEnd,
     });
-    const activitiesData = useActivityData({name: activity.name, dependencies: [count]});
+
+    const activitiesData = useMemo(() => {
+        console.log({allActivities});
+        if (allActivities.length === 0) {
+            return [];
+        }
+
+        return allActivities.find(activities => activities[0].name === activity.name);
+    }, [allActivities, activity.name]);
 
     useEffect(() => {
         const isCurrentActivityCounterActive = currentActivity.name !== activity.name;
