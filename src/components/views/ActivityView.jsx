@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
 import classNames from "classnames";
 import {Block} from "../Block";
 import {getAppBackgroundColor, replaceMetaThemeColor} from "../../utils/colors";
@@ -12,6 +12,7 @@ import {ActivitiesDungeonMap} from "../ActivitiesDungeonMap";
 import {Spinner} from "@phosphor-icons/react";
 import {useTimers} from "../../hooks/useTimers";
 import {BackgroundColorOverlay} from "../atoms/BackgroundColorOverlay";
+import {ActivitiesContext} from "../../context/ActivitiesContext";
 
 const TEN_MINUTES = 10 * 60 * 1000;
 
@@ -26,6 +27,7 @@ export const ActivityView = ({
     setIsEditEntryView,
     activePage
 }) => {
+    const {activities} = useContext(ActivitiesContext);
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
     const textColor = readableColor(currentActivity.name === activity.name ? activity.color : getAppBackgroundColor());
@@ -35,7 +37,10 @@ export const ActivityView = ({
         onActivityStart,
         onActivityEnd,
     });
-    const activitiesData = useActivityData({name: activity.name, dependencies: [count]});
+
+    const activitiesData = activities.find(entries => {
+        return entries.some(entry => entry.name === activity.name);
+    }) || [];
 
     useEffect(() => {
         const isCurrentActivityCounterActive = currentActivity.name !== activity.name;
@@ -86,8 +91,8 @@ export const ActivityView = ({
                     console.log("Toggle");
                     toggle();
                 }}>
-                <button 
-                    className="fixed z-20 top-0 inset-x-0"
+                <button
+                    className="fixed z-20 top-0 inset-x-0 text-xs"
                     onClick={() => alert(JSON.stringify(logs, null, 2))}>
                     logs
                 </button>

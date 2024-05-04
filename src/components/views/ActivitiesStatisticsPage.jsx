@@ -13,10 +13,10 @@ import {useTimeSum} from "../../hooks/useActivitiesByView";
 export const ActivitiesStatisticsPage = () => {
     const [timeFrame, setTimeFrame] = useState(0);
     const [dateFrame, setDateFrame] = useState(Timeframes.DAY);
-    const [allActivitiesData] = useContext(ActivitiesContext);
+    const {activities} = useContext(ActivitiesContext);
     const {timeFrameName} = useTimeAndDateFrame(timeFrame, dateFrame);
     const [viewName, setViewName] = useState(ViewTypes.AGGREGATE);
-    const totalTime = useTimeSum({data: allActivitiesData, timeFrame, dateFrame});
+    const totalTime = useTimeSum({data: activities, timeFrame, dateFrame});
 
     return (
         <>
@@ -28,7 +28,7 @@ export const ActivitiesStatisticsPage = () => {
                     onChangeView={setViewName}/>
                 <div className="h-[84vh] flex flex-col justify-between">
                     <ActivitiesStatisticsView
-                        items={allActivitiesData}
+                        items={activities}
                         timeFrame={timeFrame}
                         dateFrame={dateFrame}
                         viewName={viewName}/>

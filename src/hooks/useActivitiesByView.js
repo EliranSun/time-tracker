@@ -39,11 +39,14 @@ const getCompletedItemsInActivityInScope = (allActivityData = [], dateFrame, tim
     });
 };
 
-export function useActivitiesByColorOrder({allActivitiesData, dateFrame, timeFrame}) {
+export function useActivitiesByColorOrder({allActivitiesData = [], dateFrame, timeFrame}) {
     return useMemo(() => {
         const data = [];
 
         for (const activityData of allActivitiesData) {
+            if (!activityData || activityData.length === 0)
+                continue;
+
             const completedItems = getCompletedItemsInActivityInScope(activityData, dateFrame, timeFrame);
             const totalTime = completedItems.reduce((acc, item) => acc + item.end - item.start, 0);
             const activity = Activities.find(activity => activity.name === activityData[0].name);
@@ -66,6 +69,9 @@ export function useActivitiesByTime({allActivitiesData, dateFrame, timeFrame}) {
         const data = [];
 
         for (const activityData of allActivitiesData) {
+            if (!activityData || activityData.length === 0)
+                continue;
+
             // all X activity items
             const completedItems = getCompletedItemsInActivityInScope(activityData, dateFrame, timeFrame);
             if (completedItems.length > 0) {

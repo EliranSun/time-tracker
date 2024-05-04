@@ -9,6 +9,7 @@ import {ActivitiesProvider} from "./context/ActivitiesContext";
 import {ActivityCalendarView} from "./components/views/ActivityCalendarView";
 import GravitySimulationView from "./components/views/GravitySimulationView";
 import {ActivitiesFilterProvider} from "./context/ActivitiesFilterContext";
+import {getAppBackgroundColor} from "./utils/colors";
 
 // TODO: Enum for page names + change the mapping to be something like: Unity: { name: "Unity", direction: { ... }}
 export const Views = {
@@ -99,9 +100,11 @@ function App() {
 
     return (
         <ActivitiesProvider>
-            <div id="dialog-root"/>
-            <section className="overflow-hidden text-black dark:text-white">
-                {view === Views.GRAVITY 
+            <section
+                style={{backgroundColor: getAppBackgroundColor()}}
+                className="overflow-hidden text-black dark:text-white h-screen">
+                <div id="dialog-root"/>
+                {view === Views.GRAVITY
                     ? <GravitySimulationView counter={counter}/> : null}
                 {view === Views.HOMEPAGE ? (
                     <div className="m-auto flex flex-col items-center justify-start">
@@ -133,18 +136,18 @@ function App() {
                     : null}
                 {view === Views.ACTIVITY
                     ? <ActivityCalendarView isZenMode={isZenMode} activity={activity}/> : null}
+                <Navbar
+                    activity={activity}
+                    view={view}
+                    setView={setView}
+                    isLocked={isLocked}
+                    isZenMode={isZenMode}
+                    setIsLocked={setIsLocked}
+                    onZenMode={() => setIsZenMode(prev => !prev)}
+                    currentActivity={currentActivity}
+                    onEntryHistoryClick={() => setIsEditEntryView(true)}
+                />
             </section>
-            <Navbar
-                activity={activity}
-                view={view}
-                setView={setView}
-                isLocked={isLocked}
-                isZenMode={isZenMode}
-                setIsLocked={setIsLocked}
-                onZenMode={() => setIsZenMode(prev => !prev)}
-                currentActivity={currentActivity}
-                onEntryHistoryClick={() => setIsEditEntryView(true)}
-            />
         </ActivitiesProvider>
     )
 }

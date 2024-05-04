@@ -12,10 +12,11 @@ import {
     startOfMonth,
     startOfWeek,
 } from 'date-fns';
-import {calcAlphaChannelBasedOnOpacity} from "../../utils/colors";
+import {calcAlphaChannelBasedOnOpacity, getAppBackgroundColor} from "../../utils/colors";
 import {useTimeSwipe} from "../../hooks/useTimeSwipe";
 import classNames from "classnames";
 import {getAllDocsInActivity} from "../../utils/db";
+import {readableColor} from "polished";
 
 function getDaysIncludingWeekends(date) {
     const firstDayOfMonth = startOfMonth(date);
@@ -41,7 +42,8 @@ const Weekdays = [
 export const ActivityCalendarView = ({activity, isZenMode}) => {
     const [dateIndex, setDateIndex] = useState(0);
     const swipeHandlers = useTimeSwipe(setDateIndex);
-    const [allActivitiesData] = useContext(ActivitiesContext);
+    const {activities: allActivitiesData} = useContext(ActivitiesContext);
+    const appBackgroundColor = getAppBackgroundColor();
 
     const activityData = useMemo(() => {
         if (allActivitiesData.length === 0) {
@@ -136,6 +138,7 @@ export const ActivityCalendarView = ({activity, isZenMode}) => {
 
                     const opacity = totalInHours / highestTotalInHours;
                     const alpha = calcAlphaChannelBasedOnOpacity(opacity);
+                    const backgroundColor = `${activity.color}${alpha}`;
 
                     const isEntryToday = isSameDay(new Date(), new Date(year, month, day));
                     const isEntryThisMonth = isSameMonth(selectedMonthDate, new Date(year, month, day));
@@ -143,9 +146,7 @@ export const ActivityCalendarView = ({activity, isZenMode}) => {
                     return (
                         <div
                             key={index + 1}
-                            style={{
-                                backgroundColor: `${activity.color}${alpha}`,
-                            }}
+                            style={{backgroundColor}}
                             className={classNames("w-full text-center h-full rounded-full aspect-square", {
                                 "flex items-center justify-center flex-col text-white px-2": true,
                                 "outline outline-offset-2 outline-4 outline-black": isEntryToday,
@@ -153,7 +154,11 @@ export const ActivityCalendarView = ({activity, isZenMode}) => {
                             })}>
                             {isZenMode ? null :
                                 <>
-                                    <span className="text-xs text-black">{day}</span>
+                                    <span
+                                        className="text-xs"
+                                        style={{color: readableColor(totalInHours === 0 ? appBackgroundColor : backgroundColor)}}>
+                                        {day}
+                                    </span>
                                     <span className="text-sm font-mono">
                                         {getTotalString(totalInHours)}
                                     </span>

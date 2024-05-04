@@ -1,17 +1,19 @@
-import {useCallback, useState} from "react";
+import {useCallback, useContext, useState} from "react";
 import {addActivityData, getRefByPath, updateActivityData} from "../utils/db";
 import {getAppBackgroundColor, replaceMetaThemeColor} from "../utils/colors";
+import {ActivitiesContext} from "../context/ActivitiesContext";
 
 export const useTimers = ({activity, currentActivity, onActivityStart, onActivityEnd}) => {
     const [refPath, setRefPath] = useState("");
     const [updateCount, setUpdateCount] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [logs, setLogs] = useState([]);
-    
+    const {fetch} = useContext(ActivitiesContext)
+
     const onStartTick = useCallback((startTime) => {
         setIsLoading(true);
-        setLogs(prev => [...prev, { m: "onStartTick" }]);
-        
+        setLogs(prev => [...prev, {m: "onStartTick"}]);
+
         addActivityData({
             name: activity.name,
             start: startTime,
@@ -28,33 +30,31 @@ export const useTimers = ({activity, currentActivity, onActivityStart, onActivit
             localStorage.setItem('currentActivity', JSON.stringify(data));
             onActivityStart(data);
             replaceMetaThemeColor(activity.color);
-            setIsLoading(false);
             setRefPath(refPath);
-                    setLogs(prev => [...prev, { m: "onStartTick", data }]);
+            setLogs(prev => [...prev, {m: "onStartTick", data}]);
         }).catch(error => {
             alert(`Error adding data: ${error.message}`);
+            setLogs(prev => [...prev, {m: "error", error}]);
+        }).finally(() => {
             setIsLoading(false);
-                    setLogs(prev => [...prev, { m: "error", error }]);
         });
     }, [activity]);
 
     const onStopTick = useCallback(() => {
-        onActivityEnd();
-        replaceMetaThemeColor(getAppBackgroundColor());
-        
+        setIsLoading(true);
         let storedActivity = {};
         try {
             storedActivity = JSON.parse(localStorage.getItem("currentActivity"));
         } catch (error) {
-            setLogs(prev => [...prev, { m: "error", error }]);
+            setLogs(prev => [...prev, {m: "error", error}]);
         }
-        
+
         const ref = getRefByPath(refPath || storedActivity.refPath);
         const endTime = new Date().getTime();
-                setLogs(prev => [...prev, { m: "onEndTick", refPath, activity, storedActivity, endTime }]);
-                
+        setLogs(prev => [...prev, {m: "onEndTick", refPath, activity, storedActivity, endTime}]);
+
         if (!ref) {
-            setLogs(prev => [...prev, { m: "error, no ref found" }]);
+            setLogs(prev => [...prev, {m: "error, no ref found"}]);
             alert(`No ref found: ${ref}. aborting update`);
             return;
         }
@@ -68,9 +68,16 @@ export const useTimers = ({activity, currentActivity, onActivityStart, onActivit
                 localStorage.removeItem('currentActivity');
             })
             .catch(error => {
-                setLogs(prev => [...prev, { m: "error", error }]);
+                setLogs(prev => [...prev, {m: "error", error}]);
                 alert(`Error updating data: ${error.message}`);
+
+                onActivityEnd();
+                replaceMetaThemeColor(getAppBackgroundColor());
+                fetch();
             })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }, [activity.name, refPath]);
 
     const activityToggle = useCallback(() => {

@@ -37,7 +37,7 @@ export const updateActivityData = async (ref, activity) => {
         console.warn("updateActivityData - mock enabled");
         return;
     }
-    
+
     return await updateDoc(ref, activity);
 }
 export const setCurrentActivityDoc = async (activity) => {
@@ -76,7 +76,8 @@ export const getAllDocsInActivity = async (activityName) => {
     const data = [];
 
     if (localStorage.getItem('mock') === 'true' || process.env.REACT_APP_ENABLE_MOCK === "true") {
-        return allActivitiesMock.find(activity => activity.find(a => a.name === activityName));
+        console.log("Mock fetch!");
+        return allActivitiesMock.find(activity => activity.find(a => a.name === activityName)) || [];
     }
 
     // TODO: This is O(n) and should be O(1)
@@ -90,7 +91,7 @@ export const getAllDocsInActivity = async (activityName) => {
         });
     });
 
-    return data;
+    return data || [];
 };
 
 export const updateActivityTimeById = async (activityName, docId, data) => {
