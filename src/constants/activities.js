@@ -17,7 +17,8 @@ import {
     PuzzlePiece,
     Skull,
     Television,
-    Users
+    Users,
+    PersonSimpleTaiChi
 } from "@phosphor-icons/react";
 
 export const ACTIVITY_MINIMUM_TIME = 2 * 60 * 1000;
@@ -164,8 +165,8 @@ export const Activities = [
     },
     {
         order: 10,
-        name: "Sleep",
-        icon: MoonStars,
+        name: "Spur",
+        icon: PersonSimpleTaiChi,
         color: ActivityColors.Sleep,
         priority: 9,
         data: []
@@ -214,7 +215,7 @@ const ActivitiesEnum = {
     Read: "Read",
     OP: "OP",
     Media: "Media",
-    Sleep: "Sleep",
+    Spur: "Spur",
     Games: "Games",
     Gym: "Gym",
 };

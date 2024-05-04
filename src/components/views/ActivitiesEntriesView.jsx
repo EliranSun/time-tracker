@@ -36,6 +36,8 @@ const Dialog = ({children, onClose}) => {
 
 export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = noop}) => {
     const filtered = useMemo(() => {
+        if (entries.length === 0) return [];
+        
         return entries
             .filter(item =>
                 item.end > 0 &&
@@ -48,8 +50,6 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
         return null;
     }
 
-    const activity = Activities.find(activity => activity.name === entries[0].name);
-
     if (entries.length === 0) {
         return (
             <Dialog onClose={onClose}>
@@ -57,6 +57,8 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
             </Dialog>
         );
     }
+    
+        const activity = Activities.find(activity => activity.name === entries[0].name);
 
     return (
         <Dialog onClose={onClose}>
