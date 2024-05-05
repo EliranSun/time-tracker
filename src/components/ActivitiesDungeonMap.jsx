@@ -2,8 +2,11 @@ import classNames from "classnames";
 import {Icon} from "./Icon";
 import {getAppBackgroundColor} from "../utils/colors";
 import {readableColor} from "polished";
+import {useOldestActivity} from "../hooks/useOldestActivity";
+import {Activities} from "../constants/activities";
 
-export const ActivitiesDungeonMap = ({activePage, isZenMode, oldestActivityName, activities = []}) => {
+export const ActivitiesDungeonMap = ({activePage, isZenMode}) => {
+    const oldestActivityName = useOldestActivity();
     const backgroundColor = getAppBackgroundColor();
 
     if (isZenMode) {
@@ -13,7 +16,7 @@ export const ActivitiesDungeonMap = ({activePage, isZenMode, oldestActivityName,
     return (
         <div className="relative z-20 flex justify-center w-screen">
             <div className="grid grid-cols-4 grid-rows-3 gap-1">
-                {activities.map(activity => {
+                {Activities.map(activity => {
                     const isActive = activePage?.toLowerCase() === activity.name?.toLowerCase();
                     const isHighlighted = oldestActivityName === activity.name;
                     const textColor = readableColor(isActive ? activity.color : backgroundColor);
@@ -28,11 +31,19 @@ export const ActivitiesDungeonMap = ({activePage, isZenMode, oldestActivityName,
                             className={classNames("size-5 flex items-center justify-center p-px", {
                                 "bg-gray-500 text-white dark:bg-white opacity-80": isActive,
                                 "opacity-30": !isActive && !isHighlighted,
-                                "animate-pulse-slow": isHighlighted,
                             })}>
                             <Icon
                                 weight={isHighlighted ? "fill" : "regular"}
-                                name={activity.icon}/>
+                                name={activity.icon}
+                                className={classNames({
+                                    "animate-ping-slow": isHighlighted,
+                                })}/>
+                            {isHighlighted ? // duplicate icon for highlight animation
+                                <span className="absolute">
+                                <Icon
+                                    weight={isHighlighted ? "fill" : "regular"}
+                                    name={activity.icon}/>
+                                </span> : null}
                         </span>
                     );
                 })}
