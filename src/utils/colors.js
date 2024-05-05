@@ -12,8 +12,8 @@ export const replaceMetaThemeColor = (color) => {
 
 export const getAppBackgroundColor = () => {
     const hour = new Date().getHours();
-    const isDarkMode = hour > 6 && hour < 18;
-    return isDarkMode ? "#282c34" : "#ededed";
+    const isDay = hour > 6 && hour < 18;
+    return isDay ? "#ededed" : "#282c34";
 };
 
 export const calcAlphaChannelBasedOnOpacity = (opacity) => {
