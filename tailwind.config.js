@@ -11,6 +11,9 @@ module.exports = {
                     'min-h-md': {'raw': '(min-height: 768px)'},
                     'min-h-lg': {'raw': '(min-height: 1024px)'},
                     'min-h-xl': {'raw': '(min-height: 1280px)'},
+                },
+                animation: {
+                    'pulse-slow': 'pulse 2s infinite',
                 }
             }
         },

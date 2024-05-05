@@ -1,12 +1,10 @@
-import {Activities} from "../constants/activities";
 import classNames from "classnames";
 import {Icon} from "./Icon";
-import {useOldestActivity} from "../hooks/useOldestActivity";
+import {getAppBackgroundColor} from "../utils/colors";
+import {readableColor} from "polished";
 
-const GOLD = "#FFBF00";
-
-export const ActivitiesDungeonMap = ({activePage, isZenMode}) => {
-    const oldestActivityName = useOldestActivity();
+export const ActivitiesDungeonMap = ({activePage, isZenMode, oldestActivityName, activities = []}) => {
+    const backgroundColor = getAppBackgroundColor();
 
     if (isZenMode) {
         return null;
@@ -15,23 +13,25 @@ export const ActivitiesDungeonMap = ({activePage, isZenMode}) => {
     return (
         <div className="relative z-20 flex justify-center w-screen">
             <div className="grid grid-cols-4 grid-rows-3 gap-1">
-                {Activities.map(activity => {
+                {activities.map(activity => {
                     const isActive = activePage?.toLowerCase() === activity.name?.toLowerCase();
-                    const isGolden = oldestActivityName === activity.name;
+                    const isHighlighted = oldestActivityName === activity.name;
+                    const textColor = readableColor(isActive ? activity.color : backgroundColor);
 
                     return (
                         <span
                             key={activity.name}
-                            style={{backgroundColor: isActive ? activity.color : ""}}
+                            style={{
+                                color: textColor,
+                                backgroundColor: isActive ? activity.color : ""
+                            }}
                             className={classNames("size-5 flex items-center justify-center p-px", {
-                                "text-gray-900 dark:text-white": !isActive,
-                                "bg-gray-500 text-white dark:bg-white dark:text-black opacity-80": isActive,
-                                "opacity-30": !isActive && !isGolden,
-                                "outline outline-1 outline-offset-2 outline-yellow-400": isGolden,
+                                "bg-gray-500 text-white dark:bg-white opacity-80": isActive,
+                                "opacity-30": !isActive && !isHighlighted,
+                                "animate-pulse-slow": isHighlighted,
                             })}>
                             <Icon
-                                color={isGolden ? GOLD : undefined}
-                                weight={isGolden ? "fill" : "regular"}
+                                weight={isHighlighted ? "fill" : "regular"}
                                 name={activity.icon}/>
                         </span>
                     );
