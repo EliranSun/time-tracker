@@ -11,12 +11,12 @@ export const replaceMetaThemeColor = (color) => {
 };
 
 export const getAppBackgroundColor = () => {
-    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-    const isDarkMode = prefersDarkScheme.matches;
-
+    const hour = new Date().getHours();
+    const isDarkMode = hour > 6 && hour < 18;
     return isDarkMode ? "#282c34" : "#ededed";
-}
+};
+
 export const calcAlphaChannelBasedOnOpacity = (opacity) => {
     const alpha = Math.round(opacity * 255).toString(16);
     return alpha.length === 1 ? `0${alpha}` : alpha;
-}
+};
