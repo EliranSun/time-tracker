@@ -16,7 +16,9 @@ export const ActivitiesDungeonMap = ({activePage, isZenMode}) => {
     return (
         <div className="relative z-20 flex justify-center w-screen">
             <div className="grid grid-cols-4 grid-rows-3 gap-1">
-                {Activities.map(activity => {
+                {Activities
+                    .filter(activity => !activity.isArchived)
+                    .map(activity => {
                     const isActive = activePage?.toLowerCase() === activity.name?.toLowerCase();
                     const isHighlighted = oldestActivityName === activity.name;
                     const textColor = readableColor(isActive ? activity.color : backgroundColor);
