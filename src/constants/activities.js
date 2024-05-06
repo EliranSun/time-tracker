@@ -126,6 +126,14 @@ export const Activities = [
         data: []
     },
     {
+        order: 10,
+        name: "Sleep",
+        icon: MoonStars,
+        color: ActivityColors.Sleep,
+        priority: 9,
+        data: []
+    },
+    {
         order: 2,
         name: "Creative",
         icon: PaintBrush,
