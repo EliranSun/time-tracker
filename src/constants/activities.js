@@ -131,6 +131,7 @@ export const Activities = [
         icon: MoonStars,
         color: ActivityColors.Sleep,
         priority: 9,
+        isArchived: true,
         data: []
     },
     {
