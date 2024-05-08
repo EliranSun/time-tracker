@@ -45,7 +45,7 @@ export const getTimeString = (activityTotalTime, timeFrame = Timeframes.DAY) => 
     const minutes = (activityTotalTime / 1000 / 60 % 60); // get the remainder of the hours
 
     const roundedHours = Math.floor(hours);
-    const roundedMinutes = Math.round(round(minutes, -1)); // round to the nearest 10
+    const roundedMinutes = Math.round(minutes);
 
     if (activityTotalTime === 0) {
         return "";
