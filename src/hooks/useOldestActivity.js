@@ -11,14 +11,16 @@ export const useOldestActivity = () => {
     useEffect(() => {
         getNewestInEachActivity()
             .then(results => {
-                const oldestActivity = results.sort((a, b) => a.lastEntryTimestamp - b.lastEntryTimestamp)[0];
+                const oldestActivities = results.sort((a, b) => a.lastEntryTimestamp - b.lastEntryTimestamp)
+                alert(JSON.stringify(oldestActivities));
+                const oldestActivity = oldestActivity[0];
                 const oldestActivityName = oldestActivity?.name;
                 setOldestActivityName(oldestActivityName);
                 localStorage.setItem(OLDEST_ACTIVITY_KEY, oldestActivityName);
                 return oldestActivityName;
             })
             .catch(error => {
-                console.error(error);
+                alert(error.message);
                 const result = Activities[random(0, Activities.length - 1)]?.name;
                 setOldestActivityName(result);
                 localStorage.setItem(OLDEST_ACTIVITY_KEY, oldestActivityName);
