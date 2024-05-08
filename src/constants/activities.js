@@ -66,6 +66,7 @@ export const Activities = [
         icon: Briefcase,
         color: ActivityColors.Atly,
         priority: 5,
+        isArchived: false,
         data: []
     },
     {
@@ -74,6 +75,7 @@ export const Activities = [
         icon: Users,
         color: ActivityColors.People,
         priority: 4,
+        isArchived: false,
         data: []
     },
     {
@@ -82,6 +84,7 @@ export const Activities = [
         icon: Skull,
         color: ActivityColors.OP,
         priority: 3,
+        isArchived: false,
         data: []
     },
     {
@@ -90,6 +93,7 @@ export const Activities = [
         icon: Barbell,
         color: ActivityColors.Gym,
         priority: 6,
+        isArchived: false,
         data: []
     },
 
@@ -99,6 +103,7 @@ export const Activities = [
         icon: PuzzlePiece,
         color: ActivityColors.Unity,
         priority: 1,
+        isArchived: false,
         data: []
     },
     {
@@ -107,6 +112,7 @@ export const Activities = [
         icon: Heart,
         color: ActivityColors.Dates,
         priority: 2,
+        isArchived: false,
         data: []
     },
     {
@@ -115,6 +121,7 @@ export const Activities = [
         icon: BookOpen,
         color: ActivityColors.Read,
         priority: 7,
+        isArchived: false,
         data: []
     },
     {
@@ -123,6 +130,7 @@ export const Activities = [
         icon: PersonSimpleTaiChi,
         color: ActivityColors.Sleep,
         priority: 9,
+        isArchived: false,
         data: []
     },
     {
@@ -140,6 +148,7 @@ export const Activities = [
         icon: PaintBrush,
         color: ActivityColors.Creative,
         priority: 8,
+        isArchived: false,
         data: []
     },
     {
@@ -148,6 +157,7 @@ export const Activities = [
         icon: PawPrint,
         color: ActivityColors.Pets,
         priority: 10,
+        isArchived: false,
         data: []
     },
     {
@@ -156,6 +166,7 @@ export const Activities = [
         icon: Television,
         color: ActivityColors.Media,
         priority: 12,
+        isArchived: false,
         data: []
     },
     {
@@ -164,6 +175,7 @@ export const Activities = [
         icon: GameController,
         color: ActivityColors.Games,
         priority: 11,
+        isArchived: false,
         data: []
     },
 ];
