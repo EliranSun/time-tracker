@@ -12,14 +12,14 @@ export const useOldestActivity = () => {
         getNewestInEachActivity()
             .then(results => {
                 const oldestActivities = results
-                    .sort((a, b) => a.lastEntryTimestamp - b.lastEntryTimestamp)
-                    .filter(activity => !Activities.find(a => a.name === activity.name).isArchived);
+                    .filter(activity => !Activities.find(a => a.name === activity.name).isArchived)
+                    .sort((a, b) => a.lastEntryTimestamp - b.lastEntryTimestamp);
 
                 const oldestActivity = oldestActivities[0];
                 const oldestActivityName = oldestActivity?.name;
 
                 console.log({oldestActivities, oldestActivity});
-                
+
                 setOldestActivityName(oldestActivityName);
                 localStorage.setItem(OLDEST_ACTIVITY_KEY, oldestActivityName);
                 return oldestActivityName;

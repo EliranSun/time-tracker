@@ -71,9 +71,11 @@ export async function getNewestInEachActivity() {
 
         if (!dataSnapshot.empty) {
             const newestDataDoc = dataSnapshot.docs[0];
+            const data = newestDataDoc.data();
             newestActivitiesData.push({
                 name: activity.name,
-                lastEntryTimestamp: newestDataDoc.data()?.end
+                lastEntryTimestamp: data?.end,
+                timeSpent: data?.end - data?.start,
             });
         }
     }
@@ -86,7 +88,13 @@ export const getAllDocsInActivity = async (activityName) => {
 
     if (localStorage.getItem('mock') === 'true' || process.env.REACT_APP_ENABLE_MOCK === "true") {
         console.log("Mock fetch!");
-        return allActivitiesMock.find(activity => activity.find(a => a.name === activityName)) || [];
+        const activities = allActivitiesMock
+            .find(activity => activity.find(a => a.name === activityName)) || [];
+
+        return activities.map(activity => ({
+            ...activity,
+            id: `${activity.start}-${activity.end}-${activity.name}-${Math.random()}`
+        }));
     }
 
     // TODO: This is O(n) and should be O(1)

@@ -37,12 +37,12 @@ const Dialog = ({children, onClose}) => {
 export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = noop}) => {
     const filtered = useMemo(() => {
         if (entries.length === 0) return [];
-        
+
         return entries
-            .filter(item =>
-                item.end > 0 &&
-                item.start > 0 &&
-                item.end - item.start > ACTIVITY_MINIMUM_TIME)
+            // .filter(item =>
+            //     item.end > 0 &&
+            //     item.start > 0 &&
+            //     item.end - item.start > ACTIVITY_MINIMUM_TIME)
             .sort((a, b) => b.end - a.end);
     }, [entries]);
 
@@ -57,8 +57,8 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
             </Dialog>
         );
     }
-    
-        const activity = Activities.find(activity => activity.name === entries[0].name);
+
+    const activity = Activities.find(activity => activity.name === entries[0].name);
 
     return (
         <Dialog onClose={onClose}>
@@ -72,6 +72,7 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
                 <div
                     className="overflow-y-auto h-[70vh] w-full flex items-center text-center flex-col gap-2">
                     {filtered.map(entry => {
+                        console.log({entry});
                         return (
                             <EditableDateTimeEntry
                                 key={entry.id}
