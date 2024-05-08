@@ -56,7 +56,7 @@ export const getLastWeekData = (name, data) => {
             measuredMinutes = minutes;
         }
 
-        const measure = Math.ceil(hours + (measuredMinutes / 60));
+        const measure = Math.round(hours + (measuredMinutes / 60));
         minutes = minutes < 10 ? `${minutes}0` : minutes;
         totalCount += measure;
 
