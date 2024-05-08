@@ -11,7 +11,10 @@ export const useOldestActivity = () => {
     useEffect(() => {
         getNewestInEachActivity()
             .then(results => {
-                const oldestActivities = results.sort((a, b) => a.lastEntryTimestamp - b.lastEntryTimestamp)
+                const oldestActivities = results
+                .sort((a, b) => a.lastEntryTimestamp - b.lastEntryTimestamp)
+                .filter(activity => !Activities.find(a => a.name === activity.name).isArchived);
+                
                 alert(JSON.stringify(oldestActivities));
                 const oldestActivity = oldestActivities[0];
                 const oldestActivityName = oldestActivity?.name;
