@@ -13,7 +13,7 @@ export const useOldestActivity = () => {
             .then(results => {
                 const oldestActivities = results.sort((a, b) => a.lastEntryTimestamp - b.lastEntryTimestamp)
                 alert(JSON.stringify(oldestActivities));
-                const oldestActivity = oldestActivity[0];
+                const oldestActivity = oldestActivities[0];
                 const oldestActivityName = oldestActivity?.name;
                 setOldestActivityName(oldestActivityName);
                 localStorage.setItem(OLDEST_ACTIVITY_KEY, oldestActivityName);
