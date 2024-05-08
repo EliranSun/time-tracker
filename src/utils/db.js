@@ -9,12 +9,12 @@ import {
     orderBy,
     query,
     setDoc,
-    updateDoc
+    updateDoc,
+    deleteDoc
 } from "firebase/firestore";
 import {initializeApp} from "firebase/app";
 import {Activities} from "../constants/activities";
 import allActivitiesMock from "../mocks/all-activities.json";
-import {flatten} from "lodash";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -120,4 +120,8 @@ export const updateActivityTimeById = async (activityName, docId, data) => {
         start: data.start,
         end: data.end,
     });
+};
+
+export const deleteActivityById = async (activityName, docId) => {
+    return await deleteDoc(doc(db, `activities/${activityName}/data/${docId}`));
 }

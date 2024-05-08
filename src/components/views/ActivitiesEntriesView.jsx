@@ -72,7 +72,6 @@ export const ActivitiesEntriesView = ({entries = [], isOpen = false, onClose = n
                 <div
                     className="overflow-y-auto h-[70vh] w-full flex items-center text-center flex-col gap-2">
                     {filtered.map(entry => {
-                        console.log({entry});
                         return (
                             <EditableDateTimeEntry
                                 key={entry.id}
