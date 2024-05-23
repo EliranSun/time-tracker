@@ -1,4 +1,4 @@
-import {useEffect, useState, useContext} from "react";
+import {useEffect, useState, useContext, useMemo} from "react";
 import classNames from "classnames";
 import {Block} from "../Block";
 import {getAppBackgroundColor, replaceMetaThemeColor} from "../../utils/colors";
@@ -9,10 +9,11 @@ import {ActivityDataSection} from "../organisms/ActivityDataSection";
 import {ActivitiesEntriesView} from "./ActivitiesEntriesView";
 import {readableColor} from 'polished';
 import {ActivitiesDungeonMap} from "../ActivitiesDungeonMap";
-import {Spinner} from "@phosphor-icons/react";
+import {Spinner, Wall} from "@phosphor-icons/react";
 import {useTimers} from "../../hooks/useTimers";
 import {BackgroundColorOverlay} from "../atoms/BackgroundColorOverlay";
 import {ActivitiesContext} from "../../context/ActivitiesContext";
+import {Activities} from "../../constants/activities";
 
 const TEN_MINUTES = 10 * 60 * 1000;
 
@@ -30,6 +31,27 @@ export const ActivityView = ({
     const {activities} = useContext(ActivitiesContext);
     const [lastStartTime, setLastStartTime] = useState(null);
     const [isAddEntryView, setIsAddEntryView] = useState(false);
+    const activeActivities = useMemo(() => {
+        const activeActivities = Activities.filter(activity => !activity.isArchived);
+        let wallsCount = 12 - activeActivities.length;
+
+        return Activities.map(activity => {
+            if (wallsCount > 0 && activity.isArchived) {
+                wallsCount--;
+                return {
+                    ...activity,
+                    icon: Wall,
+                    isArchived: false,
+                    isBlocked: true,
+                }
+            }
+
+            return activity
+        })
+            // since we replace up to wallsCount, and any extra activity (since activities can be added)
+            // should be filtered out
+            .filter(activity => !activity.isArchived)
+    }, []);
     const textColor = readableColor(currentActivity.name === activity.name ? activity.color : getAppBackgroundColor());
     const {logs, toggle, count, isLoading, setRefPath} = useTimers({
         activity,
@@ -69,6 +91,7 @@ export const ActivityView = ({
     const Icon = activity?.icon || (() => null);
 
     const swipeHandlers = usePageSwipe({
+        activities: activeActivities,
         onSwipe: setActivePage,
         onEntryToggle: toggle,
         isDisabled: isAddEntryView || isEditEntryView
@@ -90,6 +113,7 @@ export const ActivityView = ({
                     logs
                 </button>
                 <ActivitiesDungeonMap
+                    activities={activeActivities}
                     isZenMode={isZenMode}
                     activePage={activePage}/>
                 <BackgroundColorOverlay

@@ -10,26 +10,29 @@ const Actions = {
     Right: "Right",
 };
 
-const swipeAction = (action, onSwipe) => {
+const swipeAction = (action, onSwipe, activities = []) => {
     onSwipe(prevPage => {
         const nextPage = PageMazeMap[upperFirst(prevPage)][action];
-        if (nextPage.isArchived)
-            return;
+        const activity = activities.find(activity => activity.name.toLowerCase() === nextPage.toLowerCase());
+        debugger;
+        if (activity.isBlocked)
+            return prevPage;
 
         return nextPage;
     });
 };
 
 export const usePageSwipe = ({
+    activities = [],
     onSwipe = noop,
     onEntryToggle,
     isDisabled = false
 }) => {
     const handlers = useSwipeable({
-        onSwipedLeft: () => swipeAction(Actions.Left, onSwipe),
-        onSwipedRight: () => swipeAction(Actions.Right, onSwipe),
-        onSwipedUp: () => swipeAction(Actions.Up, onSwipe),
-        onSwipedDown: () => swipeAction(Actions.Down, onSwipe),
+        onSwipedLeft: () => swipeAction(Actions.Left, onSwipe, activities),
+        onSwipedRight: () => swipeAction(Actions.Right, onSwipe, activities),
+        onSwipedUp: () => swipeAction(Actions.Up, onSwipe, activities),
+        onSwipedDown: () => swipeAction(Actions.Down, onSwipe, activities),
         preventScrollOnSwipe: isDisabled,
         trackTouch: !isDisabled,
         trackMouse: !isDisabled,
@@ -62,7 +65,7 @@ export const usePageSwipe = ({
             if (!action)
                 return;
 
-            swipeAction(action, onSwipe);
+            swipeAction(action, onSwipe, activities);
         };
 
         if (isDisabled) {
