@@ -11,8 +11,15 @@ const Actions = {
 };
 
 const swipeAction = (action, onSwipe) => {
-    onSwipe(prevPage => PageMazeMap[upperFirst(prevPage)][action]);
+    onSwipe(prevPage => {
+        const nextPage = PageMazeMap[upperFirst(prevPage)][action];
+        if (nextPage.isArchived)
+            return;
+
+        return nextPage;
+    });
 };
+
 export const usePageSwipe = ({
     onSwipe = noop,
     onEntryToggle,
@@ -23,9 +30,6 @@ export const usePageSwipe = ({
         onSwipedRight: () => swipeAction(Actions.Right, onSwipe),
         onSwipedUp: () => swipeAction(Actions.Up, onSwipe),
         onSwipedDown: () => swipeAction(Actions.Down, onSwipe),
-        // onTap: (event) => {
-        //     alert("TAP");
-        // },
         preventScrollOnSwipe: isDisabled,
         trackTouch: !isDisabled,
         trackMouse: !isDisabled,
