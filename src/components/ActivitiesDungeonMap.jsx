@@ -35,6 +35,7 @@ export const ActivitiesDungeonMap = ({activities = [], activePage, isZenMode}) =
                                 name={activity.icon}
                                 weight={isHighlighted ? "fill" : "regular"}
                                 className={classNames({
+                                    "opacity-50": activity.isBlocked,
                                     "animate-ping-slow": isHighlighted,
                                 })}/>
                             {isHighlighted ?
