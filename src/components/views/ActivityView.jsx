@@ -2,7 +2,6 @@ import {useEffect, useState, useContext, useMemo} from "react";
 import classNames from "classnames";
 import {Block} from "../Block";
 import {getAppBackgroundColor, replaceMetaThemeColor} from "../../utils/colors";
-import {useActivityData} from "../../hooks/useActivityData";
 import {StartTimeCounter} from "../StartTimeCounter";
 import {usePageSwipe} from "../../hooks/usePageSwipe";
 import {ActivityDataSection} from "../organisms/ActivityDataSection";
@@ -16,6 +15,7 @@ import {ActivitiesContext} from "../../context/ActivitiesContext";
 import {Activities} from "../../constants/activities";
 
 const TEN_MINUTES = 10 * 60 * 1000;
+const MAX_ACTIVITIES = 12;
 
 export const ActivityView = ({
     currentActivity,
@@ -33,7 +33,7 @@ export const ActivityView = ({
     const [isAddEntryView, setIsAddEntryView] = useState(false);
     const activeActivities = useMemo(() => {
         const activeActivities = Activities.filter(activity => !activity.isArchived);
-        let wallsCount = 12 - activeActivities.length;
+        let wallsCount = MAX_ACTIVITIES - activeActivities.length;
 
         return Activities.map(activity => {
             if (wallsCount > 0 && activity.isArchived) {
