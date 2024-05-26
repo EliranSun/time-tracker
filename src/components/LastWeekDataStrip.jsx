@@ -1,5 +1,6 @@
 import {useMemo} from "react";
-import {getLastWeekData} from "../utils/session";
+import {getWeekData} from "../utils/session";
+import {WeeklyLineChart} from "./atoms/WeeklyLineChart";
 
 const Duration = ({item}) => {
     return (
@@ -13,31 +14,38 @@ const Duration = ({item}) => {
 
 export const LastWeekDataStrip = ({activity, data}) => {
     const lastWeekData = useMemo(() => {
-        return getLastWeekData(activity.name, data);
+        return getWeekData(activity.name, data);
     }, [activity.name, data]);
 
+    console.log({lastWeekData});
+
     return (
-        <div
-            className="w-full flex justify-center w-fit items-end m-auto text-center h-28">
-            {lastWeekData.data.map((item) => {
-                const measure = item.measure || 0;
-                return (
-                    <div key={item.name} className="flex flex-col items-center opacity-80 w-7">
-                        <div className="relative flex flex-col gap-0 bg-black dark:bg-white max-h-16">
-                            {new Array(measure).fill(null).map((_, index) => {
-                                return (
-                                    <span
-                                        key={index}
-                                        style={{backgroundColor: ""}}
-                                        className="w-2 h-2"/>
-                                );
-                            })}
+        <>
+            <div
+                className="w-full flex justify-center w-fit items-end m-auto text-center h-28">
+                {lastWeekData.data.map((item) => {
+                    const measure = item.measure || 0;
+                    return (
+                        <div key={item.name} className="flex flex-col items-center opacity-80 w-7">
+                            <div className="relative flex flex-col gap-0 bg-black dark:bg-white max-h-16">
+                                {/*{new Array(measure).fill(null).map((_, index) => {*/}
+                                {/*    return (*/}
+                                {/*        <span*/}
+                                {/*            key={index}*/}
+                                {/*            style={{backgroundColor: ""}}*/}
+                                {/*            className="w-2 h-2"/>*/}
+                                {/*    );*/}
+                                {/*})}*/}
+                            </div>
+                            {/*<Duration item={item}/>*/}
+                            {/*<p className="text-sm">{item.name.slice(0, 1)}</p>*/}
                         </div>
-                        <Duration item={item}/>
-                        <p className="text-sm">{item.name.slice(0, 1)}</p>
-                    </div>
-                )
-            })}
-        </div>
+                    )
+                })}
+            </div>
+            <div className="absolute overflow-hidden w-full mt-28 z-50">
+                <WeeklyLineChart data={lastWeekData.data.map(item => ({...item, name: item.name.slice(0, 1)}))}/>
+            </div>
+        </>
     );
 };

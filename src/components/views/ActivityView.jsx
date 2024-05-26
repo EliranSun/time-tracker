@@ -100,33 +100,34 @@ export const ActivityView = ({
     return (
         <>
             <div
-                {...swipeHandlers}
                 onDoubleClick={toggle}
                 style={{color: textColor}}
                 className={classNames("select-none", {
                     "mt-0 h-[90vh] flex items-start justify-center": isZenMode,
                     "mt-28 m-auto": !isZenMode
                 })}>
-                <button
-                    className="fixed z-20 top-0 inset-x-0 text-xs"
-                    onClick={() => alert(JSON.stringify(logs, null, 2))}>
-                    logs
-                </button>
-                <ActivitiesDungeonMap
-                    activities={activeActivities}
-                    isZenMode={isZenMode}
-                    activePage={activePage}/>
-                <BackgroundColorOverlay
-                    activity={activity}
-                    currentActivity={currentActivity}
-                    activitySwitch={toggle}
-                    textColor={textColor}/>
+                {/*<button*/}
+                {/*    className="fixed z-20 top-0 inset-x-0 text-xs"*/}
+                {/*    onClick={() => alert(JSON.stringify(logs, null, 2))}>*/}
+                {/*    logs*/}
+                {/*</button>*/}
+                <div {...swipeHandlers}>
+                    <ActivitiesDungeonMap
+                        activities={activeActivities}
+                        isZenMode={isZenMode}
+                        activePage={activePage}/>
+                    <BackgroundColorOverlay
+                        activity={activity}
+                        currentActivity={currentActivity}
+                        activitySwitch={toggle}
+                        textColor={textColor}/>
+                </div>
                 <div className={classNames("w-full relative z-20 flex flex-wrap gap-1", {
                     "mt-0 items-start": isZenMode,
                     "mt-10 items-center": !isZenMode
                 })}>
                     <Block key={activity.name}>
-                        <div className="flex flex-col items-center">
+                        <div className="flex flex-col items-center" {...swipeHandlers}>
                             {isLoading
                                 ? <Spinner
                                     color={textColor}
