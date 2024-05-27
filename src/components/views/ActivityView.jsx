@@ -151,11 +151,11 @@ export const ActivityView = ({
                         </div>
                         {(isZenMode || isAddEntryView) ? null : (
                             <div className="my-4 flex flex-col justify-between">
-                                <ActivityDataSection
+                                {/* <ActivityDataSection
                                     isEditEntryView={isEditEntryView}
                                     setIsEditEntryView={setIsEditEntryView}
                                     activitiesData={activitiesData}
-                                    activity={activity}/>
+                                    activity={activity}/> */}
                             </div>
                         )}
                     </Block>
