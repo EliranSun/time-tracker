@@ -25,7 +25,7 @@ export const LastWeekDataStrip = ({activity, data}) => {
         <>
             <div 
                 onClick={() => setIsOpen(!isOpen)}
-                className={classNames("fixed top-0 bg-white z-50", { "inline": isOpen, "hidden": !isOpen })}>
+                className={classNames("fixed top-0 bg-white z-50", { "hidden": !isOpen })}>
                 {JSON.stringify(lastWeekData, null, 2)}
             </div>
             <div
