@@ -1,6 +1,7 @@
-import {useMemo} from "react";
+import {useMemo, useState} from "react";
 import {getWeekData} from "../utils/session";
 import {WeeklyLineChart} from "./atoms/WeeklyLineChart";
+import classNames from "classnames";
 
 const Duration = ({item}) => {
     return (
@@ -13,6 +14,7 @@ const Duration = ({item}) => {
 };
 
 export const LastWeekDataStrip = ({activity, data}) => {
+    const [isOpen, setIsOpen] = useState(false);
     const lastWeekData = useMemo(() => {
         return getWeekData(activity.name, data);
     }, [activity.name, data]);
@@ -21,6 +23,11 @@ export const LastWeekDataStrip = ({activity, data}) => {
 
     return (
         <>
+            <div 
+                onClick={() => setIsOpen(!isOpen)}
+                className={classNames("fixed top-0 bg-white z-50", { "inline": isOpen, "hidden": !isOpen })}>
+                {JSON.stringify(lastWeekData, null, 2)}
+            </div>
             <div
                 className="w-full flex justify-center w-fit items-end m-auto text-center h-28">
                 {lastWeekData.data.map((item) => {
