@@ -16,9 +16,9 @@ export const ActivityDataSection = ({activitiesData, activity, setIsEditEntryVie
             <LastSessions
                 activitiesData={activitiesData}
                 activity={activity}/>
-            <LastWeekDataStrip
+            {/* <LastWeekDataStrip
                 data={activitiesData}
-                activity={activity}/>
+                activity={activity}/>*/}
             <ActivitiesEntriesView
                 isOpen={isEditEntryView}
                 onClose={() => setIsEditEntryView(false)}
