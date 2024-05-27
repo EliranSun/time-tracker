@@ -16,18 +16,13 @@ const Duration = ({item}) => {
 export const LastWeekDataStrip = ({activity, data}) => {
     const [isOpen, setIsOpen] = useState(false);
     const lastWeekData = useMemo(() => {
-        return getWeekData(activity.name, data);
+        const data = getWeekData(activity.name, data);
+            alert(JSON.stringify(data));
+            return data;
     }, [activity.name, data]);
-
-    console.log({lastWeekData});
 
     return (
         <>
-            <div 
-                onClick={() => setIsOpen(!isOpen)}
-                className={classNames("fixed top-0 bg-white z-50", { "hidden": !isOpen })}>
-                {JSON.stringify(lastWeekData, null, 2)}
-            </div>
             <div
                 className="w-full flex justify-center w-fit items-end m-auto text-center h-28">
                 {lastWeekData.data.map((item) => {
