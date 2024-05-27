@@ -17,7 +17,7 @@ export const LastWeekDataStrip = ({activity, data}) => {
     const [isOpen, setIsOpen] = useState(false);
     const lastWeekData = useMemo(() => {
         const data = getWeekData(activity.name, data);
-            alert(JSON.stringify(data));
+            // alert(JSON.stringify(data));
             return data;
     }, [activity.name, data]);
 
