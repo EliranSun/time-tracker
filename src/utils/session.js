@@ -1,9 +1,26 @@
-import {addDays, isSameDay, startOfWeek} from "date-fns";
+import {format, addDays, isSameDay, isBefore, startOfWeek} from "date-fns";
 import {round} from 'lodash';
 import {ACTIVITY_MINIMUM_TIME} from "../constants/activities";
 
 export const getConsequntialWeekData = (name, data) => {
+    const consequenceData = [];
+    const firstDay = activityData[0].end
+    let currentDay = firstDay.end;
+    const lastDay = activityData.at(-1).end;
     
+    while (isBefore(currentDay, lastDay)) {
+        const dayData = activityData.filter(item => {
+            return isSameDay(new Date(item.end), firstDay.end) && item.end > 0
+        });
+        
+        const duration = Math.round(dayData.reduce((acc, item) => {
+            return acc + item.end - item.start;
+        }, 0) / 1000 / 60 / 60);
+        
+        consequenceData.push({ duration, dayName: format(currentDay, 'EEEEE') });
+        currentDay = addDays(currentDay, 1);
+        // handle last day as this will stop the day before
+    }
 };
 
 export const getWeekData = (name, data, isLastWeek = true) => {
