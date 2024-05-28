@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {getAppTextColor} from "../../utils/colors";
+import {getAppTextColor, calcAlphaChannelBasedOnOpacity} from "../../utils/colors";
 import {
     ComposedChart,
     LineChart,
@@ -15,11 +15,12 @@ import {
 
 export const WeeklyLineChart = ({data = []}) => {
     const color = getAppTextColor();
-
+    const opacity = calcAlphaChannelBasedOnOpacity(0.3);
+    
     return (
         <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={data}>
-                <CartesianGrid stroke="#f5f5f5"/>
+                <CartesianGrid stroke={`#f5f5f5${opacity}`}"/>
                 <XAxis dataKey="dayName"/>
                 <YAxis/>
                 <Tooltip/>
