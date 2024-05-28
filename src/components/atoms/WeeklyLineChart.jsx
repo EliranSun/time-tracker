@@ -15,8 +15,8 @@ import {
 
 export const WeeklyLineChart = ({data = []}) => {
     const color = getAppTextColor();
-    const opacity = calcAlphaChannelBasedOnOpacity(0.3);
-    
+    const opacity = calcAlphaChannelBasedOnOpacity(0.05);
+
     return (
         <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={data}>
