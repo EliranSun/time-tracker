@@ -1,5 +1,16 @@
-import React from 'react';
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
+import React, {useState} from 'react';
+import {
+    ComposedChart,
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+    Brush
+} from 'recharts';
 
 // Sample data
 // const data = [
@@ -20,29 +31,23 @@ import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsiv
 // ];
 
 export const WeeklyLineChart = ({data = []}) => {
+    const [brushEndIndex, setBrushEndIndex] = useState(data.length);
+
     return (
-        <div
-            onScroll={event => {
-                event.stopPropagation();
-                event.preventDefault();
-            }}
-            style={{width: window.innerWidth, height: '100px', overflowX: 'scroll', overflowY: 'hidden'}}>
-            <LineChart
-                width={data.length * 50}
-                height={130}
-                data={data}
-                margin={{
-                    top: 5, right: 30, left: 20, bottom: 5,
-                }}
-            >
-                {/*<CartesianGrid strokeDasharray="3 3"/>*/}
-                <XAxis dataKey="name"/>
+        <ResponsiveContainer width={window.innerWidth * 0.8} height={150}>
+            <ComposedChart data={data}>
+                <CartesianGrid stroke="#f5f5f5"/>
+                <XAxis dataKey="dayName"/>
                 <YAxis/>
-                {/*<Tooltip/>*/}
                 <Legend/>
-                <Line type="basis" dataKey="duration" stroke="black" activeDot={{r: 8}} dot={false}/>
-                {/*<Line type="monotone" dataKey="uv" stroke="#82ca9d"/>*/}
-            </LineChart>
-        </div>
+                <Line type="basis" dataKey="duration" stroke="black" dot={false}/>
+                <Brush
+                    dataKey="dayName"
+                    startIndex={data.length - 10}
+                    endIndex={brushEndIndex}
+                    onChange={(e) => setBrushEndIndex(e.endIndex)}
+                />
+            </ComposedChart>
+        </ResponsiveContainer>
     );
 };

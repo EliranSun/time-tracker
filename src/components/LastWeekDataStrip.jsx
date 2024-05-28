@@ -1,7 +1,7 @@
 import {useMemo} from "react";
 import {getWeekData, getConsequentialWeekData} from "../utils/session";
 import {WeeklyLineChart} from "./atoms/WeeklyLineChart";
-import classNames from "classnames";
+import {ACTIVITY_MINIMUM_TIME} from "../constants/activities";
 
 const Duration = ({item}) => {
     return (
@@ -15,15 +15,16 @@ const Duration = ({item}) => {
 
 export const LastWeekDataStrip = ({activity, data}) => {
     const lastWeekData = useMemo(() => {
-        const foo = getConsequentialWeekData(data);
-        console.log({foo});
+        return getConsequentialWeekData(data
+            .filter(item => item.end > 0 && item.start > 0)
+            .filter(item => (item.end - item.start) > ACTIVITY_MINIMUM_TIME)
+            .reverse());
         // return getWeekData(activity.name, data);
         // alert(JSON.stringify(data));
-        return foo;
     }, [activity.name, data]);
 
     return (
-        <div className="absolute overflow-hidden w-full mt-28 z-50">
+        <div className="overflow-hidden w-full z-50">
             <WeeklyLineChart data={lastWeekData}/>
         </div>
     );
