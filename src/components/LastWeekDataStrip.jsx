@@ -24,7 +24,7 @@ export const LastWeekDataStrip = ({activity, data}) => {
     }, [activity.name, data]);
 
     return (
-        <div className="overflow-hidden w-96 h-60 z-50">
+        <div className="overflow-x-auto w-screen h-48 -ml-10">
             <WeeklyLineChart data={lastWeekData}/>
         </div>
     );

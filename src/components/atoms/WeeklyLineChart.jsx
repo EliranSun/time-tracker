@@ -13,9 +13,11 @@ import {
 } from 'recharts';
 
 export const WeeklyLineChart = ({data = []}) => {
+    console.log({data});
+
     return (
         <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={data} width={500} height={400}>
+            <ComposedChart data={data}>
                 <CartesianGrid stroke="#f5f5f5"/>
                 <XAxis dataKey="dayName"/>
                 <YAxis/>

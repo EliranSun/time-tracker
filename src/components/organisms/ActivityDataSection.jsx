@@ -8,14 +8,14 @@ import {ActivityStreak} from "../molecules/ActivityStreak";
 export const ActivityDataSection = ({activitiesData, activity, setIsEditEntryView, isEditEntryView}) => {
     return (
         <section className="flex flex-col items-center justify-center gap-4 mx-auto">
-            <div className="flex w-full justify-between">
+            <div className="flex w-full justify-between w-48 mb-4">
                 <ActivityPriority activity={activity}/>
                 <ActivityHighScore activities={activitiesData}/>
                 <ActivityStreak activities={activitiesData}/>
             </div>
-            <LastSessions
-                activitiesData={activitiesData}
-                activity={activity}/>
+            {/*<LastSessions*/}
+            {/*    activitiesData={activitiesData}*/}
+            {/*    activity={activity}/>*/}
             <LastWeekDataStrip
                 data={activitiesData}
                 activity={activity}/>
