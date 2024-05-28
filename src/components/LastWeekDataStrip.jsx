@@ -1,5 +1,5 @@
 import {useMemo} from "react";
-import {getWeekData, getConsequntialWeekData} from "../utils/session";
+import {getWeekData, getConsequentialWeekData} from "../utils/session";
 import {WeeklyLineChart} from "./atoms/WeeklyLineChart";
 import classNames from "classnames";
 
@@ -15,14 +15,14 @@ const Duration = ({item}) => {
 
 export const LastWeekDataStrip = ({activity, data}) => {
     const lastWeekData = useMemo(() => {
-        const foo = getConsequntialWeekData(activity.name, data);
+        const foo = getConsequentialWeekData(activity.name, data);
         return getWeekData(activity.name, data);
-            // alert(JSON.stringify(data));
+        // alert(JSON.stringify(data));
     }, [activity.name, data]);
 
     return (
-            <div className="absolute overflow-hidden w-full mt-28 z-50">
-                <WeeklyLineChart data={lastWeekData.data.map(item => ({...item, name: item.name.slice(0, 1)}))}/>
-            </div>
+        <div className="absolute overflow-hidden w-full mt-28 z-50">
+            <WeeklyLineChart data={lastWeekData.data.map(item => ({...item, name: item.name.slice(0, 1)}))}/>
+        </div>
     );
 };
