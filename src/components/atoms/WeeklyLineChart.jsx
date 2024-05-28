@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { getAppTextColor } from "../../utils/color";
 import {
     ComposedChart,
     LineChart,
@@ -13,6 +14,8 @@ import {
 } from 'recharts';
 
 export const WeeklyLineChart = ({data = []}) => {
+    const color = getAppTextColor();
+    
     return (
         <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={data}>
@@ -21,7 +24,7 @@ export const WeeklyLineChart = ({data = []}) => {
                 <YAxis/>
                 <Tooltip/>
                 <Legend/>
-                <Line type="basis" dataKey="duration" stroke="black" dot={false}/>
+                <Line type="basis" dataKey="duration" stroke={color} dot={false}/>
                 <Brush
                     dataKey="dayName"
                     startIndex={data.length - 10}
