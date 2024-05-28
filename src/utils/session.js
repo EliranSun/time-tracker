@@ -10,11 +10,11 @@ export const getConsequentialWeekData = (data = []) => {
 
     const consequenceData = [];
     let currentDay = data[0].end;
-    const lastDay = data.at(-1).end;
+    const today = new Date().getTime();
 
     const HALF_A_DAY = 12 * 60 * 60 * 1000;
 
-    while (lastDay - currentDay > -HALF_A_DAY) {
+    while (today - currentDay > -HALF_A_DAY) {
         const dayData = data.filter(item => {
             return isSameDay(new Date(item.end), currentDay) && item.end > 0
         });
