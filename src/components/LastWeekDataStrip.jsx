@@ -20,11 +20,8 @@ export const LastWeekDataStrip = ({activity, data}) => {
     }, [activity.name, data]);
 
     return (
-        <div>
-            hi
             <div className="absolute overflow-hidden w-full mt-28 z-50">
                 <WeeklyLineChart data={lastWeekData.data.map(item => ({...item, name: item.name.slice(0, 1)}))}/>
             </div>
-        </div>
     );
 };
