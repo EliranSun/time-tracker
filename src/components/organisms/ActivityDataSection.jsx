@@ -25,7 +25,7 @@ export const ActivityDataSection = ({activitiesData, activity, setIsEditEntryVie
         <section className="flex flex-col items-center justify-center gap-4 mx-auto">
             <div className="grid grid-cols-3 w-60 mb-4 m-auto">
                 {/*<ActivityPriority activity={activity}/>*/}
-                <Badge value={`${dayByDayData.at(-1)?.duration}h`} label="Today"/>
+                <Badge value={`${Math.round(dayByDayData.at(-1)?.duration)}h`} label="Today"/>
                 <ActivityStreak activities={activitiesData}/>
                 <ActivityHighScore activities={activitiesData}/>
             </div>
