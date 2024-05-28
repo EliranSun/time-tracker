@@ -19,9 +19,9 @@ export const getConsequentialWeekData = (data = []) => {
             return isSameDay(new Date(item.end), currentDay) && item.end > 0
         });
 
-        const duration = Math.round(dayData.reduce((acc, item) => {
+        const duration = dayData.reduce((acc, item) => {
             return acc + item.end - item.start;
-        }, 0) / 60 / 60 / 1000);
+        }, 0) / 60 / 60 / 1000;
 
         consequenceData.push({
             duration,

@@ -14,7 +14,6 @@ const swipeAction = (action, onSwipe, activities = []) => {
     onSwipe(prevPage => {
         const nextPage = PageMazeMap[upperFirst(prevPage)][action];
         const activity = activities.find(activity => activity.name.toLowerCase() === nextPage.toLowerCase());
-        debugger;
         if (activity.isBlocked)
             return prevPage;
 

@@ -4,7 +4,7 @@ import {calculateStreak} from "../../utils/activities";
 
 export const ActivityStreak = ({activities = []}) => {
     const streak = useMemo(() => {
-        return calculateStreak(activities);
+        return calculateStreak(activities) + 'd';
     }, [activities]);
 
     return <Badge value={streak} label="Streak"/>;
