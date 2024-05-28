@@ -20,7 +20,7 @@ export const WeeklyLineChart = ({data = []}) => {
     return (
         <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={data}>
-                <CartesianGrid stroke={`#f5f5f5${opacity}`}"/>
+                <CartesianGrid stroke={`#f5f5f5${opacity}`}/>
                 <XAxis dataKey="dayName"/>
                 <YAxis/>
                 <Tooltip/>
