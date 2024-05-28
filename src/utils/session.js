@@ -4,12 +4,12 @@ import {ACTIVITY_MINIMUM_TIME} from "../constants/activities";
 
 export const getConsequntialWeekData = (name, data) => {
     const consequenceData = [];
-    const firstDay = activityData[0].end
+    const firstDay = data[0].end
     let currentDay = firstDay.end;
-    const lastDay = activityData.at(-1).end;
+    const lastDay = data(-1).end;
     
     while (isBefore(currentDay, lastDay)) {
-        const dayData = activityData.filter(item => {
+        const dayData = data.filter(item => {
             return isSameDay(new Date(item.end), firstDay.end) && item.end > 0
         });
         
