@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useMemo} from "react";
 import {getWeekData} from "../utils/session";
 import {WeeklyLineChart} from "./atoms/WeeklyLineChart";
 import classNames from "classnames";
@@ -14,11 +14,9 @@ const Duration = ({item}) => {
 };
 
 export const LastWeekDataStrip = ({activity, data}) => {
-    const [isOpen, setIsOpen] = useState(false);
     const lastWeekData = useMemo(() => {
-        const data = getWeekData(activity.name, data);
+        return getWeekData(activity.name, data);
             // alert(JSON.stringify(data));
-            return data;
     }, [activity.name, data]);
 
     return (
