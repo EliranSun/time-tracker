@@ -16,6 +16,12 @@ export const getAppBackgroundColor = () => {
     return isDay ? "#ededed" : "#282c34";
 };
 
+export const getAppTextColor = () => {
+    const hour = new Date().getHours();
+    const isDay = hour > 6 && hour < 18;
+    return isDay ? "black" : "white";
+};
+
 export const calcAlphaChannelBasedOnOpacity = (opacity) => {
     const alpha = Math.round(opacity * 255).toString(16);
     return alpha.length === 1 ? `0${alpha}` : alpha;
