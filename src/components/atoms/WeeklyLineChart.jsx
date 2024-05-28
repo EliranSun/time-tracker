@@ -40,7 +40,7 @@ export const WeeklyLineChart = ({data = []}) => {
                 <YAxis/>
                 {/*<Tooltip/>*/}
                 <Legend/>
-                <Line type="basis" dataKey="measure" stroke="black" activeDot={{r: 8}} dot={false}/>
+                <Line type="basis" dataKey="duration" stroke="black" activeDot={{r: 8}} dot={false}/>
                 {/*<Line type="monotone" dataKey="uv" stroke="#82ca9d"/>*/}
             </LineChart>
         </div>

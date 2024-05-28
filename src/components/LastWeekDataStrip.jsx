@@ -15,14 +15,16 @@ const Duration = ({item}) => {
 
 export const LastWeekDataStrip = ({activity, data}) => {
     const lastWeekData = useMemo(() => {
-        const foo = getConsequentialWeekData(activity.name, data);
-        return getWeekData(activity.name, data);
+        const foo = getConsequentialWeekData(data);
+        console.log({foo});
+        // return getWeekData(activity.name, data);
         // alert(JSON.stringify(data));
+        return foo;
     }, [activity.name, data]);
 
     return (
         <div className="absolute overflow-hidden w-full mt-28 z-50">
-            <WeeklyLineChart data={lastWeekData.data.map(item => ({...item, name: item.name.slice(0, 1)}))}/>
+            <WeeklyLineChart data={lastWeekData}/>
         </div>
     );
 };

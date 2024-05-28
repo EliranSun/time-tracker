@@ -2,8 +2,9 @@ import {format, addDays, isSameDay, isBefore, startOfWeek} from "date-fns";
 import {round} from 'lodash';
 import {ACTIVITY_MINIMUM_TIME} from "../constants/activities";
 
-export const getConsequentialWeekData = (name, data = []) => {
-    if (!name || data.length === 0) {
+export const getConsequentialWeekData = (data = []) => {
+    if (data.length === 0) {
+        debugger;
         return [];
     }
 
