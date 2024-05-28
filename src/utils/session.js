@@ -2,7 +2,7 @@ import {format, addDays, isSameDay, isBefore, startOfWeek} from "date-fns";
 import {round} from 'lodash';
 import {ACTIVITY_MINIMUM_TIME} from "../constants/activities";
 
-export const getConsequntialWeekData = (name, data) => {
+export const getConsequntialWeekData = (name, data = []) => {
     const consequenceData = [];
     const firstDay = data[0].end
     let currentDay = firstDay.end;
