@@ -6,21 +6,23 @@ export const getConsequntialWeekData = (name, data = []) => {
     const consequenceData = [];
     const firstDay = data[0].end
     let currentDay = firstDay.end;
-    const lastDay = data(-1).end;
-    
+    const lastDay = data.at(-1).end;
+
     while (isBefore(currentDay, lastDay)) {
         const dayData = data.filter(item => {
             return isSameDay(new Date(item.end), firstDay.end) && item.end > 0
         });
-        
+
         const duration = Math.round(dayData.reduce((acc, item) => {
             return acc + item.end - item.start;
         }, 0) / 1000 / 60 / 60);
-        
-        consequenceData.push({ duration, dayName: format(currentDay, 'EEEEE') });
+
+        consequenceData.push({duration, dayName: format(currentDay, 'EEEEE')});
         currentDay = addDays(currentDay, 1);
         // handle last day as this will stop the day before
     }
+
+    return consequenceData;
 };
 
 export const getWeekData = (name, data, isLastWeek = true) => {
