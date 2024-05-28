@@ -66,7 +66,7 @@ export const Activities = [
         icon: Briefcase,
         color: ActivityColors.Atly,
         priority: 5,
-        isArchived: true,
+        isArchived: false,
         data: []
     },
     {
