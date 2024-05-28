@@ -5,10 +5,12 @@ import {ACTIVITY_MINIMUM_TIME} from "../constants/activities";
 
 export const LastWeekDataStrip = ({activity, data}) => {
     const lastWeekData = useMemo(() => {
-        return getConsequentialWeekData(data
-            .filter(item => item.end > 0 && item.start > 0)
-            .filter(item => (item.end - item.start) > ACTIVITY_MINIMUM_TIME)
-            .reverse());
+        return getConsequentialWeekData(
+            data
+                .filter(item => item.end > 0 && item.start > 0)
+                .filter(item => (item.end - item.start) > ACTIVITY_MINIMUM_TIME)
+                .sort((a, b) => a.end - b.end)
+        );
         // return getWeekData(activity.name, data);
         // alert(JSON.stringify(data));
     }, [activity.name, data]);

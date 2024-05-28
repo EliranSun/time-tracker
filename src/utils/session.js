@@ -12,7 +12,6 @@ export const getConsequentialWeekData = (data = []) => {
     let currentDay = data[0].end;
     const lastDay = data.at(-1).end;
 
-    console.log({data, currentDay, lastDay});
 
     while (currentDay <= lastDay) {
         const dayData = data.filter(item => {
@@ -31,6 +30,8 @@ export const getConsequentialWeekData = (data = []) => {
         currentDay = addDays(currentDay, 1);
     }
 
+
+    console.log({data, currentDay, lastDay, consequenceData});
     return consequenceData;
 };
 
