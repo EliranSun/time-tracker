@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { getAppTextColor } from "../../utils/color";
+import {getAppTextColor} from "../../utils/colors";
 import {
     ComposedChart,
     LineChart,
@@ -15,7 +15,7 @@ import {
 
 export const WeeklyLineChart = ({data = []}) => {
     const color = getAppTextColor();
-    
+
     return (
         <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={data}>
