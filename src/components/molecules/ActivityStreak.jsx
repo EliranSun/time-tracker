@@ -7,5 +7,5 @@ export const ActivityStreak = ({activities = []}) => {
         return calculateStreak(activities) + 'd';
     }, [activities]);
 
-    return <Badge value={streak} label="Streak"/>;
+    return <Badge value={streak} label="Streak" size={Badge.Size.LARGE}/>;
 };

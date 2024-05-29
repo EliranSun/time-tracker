@@ -13,7 +13,7 @@ export const ActivitiesDungeonMap = ({activities = [], activePage, isZenMode}) =
     }
 
     return (
-        <div className="relative z-20 flex justify-center w-screen">
+        <div className="absolute top-8 right-8 z-20">
             <div className="grid grid-cols-4 grid-rows-3 gap-1">
                 {activities.map(activity => {
                     const isActive = activePage?.toLowerCase() === activity.name?.toLowerCase();

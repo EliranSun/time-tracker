@@ -13,28 +13,11 @@ export const ActionBar = ({currentActivity, isLocked, activity, onEntryHistoryCl
     return (
         <div
             className={classNames({
-                "absolute top-5": true,
-                "w-full flex justify-between items-center px-4": true,
+                "absolute top-8 left-8": true,
+                "flex justify-between items-center": true,
                 "z-10": !isZenMode,
                 "z-20": isZenMode
             })}>
-            <div
-                className={classNames({
-                    "opacity-0 pointer-events-none": isZenMode,
-                    "flex p-2 rounded-2xl items-center justify-center gap-2": true,
-                })}
-                style={{
-                    backgroundColor: hasBackgroundActivity
-                        ? currentActivity.color
-                        : "transparent"
-                }}>
-                <LockIcon size={32} className={classNames({
-                    "cursor-pointer": true,
-                })}/>
-                <span className="text-sm">
-                    {hasBackgroundActivity ? `${currentActivity.name}` : ""}
-                </span>
-            </div>
             <div className="flex gap-4">
                 <ClockCounterClockwise
                     className={classNames({
@@ -47,6 +30,24 @@ export const ActionBar = ({currentActivity, isLocked, activity, onEntryHistoryCl
                     onClick={onZenMode}
                     weight={isZenMode ? "fill" : "regular"}
                 />
+                <div
+                    className={classNames({
+                        "px-2": hasBackgroundActivity,
+                        "opacity-0 pointer-events-none": isZenMode,
+                        "flex rounded-xl items-center justify-center": true,
+                    })}
+                    style={{
+                        backgroundColor: hasBackgroundActivity
+                            ? currentActivity.color
+                            : "transparent"
+                    }}>
+                    <LockIcon size={32} className={classNames({
+                        "cursor-pointer": true,
+                    })}/>
+                    <span className="text-sm">
+                    {hasBackgroundActivity ? `${currentActivity.name}` : ""}
+                </span>
+                </div>
             </div>
         </div>
     );
