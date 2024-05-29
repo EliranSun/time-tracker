@@ -148,7 +148,7 @@ export const ActivityView = ({
                                     onClick={() => setIsAddEntryView(!isAddEntryView)}
                                     size={80}/>}
                             <p
-                                className={classNames("tracking-[-5px] break-words w-96 font-mono text-center overflow-hidden", {
+                                className={classNames("tracking-[-10px] break-words w-96 font-mono text-center overflow-hidden", {
                                     "font-extrabold h-full text-7xl mb-10": isZenMode,
                                     "leading-tight font-extralight h-fit text-8xl": !isZenMode
                                 })}>
