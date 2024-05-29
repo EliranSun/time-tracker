@@ -6,7 +6,7 @@ const Size = {
     LARGE: 'large',
 };
 
-const Badge = ({label, value = 0, size = Size.SMALL}) => {
+const Badge = ({label, value, size = Size.SMALL}) => {
     return (
         <span className="w-full flex flex-col items-center justify-center gap-px">
             <span className={classNames({
