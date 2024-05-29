@@ -26,7 +26,7 @@ export const WeeklyLineChart = ({data = []}) => {
                     dataKey="dayName"
                     opacity={0.2}
                     fill={`#f5f5f5${opacity}`}
-                    startIndex={data.length - 10}
+                    startIndex={data.length - 5}
                     endIndex={data.length - 1}
                 />
             </ComposedChart>
