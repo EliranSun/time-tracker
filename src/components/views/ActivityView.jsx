@@ -152,9 +152,7 @@ export const ActivityView = ({
                                     "tracking-tighter font-extrabold h-full text-7xl mb-10": isZenMode,
                                     "tracking-wide leading-tight font-extralight h-fit text-8xl": !isZenMode
                                 })}>
-                                {isZenMode
-                                    ? activity.name.toUpperCase()
-                                    : activity.name}
+                                {activity.name.toUpperCase()}
                             </p>
                             <StartTimeCounter
                                 startTime={currentActivity.name === activity.name ? lastStartTime : 0}
