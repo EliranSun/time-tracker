@@ -1,14 +1,11 @@
-import React, {useState} from 'react';
 import {getAppTextColor, calcAlphaChannelBasedOnOpacity} from "../../utils/colors";
 import {
     ComposedChart,
-    LineChart,
     Line,
     XAxis,
     YAxis,
     CartesianGrid,
     Tooltip,
-    Legend,
     ResponsiveContainer,
     Brush
 } from 'recharts';
@@ -24,10 +21,10 @@ export const WeeklyLineChart = ({data = []}) => {
                 <XAxis dataKey="dayName"/>
                 <YAxis/>
                 <Tooltip/>
-                <Legend/>
                 <Line type="basis" dataKey="duration" stroke={color} dot={false}/>
                 <Brush
                     dataKey="dayName"
+                    opacity={0.2}
                     startIndex={data.length - 10}
                     endIndex={data.length - 1}
                 />
