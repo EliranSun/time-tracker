@@ -115,16 +115,14 @@ export const getWeekData = (name, data, isLastWeek = true) => {
 
 export const formatDuration = (duration) => {
     if (!duration)
-        return "";
+        return 0;
 
     let hours = Math.floor(duration / 3600000);
     let minutes = round(Math.floor((duration % 3600000) / 60000), -1);
 
     return hours > 0
-        ? `${Math.round(hours + minutes / 60)}h`
-        : minutes > 0
-            ? `${minutes}m`
-            : ""
+        ? Math.round(hours + minutes / 60)
+        : minutes
 };
 
 export const formatForTimeInput = (duration) => {

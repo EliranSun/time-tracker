@@ -6,7 +6,13 @@ const Size = {
     LARGE: 'large',
 };
 
-const Badge = ({label, value, size = Size.SMALL}) => {
+const Unit = {
+    NONE: '',
+    DAY: 'd',
+    HOUR: 'h',
+};
+
+const Badge = ({label, value, size = Size.SMALL, unit = Unit.DAY}) => {
     return (
         <span className="w-full flex flex-col items-center justify-center gap-px">
             <span className={classNames({
@@ -14,12 +20,13 @@ const Badge = ({label, value, size = Size.SMALL}) => {
                 "text-2xl": size === Size.SMALL,
                 "text-3xl": size === Size.MEDIUM,
                 "text-4xl": size === Size.LARGE,
-            })}>{value}</span>
+            })}>{value}{unit}</span>
             <span className="text-xs">{label}</span>
         </span>
     )
 }
 
 Badge.Size = Size;
+Badge.Unit = Unit;
 
 export {Badge};

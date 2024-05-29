@@ -15,10 +15,13 @@ export const ActivityDataSection = ({
 }) => {
     const duration = useMemo(() => Math.round(dayByDayData.at(-1)?.duration) || 0, [dayByDayData]);
     const timeSinceLastActivityInDays = useMemo(() => {
-        const timeDiff = new Date().getTime() - activitiesData.at(-1).end;
+        if (activitiesData.length === 0) {
+            return 0;
+        }
+
+        const timeDiff = new Date().getTime() - activitiesData.at(0).end;
         return Math.round(timeDiff / (1000 * 60 * 60 * 24));
     }, [activitiesData]);
-    console.log({activitiesData});
 
     return (
         <section className="flex flex-col items-center justify-center gap-4 mx-auto">
@@ -27,18 +30,16 @@ export const ActivityDataSection = ({
                 <div className="flex gap-px">
                     <Badge
                         label="Today"
-                        value={
-                            <div className="flex items-center">
-                                <span>{duration}h</span>
-                                <ArrowUp size={16} color="black"/>
-                            </div>
-                        }/>
+                        unit={Badge.Unit.HOUR}
+                        icon={ArrowUp}
+                        value={duration}/>
                 </div>
                 <ActivityStreak activities={activitiesData}/>
                 <ActivityHighScore activities={activitiesData}/>
                 <div className="flex gap-px">
                     <Badge
                         label="Last"
+                        unit={Badge.Unit.DAY}
                         value={timeSinceLastActivityInDays}/>
                 </div>
             </div>
