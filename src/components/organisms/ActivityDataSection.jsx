@@ -19,7 +19,7 @@ export const ActivityDataSection = ({
             return 0;
         }
 
-        const timeDiff = new Date().getTime() - activitiesData.at(0).end;
+        const timeDiff = new Date().getTime() - activitiesData.at(-1).end;
         return Math.round(timeDiff / (1000 * 60 * 60 * 24));
     }, [activitiesData]);
 
