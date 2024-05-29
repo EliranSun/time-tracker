@@ -10,11 +10,12 @@ import {readableColor} from 'polished';
 import {ActivitiesDungeonMap} from "../ActivitiesDungeonMap";
 import {Spinner, Wall} from "@phosphor-icons/react";
 import {useTimers} from "../../hooks/useTimers";
-import {BackgroundColorOverlay} from "../atoms/BackgroundColorOverlay";
+import {BackgroundColorOverlay} from "../atoms/stories/BackgroundColorOverlay";
 import {ActivitiesContext} from "../../context/ActivitiesContext";
 import {Activities, ACTIVITY_MINIMUM_TIME} from "../../constants/activities";
 import {getConsequentialWeekData} from "../../utils/session";
 import {LastWeekDataStrip} from "../LastWeekDataStrip";
+import {ActivityTitle} from "../atoms/ActivityTitle";
 
 const TEN_MINUTES = 10 * 60 * 1000;
 const MAX_ACTIVITIES = 12;
@@ -147,13 +148,7 @@ export const ActivityView = ({
                                 : <Icon
                                     onClick={() => setIsAddEntryView(!isAddEntryView)}
                                     size={80}/>}
-                            <p
-                                className={classNames("tracking-[-20px] break-words w-96 font-mono text-center overflow-hidden", {
-                                    "font-extrabold h-full text-7xl mb-10": isZenMode,
-                                    "leading-tight font-extralight h-fit text-8xl": !isZenMode
-                                })}>
-                                {activity.name.toUpperCase()}
-                            </p>
+                            <ActivityTitle name={activity.name} isZenMode={isZenMode}/>
                             <StartTimeCounter
                                 startTime={currentActivity.name === activity.name ? lastStartTime : 0}
                                 isZenMode={isZenMode}/>

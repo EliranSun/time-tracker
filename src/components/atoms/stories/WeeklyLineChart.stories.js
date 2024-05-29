@@ -1,5 +1,5 @@
 import React from 'react';
-import {WeeklyLineChart} from './WeeklyLineChart';
+import {WeeklyLineChart} from '../WeeklyLineChart';
 
 // Sample data for the chart
 const sampleData = [

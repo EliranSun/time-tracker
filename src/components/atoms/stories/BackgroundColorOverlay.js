@@ -1,4 +1,4 @@
-import {getAppBackgroundColor} from "../../utils/colors";
+import {getAppBackgroundColor} from "../../../utils/colors";
 
 export const BackgroundColorOverlay = ({activity, currentActivity}) => {
     return (
