@@ -12,7 +12,7 @@ export const getConsequentialWeekData = (data = []) => {
     let currentDay = data[0].end;
     const today = new Date().getTime();
 
-    const HALF_A_DAY = 12 * 60 * 60 * 1000;
+    const HALF_A_DAY = 8 * 60 * 60 * 1000;
 
     while (today - currentDay > -HALF_A_DAY) {
         const dayData = data.filter(item => {
