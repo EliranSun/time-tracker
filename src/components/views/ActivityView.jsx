@@ -16,6 +16,7 @@ import {Activities, ACTIVITY_MINIMUM_TIME} from "../../constants/activities";
 import {getConsequentialWeekData} from "../../utils/session";
 import {LastWeekDataStrip} from "../LastWeekDataStrip";
 import {ActivityTitle} from "../atoms/ActivityTitle";
+import {ActivityDisplay} from "../molecules/ActivityDisplay";
 
 const TEN_MINUTES = 10 * 60 * 1000;
 const MAX_ACTIVITIES = 12;
@@ -100,7 +101,6 @@ export const ActivityView = ({
         }
     }, [activity.name, currentActivity]);
 
-    const Icon = activity?.icon || (() => null);
 
     const swipeHandlers = usePageSwipe({
         activities: activeActivities,
@@ -139,30 +139,20 @@ export const ActivityView = ({
                     "mt-10 items-center": !isZenMode
                 })}>
                     <Block key={activity.name}>
-                        <div className="flex flex-col items-center mb-8" {...swipeHandlers}>
-                            {isLoading
-                                ? <Spinner
-                                    color={textColor}
-                                    size={80}
-                                    className="animate-spin"/>
-                                : <Icon
-                                    onClick={() => setIsAddEntryView(!isAddEntryView)}
-                                    size={80}/>}
-                            <ActivityTitle name={activity.name} isZenMode={isZenMode}/>
-                            <StartTimeCounter
-                                startTime={currentActivity.name === activity.name ? lastStartTime : 0}
-                                isZenMode={isZenMode}/>
-                            {(isZenMode || isAddEntryView) ? null : (
-                                <div className="my-4 flex flex-col justify-between mb-8">
-                                    <ActivityDataSection
-                                        dayByDayData={dayByDayData}
-                                        isEditEntryView={isEditEntryView}
-                                        setIsEditEntryView={setIsEditEntryView}
-                                        activitiesData={activitiesData}
-                                        activity={activity}/>
-                                </div>
-                            )}
-                        </div>
+                        <ActivityDisplay
+                            activity={activity}
+                            currentActivity={currentActivity}
+                            lastStartTime={lastStartTime}
+                            isZenMode={isZenMode}
+                            setIsAddEntryView={setIsAddEntryView}
+                            isAddEntryView={isAddEntryView}
+                            setIsEditEntryView={setIsEditEntryView}
+                            isEditEntryView={isEditEntryView}
+                            dayByDayData={dayByDayData}
+                            activitiesData={activitiesData}
+                            swipeHandlers={swipeHandlers}
+                            isLoading={isLoading}
+                            textColor={textColor}/>
                         <LastWeekDataStrip
                             data={dayByDayData}
                             activity={activity}/>

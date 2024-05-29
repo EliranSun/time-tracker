@@ -1,5 +1,5 @@
 import {Badge} from "../atoms/Badge";
 
 export const ActivityPriority = ({activity}) => {
-    return <Badge value={activity.priority} label="Priority"/>;
+    return <Badge value={activity.priority || 0} label="Priority"/>;
 };

@@ -28,7 +28,7 @@ const sampleDayByDayData = [
 
 const sampleActivity = {
     name: 'Sample Activity',
-    // Add more activity properties if needed
+    priority: 2,
 };
 
 export default {
@@ -67,5 +67,6 @@ CustomData.args = {
     ],
     activity: {
         name: 'Custom Activity',
+        priority: 3,
     },
 };
