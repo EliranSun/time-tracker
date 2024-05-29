@@ -138,16 +138,6 @@ export const ActivityView = ({
                     "mt-10 items-center": !isZenMode
                 })}>
                     <Block key={activity.name}>
-                        {(isZenMode || isAddEntryView) ? null : (
-                            <div className="my-4 flex flex-col justify-between mb-8">
-                                <ActivityDataSection
-                                    dayByDayData={dayByDayData}
-                                    isEditEntryView={isEditEntryView}
-                                    setIsEditEntryView={setIsEditEntryView}
-                                    activitiesData={activitiesData}
-                                    activity={activity}/>
-                            </div>
-                        )}
                         <div className="flex flex-col items-center mb-8" {...swipeHandlers}>
                             {isLoading
                                 ? <Spinner
@@ -169,6 +159,16 @@ export const ActivityView = ({
                             <StartTimeCounter
                                 startTime={currentActivity.name === activity.name ? lastStartTime : 0}
                                 isZenMode={isZenMode}/>
+                            {(isZenMode || isAddEntryView) ? null : (
+                                <div className="my-4 flex flex-col justify-between mb-8">
+                                    <ActivityDataSection
+                                        dayByDayData={dayByDayData}
+                                        isEditEntryView={isEditEntryView}
+                                        setIsEditEntryView={setIsEditEntryView}
+                                        activitiesData={activitiesData}
+                                        activity={activity}/>
+                                </div>
+                            )}
                         </div>
                         <LastWeekDataStrip
                             data={dayByDayData}
