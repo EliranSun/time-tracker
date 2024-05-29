@@ -1,4 +1,3 @@
-import {getAppTextColor, calcAlphaChannelBasedOnOpacity} from "../../utils/colors";
 import {
     ComposedChart,
     Line,
@@ -9,6 +8,7 @@ import {
     ResponsiveContainer,
     Brush
 } from 'recharts';
+import {getAppTextColor, calcAlphaChannelBasedOnOpacity} from "../../utils/colors";
 
 export const WeeklyLineChart = ({data = []}) => {
     const color = getAppTextColor();
@@ -25,6 +25,7 @@ export const WeeklyLineChart = ({data = []}) => {
                 <Brush
                     dataKey="dayName"
                     opacity={0.2}
+                    fill={`#f5f5f5${opacity}`}
                     startIndex={data.length - 10}
                     endIndex={data.length - 1}
                 />

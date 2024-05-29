@@ -25,7 +25,7 @@ export const getConsequentialWeekData = (data = []) => {
 
         consequenceData.push({
             duration,
-            dayName: format(currentDay, 'd')
+            dayName: format(currentDay, 'EEE')
         });
 
         currentDay = addDays(currentDay, 1);
