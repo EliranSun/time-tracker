@@ -7,7 +7,7 @@ export const ActivityTitle = ({name, isZenMode}) => {
                 "tracking-[-14px] pr-4 -ml-2 leading-tight font-thin text-8xl": !isZenMode,
                 "tracking-[-5px] font-extrabold h-full text-7xl": isZenMode,
             })}>
-            {name.toUpperCase()}
+            {name.slice(0,6).toUpperCase()}
         </h1>
     )
 }
