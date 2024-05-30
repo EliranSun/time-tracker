@@ -156,6 +156,9 @@ export const ActivityView = ({
                         <LastWeekDataStrip
                             data={dayByDayData}
                             activity={activity}/>
+                        <pre className="h-60 overflow-auto">
+                            {JSON.stringify(dayByDayData, null, 2)}
+                        </pre>
                     </Block>
                 </div>
             </div>
