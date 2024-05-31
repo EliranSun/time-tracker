@@ -47,7 +47,7 @@ export default {
 const IPHONE_13_PRO_MAX_WIDTH = 428;
 
 const Template = (args) =>
-    <div className="flex justify-center border border-black" style={{width: IPHONE_13_PRO_MAX_WIDTH}}>
+    <div className="flex justify-center border border-black bg-gray-100" style={{width: IPHONE_13_PRO_MAX_WIDTH}}>
         <ActivityDisplay {...args} />
     </div>;
 
