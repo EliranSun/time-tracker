@@ -154,6 +154,7 @@ export const ActivityView = ({
                             isLoading={isLoading}
                             textColor={textColor}/>
                         <LastWeekDataStrip
+                            isZenMode={isZenMode}
                             data={dayByDayData}
                             activity={activity}/>
                     </Block>

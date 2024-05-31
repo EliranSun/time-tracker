@@ -19,17 +19,17 @@ export const ActionBar = ({currentActivity, isLocked, activity, onEntryHistoryCl
                 "z-20": isZenMode
             })}>
             <div className="flex gap-4">
+                <YinYang
+                    size={32}
+                    onClick={onZenMode}
+                    weight={isZenMode ? "fill" : "regular"}
+                />
                 <ClockCounterClockwise
                     className={classNames({
                         "cursor-pointer": true,
                         "opacity-0 pointer-events-none": isZenMode
                     })}
                     size={32} onClick={onEntryHistoryClick}/>
-                <YinYang
-                    size={32}
-                    onClick={onZenMode}
-                    weight={isZenMode ? "fill" : "regular"}
-                />
                 <div
                     className={classNames({
                         "px-2": hasBackgroundActivity,
