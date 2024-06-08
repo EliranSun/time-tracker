@@ -8,7 +8,7 @@ export const ActivitiesDungeonMap = ({activities = [], activePage, isZenMode}) =
     const oldestActivityName = useOldestActivity();
     const backgroundColor = getAppBackgroundColor();
 
-    if (isZenMode) {
+    if (isZenMode || window.innerWidth <= 400) {
         return null;
     }
 
