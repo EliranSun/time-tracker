@@ -13,6 +13,8 @@ export const Navbar = ({
     isZenMode,
     onEntryHistoryClick
 }) => {
+    if (window.innerWidth <= 400)
+        return null;
 
     if (isZenMode && view === Views.HOMEPAGE) {
         return (
