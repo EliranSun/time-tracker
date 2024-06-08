@@ -116,7 +116,7 @@ export const ActivityView = ({
                 style={{color: textColor}}
                 className={classNames("select-none", {
                     "mt-0 h-[90vh] flex items-start justify-center": isZenMode,
-                    "mt-28 m-auto": !isZenMode
+                    "mt-28 m-auto": !isZenMode && window.innerWidth > 400
                 })}>
                 {/*<button*/}
                 {/*    className="fixed z-20 top-0 inset-x-0 text-xs"*/}
