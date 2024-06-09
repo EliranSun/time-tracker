@@ -134,30 +134,28 @@ export const ActivityView = ({
                         activitySwitch={toggle}
                         textColor={textColor}/>
                 </div>
-                <div className={classNames("w-full relative z-20 flex flex-wrap gap-1", {
+                <div className={classNames("w-full relative z-20 flex flex-wrap gap-px", {
                     "mt-0 items-start": isZenMode,
                     "mt-10 items-center": !isZenMode
                 })}>
-                    <Block key={activity.name}>
-                        <ActivityDisplay
-                            activity={activity}
-                            currentActivity={currentActivity}
-                            lastStartTime={lastStartTime}
-                            isZenMode={isZenMode}
-                            setIsAddEntryView={setIsAddEntryView}
-                            isAddEntryView={isAddEntryView}
-                            setIsEditEntryView={setIsEditEntryView}
-                            isEditEntryView={isEditEntryView}
-                            dayByDayData={dayByDayData}
-                            activitiesData={activitiesData}
-                            swipeHandlers={swipeHandlers}
-                            isLoading={isLoading}
-                            textColor={textColor}/>
-                        <LastWeekDataStrip
-                            isZenMode={isZenMode}
-                            data={dayByDayData}
-                            activity={activity}/>
-                    </Block>
+                    <ActivityDisplay
+                        activity={activity}
+                        currentActivity={currentActivity}
+                        lastStartTime={lastStartTime}
+                        isZenMode={isZenMode}
+                        setIsAddEntryView={setIsAddEntryView}
+                        isAddEntryView={isAddEntryView}
+                        setIsEditEntryView={setIsEditEntryView}
+                        isEditEntryView={isEditEntryView}
+                        dayByDayData={dayByDayData}
+                        activitiesData={activitiesData}
+                        swipeHandlers={swipeHandlers}
+                        isLoading={isLoading}
+                        textColor={textColor}/>
+                    <LastWeekDataStrip
+                        isZenMode={isZenMode}
+                        data={dayByDayData}
+                        activity={activity}/>
                 </div>
             </div>
             <ActivitiesEntriesView

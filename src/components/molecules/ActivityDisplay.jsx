@@ -50,7 +50,7 @@ export const ActivityDisplay = ({
                     color={textColor}
                     className={isLoading ? "animate-spin" : ""}
                     onClick={() => setIsAddEntryView(!isAddEntryView)}
-                    size={isZenMode ? 60 : 80}/>
+                    size={window.innerWidth < 400 ? 60 : isZenMode ? 60 : 80}/>
                 <ActivityTitle
                     name={activity.name}
                     isZenMode={isZenMode}/>

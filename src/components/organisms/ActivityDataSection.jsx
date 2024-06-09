@@ -25,8 +25,8 @@ export const ActivityDataSection = ({
 
     return (
         <section className="flex flex-col items-center justify-center gap-4 mx-auto">
-            <div className="grid grid-cols-5 gap-4 justify-items-center items-end">
-                <ActivityPriority activity={activity}/>
+            <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-items-center items-end">
+                {window.innerWidth > 400 ? <ActivityPriority activity={activity}/> : null}
                 <div className="flex gap-px">
                     <Badge
                         label="Today"
@@ -35,7 +35,7 @@ export const ActivityDataSection = ({
                         value={duration}/>
                 </div>
                 <ActivityStreak activities={activitiesData}/>
-                <ActivityHighScore activities={activitiesData}/>
+                {window.innerWidth > 400 ? <ActivityHighScore activities={activitiesData}/> : null}
                 <div className="flex gap-px">
                     <Badge
                         label="Last"
