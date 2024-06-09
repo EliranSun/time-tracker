@@ -115,7 +115,7 @@ export const ActivityView = ({
                 onDoubleClick={toggle}
                 style={{color: textColor}}
                 className={classNames("select-none", {
-                    "mt-0 h-[90vh] flex items-start justify-center": isZenMode,
+                    "mt-0 md:h-[90vh] flex items-start justify-center": isZenMode,
                     "mt-28 m-auto": !isZenMode && window.innerWidth > 400
                 })}>
                 {/*<button*/}

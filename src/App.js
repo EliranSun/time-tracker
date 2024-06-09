@@ -102,7 +102,7 @@ function App() {
     return (
         <ActivitiesProvider>
             <section
-                className="overflow-hidden text-black dark:text-white h-screen"
+                className="text-black dark:text-white md:h-screen md:overflow-hidden"
                 style={{
                     color: readableColor(currentActivity.name === activity.name ? activity.color : getAppBackgroundColor()),
                     backgroundColor: getAppBackgroundColor()
